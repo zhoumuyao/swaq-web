@@ -13,12 +13,28 @@ const router = createRouter({
           path:'',
           name:'welcome-login',
           component:()=>import('@/components/welcome/LoginPage.vue')
+        },{
+          path:'register',
+          name:'welcome-register',
+          component:()=>import('@/components/welcome/RegisterPage.vue')
         }
       ]
     },{
       path:'/index',
       name:'index',
-      component:()=>import('@/views/IndexView.vue')
+      component:()=>import('@/views/index.vue')
+    },{
+      path:'/risk',
+      name:'risk',
+      component:()=>import('@/views/risk.vue')
+    },{
+      path:'/handle',
+      name:'handle',
+      component:()=>import('@/views/handle.vue')
+    },{
+      path:'/identify',
+      name:'identify',
+      component:()=>import('@/views/identify.vue')
     }
 
   ]
