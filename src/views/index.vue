@@ -21,7 +21,6 @@ import Sidebar from '../components/sideBar/SideBar.vue';
 import router from "@/router";
 
 const logout = () => {
-  // const router = useRouter();
   get('/api/auth/logout', (message) => {
     ElMessage.success(message);
     router.push('/');
