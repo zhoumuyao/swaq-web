@@ -12,89 +12,97 @@
           <el-step title="评价与反馈"></el-step>
         </el-steps>
       </div>
-      <div class="center-container">
-        <div v-if="active === 0" >
-          <el-card style="height:100%;width:100%;overflow-y:auto;overflow-x:hidden;margin-left: 25px;margin-bottom: 0px;margin-right: 20px;">
-            <div>
-              <el-upload
-                  class="upload-demo"
-                  action=""
-                  multiple
-                  drag
-                  style="width: 100%; margin-top: 330px"
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
-              </el-upload>
-            </div>
-          </el-card>
-        </div>
-
-
-        <div v-if="active === 1">
-          <el-card style="height:100%;width:100%;overflow-y:auto;overflow-x:hidden;margin-left: 25px;margin-bottom: 0px;margin-right: 20px;">
-            <div>
-              <el-upload
-                  class="upload-demo"
-                  action=""
-                  multiple
-                  drag
-                  style="width: 100%; margin-top: 330px"
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
-              </el-upload>
-            </div>
-          </el-card>
-        </div>
-
-        <div v-if="active === 2">
-          <el-card style="height:100%;width:100%;overflow-y:auto;overflow-x:hidden;margin-left: 25px;margin-bottom: 0px;margin-right: 20px;">
-            <div>
-              <el-upload
-                  class="upload-demo"
-                  action=""
-                  multiple
-                  drag
-                  style="width: 100%; margin-top: 330px"
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
-              </el-upload>
-            </div>
-          </el-card>
-        </div>
-
-        <div v-if="active === 3">
-          <el-card style="height:100%;width:100%;overflow-y:auto;overflow-x:hidden;margin-left: 25px;margin-bottom: 0px;margin-right: 20px;">
-            <div>
-              <el-upload
-                  class="upload-demo"
-                  action=""
-                  multiple
-                  drag
-                  style="width: 100%; margin-top: 330px"
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
-              </el-upload>
-            </div>
-          </el-card>
-
-        </div>
+      <div v-if="active === 0" class="center-container">
+        <el-card class="card_box">
+          <div>
+            <el-upload
+                class="upload-demo"
+                action=""
+                multiple
+                drag
+                style="width: 100%; margin-top: 330px"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
+            </el-upload>
+          </div>
+        </el-card>
       </div>
+
+      <div v-if="active === 1" class="center-container">
+        <el-card class="card_box">
+          <div>
+            <el-upload
+                class="upload-demo"
+                action=""
+                multiple
+                drag
+                style="width: 100%; margin-top: 330px"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
+            </el-upload>
+          </div>
+        </el-card>
+      </div>
+
+      <div v-if="active === 2" class="center-container">
+        <el-card class="card_box">
+          <div>
+            <el-upload
+                class="upload-demo"
+                action=""
+                multiple
+                drag
+                style="width: 100%; margin-top: 330px"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
+            </el-upload>
+          </div>
+        </el-card>
+      </div>
+
+      <div v-if="active === 3" class="center-container">
+        <el-card class="card_box">
+          <div style="margin-left: 50px;margin-top: 50px">
+            <div>现场处置评分</div>
+            <div>
+              <el-rate
+                  v-model="value"
+                  :texts="texts"
+                  show-text>
+              </el-rate>
+            </div>
+          </div>
+          <div style="margin: 50px 50px 0 50px">
+            <el-input
+                type="textarea"
+                :autosize="{ minRows: 8, maxRows: 15}"
+                placeholder="请输入您对本模块的反馈意见"
+                v-model="textarea">
+            </el-input>
+          </div>
+          <div style="float: right;margin-top: 50px;margin-right: 50px"><el-button type="primary" @click="sumit">提交</el-button></div>
+        </el-card>
+      </div>
+      <el-alert
+          v-if="alertVisible && active === 3"
+          title="提交成功"
+          type="success"
+          description="感谢您的反馈意见，我们将根据反馈进行进一步优化！"
+          show-icon
+          @close="closeAlert">
+      </el-alert>
       <el-button class="next-button" size="large" @click="next">
         下一步
       </el-button>
 
-
-
-      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -106,11 +114,26 @@ import Sidebar from '../components/sideBar/SideBar.vue';
 
 // 当前步骤
 const active = ref(0);
+const value = ref(0);
+const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
+const textarea = ref('')
+const alertVisible = ref(false)
 
 // 触发下一步骤
 const next = () => {
   active.value++;
   if (active.value > 3) active.value = 0;
+}
+
+//当评分和输入框不为空时，触发提交
+const sumit = () => {
+  if(textarea.value !== '' && value.value > 0){
+    alertVisible.value = true;
+  }
+}
+//提示条Alert
+const closeAlert= () => {
+  alertVisible.value = false;
 }
 
 </script>
@@ -136,10 +159,16 @@ const next = () => {
   height: 200%;
 }
 .center-container{
-  position:absolute;
+  position: fixed;
   top: 100px;
-  bottom: 0px;
-  width: 83%;
+  width: 89%;
+  height: 100%;
+}
+
+.card_box{
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 .box-card{
