@@ -72,7 +72,7 @@
             <div>现场处置评分</div>
             <div>
               <el-rate
-                  v-model="value"
+                  v-model="Starvalue"
                   :texts="texts"
                   show-text>
               </el-rate>
@@ -114,7 +114,7 @@ import Sidebar from '../components/sideBar/SideBar.vue';
 
 // 当前步骤
 const active = ref(0);
-const value = ref(0);
+const Starvalue = ref(0);
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
 const textarea = ref('')
 const alertVisible = ref(false)
@@ -127,11 +127,11 @@ const next = () => {
 
 //当评分和输入框不为空时，触发提交
 const sumit = () => {
-  if(textarea.value !== '' && value.value > 0){
+  if(textarea.value !== '' && Starvalue.value > 0){
     alertVisible.value = true;
   }
 }
-//提示条Alert
+//
 const closeAlert= () => {
   alertVisible.value = false;
 }
