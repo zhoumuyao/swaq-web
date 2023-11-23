@@ -16,7 +16,7 @@
         <el-card class="card_box">
           <el-form ref="form" :model="form">
             <el-form-item label="疾病名称："   style="width: 95%">
-              <el-input @input="onInput" v-model="form.name"></el-input>
+              <el-input @input="onInput" v-model="form.name" style="border: black 2px solid"></el-input>
             </el-form-item>
             <el-form-item label="疾病性质："  v-model="form.type">
                 <el-radio v-model="radio" label="传染性疾病" name="type" ></el-radio>
@@ -24,7 +24,7 @@
                 <el-radio v-model="radio" label="未知" name="type" ></el-radio>
             </el-form-item>
             <el-form-item label="案发现场描述：" style="width: 95%"  >
-              <el-input @input="onInput" type="textarea" rows="10" v-model="form.description"></el-input>
+              <el-input @input="onInput" type="textarea" rows="10" v-model="form.description" style="border: black 2px solid"></el-input>
             </el-form-item>
           </el-form>
           <div>
@@ -33,7 +33,7 @@
                 action=""
                 multiple
                 drag
-                style="width: 95%; margin-top: 70px;"
+                style="width: 95%; margin-top: 50px;border: black 2px solid"
             >
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
@@ -46,31 +46,58 @@
       <div v-if="active === 1" class="center-container">
         <el-card class="card_box">
           <div class="block">
-            <span class="demonstration">多选可搜索</span>
-            <el-cascader
-                placeholder="添加/搜索生物危险因子信息"
-                :options="options"
-                :props="{ multiple: true }"
-                filterable></el-cascader>
+            <span >请在下拉框中多选生物危险因子信息</span>
+          </div>
+          <div>
+            <el-button
+                @click="removeChoosenButton"
+                style="margin-left: 450px;margin-top: 100px;color: #20232a;background-color: cornflowerblue">清空所选信息
+            </el-button>
+          </div>
+          <div>
+            <el-scrollbar wrap-class="scrollbar-wrapper" style="height: 400px; overflow-y: auto;">
+              <el-cascader
+                  placeholder="添加/搜索生物危险因子信息"
+                  style="margin-left: 360px;margin-top: 50px;width: 30%;height: 80%"
+                  :options="options"
+                  v-model="selectedItems"
+                  :props="{ multiple: true }"
+                  filterable></el-cascader>
+            </el-scrollbar>
           </div>
         </el-card>
       </div>
 
       <div v-if="active === 2" class="center-container">
         <el-card class="card_box">
-          <div>
-            <el-upload
-                class="upload-demo"
-                action=""
-                multiple
-                drag
-                style="width: 100%; margin-top: 330px"
-            >
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
-            </el-upload>
-          </div>
+          <el-card class="left-top-container">
+              <!-- 左上方的内容 -->
+            <div slot="header" class="card-title">
+              <span>-决策结果</span>
+              <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
+            </div>
+          </el-card>
+
+          <el-card class="left-bottom-container">
+              <!-- 左下方的内容 -->
+            <div slot="header" class="card-title">
+              <span>-处置建议</span>
+              <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
+            </div>
+          </el-card>
+
+          <el-card class="right-container">
+            <!-- 右侧的内容 -->
+            <div slot="header" class="card-title">
+              <span>-Tips</span>
+              <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
+            </div>
+          </el-card>
+
+
+
+
+
         </el-card>
       </div>
 
@@ -94,7 +121,7 @@
                 v-model="textarea">
             </el-input>
           </div>
-          <div style="float: right;margin-top: 50px;margin-right: 50px"><el-button type="primary" @click="sumit">提交</el-button></div>
+          <div style="float: right;margin-top: 50px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
         </el-card>
       </div>
       <el-alert
@@ -105,7 +132,7 @@
           show-icon
           @close="closeAlert">
       </el-alert>
-      <el-button class="next-button" size="large" @click="next">
+      <el-button v-if="active<3" class="next-button" size="large" @click="next">
         下一步
       </el-button>
     </div>
@@ -131,6 +158,7 @@ const form = ref({
   type : ' ',
   description : '',
 })
+const selectedItems = ref([]);
 const options = ref([{
   value: 'chuanbo',
   label: '传播信息',
@@ -304,11 +332,17 @@ const next = () => {
   if (active.value++ >4) active.value = 0;
 
 }
+
 const onInput = () =>{
   this.$forceUpdate();
 }
 
-const sumit = () => {
+const removeChoosenButton = () => {
+  // 清空下拉框内容
+  selectedItems.value = [];
+}
+
+const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
     alertVisible.value = true;
   }
@@ -360,4 +394,37 @@ const closeAlert= () => {
   align-items: center;
   justify-content: center;
 }
+.left-top-container{
+  position: fixed;
+  top: 20%;
+  left: 21%;
+  width: 50%;
+  height: 35%;
+}
+.left-bottom-container{
+  position: fixed;
+  top: 60%;
+  left: 21%;
+  width: 50%;
+  height: 35%;
+}
+
+.right-container{
+  position: fixed;
+  top: 20%;
+  right: 5%;
+  width: 20%;
+  height: 65%;
+}
+
+.card-title{
+  font-size: larger;
+}
+
+.scrollbar-wrapper {
+  margin-left: 360px;
+  margin-top: 50px;
+  width: 30%;
+}
+
 </style>
