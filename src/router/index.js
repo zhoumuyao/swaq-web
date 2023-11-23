@@ -28,6 +28,10 @@ const router = createRouter({
       name:'risk',
       component:()=>import('@/views/risk/risk1.vue')
     },{
+      path:'/risk2',
+      name:'risk2',
+      component:()=>import('@/views/risk/risk2.vue')
+    },{
       path:'/risk3',
       name:'risk3',
       component:()=>import('@/views/risk/risk3.vue')
