@@ -8,7 +8,7 @@
       </div>
       
       <div style="margin-left: 30px; margin-top: 30px;">
-        <el-steps :active="0" finish-status="success" style="width: 50%; margin-left: 25%;"> 
+        <el-steps :active="1" finish-status="success" style="width: 50%; margin-left: 25%;"> 
           <el-step title="环境风险识别"></el-step>
           <el-step title="生物因子快速取样"></el-step>
           <el-step title="生物危险因子快速检验"></el-step>
@@ -16,42 +16,46 @@
       </div>
 
       <div class="description">
-        <div style="margin:0px 40px 0 100px;">
+        <div style="margin:20px 40px 0 100px;">
           <label class="label">现场图片</label>
           <div class="img">
-            <div v-show="showLabel" style="margin-left: 40%; margin-top: 45%; color: darkgray;">
-              <label style="font:14px Extra Small">请上传现场图片</label>
-            </div>
-            <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+            <img id="image-display" :src="$route.query.img" style="height: 100%; width: 100%;">
           </div>
         </div>
-        <div style="margin:0px 100px 0 40px;">
-          <label class="label">现场描述</label>
+        <div style="margin:20px 100px 0 40px">
+          <label class="label">取样结果</label>
           <div class="text">
-            <div style="margin: 30px;">
-              地点：<el-input placeholder="请输入地点" style="display: inline-block; width: 50%; " v-model="text"></el-input>
-            </div>
-            <div style="margin:30px 30px 20px 30px;">
-              环境描述：
-              <el-input placeholder="请输入环境描述" type="textarea" style="display: block; margin:10px 0;" v-model="textarea1" :autosize="{ minRows: 6, maxRows: 6}"></el-input>
-            </div>
-            <div style="margin:0 30px;">
-              状况描述：
-              <el-input placeholder="请输入状况描述" type="textarea" style="display: block; margin:10px 0;" v-model="textarea2" :autosize="{ minRows: 6, maxRows: 6}"></el-input>
-            </div>
+            <el-table
+              :data="tableData"
+              style="width: 100%">
+              <el-table-column
+                prop="virue"
+                label="病毒"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="exist"
+                label="存在" 
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="content"
+                label="含量" 
+                width="180">
+              </el-table-column>
+            </el-table>
           </div>
         </div>
+        
       </div>
-      <div style="margin-top: 60px; margin-left: 40%;">
-        <el-button type="primary" style="margin-top: 12px;" id="upload-button" @click="handleUpload">
-        上传现场图片
-        <input type="file" title="上传图片" id="upload-input" style="display:none"/>
-        </el-button>
-        <router-link :to="{path: '/risk2', query: {img : imageUrl}}">
-          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">下一步</el-button>
+      
+      <div style="margin-top: 40px; margin-left: 40%;">
+        <router-link :to="{path: '/risk3', query: {img : imageUrl}}">
+          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
         </router-link>
       </div>
       <div>
+        
       </div>
     </div>
    
@@ -62,8 +66,9 @@
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import Sidebar from '../../components/sideBar/SideBar.vue';
+//import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref } from 'vue';
+
 
 const showImg = ref(false);
 const imageUrl = ref("");
@@ -71,6 +76,32 @@ const showLabel = ref(true);
 const textarea1 = ref("");
 const textarea2 = ref("");
 const text = ref("");
+
+const tableData=[{
+            virue: '鼠疫',
+            exist: '否',
+            content: '0%',
+          }, {
+            virue: '霍乱',
+            exist: '否',
+            content: '0%',
+          }, {
+            virue: '麻疹',
+            exist: '是',
+            content: '80%',
+          }, {
+            virue: '传染性非典型肺炎',
+            exist: '否',
+            content: '0%',
+          },{
+            virue: '猩红热',
+            exist: '否',
+            content: '0%',
+          },{
+            virue: '登革热',
+            exist: '否',
+            content: '0%',
+          }]
 
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
@@ -92,13 +123,36 @@ function handleUpload() {
   uploadInput.click();
 }
 
-function goToRisk3(){
-  console.log("111")
+function openFileInput() {
+  this.$refs.fileInput.click();
 };
 
-function test(){
-}
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
 
+  reader.onload = (e) => {
+    const imageUrl = e.target.result;
+    // 在这里处理图片URL，可以将其保存到Vue组件的数据中或进行其他操作
+    console.log(imageUrl);
+  };
+
+  reader.readAsDataURL(file);
+};
+
+function getPicture(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    this.imageSrc = reader.result;
+    console.log(this.imageSrc)
+  };
+};
+
+function selectFile() {
+  this.$refs.fileInput.click();
+};
 </script>
 
 <style scoped>
