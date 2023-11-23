@@ -18,25 +18,38 @@
                     <label style="font-size: 18px;">生物危险高风险事件</label>
                 </el-alert>
                 <div class="description">
-                    <div>
-                        <label class="label">类似疾病图片：</label>
-                        <el-carousel :interval="5000" arrow="always" style="width: 90%; margin:0 30px; height: 400px;">
-                            <el-carousel-item v-for="item in sceneImg" :key="item.id" style="height: 400px;">
-                                <el-image :src="item.url" style="width: 100%; height: 100%;"></el-image>
-                            </el-carousel-item>
-                        </el-carousel>
+                    <div style="margin:0 40px 0 40px">
+                        <label class="label">生物危险因子：</label>
+                        <div class="text">
+                            <el-table
+                                :data="tableData"
+                                style="width: 100%">
+                                <el-table-column
+                                    prop="virue"
+                                    label="病毒"
+                                    width="360">
+                                </el-table-column>
+                                <el-table-column
+                                    label="操作" 
+                                    width="180">
+                                    <div slot-scope="scope">
+                                        <el-button type="text" @click="() => watchResult('scope.text')">查看</el-button>
+                                    </div>
+                                </el-table-column>
+                            </el-table>
+                        </div>
                     </div>
                     <div>
-                        <label class="label">类似疾病信息：</label>
+                        <label class="label">生物危险因子检测结果：</label>
                         <div class="text">
                             <label for=""></label>
                         </div>
                     </div>
                 </div>
-                <div style="margin-left: 46%;">
-                    <el-button>查看</el-button>
+                <div style="margin-left: 35%;">
+                    <el-button type="primary" style="margin-top: 80px; width: 120px;height: 40px;">查看类似案件</el-button>
                     <router-link :to="{ path: '/risk' }">
-                        <el-button type="primary" style="margin-top: 100px; width: 120px;height: 40px;"
+                        <el-button type="primary" style="margin-top: 80px; width: 120px;height: 40px; margin-left: 10%;"
                             @click="next">完成</el-button>
                     </router-link>
                 </div>
@@ -72,24 +85,47 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref } from 'vue';
 import router from "../../router";
 
+const textarea = ref("")
 const isWarning = ref(true)
 const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
-const textarea1 = ref("");
-const textarea2 = ref("");
 const text = ref("");
 const sceneImg = ref([{
-        id:1,
-        url:"https://tse4-mm.cn.bing.net/th/id/OIP-C.NgX7GFkiFYK2hbUJNgQo7AHaFu?w=234&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7",
-        text:""
-    },{
-        id: 2,
-        url: "https://tse2-mm.cn.bing.net/th/id/OIP-C.lZ2XPNbWxwyoB-O9-sAS_AHaFS?w=254&h=182&c=7&r=0&o=5&dpr=1.5&pid=1.7",
-        text:""
-    }
+    id: 1,
+    url: "https://tse4-mm.cn.bing.net/th/id/OIP-C.NgX7GFkiFYK2hbUJNgQo7AHaFu?w=234&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7",
+    text: ""
+}, {
+    id: 2,
+    url: "https://tse2-mm.cn.bing.net/th/id/OIP-C.lZ2XPNbWxwyoB-O9-sAS_AHaFS?w=254&h=182&c=7&r=0&o=5&dpr=1.5&pid=1.7",
+    text: ""
+}
 ])
+const tableData = ref([{
+    virue: '鼠疫',
+    text: '111'
+}, {
+    virue: '霍乱',
+    text: '222'
+}, {
+    virue: '麻疹',
+    text: '222'
+}, {
+    virue: '传染性非典型肺炎',
+    text: '222'
+}, {
+    virue: '猩红热',
+    text: '222'
+}, {
+    virue: '登革热',
+    text: '222'
+}])
 
+const watchResult = (text0) => {
+    console.log(123)
+    textarea.value = text0
+    console.log(textarea.value)
+}
 
 function handleUpload() {
     let imageDisplay = document.getElementById("image-display");
@@ -191,6 +227,5 @@ function selectFile() {
     margin: 10px 30px;
     display: block;
 }
-
 </style>
   

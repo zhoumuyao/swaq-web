@@ -31,17 +31,15 @@
               <el-table-column
                 prop="virue"
                 label="病毒"
-                width="180">
+                width="360">
               </el-table-column>
               <el-table-column
-                prop="exist"
-                label="存在" 
+                label="操作" 
                 width="180">
-              </el-table-column>
-              <el-table-column
-                prop="content"
-                label="含量" 
-                width="180">
+                <div slot-scope="scope">
+                  <el-checkbox v-model="scope.check"></el-checkbox>
+                </div>
+ 
               </el-table-column>
             </el-table>
           </div>
@@ -77,31 +75,25 @@ const textarea1 = ref("");
 const textarea2 = ref("");
 const text = ref("");
 
-const tableData=[{
+const tableData = ref([{
             virue: '鼠疫',
-            exist: '否',
-            content: '0%',
+            check: false,
           }, {
             virue: '霍乱',
-            exist: '否',
-            content: '0%',
+            check: false,
           }, {
             virue: '麻疹',
-            exist: '是',
-            content: '80%',
+            check: false,
           }, {
             virue: '传染性非典型肺炎',
-            exist: '否',
-            content: '0%',
+            check: false,
           },{
             virue: '猩红热',
-            exist: '否',
-            content: '0%',
+            check: false,
           },{
             virue: '登革热',
-            exist: '否',
-            content: '0%',
-          }]
+            check: false,
+          }])
 
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
