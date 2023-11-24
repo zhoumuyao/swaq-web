@@ -26,20 +26,23 @@
           <label class="label">取样结果</label>
           <div class="text">
             <el-table
-              :data="tableData"
-              style="width: 100%">
+              :data="tableData1"
+              style="width: 100%"
+              type="selection">
               <el-table-column
                 prop="virue"
                 label="病毒"
-                width="360">
+                width="270"
+                fixed="left">
               </el-table-column>
               <el-table-column
-                label="操作" 
-                width="180">
-                <div slot-scope="scope">
-                  <el-checkbox v-model="scope.check"></el-checkbox>
-                </div>
- 
+                label="是否选中" 
+                width="180"
+                fixed="right"
+                prop="checked">
+                <template #default="{ row }">
+                  <el-checkbox v-model="row.checked"></el-checkbox>
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -75,25 +78,36 @@ const textarea1 = ref("");
 const textarea2 = ref("");
 const text = ref("");
 
-const tableData = ref([{
+const tableData1 = ref([{
+            id: 1,
             virue: '鼠疫',
-            check: false,
+            checked: false,
           }, {
+            id: 2,
             virue: '霍乱',
-            check: false,
+            checked: false,
           }, {
+            id: 3,
             virue: '麻疹',
-            check: false,
+            checked: false,
           }, {
+            id: 4,
             virue: '传染性非典型肺炎',
-            check: false,
+            checked: false,
           },{
+            id: 5,
             virue: '猩红热',
-            check: false,
+            checked: false,
           },{
+            id: 6,
             virue: '登革热',
-            check: false,
+            checked: false,
           }])
+
+
+function updateChecked(row, value) {
+  row.checked = value;
+};
 
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
