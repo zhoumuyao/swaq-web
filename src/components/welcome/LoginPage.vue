@@ -50,9 +50,6 @@ const form = reactive({
 })
 
 const login = () =>{
-  // if(form.username == 111 && form.password == 111){
-  //   router.push('/index')
-  // }
   if(!form.username || !form.password){
     ElMessage.warning("请填写用户名和密码！")
   }else{
