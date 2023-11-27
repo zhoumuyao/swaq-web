@@ -6,7 +6,7 @@
     </div>
     <div class="welcome-title">
       <div style="font-size: 30px;font-weight: bold" :style="{ width: `${windowWidth - 350}px` }">欢迎来到生物安全项目</div>
-      <div style="font-size: 18px;margin-top: 1vh" :style="{ width: `${windowWidth - 350}px` }">本系统包含图像与文本实例联合检索、检验鉴定和风险评估、处置流程辅助决策、用户评价反馈等模块</div>
+      <div style="font-size: 18px;margin-top: 1vh" :style="{ width: `${windowWidth - 350}px` }">本系统包含风险评估、现场处置、检验鉴定等模块</div>
     </div>
     <div style="width: 20vw;min-width: 300px">
       <router-view v-slot="{Component}">
