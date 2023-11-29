@@ -6,9 +6,9 @@
       <div>
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="基本信息上传" ></el-step>
-          <el-step title="生物危险因子信息"></el-step>
-          <el-step title="处置决策结果"></el-step>
+          <el-step title="现场详细勘察" ></el-step>
+          <el-step title="现代信息智能录入"></el-step>
+          <el-step title="现场无害化处理"></el-step>
           <el-step title="评价与反馈"></el-step>
         </el-steps>
       </div>
@@ -60,209 +60,8 @@ import Sidebar from '@/components/sideBar/SideBar.vue';
 
 // 当前步骤
 const active = ref(2);
-const radio = ref(1);
-const Starvalue = ref(0);
-const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
-const textarea = ref('')
-const alertVisible = ref(false)
-const form = ref({
-  name : ' ',
-  type : ' ',
-  description : '',
-})
-const selectedItems = ref([]);
-const options = ref([{
-  value: 'chuanbo',
-  label: '传播信息',
-  children: [{
-    value: 'Infectiousness',
-    label: '传染性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }, {
-      value: 'null',
-      label: '无'
-    }]
-  }, {
-    value: 'pathway',
-    label: '传播途径',
-    children: [{
-      value: 'Airborne',
-      label: '空气气溶胶传播'
-    }, {
-      value: 'Waterborne',
-      label: '水源传播'
-    },{
-      value: 'Droplet',
-      label: '飞沫传播'
-    },{
-      value: 'Contact',
-      label: '接触传播'
-    },{
-      value: 'Foodborne',
-      label: '食物源传播'
-    },]
-  },{
-    value: 'scope',
-    label: '传播范围',
-    children: [{
-      value: 'global',
-      label: '全球传播'
-    }, {
-      value: 'area',
-      label: '地区传播'
-    }, {
-      value: 'street',
-      label: '街区传播'
-    }, {
-      value: 'home',
-      label: '家庭传播'
-    }]
-  }]
-}, {
-  value: 'tezheng',
-  label: '特征信息',
-  children: [{
-    value: 'Pathogenicity',
-    label: '病原性',
-    children: [{
-      value: 'Pathogen',
-      label: '致病菌'
-    }, {
-      value: 'pathogenic',
-      label: '致病性'
-    }, {
-      value: 'Non-pathogenic',
-      label: '非致病性'
-    }]
-  }, {
-    value: 'Toxicity',
-    label: '毒性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }, {
-      value: 'null',
-      label: '无毒'
-    }]
-  }, {
-    value: 'Invasiveness',
-    label: '侵袭性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }]
-  }, {
-    value: 'Death Rate',
-    label: '致死率',
-    children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'Incidence Rate',
-    label: '发病率',
-    children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'virulence',
-    label: '活性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }]
-  }]
-}, ]) ;
 const value = ref('');
-// 触发下一步骤
-const next = () => {
-  if(active.value === 0){
-    if (!form.value.name) {
-      // 如果 form.name 为空，弹出提示
-      alert('请填写生物因子名称！');
-      return; // 中断函数执行
-    } else if(!form.value.description){
-      alert('请添加生物因子描述')
-      return;
-    } else if(radio.value===1){
-      alert('请勾选疾病性质')
-      return;
-    }
-  }
 
-  if (active.value++ >4) active.value = 0;
-
-}
-
-const onInput = () =>{
-  this.$forceUpdate();
-}
-
-const removeChoosenButton = () => {
-  // 清空下拉框内容
-  selectedItems.value = [];
-}
-
-const submit = () => {
-  if(textarea.value !== '' && Starvalue.value > 0){
-    alertVisible.value = true;
-  }
-}
-//
-const closeAlert= () => {
-  alertVisible.value = false;
-}
 
 </script>
 
@@ -282,10 +81,6 @@ const closeAlert= () => {
   bottom: 20px;
   right: 60px;
 }
-.upload-demo {
-  width: 400%;
-  height: 200%;
-}
 .center-container{
   position: fixed;
   top: 100px;
@@ -299,13 +94,6 @@ const closeAlert= () => {
   overflow-x:hidden;
 }
 
-.box-card{
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .left-top-container{
   position: fixed;
   top: 20%;
@@ -333,10 +121,5 @@ const closeAlert= () => {
   font-size: larger;
 }
 
-.scrollbar-wrapper {
-  margin-left: 360px;
-  margin-top: 50px;
-  width: 30%;
-}
 
 </style>

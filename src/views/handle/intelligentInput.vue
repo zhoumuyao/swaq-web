@@ -6,9 +6,9 @@
       <div>
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="基本信息上传" ></el-step>
-          <el-step title="生物危险因子信息"></el-step>
-          <el-step title="处置决策结果"></el-step>
+          <el-step title="现场详细勘察" ></el-step>
+          <el-step title="现代信息智能录入"></el-step>
+          <el-step title="现场无害化处理"></el-step>
           <el-step title="评价与反馈"></el-step>
         </el-steps>
       </div>
@@ -57,16 +57,6 @@ import Sidebar from '@/components/sideBar/SideBar.vue';
 
 // 当前步骤
 const active = ref(1);
-const radio = ref(1);
-const Starvalue = ref(0);
-const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
-const textarea = ref('')
-const alertVisible = ref(false)
-const form = ref({
-  name : ' ',
-  type : ' ',
-  description : '',
-})
 const selectedItems = ref([]);
 const options = ref([{
   value: 'chuanbo',
@@ -222,26 +212,6 @@ const options = ref([{
   }]
 }, ]) ;
 const value = ref('');
-// 触发下一步骤
-const next = () => {
-  if(active.value === 0){
-    if (!form.value.name) {
-      // 如果 form.name 为空，弹出提示
-      alert('请填写生物因子名称！');
-      return; // 中断函数执行
-    } else if(!form.value.description){
-      alert('请添加生物因子描述')
-      return;
-    } else if(radio.value===1){
-      alert('请勾选疾病性质')
-      return;
-    }
-  }
-
-  if (active.value++ >4) active.value = 0;
-
-}
-
 const onInput = () =>{
   this.$forceUpdate();
 }
@@ -249,16 +219,6 @@ const onInput = () =>{
 const removeChoosenButton = () => {
   // 清空下拉框内容
   selectedItems.value = [];
-}
-
-const submit = () => {
-  if(textarea.value !== '' && Starvalue.value > 0){
-    alertVisible.value = true;
-  }
-}
-//
-const closeAlert= () => {
-  alertVisible.value = false;
 }
 
 </script>
@@ -279,10 +239,6 @@ const closeAlert= () => {
   bottom: 20px;
   right: 60px;
 }
-.upload-demo {
-  width: 400%;
-  height: 200%;
-}
 .center-container{
   position: fixed;
   top: 100px;
@@ -296,44 +252,6 @@ const closeAlert= () => {
   overflow-x:hidden;
 }
 
-.box-card{
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.left-top-container{
-  position: fixed;
-  top: 20%;
-  left: 21%;
-  width: 50%;
-  height: 35%;
-}
-.left-bottom-container{
-  position: fixed;
-  top: 60%;
-  left: 21%;
-  width: 50%;
-  height: 35%;
-}
 
-.right-container{
-  position: fixed;
-  top: 20%;
-  right: 5%;
-  width: 20%;
-  height: 65%;
-}
-
-.card-title{
-  font-size: larger;
-}
-
-.scrollbar-wrapper {
-  margin-left: 360px;
-  margin-top: 50px;
-  width: 30%;
-}
 
 </style>
