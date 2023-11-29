@@ -49,7 +49,7 @@
                                     <div>
                                         <div style="margin-bottom: 10px;">
                                             <label class="smalllabel">风险评估人员：</label>
-                                            <el-button type="primary" :icon="Plus" circle @click="Refresh"></el-button>
+                                            <el-button type="primary" :icon="Plus" circle @click="addperson = true"></el-button>
                                         </div>
                                         <el-card>
                                             <el-table :data="form.person" style="width: 100%; height: 45vh">
@@ -61,10 +61,10 @@
                                     <div>
                                         <div style="margin-bottom: 10px;">
                                             <label class="smalllabel">评估装备设备：</label>
-                                            <el-button   el-button type="primary" :icon="Plus" circle @click="Refresh" class="btn"></el-button>
+                                            <el-button el-button type="primary" :icon="Plus" circle @click="addequiment = true"></el-button>
                                         </div>
                                         <el-card>
-                                            <el-table :data="form.person" style="width: 100%; height: 45vh">
+                                            <el-table :data="form.equipment" style="width: 100%; height: 45vh">
                                                 <el-table-column prop="id" label="设备号" width="" />
                                                 <el-table-column prop="name" label="设备名" width="" />
                                             </el-table>
@@ -73,12 +73,92 @@
                                 </div>
                             </el-form>
                         </div>
+                        <div style="display: flex;justify-content: center; margin-top: 10px;">
+                            
+                            <router-link :to="{ path: '/risk1', }">
+                                <el-button size="mini" type="primary" >确认</el-button>
+                            </router-link>
+                        </div>
+                        <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
+                            <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID" placeholder="请输入人员id"></el-input>
+                            <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;" circle></el-button>
+                            <div>
+                                <el-table
+                                :data="riskPerson"
+                                style="width: 100%"
+                                type="selection">
+                                    <el-table-column
+                                        prop="id"
+                                        label="人员号"
+                                        width="180"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        prop="name"
+                                        label="人员名"
+                                        width="180"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        label="是否选中" 
+                                        width="180"
+                                        fixed="right"
+                                        prop="checked">
+                                        <template #default="{ row }">
+                                        <el-checkbox v-model="row.checked"></el-checkbox>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                            <template #footer>
+                            <span class="dialog-footer">
+                                <el-button @click="addperson = false">取消</el-button>
+                                <el-button type="primary" @click="addPerson">确认</el-button>
+                            </span>
+                            </template>
+                        </el-dialog>
+                        <el-dialog v-model="addequiment" title="选择风险评估人员" width="600px" draggable>
+                            <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID" placeholder="请输入仪器id"></el-input>
+                            <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;" circle></el-button>
+                            <div>
+                                <el-table
+                                :data="riskEquiment"
+                                style="width: 100%"
+                                type="selection">
+                                    <el-table-column
+                                        prop="id"
+                                        label="人员号"
+                                        width="180"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        prop="name"
+                                        label="人员名"
+                                        width="180"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        label="是否选中" 
+                                        width="180"
+                                        fixed="right"
+                                        prop="checked">
+                                        <template #default="{ row }">
+                                        <el-checkbox v-model="row.checked"></el-checkbox>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                            <template #footer>
+                            <span class="dialog-footer">
+                                <el-button @click="addequiment = false">取消</el-button>
+                                <el-button type="primary" @click="addEquiment">确认</el-button>
+                            </span>
+                            </template>
+                        </el-dialog>
                     </el-card>
-                    <div style="display: flex;justify-content: center; margin-top: 10px;">
-                        <el-button size="mini" type="primary">确认</el-button>
-                    </div>
                 </el-card>
             </div>
+ 
         </div>
     </div>
 </template>
@@ -91,7 +171,9 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 
-
+const addperson = ref(false);
+const addequiment = ref(false)
+const personID = ref()
 const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
@@ -108,6 +190,75 @@ const form = reactive({
     person: [{}],
     equipment: [{}],
 });
+const riskPerson = ref([{
+    id: 1,
+    name: 'John',
+    checked: false,
+},
+{
+    id: 2,
+    name: 'Tom',
+    checked: false,
+},
+{
+    id: 3,
+    name: 'Bill',
+    checked: false,
+},
+{
+    id: 4,
+    name: 'Jerry',
+    checked: false,
+},
+{
+    id: 5,
+    name: 'David',
+    checked: false,
+},
+])
+const riskEquiment = ref([{
+    id: 1,
+    name: '生物安全柜',
+    checked: false,
+},{
+    id: 2,
+    name: '自动化液体处理系统',
+    checked: false,
+},{
+    id: 3,
+    name: 'PCR仪',
+    checked: false,
+},{
+    id: 4,
+    name: '离心机',
+    checked: false,
+},{
+    id: 5,
+    name: '电泳系统',
+    checked: false,
+},
+])
+
+const addEquiment = () => {
+    addequiment.value = false;
+    
+    riskEquiment.value.forEach((equipment) => {
+        console.log(equipment)
+        if (equipment.checked) {
+            form.equipment.push({id:equipment.id, name:equipment.name});
+        }
+    });
+}
+const addPerson = () => {
+    addperson.value = false;
+    
+    riskPerson.value.forEach((person) => {
+        console.log(person)
+        if (person.checked) {
+            form.person.push({id:person.id, name:person.name});
+        }
+    });
+}
 
 const onSubmit = () => {
     console.log('submit!')
@@ -175,7 +326,7 @@ const onSubmit = () => {
 }
 
 .prepare-form {
-    height: 76vh;
+    height: 80vh;
     width: 75vw;
 }
 
