@@ -4,16 +4,17 @@
     <div class="content">
       <router-view></router-view>
       <div>
-        <!--        现场处置模块-->
+        <!--        现场信息智能录入模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
           <el-step title="现场详细勘察" ></el-step>
-          <el-step title="现代信息智能录入"></el-step>
+          <el-step title="现场信息智能录入"></el-step>
           <el-step title="现场无害化处理"></el-step>
           <el-step title="评价与反馈"></el-step>
         </el-steps>
       </div>
       <div  class="center-container">
-        <el-card class="card_box" style="margin:0px 100px 0px 40px;">
+<!--        <el-card class="card_box" style="margin:0px 100px 0px 40px;">-->
+        <el-card class="card_box">
           <div class="description">
             <el-card style="margin:20px 20px 20px 50px;">
               <label class="label" style="margin-left: 45%">现场图片</label>
@@ -54,7 +55,7 @@
         </el-card>
       </div>
 
-      <router-link :to="{path: '/handle2'}">
+      <router-link :to="{path: '/handle3'}">
         <el-button class="next-button" type="primary" size="large" @click="next">
           下一步
         </el-button>
@@ -76,7 +77,7 @@ const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
 // 当前步骤
-const active = ref(0);
+const active = ref(1);
 const radio = ref(1);
 const form = ref({
   name : ' ',
@@ -138,7 +139,7 @@ function handleUpload() {
 }
 .next-button {
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   right: 7%;
 }
 
@@ -160,6 +161,7 @@ function handleUpload() {
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
+  margin:0px 100px 0px 40px;
 }
 .description{
   display: grid;
