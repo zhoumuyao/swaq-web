@@ -14,7 +14,7 @@ export default {
     return {
       menuItems: [
         { id: 1, name: '主页', isActive: true, route: 'index' },
-        { id: 2, name: '风险评估', isActive: false, route: 'risk' },
+        { id: 2, name: '风险评估', isActive: false, route: 'risk0' },
         { id: 3, name: '现场处置', isActive: false, route: 'handle1' },
         { id: 4, name: '检验鉴定', isActive: false, route: 'identify0' },
         // 添加更多菜单项...

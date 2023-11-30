@@ -36,6 +36,11 @@ const router = createRouter({
       name:'risk3',
       component:()=>import('@/views/risk/risk3.vue')
     },{
+      path:'/risk0',
+      name:'risk0',
+      component:()=>import('@/views/risk/risk0.vue')
+    },
+    {
       path:'/handle',
       name:'handle',
       component:()=>import('@/views/handle.vue')
