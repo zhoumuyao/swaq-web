@@ -6,39 +6,49 @@
       <div>
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="基本信息上传" ></el-step>
-          <el-step title="生物危险因子信息"></el-step>
-          <el-step title="处置决策结果"></el-step>
+          <el-step title="现场详细勘察" ></el-step>
+          <el-step title="现代信息智能录入"></el-step>
+          <el-step title="现场无害化处理"></el-step>
           <el-step title="评价与反馈"></el-step>
         </el-steps>
       </div>
       <div v-if="active === 0" class="center-container">
-        <el-card class="card_box">
-          <el-form ref="form" :model="form">
-            <el-form-item label="疾病名称："   style="width: 95%">
-              <el-input @input="onInput" v-model="form.name" style="border: black 2px solid"></el-input>
-            </el-form-item>
-            <el-form-item label="疾病性质："  v-model="form.type">
-                <el-radio v-model="radio" label="传染性疾病" name="type" ></el-radio>
-                <el-radio v-model="radio" label="非传染性疾病" name="type" ></el-radio>
-                <el-radio v-model="radio" label="未知" name="type" ></el-radio>
-            </el-form-item>
-            <el-form-item label="案发现场描述：" style="width: 95%"  >
-              <el-input @input="onInput" type="textarea" rows="10" v-model="form.description" style="border: black 2px solid"></el-input>
-            </el-form-item>
-          </el-form>
-          <div>
+        <el-card class="card_box" style="margin:0px 100px 0px 40px;">
+          <label class="label">多媒体信息录入</label>
+          <div class="description">
             <el-upload
                 class="upload-demo"
                 action=""
                 multiple
                 drag
-                style="width: 95%; margin-top: 50px;border: black 2px solid"
+                style="width: 90%; height: 95%; border: black 2px solid;margin-top: 5%"
             >
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将现场图片拖到此处，或<em>点击上传</em></div>
               <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10Mb</div>
             </el-upload>
+
+
+            <div style="margin:0px 100px 0 40px;">
+              <label class="label">基本信息录入</label>
+              <div class="text" >
+                <div style="margin: 30px;">
+                  疾病名称：<el-input placeholder="请输入疾病名称" style="display: inline-block; width: 50%; " v-model="text"></el-input>
+                </div>
+                <div style="margin:30px 30px 20px 30px;">
+<!--                  疾病性质：-->
+                  <el-form-item label="疾病性质："  v-model="form.type">
+                    <el-radio v-model="radio" label="传染性疾病" name="type" ></el-radio>
+                    <el-radio v-model="radio" label="非传染性疾病" name="type" ></el-radio>
+                    <el-radio v-model="radio" label="未知" name="type" ></el-radio>
+                  </el-form-item>
+                </div>
+                <div style="margin:0 30px;">
+                  状况描述：
+                  <el-input placeholder="请输入案发现场描述" type="textarea" style="display: block; margin:10px 0;" v-model="textarea2" :autosize="{ minRows: 12, maxRows: 12}"></el-input>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
       </div>
@@ -93,11 +103,6 @@
               <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
             </div>
           </el-card>
-
-
-
-
-
         </el-card>
       </div>
 
@@ -146,6 +151,12 @@ import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import Sidebar from '../components/sideBar/SideBar.vue';
 
+const showImg = ref(false);
+const imageUrl = ref("");
+const showLabel = ref(true);
+const textarea1 = ref("");
+const textarea2 = ref("");
+const text = ref("");
 // 当前步骤
 const active = ref(0);
 const radio = ref(1);
@@ -380,11 +391,23 @@ const closeAlert= () => {
   width: 89%;
   height: 100%;
 }
-
+.text{
+  height: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  border-radius: 4px;
+  border: 1.2px solid;
+  border-color: darkgray;
+}
 .card_box{
   height:100%;
   overflow-y:auto;
   overflow-x:hidden;
+}
+.description{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin:0px
 }
 
 .box-card{
