@@ -7,7 +7,7 @@
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
           <el-step title="现场详细勘察" ></el-step>
-          <el-step title="现代信息智能录入"></el-step>
+          <el-step title="现场信息智能录入"></el-step>
           <el-step title="现场无害化处理"></el-step>
           <el-step title="评价与反馈"></el-step>
         </el-steps>
