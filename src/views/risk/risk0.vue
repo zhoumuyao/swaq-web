@@ -75,7 +75,7 @@
                         </div>
                         <div style="display: flex;justify-content: center; margin-top: 10px;">
                             
-                            <router-link :to="{ path: '/risk1', }">
+                            <router-link :to="{ path: '/risk', }">
                                 <el-button size="mini" type="primary" >确认</el-button>
                             </router-link>
                         </div>
