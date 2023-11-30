@@ -43,6 +43,22 @@ const router = createRouter({
       path:'/identify',
       name:'identify',
       component:()=>import('@/views/identify.vue')
+    },{
+      path:'/handle1',
+      name:'handle1',
+      component:()=>import('@/views/handle/investigation.vue')
+    },{
+      path:'/handle2',
+      name:'handle2',
+      component:()=>import('@/views/handle/intelligentInput.vue')
+    },{
+      path:'/handle3',
+      name:'handle3',
+      component:()=>import('@/views/handle/siteDisposal.vue')
+    },{
+      path:'/handle4',
+      name:'handle4',
+      component:()=>import('@/views/handle/feedback.vue')
     }
 
   ]
