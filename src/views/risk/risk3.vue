@@ -7,13 +7,105 @@
                 <label style="font: 20px Extra large;">风险评估模块</label>
             </div>
             <div style="margin-left: 30px; margin-top: 30px;">
-                <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
-                    <el-step title="环境风险识别"></el-step>
-                    <el-step title="生物因子快速取样"></el-step>
-                    <el-step title="生物危险因子快速检验"></el-step>
+                <el-steps :active="3" finish-status="success" style="width: 50%; margin-left: 25%;">
+                    <el-step title="计划和准备"></el-step>
+                    <el-step title="风险识别"></el-step>
+                    <el-step title="风险分析"></el-step>
+                    <el-step title="风险评价"></el-step>
                 </el-steps>
             </div>
-            <div v-show="isWarning">
+            
+            <el-card class="reckon_risk">
+                <div slot="header" class="clearfix">
+                    <span>风险评价</span>
+                    <div class="description">
+                        <el-card class="relation_to_risk">
+                            <div slot="header" class="jugehappentop">
+                                <span>与潜在风险关系</span>
+                            </div>
+                            <div style="margin:20px 10px 0 10px">
+            
+                                <div class="text">
+                                    <el-table
+                                    :data="tableData1"
+                                    style="width: 100%"
+                                    type="selection">
+                                    <el-table-column
+                                        prop="virue"
+                                        label="风险"
+                                        width="500"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        label="是否可能产生" 
+                                        width="200"
+                                        fixed="right"
+                                        prop="checked">
+                                        <template #default="{ row }">
+                                            <el-checkbox v-model="row.checked"></el-checkbox>
+                                        </template>
+                                    </el-table-column>
+                                    </el-table>
+                                </div>
+                            </div>
+                        </el-card>
+
+                        <el-card class="relation_to_risk">
+                            <div slot="header" class="jugehappentop">
+                                <span>可能产生的影响范围</span>
+                            </div>
+                            <div style="margin:20px 10px 0 10px">
+            
+                                <div class="text">
+                                    <el-table
+                                    :data="tableData2"
+                                    style="width: 100%"
+                                    type="selection">
+                                    <el-table-column
+                                        prop="place"
+                                        label="地区"
+                                        width="500"
+                                        fixed="left">
+                                    </el-table-column>
+                                    <el-table-column
+                                        label="是否可能产生" 
+                                        width="200"
+                                        fixed="right"
+                                        prop="checked">
+                                        <template #default="{ row }">
+                                            <el-checkbox v-model="row.checked"></el-checkbox>
+                                        </template>
+                                    </el-table-column>
+                                    </el-table>
+                                </div>
+                            </div>
+                        </el-card>
+                    </div>
+                    <div class="last_row">
+                        <el-card class="jugehappen">
+                            <div slot="header" class="jugehappentop">
+                                <span>风险等级</span>
+                            </div>
+                            <el-radio-group v-model="radio">
+                                <el-radio :label="3">一级</el-radio>
+                                <el-radio :label="6">二级</el-radio>
+                                <el-radio :label="9">三级</el-radio>
+                                <el-radio :label="10">四级</el-radio>
+                                <el-radio :label="15">五级</el-radio>
+                            </el-radio-group>
+                        </el-card>
+                    </div>
+                </div>
+            </el-card>
+            <div style="margin-left: 46%;">
+                <router-link :to="{ path: '/risk' }">
+                    <el-button type="primary" style="margin-top: 10px; width: 120px;height: 40px;"
+                        @click="next">完成</el-button>
+                </router-link>
+            </div>
+ 
+
+            <!-- <div v-show="isWarning">
                 <el-alert title="" type="error" center :closable="false" style="height: 50px; padding-bottom: 15px;">
                     <label style="font-size: 18px;">生物危险高风险事件</label>
                 </el-alert>
@@ -94,7 +186,7 @@
             </div>
             <div>
 
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -114,6 +206,55 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
+const radio=ref('1');
+const tableData1 = ref([{
+            id: 1,
+            virue: '鼠疫',
+            checked: false,
+          }, {
+            id: 2,
+            virue: '霍乱',
+            checked: false,
+          }, {
+            id: 3,
+            virue: '麻疹',
+            checked: false,
+          }, {
+            id: 4,
+            virue: '传染性非典型肺炎',
+            checked: false,
+          },{
+            id: 5,
+            virue: '猩红热',
+            checked: false,
+          },{
+            id: 6,
+            virue: '登革热',
+            checked: false,
+          }]);
+const tableData2 = ref([{
+            id: 1,
+            place: '村级',
+            checked: false,
+          }, {
+            id: 2,
+            place: '县级',
+            checked: false,
+          }, {
+            id: 3,
+            place: '市级',
+            checked: false,
+          }, {
+            id: 4,
+            place: '省级',
+            checked: false,
+          },{
+            id: 5,
+            place: '国家级',
+            checked: false,
+          }])
+
+
 const sceneImg = ref([{
     id: 1,
     url: "https://tse4-mm.cn.bing.net/th/id/OIP-C.NgX7GFkiFYK2hbUJNgQo7AHaFu?w=234&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7",
@@ -211,9 +352,9 @@ function selectFile() {
 
 .description {
     display: grid;
-    grid-template-columns: 4fr 6fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
-    margin: 0px
+    margin: 10px
 }
 
 #file {
@@ -244,6 +385,17 @@ function selectFile() {
     font-family: "PingFang SC";
     margin: 10px 30px;
     display: block;
+}
+.reckon_risk{
+    margin-top: 10px;
+    height: 700px;
+}
+.last_row{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.relation_to_risk{
+    height: 500px;
 }
 </style>
   
