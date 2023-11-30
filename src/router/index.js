@@ -44,6 +44,14 @@ const router = createRouter({
       name:'identify',
       component:()=>import('@/views/identify.vue')
     },{
+      path:'/identify0',
+      name:'identify0',
+      component:()=>import('@/views/identify/identify0.vue')
+    },{
+      path:'/identify1',
+      name:'identify1',
+      component:()=>import('@/views/identify/identify1.vue')
+    },{
       path:'/handle1',
       name:'handle1',
       component:()=>import('@/views/handle/investigation.vue')
