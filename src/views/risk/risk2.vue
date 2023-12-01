@@ -8,14 +8,58 @@
       </div>
       
       <div style="margin-left: 30px; margin-top: 30px;">
-        <el-steps :active="1" finish-status="success" style="width: 50%; margin-left: 25%;"> 
-          <el-step title="环境风险识别"></el-step>
-          <el-step title="生物因子快速取样"></el-step>
-          <el-step title="生物危险因子快速检验"></el-step>
+        <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;"> 
+          <el-step title="计划和准备"></el-step>
+          <el-step title="风险识别"></el-step>
+          <el-step title="风险分析"></el-step>
+          <el-step title="风险评价"></el-step>
         </el-steps>
       </div>
 
-      <div class="description">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>风险分析</span>
+          <div class="description">
+            <el-card class="jugehappen">
+              <div slot="header" class="jugehappentop">
+                <span>风险发生的可能性分析</span>
+              </div>
+              <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input>
+            </el-card>
+
+            <el-card class="field_hazard">
+              <div slot="header" class="field_hazardtop">
+                <span>现场勘查工作产生危害分析</span>
+              </div>
+              <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
+            </el-card>
+
+            <el-card class="jugehappen">
+              <div slot="header" class="jugehappentop">
+                <span>附近居民生命健康影响分析</span>
+              </div>
+              <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input>
+            </el-card>
+
+            <el-card class="jugehappen">
+              <div slot="header" class="jugehappentop">
+                <span>生态环境危害分析</span>
+              </div>
+              <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
+            </el-card>
+          </div>
+          <div class="last_row">
+            <el-card class="jugehappen">
+              <div slot="header" class="jugehappentop">
+                <span>其他危害分析</span>
+              </div>
+              <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input>
+            </el-card>
+          </div>
+        </div>
+      </el-card>
+
+      <!-- <div class="description">
         <div style="margin:20px 40px 0 100px;">
           <label class="label">现场图片</label>
           <div class="img">
@@ -48,11 +92,11 @@
           </div>
         </div>
         
-      </div>
+      </div> -->
       
       <div style="margin-top: 40px; margin-left: 40%;">
         <router-link :to="{path: '/risk3', query: {img : imageUrl}}">
-          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
+          <el-button type="primary" style="margin-top: 10px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
         </router-link>
       </div>
       <div>
@@ -76,7 +120,11 @@ const imageUrl = ref("");
 const showLabel = ref(true);
 const textarea1 = ref("");
 const textarea2 = ref("");
+const textarea3 = ref("");
+const textarea4 = ref("");
+const textarea5 = ref("");
 const text = ref("");
+
 
 const tableData1 = ref([{
             id: 1,
@@ -175,7 +223,7 @@ function selectFile() {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
-  margin:0px
+  margin:10px
 }
 
 #file{
@@ -203,4 +251,23 @@ function selectFile() {
   margin: 10px;
   display: block;
 }
+.box-card{
+  margin-top: 10px;
+  height: 1000px;
+}
+
+.jugehappen{
+  height: 300px;
+}
+.field_hazard{
+  height: 300px;
+}
+.last_row{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.inputtype{
+  margin-top: 10px;
+}
+
 </style>

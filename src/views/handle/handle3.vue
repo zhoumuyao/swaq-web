@@ -13,29 +13,45 @@
         </el-steps>
       </div>
 
-      <div v-if="active === 2" class="center-container">
+      <div class="center-container">
         <el-card class="card_box">
-          <el-card class="left-top-container">
+          <el-card class="left-top-container" shadow="hover">
             <!-- 左上方的内容 -->
             <div slot="header" class="card-title">
               <span>-决策结果</span>
               <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
             </div>
+            <!-- 循环遍历决策结果-->
+            <div v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}
+            </div>
           </el-card>
 
-          <el-card class="left-bottom-container">
+          <el-card class="left-bottom-container" shadow="hover">
             <!-- 左下方的内容 -->
             <div slot="header" class="card-title">
               <span>-处置建议</span>
               <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
             </div>
+            <!-- 循环遍历处置意见-->
+
+            <div>
+              <div v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">
+                {{index+1}}、{{suggest}}
+              </div>
+            </div>
           </el-card>
 
-          <el-card class="right-container">
+          <el-card class="right-container" shadow="hover">
             <!-- 右侧的内容 -->
-            <div slot="header" class="card-title">
+            <div slot="header" class="card-title" >
               <span>-Tips</span>
               <el-button style="float: right; padding: 3px 0" type="text">复制</el-button>
+            </div>
+            <!-- 循环遍TIPS-->
+            <div>
+              <div v-for="(tip,index) in Tips" :key="index" style="margin-top: 15px">
+                {{index+1}}、{{tip}}
+              </div>
             </div>
           </el-card>
         </el-card>
@@ -43,7 +59,7 @@
 
       <!-- 切换页面-->
       <router-link :to="{path: '/handle4'}">
-        <el-button class="next-button" size="large">
+        <el-button class="next-button" type="primary" size="large">
           下一步
         </el-button>
       </router-link>
@@ -62,6 +78,30 @@ import Sidebar from '@/components/sideBar/SideBar.vue';
 const active = ref(2);
 const value = ref('');
 
+const Results = ref(['紧急撤离： 首要任务是确保所有人员的安全。因此，迅速进行紧急撤离，并使用紧急广播系统通知所有在场人员。',
+  '隔离事故现场： 立即采取措施将事故现场隔离，防止泄漏物质扩散到其他区域。',
+  '呼叫紧急救援： 通过紧急通讯渠道向相关紧急救援团队报告事故，并提供必要的信息，如事故类型、泄漏物质特性等。',
+  '启动紧急预案： 启动事先准备好的生物危害事故应急预案，确保各项紧急措施按照预案有序展开。'])
+
+const Suggests = ref([
+    '穿戴个人防护装备： 参与处置的救援人员必须穿戴适当的个人防护装备，包括防护服、口罩、护目镜等。',
+    '阻止泄漏源： 尽可能采取措施阻止泄漏源，如关闭泄漏容器、切断泄漏管路等。',
+    '生物灭活处理： 采取生物灭活剂或其他合适的灭活措施，防止生物物质继续扩散',
+    '健康监测与治疗： 对可能受到污染的人员进行健康监测，确保他们接受及时的医疗治疗。',
+    '监测与后续防范： 对事故后的环境进行监测，实施必要的后续防范工作，确保再次发生类似事故的风险最小化。'
+])
+
+const Tips = ref([
+  '穿戴适当的个人防护装备： 包括口罩、手套、护目镜和防护服等。',
+  '避免直接接触： 避免直接接触有可能受到污染或感染的物品、表面或生物。',
+  '定期洗手： 使用肥皂和水彻底清洗双手，尤其在处理可能受到污染的物品之后。',
+  '隔离受感染区域： 尽快隔离受感染或受污染的区域，以防止进一步传播。',
+  '限制人员流动： 减少人员在受感染区域的进出，以避免疾病或有害物质传播。',
+  '报告有关部门： 及时向当地的应急部门或卫生机构报告事件，并根据指示行事。',
+  ' 提供应急医疗服务： 为受伤或可能受感染的人员提供紧急医疗服务。',
+  '使用有效消毒剂： 使用有效的消毒剂对受感染或受污染的区域进行消毒，以确保杀灭可能的病原体或危险物质。'
+])
+
 
 </script>
 
@@ -78,8 +118,8 @@ const value = ref('');
 }
 .next-button {
   position: fixed;
-  bottom: 20px;
-  right: 60px;
+  bottom: 7%;
+  right: 7%;
 }
 .center-container{
   position: fixed;
@@ -89,37 +129,37 @@ const value = ref('');
 }
 
 .card_box{
-  height:100%;
+  height:85%;
   overflow-y:auto;
   overflow-x:hidden;
+  margin:0px 100px 0px 40px;
 }
 
 .left-top-container{
   position: fixed;
-  top: 20%;
-  left: 21%;
+  top: 16%;
+  left: 18%;
   width: 50%;
-  height: 35%;
+  height: 30%;
 }
 .left-bottom-container{
   position: fixed;
-  top: 60%;
-  left: 21%;
+  top: 55%;
+  left: 18%;
   width: 50%;
-  height: 35%;
+  height: 30%;
 }
 
 .right-container{
   position: fixed;
-  top: 20%;
-  right: 5%;
+  top: 16%;
+  right: 9%;
   width: 20%;
-  height: 65%;
+  height: 69%;
 }
 
 .card-title{
   font-size: larger;
 }
-
 
 </style>

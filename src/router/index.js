@@ -36,6 +36,11 @@ const router = createRouter({
       name:'risk3',
       component:()=>import('@/views/risk/risk3.vue')
     },{
+      path:'/risk0',
+      name:'risk0',
+      component:()=>import('@/views/risk/risk0.vue')
+    },
+    {
       path:'/handle',
       name:'handle',
       component:()=>import('@/views/handle.vue')
@@ -43,6 +48,14 @@ const router = createRouter({
       path:'/identify',
       name:'identify',
       component:()=>import('@/views/identify.vue')
+    },{
+      path:'/identify0',
+      name:'identify0',
+      component:()=>import('@/views/identify/identify0.vue')
+    },{
+      path:'/identify1',
+      name:'identify1',
+      component:()=>import('@/views/identify/identify1.vue')
     },{
       path:'/handle1',
       name:'handle1',
