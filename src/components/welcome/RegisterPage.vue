@@ -53,7 +53,7 @@
       </el-form>
     </div>
     <div style="margin-top: 8vh">
-      <el-button style="width: 12vw" type="warning" plain @click="regeister">立即注册</el-button>
+      <el-button style="width: 12vw" type="warning" plain @click="register">立即注册</el-button>
     </div>
     <div style="margin-top: 2vh">
       <span style="font-size: 14px;color: grey">已有帐号？</span>
@@ -130,7 +130,7 @@ const onValidate = (prop, isValid)=>{
   }
 }
 
-const regeister = ()=>{
+const register = ()=>{
   formRef.value.validate((isValid) => {
     if(isValid){
       post('/api/auth/register',{
@@ -149,7 +149,7 @@ const regeister = ()=>{
 }
 
 const validateEmail = () => {
-  post('/api/auth/valid-email',{
+  post('/api/auth/valid-register-email',{
     email:form.email
   },(message)=>{
     ElMessage.success(message)
