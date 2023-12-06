@@ -15,10 +15,11 @@
 
       <div v-if="active === 3" class="center-container">
         <el-card class="card_box">
-          <div style="margin-left: 50px;margin-top: 50px">
+          <div style="margin-left:40%;margin-top: 50px">
             <div>现场处置评分</div>
             <div>
               <el-rate
+                  style="margin-left:0%"
                   v-model="Starvalue"
                   :texts="texts"
                   show-text>
@@ -47,7 +48,7 @@
 
       <!-- 切换页面-->
       <router-link :to="{path: '/handle1'}">
-        <el-button class="next-button" size="large">
+        <el-button class="next-button" type="primary" size="large" @click="next">
           下一步
         </el-button>
       </router-link>
@@ -94,8 +95,8 @@ const closeAlert= () => {
 }
 .next-button {
   position: fixed;
-  bottom: 20px;
-  right: 60px;
+  bottom: 7%;
+  right: 7%;
 }
 .upload-demo {
   width: 400%;
@@ -109,9 +110,10 @@ const closeAlert= () => {
 }
 
 .card_box{
-  height:100%;
+  height:85%;
   overflow-y:auto;
   overflow-x:hidden;
+  margin:0px 100px 0px 40px;
 }
 
 .box-card{
