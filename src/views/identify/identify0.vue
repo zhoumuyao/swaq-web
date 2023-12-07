@@ -27,9 +27,13 @@
                 <div v-if="active1 === 0" class="center-container">
                   <el-card style="height: 55vh;width: 20vw;margin-left: 40px">
                     可疑感染人员
+                    <div v-for="(people, index) in people" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ people }}
+                    </div>
                   </el-card>
                   <el-card style="height: 55vh;width: 20vw;">
                     待检测的人员
+                    <div v-for="(people, index) in people2" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ people }}
+                    </div>
                   </el-card>
                   <el-card style="height: 55vh;width: 20vw;margin-right: 40px">
                     污染物品
@@ -77,8 +81,10 @@
                 </div>
                 <!-- 样本包装和保存 -->
                 <div v-if="active1 === 5" class="center-container">
-                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;">
-                    <label>显示图片</label>
+                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
+                    <!-- <label>显示图片</label> -->
+                    <img src="https://i2.sinaimg.cn/IT/2009/0302/20093281737.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
                     <label>样本包装和保存</label>
@@ -88,8 +94,10 @@
                 </div>
                 <!-- 标本送检 -->
                 <div v-if="active1 === 6" class="center-container">
-                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;">
-                    <label>显示图片</label>
+                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
+                    <!-- <label>显示图片</label> -->
+                    <img src="https://img0.baidu.com/it/u=3154452766,2862523672&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
                     <label>标本送检</label>
@@ -122,9 +130,10 @@
               <el-card class="card_container">
                 <!-- 实验室活动生物安全要求 -->
                 <div v-if="active2 === 0" class="center-container">
-                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;">
-                    <!-- <img src="" alt="实验室生物安全"> -->
-                    <label>显示图片</label>
+                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex">
+                    <img src="https://img-qn.51miz.com/preview/photo/00/01/57/75/P-1577525-2920B238.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+
+                    <!-- <label>显示图片</label> -->
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
                     <label>实验室活动生物安全要求 </label>
@@ -292,6 +301,8 @@ const text7 = ref([
   "持续学习：由于生物危险因子和检测技术的知识在不断更新，检测人员应该具有持续学习的能力，定期参加培训，获取最新的科学知识和技术信息。"
 ]);
 const wupin = ref(['手套', '防护服', '实验室器皿', '实验室样本管'])
+const people = ref(['张三', '李四'])
+const people2 = ref(['王五'])
 
 const next1 = () => {
   if (active1.value++ > 5) activeName.value = 'second'
@@ -313,7 +324,7 @@ const back2 = () => {
 
 
 
-<style>
+<style scoped>
 .app {
   display: flex;
   height: 100vh;
@@ -326,9 +337,9 @@ const back2 = () => {
   /* 添加其他样式，如内容区域的填充等 */
 }
 
-.demo-tabs .el-tabs__item {
+.demo-tabs :deep(.el-tabs__item) {
   margin-left: 30px;
-  font-size: 20px;
+  font-size: 20px !important;
   /* 设置你想要的字体大小 */
 }
 
@@ -408,8 +419,8 @@ const back2 = () => {
   margin-left: 0;
 }
 
-.vertical-tabs .el-tabs__item {
-  font-size: 15px !important;
+.vertical-tabs :deep(.el-tabs__item) {
+  font-size: 16px !important;
   margin-bottom: 20px !important;
   /* 改变这个值来改变字体大小 */
 }
