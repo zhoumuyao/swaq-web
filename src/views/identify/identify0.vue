@@ -324,7 +324,7 @@ const back2 = () => {
 
 
 
-<style>
+<style scoped>
 .app {
   display: flex;
   height: 100vh;
@@ -337,9 +337,9 @@ const back2 = () => {
   /* 添加其他样式，如内容区域的填充等 */
 }
 
-.demo-tabs .el-tabs__item {
+.demo-tabs :deep(.el-tabs__item) {
   margin-left: 30px;
-  font-size: 20px;
+  font-size: 20px !important;
   /* 设置你想要的字体大小 */
 }
 
@@ -419,8 +419,8 @@ const back2 = () => {
   margin-left: 0;
 }
 
-.vertical-tabs .el-tabs__item {
-  font-size: 15px !important;
+.vertical-tabs :deep(.el-tabs__item) {
+  font-size: 16px !important;
   margin-bottom: 20px !important;
   /* 改变这个值来改变字体大小 */
 }
