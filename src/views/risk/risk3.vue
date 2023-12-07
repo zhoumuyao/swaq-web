@@ -98,7 +98,7 @@
                 </div>
             </el-card>
             <div style="margin-left: 46%;">
-                <router-link :to="{ path: '/risk' }">
+                <router-link :to="{ path: '/risk0' }">
                     <el-button type="primary" style="margin-top: 10px; width: 120px;height: 40px;"
                         @click="next">完成</el-button>
                 </router-link>
