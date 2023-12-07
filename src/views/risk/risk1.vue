@@ -15,7 +15,7 @@
           <el-step title="风险评价"></el-step>
         </el-steps>
       </div>
-      <el-card style="  margin-top: 10px;">
+      <el-card style="margin-top: 10px;">
         <div class="description">
           <div style="margin:0px 40px 0 100px;">
             <label class="label">现场图片</label>
@@ -90,13 +90,16 @@
           </template>
         </el-dialog>
       </el-card>
-      <div style="margin-top: 30px; margin-left: 40%;">
-        <el-button type="primary" style="margin-top: 12px;" id="upload-button" @click="handleUpload">
+      <div style="margin-top: 30px; margin-left: 30%;">
+        <router-link :to="{ path: '/risk0',}">
+          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">上一步</el-button>
+        </router-link>
+        <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" id="upload-button" @click="handleUpload">
           上传现场图片
           <input type="file" title="上传图片" id="upload-input" style="display:none" />
         </el-button>
         <router-link :to="{ path: '/risk2', query: { img: imageUrl } }">
-          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">下一步</el-button>
+          <el-button type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">进行风险分析</el-button>
         </router-link>
       </div>
       <div>
