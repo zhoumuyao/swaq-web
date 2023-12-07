@@ -87,11 +87,11 @@
                                 <span>风险等级</span>
                             </div>
                             <el-radio-group v-model="radio">
-                                <el-radio :label="3">一级</el-radio>
-                                <el-radio :label="6">二级</el-radio>
-                                <el-radio :label="9">三级</el-radio>
-                                <el-radio :label="10">四级</el-radio>
-                                <el-radio :label="15">五级</el-radio>
+                                <el-radio label="一级" >一级</el-radio>
+                                <el-radio label="二级" >二级</el-radio>
+                                <el-radio label="三级" >三级</el-radio>
+                                <el-radio label="四级" >四级</el-radio>
+                                <el-radio label="五级" >五级</el-radio>
                             </el-radio-group>
                         </el-card>
                     </div>
@@ -206,15 +206,15 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-const radio=ref('1');
+const radio=ref("二级");
 const tableData1 = ref([{
             id: 1,
             virue: '鼠疫',
-            checked: false,
+            checked: true,
           }, {
             id: 2,
             virue: '霍乱',
-            checked: false,
+            checked: true,
           }, {
             id: 3,
             virue: '麻疹',
@@ -226,7 +226,7 @@ const tableData1 = ref([{
           },{
             id: 5,
             virue: '猩红热',
-            checked: false,
+            checked: true,
           },{
             id: 6,
             virue: '登革热',
@@ -247,7 +247,7 @@ const tableData2 = ref([{
           }, {
             id: 4,
             place: '省级',
-            checked: false,
+            checked: true,
           },{
             id: 5,
             place: '国家级',
