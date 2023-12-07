@@ -99,7 +99,7 @@
                 <el-button v-if="active1 > 0" class="back-button" size="large" @click="back1" type="primary">
                   上一步
                 </el-button>
-                <el-button v-if="active1 < 7" class="next-button" size="large" @click="next1" type="primary">
+                <el-button v-if="active1 < 8" class="next-button" size="large" @click="next1" type="primary">
                   下一步
                 </el-button>
                 <!-- <el-button v-if="active1 === 8" class="exit-button" size="large" @click="back">
@@ -170,7 +170,7 @@
                     </el-tabs>
                   </div>
                 </div>
-                <el-button v-if="active2 > 0" class="back-button" size="large" @click="back2" type="primary">
+                <el-button v-if="active2 > -1" class="back-button" size="large" @click="back2" type="primary">
                   上一步
                 </el-button>
                 <el-button v-if="active2 < 3" class="next-button" size="large" @click="next2" type="primary">
@@ -294,7 +294,7 @@ const text7 = ref([
 const wupin = ref(['手套', '防护服', '实验室器皿', '实验室样本管'])
 
 const next1 = () => {
-  if (active1.value++ > 6) active1.value = 0
+  if (active1.value++ > 5) activeName.value = 'second'
 }
 const back1 = () => {
   if (active1.value-- < 0) active1.value = 0
@@ -303,7 +303,11 @@ const next2 = () => {
   if (active2.value++ > 3) active2.value = 0
 }
 const back2 = () => {
-  if (active2.value-- < 0) active1.value = 0
+  if (active2.value-- < 1) {
+    active2.value = 0
+    activeName.value = 'first'
+    console.log(activeName.value)
+  }
 }
 </script>
 
