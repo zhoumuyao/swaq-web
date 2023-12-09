@@ -15,48 +15,48 @@
 
       <div class="center-container">
         <el-card class="card_box">
-          <el-card class="left-top-container" shadow="hover">
-            <!-- 左上方的内容 -->
-            <div slot="header" class="card-title">
-              <span style="margin:0 43%;">决策结果</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
-              <el-divider></el-divider>
-            </div>
-            <!-- 循环遍历决策结果-->
-            <div class="result" v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}
-            </div>
-          </el-card>
-
-          <el-card class="left-bottom-container" shadow="hover">
-            <!-- 左下方的内容 -->
-            <div slot="header" class="card-title">
-              <span style="margin:0 43%;">处置建议</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
-              <el-divider></el-divider>
-            </div>
-            <!-- 循环遍历处置意见-->
-
-            <div>
-              <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">
-                {{index+1}}、{{suggest}}
+            <el-card class="left-top-container" shadow="hover">
+              <!-- 左上方的内容 -->
+              <div slot="header" class="card-title">
+                <span style="margin:0 43%;">决策结果</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
+                <el-divider></el-divider>
               </div>
-            </div>
-          </el-card>
-
-          <el-card class="right-container" shadow="hover">
-            <!-- 右侧的内容 -->
-            <div slot="header" class="card-title" >
-              <span style="margin:0 43%;">Tips</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="copy('tips')">复制</el-button>
-              <el-divider></el-divider>
-            </div>
-            <!-- 循环遍TIPS-->
-            <div>
-              <div class="tips" v-for="(tip,index) in Tips" :key="index" style="margin-top: 15px">
-                {{index+1}}、{{tip}}
+              <!-- 循环遍历决策结果-->
+              <div class="result" v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}
               </div>
-            </div>
-          </el-card>
+            </el-card>
+
+            <el-card class="left-bottom-container" shadow="hover">
+              <!-- 左下方的内容 -->
+              <div slot="header" class="card-title">
+                <span style="margin:0 43%;">处置建议</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
+                <el-divider></el-divider>
+              </div>
+              <!-- 循环遍历处置意见-->
+
+              <div>
+                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">
+                  {{index+1}}、{{suggest}}
+                </div>
+              </div>
+            </el-card>
+
+            <el-card class="right-container" shadow="hover">
+              <!-- 右侧的内容 -->
+              <div slot="header" class="card-title" >
+                <span style="margin:0 43%;">Tips</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="copy('tips')">复制</el-button>
+                <el-divider></el-divider>
+              </div>
+              <!-- 循环遍TIPS-->
+              <div>
+                <div class="tips" v-for="(tip,index) in Tips" :key="index" style="margin-top: 15px">
+                  {{index+1}}、{{tip}}
+                </div>
+              </div>
+            </el-card>
         </el-card>
       </div>
 
@@ -174,26 +174,26 @@ const copy = (selector) =>{
 }
 
 .left-top-container{
-  position: fixed;
-  top: 16%;
-  left: 18%;
-  width: 50%;
+  position: absolute;
+  top: 4%;
+  left: 6%;
+  width: 55%;
   height: 30%;
 }
 .left-bottom-container{
-  position: fixed;
-  top: 55%;
-  left: 18%;
-  width: 50%;
-  height: 30%;
+  position: absolute;
+  top: 37%;
+  left: 6%;
+  width: 55%;
+  height: 43%;
 }
 
 .right-container{
-  position: fixed;
-  top: 16%;
-  right: 9%;
-  width: 20%;
-  height: 69%;
+  position: absolute;
+  top: 4%;
+  left: 65%;
+  width: 22%;
+  height: 65%;
 }
 
 .card-title{
