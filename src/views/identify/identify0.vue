@@ -5,7 +5,18 @@
       <router-view></router-view>
       <div>
         <!-- 检验鉴定模块-->
-        <h2>生物危险因子采集和检测技术</h2>
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
+          <el-menu-item index="/identify0">生物危险因子采集和检测技术</el-menu-item>
+          <el-menu-item index="/identify1">染病个体解剖查验</el-menu-item>
+        </el-menu>
+        <!-- <div style="display: flex;">
+          <router-link to="/identify0">
+            <h3>生物危险因子采集和检测技术</h3>
+          </router-link>
+          <router-link to="/identify1">
+            <h3 style="margin-left: 20px;">染病个体解剖查验</h3>
+          </router-link>
+        </div> -->
 
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane label="样本采集及运输" name="first">
@@ -185,6 +196,14 @@
                 <el-button v-if="active2 < 3" class="next-button" size="large" @click="next2" type="primary">
                   下一步
                 </el-button>
+
+                <div v-if="active2 === 3">
+                  <router-link to="/identify1">
+                    <el-button class="next-button" size="large" type="primary">
+                      跳转
+                    </el-button>
+                  </router-link>
+                </div>
                 <!-- <el-button v-if="active2 === 3" class="exit-button" size="large" @click="back">
                   返回
                 </el-button> -->
@@ -254,6 +273,7 @@ const active0 = ref(0)
 const active1 = ref(0)
 const active2 = ref(0)
 const description = ref('')
+const activeIndex = ref('/identify0')
 
 const text1 = ref([
   "健康状态：采样人员应该处于良好的健康状态，没有明显的传染病症状。这是为了降低其他人员的感染风险，并确保采样结果的准确性。",
@@ -339,8 +359,12 @@ const back2 = () => {
 
 .demo-tabs :deep(.el-tabs__item) {
   margin-left: 30px;
-  font-size: 20px !important;
+  font-size: 16px !important;
   /* 设置你想要的字体大小 */
+}
+
+.el-menu-demo :deep(.el-menu-item) {
+  font-size: 20px;
 }
 
 .card_container {
