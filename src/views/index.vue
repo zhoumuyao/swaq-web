@@ -1,11 +1,10 @@
 <template>
-  <div class="app">
-<!--    <sidebar></sidebar>-->
+  <div class="app">4
     <div class="content">
-      <router-view></router-view>
       <div>
         欢迎进入生物安全系统
       </div>
+<!--      <navigationPage></navigationPage>-->
       <div>
         <el-button @click="logout" type="danger" plain>退出登录</el-button>
       </div>
