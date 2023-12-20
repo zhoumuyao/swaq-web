@@ -97,13 +97,13 @@
                     </div>
                 </div>
             </el-card>
-            <div style="margin-left: 43%;">
+            <div style="margin-left: 40%;">
                 <router-link :to="{ path: '/risk2' }">
                     <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;"
                         >上一步</el-button>
                 </router-link>
                 <router-link :to="{ path: '/risk' }">
-                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;margin-left: 10px;"
+                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;margin-left: 80px;"
                         @click="next">完成</el-button>
                 </router-link>
             </div>

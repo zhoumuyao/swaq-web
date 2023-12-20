@@ -104,13 +104,13 @@
       <div style="margin-top: 40px; margin-left: 40%;">
 
         <router-link :to="{path: '/risk'}">
-          <el-button type="primary" style="margin-top: 10px; margin-left: 10px;" @click="beforeRouteLeave" >上一步</el-button>
+          <el-button type="primary" style="margin-top: 10px; width: 100px; height: 40px; margin-left: 10px;" @click="beforeRouteLeave" >上一步</el-button>
         </router-link>
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
         <router-link :to="{path: '/risk3', query: {img : imageUrl}}">
-          <el-button type="primary" style="margin-top: 10px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
+          <el-button type="primary" style="margin-top: 10px; width: 100px; height: 40px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
         </router-link>
       </div>
       
