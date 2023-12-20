@@ -97,9 +97,13 @@
                     </div>
                 </div>
             </el-card>
-            <div style="margin-left: 46%;">
+            <div style="margin-left: 43%;">
+                <router-link :to="{ path: '/risk2' }">
+                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;"
+                        >上一步</el-button>
+                </router-link>
                 <router-link :to="{ path: '/risk' }">
-                    <el-button type="primary" style="margin-top: 10px; width: 120px;height: 40px;"
+                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;margin-left: 10px;"
                         @click="next">完成</el-button>
                 </router-link>
             </div>
@@ -388,7 +392,7 @@ function selectFile() {
 }
 .reckon_risk{
     margin-top: 10px;
-    height: 700px;
+    height: 690px;
 }
 .last_row{
     margin-left: 10px;
