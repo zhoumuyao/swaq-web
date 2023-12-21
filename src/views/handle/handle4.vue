@@ -52,6 +52,12 @@
           上一步
         </el-button>
       </router-link>
+
+      <router-link :to="{path: '/handle1'}">
+        <el-button class="next-button" type="primary" size="large">
+          结束
+        </el-button>
+      </router-link>
     </div>
   </div>
 </template>

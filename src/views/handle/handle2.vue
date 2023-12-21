@@ -16,7 +16,7 @@
 <!--        <el-card class="card_box" style="margin:0px 100px 0px 40px;">-->
         <el-card class="card_box">
           <div class="description">
-            <el-card style="margin:20px 20px 20px 50px;">
+            <el-card class="text" style="margin:20px 20px 20px 50px;">
               <label class="label" style="margin-left: 45%">现场图片</label>
               <el-divider></el-divider>
               <div class="img">
@@ -25,7 +25,7 @@
                 </div>
                 <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 16%">
+              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 10%">
                 上传现场图片
                 <input type="file" title="上传图片" id="upload-input" style="display:none"/>
               </el-button>
