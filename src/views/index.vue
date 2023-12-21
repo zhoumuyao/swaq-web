@@ -1,13 +1,9 @@
 <template>
   <div class="app">
-<!--    <sidebar></sidebar>-->
     <div class="content">
-      <router-view></router-view>
+      <homePage :key="componentKey" style="margin-top: 1vh"></homePage>
       <div>
-        欢迎进入生物安全系统
-      </div>
-      <div>
-        <el-button @click="logout" type="danger" plain>退出登录</el-button>
+        <el-button @click="logout" type="danger" plain style="margin-left: 80%">退出登录</el-button>
       </div>
     </div>
   </div>
@@ -16,17 +12,32 @@
 <script setup>
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
-import Sidebar from '../components/sideBar/SideBar.vue';
 import router from "@/router";
+import HomePage from "@/components/homePage/homePage.vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+
+const componentKey = ref(0);
 
 const logout = () => {
   get('/api/auth/logout', (message) => {
     ElMessage.success(message);
     router.push('/');
   });
-  // router.push('/');
 };
+
+const handleWindowResize = () => {
+  componentKey.value += 1; // 强制重新渲染组件
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleWindowResize); // 监听窗口大小变化
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleWindowResize); // 组件销毁时移除事件监听器
+});
+
+watch(() => window.innerWidth, handleWindowResize); // 监听窗口宽度变化
 </script>
 
 <style scoped>
