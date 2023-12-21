@@ -47,9 +47,9 @@
       </el-alert>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle1'}">
-        <el-button class="next-button" type="primary" size="large" @click="next">
-          下一步
+      <router-link :to="{path: '/handle3'}">
+        <el-button class="previous-button" type="primary" size="large">
+          上一步
         </el-button>
       </router-link>
     </div>
@@ -93,15 +93,24 @@ const closeAlert= () => {
   margin-left: 200px; /* 与侧边栏宽度对应 */
   /* 添加其他样式，如内容区域的填充等 */
 }
+
+.previous-button{
+  position: fixed;
+  bottom: 7%;
+  left: 17%;
+}
+
 .next-button {
   position: fixed;
   bottom: 7%;
   right: 7%;
 }
+
 .upload-demo {
   width: 400%;
   height: 200%;
 }
+
 .center-container{
   position: fixed;
   top: 100px;

@@ -35,7 +35,6 @@
                 <el-divider></el-divider>
               </div>
               <!-- 循环遍历处置意见-->
-
               <div>
                 <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">
                   {{index+1}}、{{suggest}}
@@ -61,6 +60,12 @@
       </div>
 
       <!-- 切换页面-->
+      <router-link :to="{path: '/handle2'}">
+        <el-button class="previous-button" type="primary" size="large">
+          上一步
+        </el-button>
+      </router-link>
+
       <router-link :to="{path: '/handle4'}">
         <el-button class="next-button" type="primary" size="large">
           下一步
@@ -154,6 +159,13 @@ const copy = (selector) =>{
   margin-left: 200px; /* 与侧边栏宽度对应 */
   /* 添加其他样式，如内容区域的填充等 */
 }
+
+.previous-button{
+  position: fixed;
+  bottom: 7%;
+  left: 17%;
+}
+
 .next-button {
   position: fixed;
   bottom: 7%;
@@ -178,14 +190,14 @@ const copy = (selector) =>{
   top: 4%;
   left: 6%;
   width: 55%;
-  height: 30%;
+  height: 33%;
 }
 .left-bottom-container{
   position: absolute;
-  top: 37%;
+  top: 40%;
   left: 6%;
   width: 55%;
-  height: 43%;
+  height: 33%;
 }
 
 .right-container{
@@ -193,7 +205,7 @@ const copy = (selector) =>{
   top: 4%;
   left: 65%;
   width: 22%;
-  height: 65%;
+  height: 69%;
 }
 
 .card-title{

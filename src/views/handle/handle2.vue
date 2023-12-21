@@ -25,7 +25,7 @@
                 </div>
                 <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 36%">
+              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 16%">
                 上传现场图片
                 <input type="file" title="上传图片" id="upload-input" style="display:none"/>
               </el-button>
@@ -54,6 +54,12 @@
           </div>
         </el-card>
       </div>
+
+      <router-link :to="{path: '/handle1'}">
+        <el-button class="previous-button" type="primary" size="large">
+          上一步
+        </el-button>
+      </router-link>
 
 <!--      <router-link :to="{path: '/handle3'}">-->
       <el-button class="next-button" type="primary" size="large" @click="next">
@@ -138,12 +144,18 @@ function handleUpload() {
   margin-left: 200px; /* 与侧边栏宽度对应 */
   /* 添加其他样式，如内容区域的填充等 */
 }
+
+.previous-button{
+  position: fixed;
+  bottom: 7%;
+  left: 17%;
+}
+
 .next-button {
   position: fixed;
   bottom: 7%;
   right: 7%;
 }
-
 
 .center-container{
   position: fixed;
@@ -169,6 +181,14 @@ function handleUpload() {
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   margin:0px
+}
+
+.img {
+  height: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  border-radius: 4px;
+  border: 1.2px solid;
+  border-color: darkgray;
 }
 
 </style>
