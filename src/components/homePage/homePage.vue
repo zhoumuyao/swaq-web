@@ -1,42 +1,20 @@
 <template>
   <div class="dashboard-container">
-    <div id="myChart" :style="{ width: '100%', height: '900px', margin: '0 auto' }"></div>
-
+    <div id="myChart" :style="{ width: '100%', height: '95vh', margin: 'auto' }"></div>
 
   </div>
 </template>
 <script>
-import knowledge from "@/assets/home/knowledge.png"
-import database from "@/assets/home/database.png"
-import research from "@/assets/home/research.png"
-import appraisal from "@/assets/home/appraisal.png"
-import application from "@/assets/home/application.png"
-import shortTitle from "@/assets/home/标题背景短.png"
-import longTitle from "@/assets/home/标题背景长.png"
+import knowledge from "@/components/homePage/pic/knowledge.png"
+import database from "@/components/homePage/pic/database.png"
+import research from "@/components/homePage/pic/research.png"
+import appraisal from "@/components/homePage/pic/appraisal.png"
+import application from "@/components/homePage/pic/application.png"
 import { mapGetters } from "vuex"
 import * as echarts from "echarts"
 
 export default {
   name: "home_page",
-  computed: {
-    ...mapGetters(["theme"])
-  },
-  data() {
-    return {
-      tableData: [
-        {
-          data1: "安全与系统安全",
-          data2: "元数据管理",
-          data3: "标准规划管理"
-        },
-        {
-          data1: "数据采集与预处理",
-          data2: "数据压缩",
-          data3: "ETL抽取/转换/载入工具"
-        }
-      ]
-    }
-  },
   mounted() {
     this.drawLine()
   },
@@ -45,8 +23,8 @@ export default {
       // 基于准备好的dom，初始化echarts实例
 
       let myChart = echarts.init(
-        document.getElementById("myChart")
-        //this.theme
+          document.getElementById("myChart")
+          //this.theme
       )
       // 绘制图表
 
@@ -75,26 +53,44 @@ export default {
             },
             data: [
               {
-                name: "作战行动影响分析",
-                x: 200,
-                y: 300,
-                symbolSize: [80, 95],
-                // symbol:`image://${notFont}`,
-                symbol: `image://${research}`,
-                // itemStyle: {
-                //   color: "#144954",
-                // },
-                label: {
-                  position: "bottom",
-                  fontSize: 18,
-                  fontWeight: "bolder"
-                }
-              },
-              {
-                name: "通信能力评估",
+                name: "生物安全平台",
                 x: 450,
-                y: 300,
-                symbolSize: [80, 95],
+                y: 220,
+                id: 0,
+                symbolSize: 220,
+                symbol: `image://${database}`,
+                // itemStyle: {
+                //   color: "#144954",
+                // },
+                label: {
+                  position: "bottom",
+                  fontSize: 20,
+                  fontWeight: "bolder"
+                }
+              },
+              {
+                name: "风险评估",
+                x: 200,
+                y: 380,
+                id:1,
+                symbolSize: 150,
+                // symbol:`image://${notFont}`,
+                symbol: `image://${appraisal}`,
+                // itemStyle: {
+                //   color: "#144954",
+                // },
+                label: {
+                  position: "bottom",
+                  fontSize: 18,
+                  fontWeight: "bolder"
+                }
+              },
+              {
+                name: "现场处置",
+                x: 450,
+                y: 430,
+                id: 2,
+                symbolSize: 150,
                 // symbol:`image://${notFont}`,
                 symbol: `image://${research}`,
                 // itemStyle: {
@@ -107,10 +103,11 @@ export default {
                 }
               },
               {
-                name: "通信保障筹划",
+                name: "检验鉴定",
                 x: 700,
-                y: 300,
-                symbolSize: [80, 90],
+                y: 380,
+                id: 3,
+                symbolSize: 150,
                 symbol: `image://${application}`,
                 // itemStyle: {
                 //   color: "#144954",
@@ -122,43 +119,44 @@ export default {
                 }
               },
               {
-                name: "数据资源管理",
-                x: 450,
-                y: 150,
-                symbolSize: [200, 200],
-                symbol: `image://${database}`,
-                // itemStyle: {
-                //   color: "#144954",
-                // },
-                label: {
-                  position: "top",
-                  fontSize: 20,
-                  fontWeight: "bolder"
-                }
-              },
-
-              {
-                name: "通信方案推演",
-                x: 200,
-                y: 120,
-                symbol: `image://${knowledge}`,
-
-                symbolSize: [80, 95],
+                name: "计划和准备",
+                x: 80,
+                y: 430,
+                id: 4,
+                symbolSize: 100,
                 itemStyle: {
-                  color: "#144954"
+                  color: {
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 1,
+                    y2: 1,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "#02b0a0" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "#079bb7" // 100% 处的颜色
+                      }
+                    ],
+                    global: false // 缺省为 false
+                  }
                 },
                 label: {
-                  position: "bottom",
-                  fontSize: 18,
-                  fontWeight: "bolder"
+                  textBorderColor: "#555",
+                  textBorderWidth: 1,
+                  color: "white",
+                  fontSize: 16
                 }
               },
               {
-                name: "体系影响分析",
+                name: "风险识别",
                 x: 120,
-                y: 400,
-                id: 11,
-                symbolSize: 70,
+                y: 480,
+                id: 5,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -183,15 +181,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "链路行动影响分析",
-                x: 190,
-                y: 400,
-                id: 12,
-                symbolSize: 70,
+                name: "风险分析",
+                x: 180,
+                y: 510,
+                id: 6,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -216,15 +214,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "可视化展示",
-                x: 260,
-                y: 400,
-                id: 13,
-                symbolSize: 70,
+                name: "风险评价",
+                x: 250,
+                y: 510,
+                id: 7,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -249,30 +247,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "通信态势可视化",
-                x: 800,
-                y: 150,
-                symbolSize: [80, 90],
-                symbol: `image://${appraisal}`,
-                itemStyle: {
-                  color: "#144954"
-                },
-                label: {
-                  position: "bottom",
-                  fontSize: 18,
-                  fontWeight: "bolder"
-                }
-              },
-              {
-                name: "通信资源状态",
+                name: "详细勘察",
                 x: 380,
-                y: 400,
-                id: 21,
-                symbolSize: 70,
+                y: 510,
+                id: 8,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -297,15 +280,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "资源能力分析与评估",
+                name: "现场信息\n\n智能录入",
                 x: 450,
-                y: 400,
-                id: 22,
-                symbolSize: 70,
+                y: 540,
+                id: 9,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -330,15 +313,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "通信效能计算",
+                name: "无害化处理",
                 x: 530,
-                y: 400,
-                id: 23,
-                symbolSize: 70,
+                y: 510,
+                id: 10,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -363,15 +346,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "通信方案管理",
-                x: 650,
-                y: 400,
-                id: 31,
-                symbolSize: 70,
+                name: "生物危险因子",
+                x: 670,
+                y: 500,
+                id: 11,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -396,15 +379,15 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "通信方案制定",
-                x: 750,
-                y: 400,
-                id: 32,
-                symbolSize: 70,
+                name: "染病个体\n\n解剖查验",
+                x: 780,
+                y: 500,
+                id: 12,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -429,41 +412,81 @@ export default {
                   textBorderColor: "#555",
                   textBorderWidth: 1,
                   color: "white",
-                  fontSize: 15
+                  fontSize: 16
                 }
               },
               {
-                name: "方案制定1",
-                x: 730,
-                y: 460,
-                id: 311,
-                symbolSize: 30,
+                name: "样本采集",
+                x: 640,
+                y: 550,
+                id: 13,
+                symbolSize: 80,
                 itemStyle: {
-                  color: "#05a4ad"
+                  color: {
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 1,
+                    y2: 1,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "#02b0a0" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "#079bb7" // 100% 处的颜色
+                      }
+                    ],
+                    global: false // 缺省为 false
+                  }
                 },
                 label: {
-                  position: "bottom"
+                  textBorderColor: "#555",
+                  textBorderWidth: 1,
+                  color: "white",
+                  fontSize: 16
                 }
               },
               {
-                name: "方案制定2",
-                x: 770,
-                y: 460,
-                id: 312,
-                symbolSize: 30,
+                name: "实验室检测",
+                x: 700,
+                y: 560,
+                id: 14,
+                symbolSize: 80,
                 itemStyle: {
-                  color: "#05a4ad"
+                  color: {
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 1,
+                    y2: 1,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "#02b0a0" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "#079bb7" // 100% 处的颜色
+                      }
+                    ],
+                    global: false // 缺省为 false
+                  }
                 },
                 label: {
-                  position: "bottom"
+                  textBorderColor: "#555",
+                  textBorderWidth: 1,
+                  color: "white",
+                  fontSize: 16
                 }
               }
             ],
 
             links: [
               {
-                source: "数据资源管理",
-                target: "通信态势可视化",
+                source: "0",
+                target: "1",
                 lineStyle: {
                   opacity: 0.9,
                   width: 2,
@@ -472,19 +495,32 @@ export default {
                 label: {
                   normal: {
                     show: true,
-                    formatter: "数据资源获取",
+                    formatter: "现场风险评估",
                     // color: "#606266",
-                    fontSize: "15"
+                    fontSize: "16"
                   }
                 }
               },
               {
-                source: "数据资源管理",
-                target: "通信方案推演"
+                source: "0",
+                target: "2",
+                lineStyle: {
+                  opacity: 0.9,
+                  width: 2,
+                  curveness: 0.1
+                },
+                label: {
+                  normal: {
+                    show: true,
+                    formatter: "现场处置流程",
+                    // color: "#606266",
+                    fontSize: "16"
+                  }
+                }
               },
               {
-                source: "数据资源管理",
-                target: "通信保障筹划",
+                source: "0",
+                target: "3",
 
                 lineStyle: {
                   opacity: 0.9,
@@ -494,126 +530,45 @@ export default {
                 label: {
                   normal: {
                     show: true,
-                    formatter: "数据资源获取",
-                    fontSize: "15"
+                    formatter: "生物危险因子鉴定",
+                    fontSize: "16"
                   }
                 }
               },
               {
-                source: "通信保障筹划",
-                target: "作战行动影响分析",
-                lineStyle: {
-                  opacity: 0.9,
-                  width: 2,
-                  curveness: 0.1
-                }
-              },
-              {
-                source: "通信保障筹划",
-                target: "通信能力评估",
-
-                lineStyle: {
-                  opacity: 0.9,
-                  width: 2,
-                  curveness: 0.1
-                },
-                label: {
-                  normal: {
-                    show: true,
-                    formatter: "方案获取",
-                    // color: "#606266",
-                    fontSize: "15"
-                  }
-                }
-              },
-              {
-                source: "作战行动影响分析",
-                target: "通信能力评估",
-                lineStyle: {
-                  opacity: 0.9,
-                  width: 2,
-                  curveness: 0.1
-                }
-              },
-              {
-                source: "作战行动影响分析",
-                target: "通信态势可视化",
-                lineStyle: {
-                  opacity: 0.9,
-                  width: 2,
-                  curveness: 0.1
-                }
-              },
-              {
-                source: "作战行动影响分析",
+                source: "1",
+                target: "4",
+                },{
+                source: "1",
+                target: "5",
+              },{
+                source: "1",
+                target: "6",
+              },{
+                source: "1",
+                target: "7",
+              },{
+                source: "2",
+                target: "8",
+              },{
+                source: "2",
+                target: "9",
+              },{
+                source: "2",
+                target: "10",
+              },{
+                source: "3",
                 target: "11",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "作战行动影响分析",
+              },{
+                source: "3",
                 target: "12",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "作战行动影响分析",
+              },{
+                source: "11",
                 target: "13",
-                lineStyle: {
-                  opacity: 0.9
-                }
+              },{
+                source: "11",
+                target: "14",
               },
-              {
-                source: "通信能力评估",
-                target: "21",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "通信能力评估",
-                target: "22",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "通信能力评估",
-                target: "23",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "通信保障筹划",
-                target: "31",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "通信保障筹划",
-                target: "32",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "32",
-                target: "311",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              },
-              {
-                source: "32",
-                target: "312",
-                lineStyle: {
-                  opacity: 0.9
-                }
-              }
             ]
           }
         ]
@@ -621,86 +576,21 @@ export default {
       myChart.setOption(option)
       let that = this
       myChart.on("click", function (params) {
-        if (params.dataType == "node") {
+        if (params.dataType === "node") {
           console.log(params)
-          if (params.data.name == "数据资源管理") {
+          if (params.data.name === "风险评估") {
             that.$router.push({
-              path: `/dataResourceManagement/communicationForceManagement`
+              path: `/risk0`
             })
           }
-          if (params.data.name == "通信方案推演") {
+          if (params.data.name === "现场处置") {
             that.$router.push({
-              path: `/deduction/index`
+              path: `/handle1`
             })
           }
-          if (params.data.name == "通信态势可视化") {
+          if (params.data.name === "检验鉴定") {
             that.$router.push({
-              path: `/comstate/comstate1`
-            })
-          }
-          if (params.data.name == "作战行动影响分析") {
-            that.$router.push({
-              path: `/OperationalAnalysis/SystemImpactAnalysis`
-            })
-          }
-          if (params.data.name == "体系影响分析") {
-            that.$router.push({
-              path: `/OperationalAnalysis/SystemImpactAnalysis`
-            })
-          }
-          if (params.data.name == "链路行动影响分析") {
-            that.$router.push({
-              path: `/OperationalAnalysis/ImpactAssessment`
-            })
-          }
-          if (params.data.name == "可视化展示") {
-            that.$router.push({
-              path: `/OperationalAnalysis/VisualDisplay`
-            })
-          }
-          if (params.data.name == "通信能力评估") {
-            that.$router.push({
-              path: `/assessment/status`
-            })
-          }
-          if (params.data.name == "通信资源状态") {
-            that.$router.push({
-              path: `/assessment/status`
-            })
-          }
-          if (params.data.name == "资源能力分析与评估") {
-            that.$router.push({
-              path: `/assessment/analysis`
-            })
-          }
-          if (params.data.name == "通信效能计算") {
-            that.$router.push({
-              path: `/assessment/calculation`
-            })
-          }
-          if (params.data.name == "通信保障筹划") {
-            that.$router.push({
-              path: `/planMaking/plan/plan1`
-            })
-          }
-          if (params.data.name == "通信方案管理") {
-            that.$router.push({
-              path: `/planMaking/arrange`
-            })
-          }
-          if (params.data.name == "通信方案制定") {
-            that.$router.push({
-              path: `/planMaking/plan/plan1`
-            })
-          }
-          if (params.data.name == "方案制定1") {
-            that.$router.push({
-              path: `/planMaking/plan/plan1`
-            })
-          }
-          if (params.data.name == "方案制定2") {
-            that.$router.push({
-              path: `/planMaking/plan/plan2`
+              path: `/identify0`
             })
           }
         }
