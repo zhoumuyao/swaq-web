@@ -55,11 +55,11 @@
         </el-card>
       </div>
 
-      <router-link :to="{path: '/handle3'}">
-        <el-button class="next-button" type="primary" size="large" @click="next">
-          下一步
-        </el-button>
-      </router-link>
+<!--      <router-link :to="{path: '/handle3'}">-->
+      <el-button class="next-button" type="primary" size="large" @click="next">
+        下一步
+      </el-button>
+<!--      </router-link>-->
 
     </div>
   </div>
@@ -71,6 +71,8 @@ import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 // import Sidebar from '../components/sideBar/SideBar.vue';
+
+const router = useRouter();
 
 const showImg = ref(false);
 const imageUrl = ref("");
@@ -86,22 +88,21 @@ const form = ref({
 })
 const selectedItems = ref([]);
 
-
 const value = ref('');
 // 触发下一步骤
 const next = () => {
     if (!form.value.name) {
       // 如果 form.name 为空，弹出提示
-      alert('请填写生物因子名称！');
+      alert('请填疾病名称！');
       return; // 中断函数执行
     } else if(!form.value.description){
-      alert('请添加生物因子描述')
+      alert('请添加疾病状况描述')
       return;
     } else if(radio.value===1){
       alert('请勾选疾病性质')
       return;
     }
-  this.$router.push('/handle2');
+    router.push({ path: '/handle3' });
 }
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
