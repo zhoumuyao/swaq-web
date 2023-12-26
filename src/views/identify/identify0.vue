@@ -165,6 +165,10 @@
                       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item">
                       </el-option>
                     </el-select>
+                    <span v-if="selectedOption.value === 'toxin'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
+                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素">
+                      <el-option v-for="toxin in toxins" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
+                    </el-select>
                   </div>
 
                   <div v-if="selectedOption" class="mt-4">
@@ -212,8 +216,13 @@
                         </el-tab-pane>
                       </el-tabs>
                     </div>
+                    <div v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')">
+                      <div style="height: 100%;display: flex; justify-content: center;">
+                        <span>暂无内容</span>
+                      </div>
+                    </div>
 
-                    <div v-if="selectedOption.value === 'toxin'" class="mt-4" style="  display: flex;">
+                    <div v-if="selectedOption.value === 'toxin' && toxinselectedOption === 'ricin'" class="mt-4" style="  display: flex;">
                       <div style="width: 40%;height: 100%;display: flex; flex-direction: column;">
                         <div style="display: flex;justify-content: center;align-items: center;">
                           <img src="./image/1.jpg" alt="试剂图片" style="max-width: 100%; max-height: 100%; object-fit: contain;">
@@ -270,6 +279,14 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 
 
+const toxins = [
+  { value: 'botulinum', label: '肉毒毒素' },
+  { value: 'ricin', label: '蓖麻毒素' },
+  { value: 'tetrodotoxin', label: '石房蛤毒素' },
+  { value: 'aconitine', label: '乌头碱' },
+  { value: 'enterotoxin-b', label: '葡萄球菌肠毒素 B' }
+]
+const toxinselectedOption = ref('')
 const options = ref([
   {
     value: 'bacteria',
