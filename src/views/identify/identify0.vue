@@ -168,27 +168,68 @@
                   </div>
 
                   <div v-if="selectedOption" class="mt-4">
-                    <el-tabs tab-position="left" class="vertical-tabs">
-                      <el-tab-pane label="检测方法">
-                        <p>{{ selectedOption.method }}</p>
-                      </el-tab-pane>
-                      <el-tab-pane label="实验室要求">
-                        <p>{{ selectedOption.labRequirements }}</p>
-                      </el-tab-pane>
-                      <el-tab-pane label="试剂存储、准备、制备、分析等">
-                        <p>{{ selectedOption.reagentInfo }}</p>
-                      </el-tab-pane>
-                      <el-tab-pane label="基因组测定（标本选择、测序要求）">
-                        <p>{{ selectedOption.genomeInfo }}</p>
-                      </el-tab-pane>
-                      <el-tab-pane label="阳性确定标准">
-                        <p>{{ selectedOption.positiveStandard }}</p>
-                      </el-tab-pane>
-                      <el-tab-pane label="质控">
-                        <p>{{ selectedOption.qualityControl }}</p>
-                      </el-tab-pane>
-                    </el-tabs>
+                    <div v-if="selectedOption.value === 'bacteria'">
+                      <el-tabs tab-position="left" class="vertical-tabs">
+                        <el-tab-pane label="检测方法">
+                          <p>{{ selectedOption.method }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="实验室要求">
+                          <p>{{ selectedOption.labRequirements }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="试剂存储、准备、制备、分析等">
+                          <p>{{ selectedOption.reagentInfo }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="基因组测定（标本选择、测序要求）">
+                          <p>{{ selectedOption.genomeInfo }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="阳性确定标准">
+                          <p>{{ selectedOption.positiveStandard }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="质控">
+                          <p>{{ selectedOption.qualityControl }}</p>
+                        </el-tab-pane>
+                      </el-tabs>
+                    </div>
+                    <div v-if="selectedOption.value === 'virus'">
+                      <el-tabs tab-position="left" class="vertical-tabs">
+                        <el-tab-pane label="检测方法">
+                          <p>{{ selectedOption.method }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="实验室要求">
+                          <p>{{ selectedOption.labRequirements }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="试剂存储、准备、制备、分析等">
+                          <p>{{ selectedOption.reagentInfo }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="基因组测定（标本选择、测序要求）">
+                          <p>{{ selectedOption.genomeInfo }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="阳性确定标准">
+                          <p>{{ selectedOption.positiveStandard }}</p>
+                        </el-tab-pane>
+                        <el-tab-pane label="质控">
+                          <p>{{ selectedOption.qualityControl }}</p>
+                        </el-tab-pane>
+                      </el-tabs>
+                    </div>
+
+                    <div v-if="selectedOption.value === 'toxin'" class="mt-4" style="  display: flex;">
+                      <div style="width: 40%;">
+                        <div class="carousel-image-container">
+                          <img src="src/views/identify/image/1.jpg" alt="试剂图片" style="width: 100%;object-fit: cover;">
+                        </div>
+                        <div class="carousel-image-container">
+                          <img src="src/views/identify/image/2.jpg" alt="试剂图片" style="height: 45%;object-fit: cover;">
+                        </div>
+                      </div>
+                      <div class="content-container" style="width: 60%;">
+                        <embed src="src/views/identify/PDF/说明书-蓖麻毒素检测试剂盒（纳米酶免疫层析法）使用说明书.pdf" type="application/pdf" width="100%" height="500px">
+                      </div>
+                    </div>
+
                   </div>
+
+
                 </div>
                 <el-button v-if="active2 > -1" class="back-button" size="large" @click="back2" type="primary">
                   上一步
@@ -228,7 +269,7 @@ import { ElConfigProvider } from "element-plus";
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 
-const selectedOption = ref(null)
+
 const options = ref([
   {
     value: 'bacteria',
@@ -267,7 +308,7 @@ const options = ref([
     qualityControl: '质控的信息...'
   },
 ])
-
+const selectedOption = ref(options.value[2])
 const activeName = ref('first')
 const active0 = ref(0)
 const active1 = ref(0)
@@ -331,7 +372,8 @@ const back1 = () => {
   if (active1.value-- < 0) active1.value = 0
 }
 const next2 = () => {
-  if (active2.value++ > 3) active2.value = 0
+  if (active2.value++ > 5) active2.value = 0
+  console.log(active2.value)
 }
 const back2 = () => {
   if (active2.value-- < 1) {
@@ -383,6 +425,19 @@ const back2 = () => {
   padding: 20px;
   /* border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.carousel-image-container {
+  height: 50%;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
 }
 
 .back-button {
