@@ -165,15 +165,31 @@
                       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item">
                       </el-option>
                     </el-select>
+                    <!-- 毒素 -->
                     <span v-if="selectedOption.value === 'toxin'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
                     <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素">
-                      <el-option v-for="toxin in toxins" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
+                      <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
+                    </el-select>
+                    <!-- 细菌 -->
+                    <span v-if="selectedOption.value === 'bacteria'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
+                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption" placeholder="请选择细菌">
+                      <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label" :value="bacteria.value"></el-option>
+                    </el-select>
+                    <!-- 病毒 -->
+                    <span v-if="selectedOption.value === 'virus'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
+                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption" placeholder="请选择病毒">
+                      <el-option v-for="virus in virus_list" :key="virus" :label="virus.label" :value="virus.value"></el-option>
                     </el-select>
                   </div>
 
                   <div v-if="selectedOption" class="mt-4">
-                    <div v-if="selectedOption.value === 'bacteria'">
-                      <el-tabs tab-position="left" class="vertical-tabs">
+                    <div v-if="selectedOption.value === 'bacteria'" style="height: 100%;">
+                      <div v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')" style="height: 100%;">
+                        <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
+                          <span>暂无内容</span>
+                        </div>
+                      </div>
+                      <!-- <el-tabs tab-position="left" class="vertical-tabs">
                         <el-tab-pane label="检测方法">
                           <p>{{ selectedOption.method }}</p>
                         </el-tab-pane>
@@ -192,10 +208,15 @@
                         <el-tab-pane label="质控">
                           <p>{{ selectedOption.qualityControl }}</p>
                         </el-tab-pane>
-                      </el-tabs>
+                      </el-tabs> -->
                     </div>
-                    <div v-if="selectedOption.value === 'virus'">
-                      <el-tabs tab-position="left" class="vertical-tabs">
+                    <div v-if="selectedOption.value === 'virus'" style="height: 100%;">
+                      <div v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')" style="height: 100%;">
+                        <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
+                          <span>暂无内容</span>
+                        </div>
+                      </div>
+                      <!-- <el-tabs tab-position="left" class="vertical-tabs">
                         <el-tab-pane label="检测方法">
                           <p>{{ selectedOption.method }}</p>
                         </el-tab-pane>
@@ -214,10 +235,10 @@
                         <el-tab-pane label="质控">
                           <p>{{ selectedOption.qualityControl }}</p>
                         </el-tab-pane>
-                      </el-tabs>
+                      </el-tabs> -->
                     </div>
-                    <div v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')">
-                      <div style="height: 100%;display: flex; justify-content: center;">
+                    <div v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')" style="height: 100%;">
+                      <div style="height: 100%;display: flex; justify-content: center; align-items: center;">
                         <span>暂无内容</span>
                       </div>
                     </div>
@@ -279,14 +300,29 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 
 
-const toxins = [
+const toxin_list = [
   { value: 'botulinum', label: '肉毒毒素' },
   { value: 'ricin', label: '蓖麻毒素' },
   { value: 'tetrodotoxin', label: '石房蛤毒素' },
   { value: 'aconitine', label: '乌头碱' },
   { value: 'enterotoxin-b', label: '葡萄球菌肠毒素 B' }
 ]
+const bacteria_list = [
+  { value: 'yersinia-pestis', label: '鼠疫耶尔森菌' },
+  { value: 'bacillus-anthracis', label: '炭疽芽胞杆菌' },
+  { value: 'methicillin-resistant-staphylococcus-aureus', label: '耐甲氧西林金黄色葡萄球菌' },
+  { value: 'drug-resistant-genes', label: '耐药基因' },
+  { value: 'virulence-genes', label: '毒力基因' },
+  { value: 'maker-genes', label: 'Maker基因' }
+]
+const virus_list = [
+  { value: 'novel-coronavirus', label: '新型冠状病毒' },
+  { value: 'influenza-virus', label: '流感病毒' },
+  { value: 'adenovirus', label: '腺病毒' }
+]
 const toxinselectedOption = ref('')
+const bacteriaselectedOption = ref('')
+const virusselectedOption = ref('')
 const options = ref([
   {
     value: 'bacteria',
