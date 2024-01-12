@@ -14,100 +14,80 @@
                     <el-step title="风险评价"></el-step>
                 </el-steps>
             </div>
-            
-            <el-card class="reckon_risk">
-                <div slot="header" class="clearfix">
-                    <span>风险评价</span>
-                    <div class="description">
-                        <el-card class="relation_to_risk">
-                            <div slot="header" class="jugehappentop">
-                                <span>与潜在风险关系</span>
-                            </div>
-                            <div style="margin:20px 10px 0 10px">
-            
-                                <div class="text">
-                                    <el-table
-                                    :data="tableData1"
-                                    style="width: 100%"
-                                    type="selection">
-                                    <el-table-column
-                                        prop="virue"
-                                        label="风险"
-                                        width="500"
-                                        fixed="left">
-                                    </el-table-column>
-                                    <el-table-column
-                                        label="是否可能产生" 
-                                        width="200"
-                                        fixed="right"
-                                        prop="checked">
-                                        <template #default="{ row }">
-                                            <el-checkbox v-model="row.checked"></el-checkbox>
-                                        </template>
-                                    </el-table-column>
-                                    </el-table>
+            <div class="prepare-container">
+                <el-card class="reckon_risk">
+                    <div slot="header" class="clearfix">
+                        <span>风险评价</span>
+                        <div class="description">
+                            <el-card class="relation_to_risk">
+                                <div slot="header" class="jugehappentop">
+                                    <span>与潜在风险关系</span>
                                 </div>
-                            </div>
-                        </el-card>
+                                <div style="margin:20px 10px 0 10px">
 
-                        <el-card class="relation_to_risk">
-                            <div slot="header" class="jugehappentop">
-                                <span>可能产生的影响范围</span>
-                            </div>
-                            <div style="margin:20px 10px 0 10px">
-            
-                                <div class="text">
-                                    <el-table
-                                    :data="tableData2"
-                                    style="width: 100%"
-                                    type="selection">
-                                    <el-table-column
-                                        prop="place"
-                                        label="地区"
-                                        width="500"
-                                        fixed="left">
-                                    </el-table-column>
-                                    <el-table-column
-                                        label="是否可能产生" 
-                                        width="200"
-                                        fixed="right"
-                                        prop="checked">
-                                        <template #default="{ row }">
-                                            <el-checkbox v-model="row.checked"></el-checkbox>
-                                        </template>
-                                    </el-table-column>
-                                    </el-table>
+                                    <div class="text">
+                                        <el-table :data="tableData1" style="width: 100%" type="selection">
+                                            <el-table-column prop="virue" label="风险" width="500" fixed="left">
+                                            </el-table-column>
+                                            <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
+                                                <template #default="{ row }">
+                                                    <el-checkbox v-model="row.checked"></el-checkbox>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </div>
                                 </div>
-                            </div>
-                        </el-card>
+                            </el-card>
+
+                            <el-card class="relation_to_risk">
+                                <div slot="header" class="jugehappentop">
+                                    <span>可能产生的影响范围</span>
+                                </div>
+                                <div style="margin:20px 10px 0 10px">
+
+                                    <div class="text">
+                                        <el-table :data="tableData2" style="width: 100%" type="selection">
+                                            <el-table-column prop="place" label="地区" width="500" fixed="left">
+                                            </el-table-column>
+                                            <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
+                                                <template #default="{ row }">
+                                                    <el-checkbox v-model="row.checked"></el-checkbox>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </div>
+                                </div>
+                            </el-card>
+                        </div>
+                        <div class="last_row">
+                            <el-card class="jugehappen">
+                                <div slot="header" class="jugehappentop">
+                                    <span>风险等级</span>
+                                </div>
+                                <el-radio-group v-model="radio">
+                                    <el-radio label="一级">一级</el-radio>
+                                    <el-radio label="二级">二级</el-radio>
+                                    <el-radio label="三级">三级</el-radio>
+                                    <el-radio label="四级">四级</el-radio>
+                                    <el-radio label="五级">五级</el-radio>
+                                </el-radio-group>
+                            </el-card>
+                        </div>
                     </div>
-                    <div class="last_row">
-                        <el-card class="jugehappen">
-                            <div slot="header" class="jugehappentop">
-                                <span>风险等级</span>
-                            </div>
-                            <el-radio-group v-model="radio">
-                                <el-radio label="一级" >一级</el-radio>
-                                <el-radio label="二级" >二级</el-radio>
-                                <el-radio label="三级" >三级</el-radio>
-                                <el-radio label="四级" >四级</el-radio>
-                                <el-radio label="五级" >五级</el-radio>
-                            </el-radio-group>
-                        </el-card>
+                    <div class="next-button" style="margin-left: 40%;">
+                        <router-link :to="{ path: '/risk2' }">
+                            <el-button size="large" type="primary" style="margin-top: 10px; width: 120px;">上一步</el-button>
+                        </router-link>
+                        <router-link :to="{ path: '/risk0' }">
+                            <el-button size="large" type="primary" style="margin-top: 10px; ;margin-left: 30px;width: 120px;"
+                                @click="next">完成</el-button>
+                        </router-link>
                     </div>
-                </div>
-            </el-card>
-            <div class="next-button" style="margin-left: 40%;">
-                <router-link :to="{ path: '/risk2' }">
-                    <el-button size="large" type="primary" style="margin-top: 10px; "
-                        >上一步</el-button>
-                </router-link>
-                <router-link :to="{ path: '/risk' }">
-                    <el-button size="large" type="primary" style="margin-top: 10px; ;margin-left: 80px;"
-                        @click="next">完成</el-button>
-                </router-link>
+                </el-card>
             </div>
- 
+
+
+
 
             <!-- <div v-show="isWarning">
                 <el-alert title="" type="error" center :closable="false" style="height: 50px; padding-bottom: 15px;">
@@ -210,53 +190,53 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-const radio=ref("二级");
+const radio = ref("二级");
 const tableData1 = ref([{
-            id: 1,
-            virue: '鼠疫',
-            checked: true,
-          }, {
-            id: 2,
-            virue: '霍乱',
-            checked: true,
-          }, {
-            id: 3,
-            virue: '麻疹',
-            checked: false,
-          }, {
-            id: 4,
-            virue: '传染性非典型肺炎',
-            checked: false,
-          },{
-            id: 5,
-            virue: '猩红热',
-            checked: true,
-          },{
-            id: 6,
-            virue: '登革热',
-            checked: false,
-          }]);
+    id: 1,
+    virue: '鼠疫',
+    checked: true,
+}, {
+    id: 2,
+    virue: '霍乱',
+    checked: true,
+}, {
+    id: 3,
+    virue: '麻疹',
+    checked: false,
+}, {
+    id: 4,
+    virue: '传染性非典型肺炎',
+    checked: false,
+}, {
+    id: 5,
+    virue: '猩红热',
+    checked: true,
+}, {
+    id: 6,
+    virue: '登革热',
+    checked: false,
+}]);
 const tableData2 = ref([{
-            id: 1,
-            place: '村级',
-            checked: false,
-          }, {
-            id: 2,
-            place: '县级',
-            checked: false,
-          }, {
-            id: 3,
-            place: '市级',
-            checked: false,
-          }, {
-            id: 4,
-            place: '省级',
-            checked: true,
-          },{
-            id: 5,
-            place: '国家级',
-            checked: false,
-          }])
+    id: 1,
+    place: '村级',
+    checked: false,
+}, {
+    id: 2,
+    place: '县级',
+    checked: false,
+}, {
+    id: 3,
+    place: '市级',
+    checked: false,
+}, {
+    id: 4,
+    place: '省级',
+    checked: true,
+}, {
+    id: 5,
+    place: '国家级',
+    checked: false,
+}])
 
 
 const sceneImg = ref([{
@@ -290,7 +270,7 @@ const watchResult = (text0) => {
     textarea.value = text0
 }
 
-const watchSimilarcases = () =>{
+const watchSimilarcases = () => {
     this.dialogVisible = true
 }
 
@@ -390,23 +370,36 @@ function selectFile() {
     margin: 10px 30px;
     display: block;
 }
-.reckon_risk{
-    margin-top: 10px;
-    height: 730px;
+
+.reckon_risk {
+    position: relative;
+    height: 80vh;
+    width: 80vw;
 }
-.last_row{
+
+.last_row {
     margin-left: 10px;
     margin-right: 10px;
 }
-.relation_to_risk{
+
+.relation_to_risk {
     height: 500px;
 }
+
 .next-button {
-  position: absolute;
-  bottom: 30px;
-  /* 距离底部的间距 */
-  right: 30px;
-  /* 距离右侧的间距 */
+    position: absolute;
+    bottom: 15px;
+    /* 距离底部的间距 */
+    right: 20px;
+    /* 距离右侧的间距 */
+}
+
+.prepare-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 10px;
+    /* 上边界距离 */
 }
 </style>
   

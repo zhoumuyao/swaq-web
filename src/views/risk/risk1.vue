@@ -15,93 +15,99 @@
           <el-step title="风险评价"></el-step>
         </el-steps>
       </div>
-      <el-card style="margin-top: 10px; height: 75vh;position: relative;">
-        <div class="description">
-          <div style="margin:0px 40px 0 100px;">
-            <label class="label">现场图片</label>
-            <div class="img">
-              <div v-show="showLabel" style="margin-left: 40%; margin-top: 45%; color: darkgray;">
-                <label style="font:14px Extra Small">请上传现场图片</label>
+      <div class="prepare-container">
+        <el-card style="height: 80vh;width: 80vw; position: relative;">
+          <div class="description">
+            <div style="margin:30px 40px 0 50px;">
+              <label class="label">现场图片</label>
+              <div class="img">
+                <div v-show="showLabel" style="margin-left: 40%; margin-top: 40%; color: darkgray;">
+                  <label style="font:14px Extra Small">请上传现场图片</label>
+                </div>
+                <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+            </div>
+            <div style="margin:30px 50px 0 40px;">
+              <label class="label">现场描述</label>
+              <div class="text">
+                <div style="margin:30px 30px 0 30px;">
+                  位置：<el-input placeholder="请输入地点" style="display: inline-block; width: 50%; " v-model="text"></el-input>
+                </div>
+                <div style="margin:10px 30px 0 30px;">
+                  状态描述：
+                  <el-input placeholder="请输入环境描述" type="textarea" style="display: block; margin:10px 0;"
+                    v-model="textarea1" :autosize="{ minRows: 3, maxRows: 3 }"></el-input>
+                </div>
+                <div style="margin:10px 30px; display: grid; grid-template-columns: 1fr 1fr; grid-gap: 10px;">
+                  <div>
+                    输入采样即检测结果：
+                    <el-button type="primary" :icon="Plus" circle @click="addsample = true"></el-button>
+                    <el-button type="primary" :icon="Check" circle @click="detect"></el-button>
+                    <el-table :data="sample"
+                      style="margin-top: 5px; width: 90%; height: 180px; border:solid 1.2px; border-color:#dcdfe6; border-radius: 4px">
+                      <el-table-column prop="id" label="采样编号" width="" />
+                      <el-table-column prop="name" label="采样名" width="" />
+                    </el-table>
+                  </div>
+                  <div>
+                    采样快速分析检测：
+                    <el-table :data="dsample"
+                      style="margin-top: 15px; width: 90%; height: 180px; border:solid 1.2px; border-color:#dcdfe6; border-radius: 4px">
+                      <el-table-column prop="id" label="危险因子号" width="" />
+                      <el-table-column prop="name" label="危险因子名" width="" />
+                    </el-table>
+                  </div>
+                </div>
+                <div style="margin:10px 30px 0 30px;">
+                  风险识别方法：
+                  <div style="margin-top: 10px;">
+                    <el-select v-model="method" placeholder="请选择评估程序方法">
+                      <el-option label="生物危险因子检测技术" value="1" />
+                      <el-option label="生物危险因子溯源技术" value="2" />
+                      <el-option label="生物危险因子稳定同位素比对识别追踪技术" value="3" />
+                      <el-option label="生物危险因子关联个体追踪技术" value="4" />
+                    </el-select>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div style="margin:0px 100px 0 40px;">
-            <label class="label">现场描述</label>
-            <div class="text">
-              <div style="margin:30px 30px 0 30px;">
-                位置：<el-input placeholder="请输入地点" style="display: inline-block; width: 50%; " v-model="text"></el-input>
+          <el-dialog v-model="addsample" title="选择风险评估人员" width="600px" draggable>
+            <div style=" display: grid; grid-template-columns: 1fr 1fr; grid-gap: 30px;">
+              <div>
+                采样号：
+                <el-input v-model="sampleid" placeholder="请输入采样号" style="margin-top: 10px;"></el-input>
               </div>
-              <div style="margin:10px 30px 0 30px;">
-                状态描述：
-                <el-input placeholder="请输入环境描述" type="textarea" style="display: block; margin:10px 0;" v-model="textarea1"
-                  :autosize="{ minRows: 3, maxRows: 3 }"></el-input>
-              </div>
-              <div style="margin:10px 30px; display: grid; grid-template-columns: 1fr 1fr; grid-gap: 10px;">
-                <div>
-                  输入采样即检测结果：
-                  <el-button type="primary" :icon="Plus" circle @click="addsample = true"></el-button>
-                  <el-button type="primary" :icon="Check" circle @click="detect"></el-button>
-                  <el-table :data="sample"
-                    style="margin-top: 5px; width: 90%; height: 180px; border:solid 1.2px; border-color:#dcdfe6; border-radius: 4px">
-                    <el-table-column prop="id" label="采样编号" width="" />
-                    <el-table-column prop="name" label="采样名" width="" />
-                  </el-table>
-                </div>
-                <div>
-                  采样快速分析检测：
-                  <el-table :data="dsample"
-                    style="margin-top: 15px; width: 90%; height: 180px; border:solid 1.2px; border-color:#dcdfe6; border-radius: 4px">
-                    <el-table-column prop="id" label="危险因子号" width="" />
-                    <el-table-column prop="name" label="危险因子名" width="" />
-                  </el-table>
-                </div>
-              </div>
-              <div style="margin:10px 30px 0 30px;">
-                风险识别方法：
-                <div style="margin-top: 10px;">
-                  <el-select v-model="method" placeholder="请选择评估程序方法">
-                    <el-option label="生物危险因子检测技术" value="1" />
-                    <el-option label="生物危险因子溯源技术" value="2" />
-                    <el-option label="生物危险因子稳定同位素比对识别追踪技术" value="3" />
-                    <el-option label="生物危险因子关联个体追踪技术" value="4" />
-                  </el-select>
-                </div>
+              <div>
+                采样名：
+                <el-input v-model="samplename" placeholder="请输入采样名" style="margin-top: 10px;"></el-input>
               </div>
             </div>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="addsample = false" >取消</el-button>
+                <el-button type="primary" @click="addSample">确认</el-button>
+              </span>
+            </template>
+          </el-dialog>
+          <div class="next-button" style="margin-top: 30px; margin-left: 30%;">
+            <router-link :to="{ path: '/risk0', }">
+              <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 80px; width: 120px;"
+                @click="test">上一步</el-button>
+            </router-link>
+            <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 30px; width: 120px;" id="upload-button"
+              @click="handleUpload">
+              上传现场图片
+              <input type="file" title="上传图片" id="upload-input" style="display:none" />
+            </el-button>
+            <router-link :to="{ path: '/risk2', query: { img: imageUrl } }">
+              <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 30px; width: 120px;"
+                @click="test">进行风险分析</el-button>
+            </router-link>
           </div>
-        </div>
-        <el-dialog v-model="addsample" title="选择风险评估人员" width="600px" draggable>
-          <div style=" display: grid; grid-template-columns: 1fr 1fr; grid-gap: 30px;">
-            <div>
-              采样号：
-              <el-input v-model="sampleid" placeholder="请输入采样号" style="margin-top: 10px;"></el-input>
-            </div>
-            <div>
-              采样名：
-              <el-input v-model="samplename" placeholder="请输入采样名" style="margin-top: 10px;"></el-input>
-            </div>
-          </div>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="addsample = false">取消</el-button>
-              <el-button type="primary" @click="addSample">确认</el-button>
-            </span>
-          </template>
-        </el-dialog>
-        <div class="next-button" style="margin-top: 30px; margin-left: 30%;">
-          <router-link :to="{ path: '/risk0',}">
-            <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">上一步</el-button>
-          </router-link>
-          <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 80px;" id="upload-button" @click="handleUpload">
-            上传现场图片
-            <input type="file" title="上传图片" id="upload-input" style="display:none" />
-          </el-button>
-          <router-link :to="{ path: '/risk2', query: { img: imageUrl } }">
-            <el-button size="large" type="primary" style="margin-top: 12px; margin-left: 80px;" @click="test">进行风险分析</el-button>
-          </router-link>
-        </div>
-      </el-card>
+        </el-card>
+      </div>
+
     </div>
 
   </div>
@@ -128,8 +134,8 @@ const textarea2 = ref("");
 const text = ref("");
 const method = ref([])
 
-function detect(){
-  
+function detect() {
+
 }
 
 function handleUpload() {
@@ -152,10 +158,10 @@ function handleUpload() {
   uploadInput.click();
 }
 
-function addSample(){
+function addSample() {
   addsample.value = false;
-  if(sampleid.value != null && samplename != ""){
-    sample.value.push({id:sampleid.value, name:samplename.value});
+  if (sampleid.value != null && samplename != "") {
+    sample.value.push({ id: sampleid.value, name: samplename.value });
   }
   sampleid.value = null
   samplename.value = "";
@@ -186,13 +192,21 @@ function goToRisk3() {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
-  margin: 0px
+  margin-top: 10px;
+  height: 70vh;
 }
 
 #file {
   opacity: 0;
 }
 
+.prepare-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 10px;
+    /* 上边界距离 */
+}
 .img {
   height: 500px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
@@ -218,9 +232,8 @@ function goToRisk3() {
 
 .next-button {
   position: absolute;
-  bottom: 30px;
+  bottom: 15px;
   /* 距离底部的间距 */
-  right: 100px;
+  right: 20px;
   /* 距离右侧的间距 */
-}
-</style>
+}</style>

@@ -16,7 +16,7 @@
             </div>
             <div class="prepare-container">
                 <el-card class="prepare-form">
-                    <div style="width: 80%; margin-left: 10%;">
+                    <div style="width: 100%;">
                         <label class="label">设立初步的评估方案:</label>
                         <div style="margin-top: 10px;">
                             <el-form :model="form" label-width="auto" :inline="true">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="next-button">
                             <router-link :to="{ path: '/risk' }">
-                                <el-button size="large" type="primary">确认</el-button>
+                                <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
                             </router-link>
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
@@ -134,7 +134,6 @@
                             </template>
                         </el-dialog>
                     </div>
-
                 </el-card>
             </div>
         </div>
@@ -306,7 +305,8 @@ const onSubmit = () => {
 
 .prepare-form {
     height: 80vh;
-    width: 100%;
+    width: 80vw;
+    position: relative;
 }
 
 .steps {
@@ -335,9 +335,9 @@ const onSubmit = () => {
 }
 .next-button {
   position: absolute;
-  bottom: 30px;
+  bottom: 15px;
   /* 距离底部的间距 */
-  right: 10%;
+  right: 20px;
   /* 距离右侧的间距 */
 }
 </style>
