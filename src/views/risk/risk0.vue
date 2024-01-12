@@ -78,9 +78,9 @@
                                 </div>
                             </el-form>
                         </div>
-                        <div style="display: flex;justify-content: center; margin-top: 10px;">
+                        <div class="next-button">
                             <router-link :to="{ path: '/risk' }">
-                                <el-button size="mini" type="primary">确认</el-button>
+                                <el-button size="large" type="primary">确认</el-button>
                             </router-link>
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
@@ -332,6 +332,13 @@ const onSubmit = () => {
 .smalllabel {
     font-size: 14px;
     color: rgb(96, 98, 102);
+}
+.next-button {
+  position: absolute;
+  bottom: 30px;
+  /* 距离底部的间距 */
+  right: 10%;
+  /* 距离右侧的间距 */
 }
 </style>
   

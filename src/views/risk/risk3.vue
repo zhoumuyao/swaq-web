@@ -97,13 +97,13 @@
                     </div>
                 </div>
             </el-card>
-            <div style="margin-left: 40%;">
+            <div class="next-button" style="margin-left: 40%;">
                 <router-link :to="{ path: '/risk2' }">
-                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;"
+                    <el-button size="large" type="primary" style="margin-top: 10px; "
                         >上一步</el-button>
                 </router-link>
                 <router-link :to="{ path: '/risk' }">
-                    <el-button type="primary" style="margin-top: 10px; width: 100px;height: 40px;margin-left: 80px;"
+                    <el-button size="large" type="primary" style="margin-top: 10px; ;margin-left: 80px;"
                         @click="next">完成</el-button>
                 </router-link>
             </div>
@@ -392,7 +392,7 @@ function selectFile() {
 }
 .reckon_risk{
     margin-top: 10px;
-    height: 690px;
+    height: 730px;
 }
 .last_row{
     margin-left: 10px;
@@ -400,6 +400,13 @@ function selectFile() {
 }
 .relation_to_risk{
     height: 500px;
+}
+.next-button {
+  position: absolute;
+  bottom: 30px;
+  /* 距离底部的间距 */
+  right: 30px;
+  /* 距离右侧的间距 */
 }
 </style>
   

@@ -22,46 +22,46 @@
           <div class="description">
             <el-card class="jugehappen">
               <div slot="header" class="jugehappentop">
-                <span>风险发生的可能性分析</span>
+                <span class="label">风险发生的可能性分析</span>
               </div>
               <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input> -->
-              <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+              <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1 }}、{{ text }}</div>
             </el-card>
 
             <el-card class="field_hazard">
               <div slot="header" class="field_hazardtop">
-                <span>现场勘查工作产生危害分析</span>
+                <span class="label">现场勘查工作产生危害分析</span>
               </div>
               <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
                -->
-               <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+               <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px; font-size: medium">{{ index + 1 }}、{{ text }}</div>
             </el-card>
 
             <el-card class="jugehappen">
               <div slot="header" class="jugehappentop">
-                <span>附近居民生命健康影响分析</span>
+                <span class="label">附近居民生命健康影响分析</span>
               </div>
               <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input> -->
-              <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+              <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1 }}、{{ text }}</div>
             </el-card>
 
             <el-card class="jugehappen">
               <div slot="header" class="jugehappentop">
-                <span>生态环境危害分析</span>
+                <span class="label">生态环境危害分析</span>
               </div>
               <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
                -->
-               <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+               <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1 }}、{{ text }}</div>
             </el-card>
           </div>
           <div class="last_row">
             <el-card class="jugehappen">
               <div slot="header" class="jugehappentop">
-                <span>其他危害分析</span>
+                <span class="label">其他危害分析</span>
               </div>
               <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
               -->
-              <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+              <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1 }}、{{ text }}</div>
             </el-card>
           </div>
         </div>
@@ -101,16 +101,16 @@
         </div>
         
       </div> -->
-      <div style="margin-top: 40px; margin-left: 40%;">
+      <div class="next-button" style="margin-top: 40px; margin-left: 40%;">
 
         <router-link :to="{path: '/risk'}">
-          <el-button type="primary" style="margin-top: 10px; width: 100px; height: 40px; margin-left: 10px;" @click="beforeRouteLeave" >上一步</el-button>
+          <el-button size="large" type="primary" style="margin-top: 10px; margin-left: 10px;" @click="beforeRouteLeave" >上一步</el-button>
         </router-link>
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
         <router-link :to="{path: '/risk3', query: {img : imageUrl}}">
-          <el-button type="primary" style="margin-top: 10px; width: 100px; height: 40px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
+          <el-button size="large" type="primary" style="margin-top: 10px;margin-left: 80px;" @click="goToRisk3">下一步</el-button>
         </router-link>
       </div>
       
@@ -291,10 +291,7 @@ function beforeRouteLeave(to,from,next){
   border-color: darkgray;
 }
 .label{
-  font: 18px large;
-  font-family: "PingFang SC";
-  margin: 10px;
-  display: block;
+  font-size: 18px;
 }
 .box-card{
   margin-top: 10px;
@@ -316,5 +313,11 @@ function beforeRouteLeave(to,from,next){
 .inputtype{
   margin-top: 10px;
 }
-
+.next-button {
+  position: absolute;
+  bottom: 30px;
+  /* 距离底部的间距 */
+  right: 30px;
+  /* 距离右侧的间距 */
+}
 </style>
