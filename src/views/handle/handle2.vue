@@ -25,7 +25,7 @@
                 </div>
                 <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 10%">
+              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
                 上传现场图片
                 <input type="file" title="上传图片" id="upload-input" style="display:none"/>
               </el-button>
@@ -148,7 +148,7 @@ function handleUpload() {
 .previous-button{
   position: fixed;
   bottom: 7%;
-  left: 17%;
+  left: 80%;
 }
 
 .next-button {
