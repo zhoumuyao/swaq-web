@@ -188,34 +188,45 @@
               <el-card class="card_container">
                 <!--标本形态学、病理学特征和分析技术 -->
                 <div v-if="active4 === 0">
-                  <span>解剖查验操作及病变检查程序</span>
-                  <div v-for="(text, index) in techniques" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <div class="description">
+                    <el-card class="text" style="margin:20px 20px 20px 50px;">
+                      <label class="label" style="margin-left: 42%">待检测图片</label>
+                      <el-divider></el-divider>
+                      <div class="img">
+                        <div v-show="showLabel" style="margin-left: 40%; margin-top:30%; color: darkgray;">
+                          <label style="font:14px Extra Small">请上传需检测图片</label>
+                        </div>
+                        <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                      </div>
+                      <el-button type="primary" id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
+                        上传检测图片
+                        <input type="file" title="上传图片" id="upload-input" style="display:none" />
+                      </el-button>
+                    </el-card>
+                    <el-card class="text" style="margin:20px 30px 20px 30px;">
+                      <label class="label" style="margin-left: 42%; ">检测信息录入</label>
+                      <el-divider></el-divider>
+                      <div style="margin:0 30px;">
+                        病理学特征描述：
+                        <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
+                      </div>
+                      <div style="margin:10px 30px 0 30px;">
+                        分析识别方法：
+                        <div style="margin-top: 10px;">
+                          <el-select v-model="method" placeholder="请选择分析技术">
+                            <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
+                          </el-select>
+                        </div>
+                      </div>
+                    </el-card>
                   </div>
                 </div>
+
                 <!-- 数据的保存、分析和报告 -->
                 <div v-if="active4 === 1">
-                  <!-- <span>数据的保存、分析和报告</span> -->
-                  <div v-for="item in dataManagement" :key="item.title">
-                    <h3>{{ item.title }}</h3>
-                    <ul>
-                      <li v-for="contentItem in item.content" :key="contentItem">{{ contentItem }}</li>
-                    </ul>
-                  </div>
-
-                  <div v-for="item in dataAnalysis" :key="item.title">
-                    <h3>{{ item.title }}</h3>
-                    <ul>
-                      <li v-for="contentItem in item.content" :key="contentItem">{{ contentItem }}</li>
-                    </ul>
-                  </div>
-
-                  <div v-for="item in reportGeneration" :key="item.title">
-                    <h3>{{ item.title }}</h3>
-                    <ul>
-                      <li v-for="contentItem in item.content" :key="contentItem">{{ contentItem }}</li>
-                    </ul>
-                  </div>
+                  <label>显示报告</label>
                 </div>
+
                 <el-button v-if="active4 > -1" class="back-button" size="large" @click="back4" type="primary">
                   上一步
                 </el-button>
@@ -294,6 +305,11 @@ const active3 = ref(0)
 const active4 = ref(0)
 const description = ref('')
 const activeIndex = ref('/identify1')
+const showLabel = ref(true);
+const showImg = ref(false);
+const imageUrl = ref("");
+const method = ref([])
+const pathologicalFeatures = ref('')
 
 const device = ref('尸检台、切片机、脱水机、吸引器、显微镜、照相设备、计量设备、消毒隔离设备、个人防护设备、病理组织取材工作台、储存和运送标本设备、尸体保存设施、污水和污物处理设施等。');
 
@@ -455,6 +471,26 @@ const handleSelect = (index) => {
     router.push('/identify1');
   }
 }
+function handleUpload() {
+  let imageDisplay = document.getElementById("image-display");
+  let uploadInput = document.getElementById("upload-input");
+  uploadInput.addEventListener("change", function (event) {
+    let files = event.target.files; // 获取选择的文件列表
+    if (files.length > 0) {
+      let file = files[0]; // 获取第一个文件
+      let fileReader = new FileReader();
+      showImg.value = true;
+      showLabel.value = false;
+      fileReader.onload = function (e) {
+        imageUrl.value = e.target.result;
+        imageDisplay.src = imageUrl.value;
+      };
+      fileReader.readAsDataURL(file);
+    }
+  });
+  uploadInput.click();
+}
+
 
 const next1 = () => {
   if (active1.value++ > 2) activeName.value = 'second'
@@ -603,5 +639,59 @@ const back4 = () => {
   font-size: 16px !important;
   margin-bottom: 20px !important;
   /* 改变这个值来改变字体大小 */
+}
+
+
+
+.text {
+  height: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  border-radius: 4px;
+  border: 1.2px;
+}
+
+.label1 {
+  font: 18px large;
+  font-family: "PingFang SC";
+  margin: 10px;
+  display: block;
+}
+
+.img {
+  height: 340px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  border-radius: 4px;
+  border: 1.2px solid;
+  border-color: darkgray;
+}
+
+.prepare-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 10px;
+  /* 上边界距离 */
+}
+
+.description {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin: 0px
+}
+
+.text {
+  height: 520px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  border-radius: 4px;
+  border: 1.2px solid;
+  border-color: darkgray;
+}
+
+.card_box {
+  height: 85%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0px 100px 0px 40px;
 }
 </style>
