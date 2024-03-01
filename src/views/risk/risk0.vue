@@ -57,7 +57,7 @@
                                         </div>
                                         <el-card>
                                             <el-table :data="form.person" style="width: 100%; height: 45vh">
-                                                <el-table-column prop="id" label="员工号" width="" />
+                                                <el-table-column prop="id" label="警务号" width="" />
                                                 <el-table-column prop="name" label="姓名" width="" />
                                             </el-table>
                                         </el-card>
@@ -72,6 +72,11 @@
                                             <el-table :data="form.equipment" style="width: 100%; height: 45vh">
                                                 <el-table-column prop="id" label="设备号" width="" />
                                                 <el-table-column prop="name" label="设备名" width="" />
+                                                <el-table-column prop="guide" label="使用说明" width="120">
+                                                    <template #default="{ row }">
+                                                        <el-button v-show="row.showButton" type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
+                                                    </template>
+                                                </el-table-column>
                                             </el-table>
                                         </el-card>
                                     </div>
@@ -85,14 +90,14 @@
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
                             <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
-                                placeholder="请输入人员id"></el-input>
+                                placeholder="请输入警务号"></el-input>
                             <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;"
                                 circle></el-button>
                             <div>
                                 <el-table :data="riskPerson" style="width: 100%" type="selection">
-                                    <el-table-column prop="id" label="人员号" width="180" fixed="left">
+                                    <el-table-column prop="id" label="警务号" width="180" fixed="left">
                                     </el-table-column>
-                                    <el-table-column prop="name" label="人员名" width="180" fixed="left">
+                                    <el-table-column prop="name" label="姓名" width="180" fixed="left">
                                     </el-table-column>
                                     <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
                                         <template #default="{ row }">
@@ -108,16 +113,16 @@
                                 </span>
                             </template>
                         </el-dialog>
-                        <el-dialog v-model="addequiment" title="选择风险评估人员" width="600px" draggable>
+                        <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
                             <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
-                                placeholder="请输入仪器id"></el-input>
+                                placeholder="请输入设备号"></el-input>
                             <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;"
                                 circle></el-button>
                             <div>
                                 <el-table :data="riskEquiment" style="width: 100%" type="selection">
-                                    <el-table-column prop="id" label="人员号" width="180" fixed="left">
+                                    <el-table-column prop="id" label="设备号" width="180" fixed="left">
                                     </el-table-column>
-                                    <el-table-column prop="name" label="人员名" width="180" fixed="left">
+                                    <el-table-column prop="name" label="设备名" width="180" fixed="left">
                                     </el-table-column>
                                     <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
                                         <template #default="{ row }">
@@ -132,6 +137,9 @@
                                     <el-button type="primary" @click="addEquiment">确认</el-button>
                                 </span>
                             </template>
+                        </el-dialog>
+                        <el-dialog title="预览文件" v-model="isViewPdf20" :before-close="handleClose" width="80vw">
+                            <iframe :src="PDFsrc" frameborder="0" style="width: 75vw; height: 70vh"></iframe>
                         </el-dialog>
                     </div>
                 </el-card>
@@ -148,6 +156,9 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 
+const guideButton = ref(false)
+const PDFsrc = ref("")
+const isViewPdf20 = ref(false);
 const addperson = ref(false);
 const addequiment = ref(false)
 const personID = ref()
@@ -197,32 +208,46 @@ const riskEquiment = ref([{
     id: 1,
     name: '生物安全柜',
     checked: false,
+    guide: 'device_guide/Biological_safety_cabinets.pdf'
 }, {
     id: 2,
     name: '自动化液体处理系统',
     checked: false,
+    guide: 'device_guide/Automated_liquid_handling_systems.pdf'
 }, {
     id: 3,
     name: 'PCR仪',
     checked: false,
+    guide: 'device_guide/PCR.mp4'
 }, {
     id: 4,
     name: '离心机',
     checked: false,
+    guide: 'device_guide/Centrifuge.pdf'
 }, {
     id: 5,
     name: '电泳系统',
     checked: false,
+    guide: 'device_guide/Electrophoresis_system.pdf'
 },
 ])
-
+const handleClose = () => {
+    PDFsrc.value = "";
+    isViewPdf20.value = false;
+}
+const viewGuide = (guide) => {
+    isViewPdf20.value = true;
+    PDFsrc.value = guide;
+}
 const addEquiment = () => {
     addequiment.value = false;
 
     riskEquiment.value.forEach((equipment) => {
-        console.log(equipment)
         if (equipment.checked) {
-            form.equipment.push({ id: equipment.id, name: equipment.name });
+            if(equipment.guide != null)
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : true});
+            else
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : false});
         }
     });
 }
@@ -333,12 +358,13 @@ const onSubmit = () => {
     font-size: 14px;
     color: rgb(96, 98, 102);
 }
+
 .next-button {
-  position: absolute;
-  bottom: 15px;
-  /* 距离底部的间距 */
-  right: 20px;
-  /* 距离右侧的间距 */
+    position: absolute;
+    bottom: 15px;
+    /* 距离底部的间距 */
+    right: 20px;
+    /* 距离右侧的间距 */
 }
 </style>
   
