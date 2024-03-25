@@ -28,6 +28,10 @@ const router = createRouter({
       name:'index',
       component:()=>import('@/views/index.vue'),
     },{
+      path:'/disposition_object',
+      name:'disposition_object',
+      component:()=>import('@/views/disposition_object.vue'),
+    },{
       path:'/risk',
       name:'risk',
       component:()=>import('@/views/risk/risk1.vue')

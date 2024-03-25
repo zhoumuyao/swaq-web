@@ -208,27 +208,27 @@ const riskEquiment = ref([{
     id: 1,
     name: '生物安全柜',
     checked: false,
-    guide: 'device_guide/Biological_safety_cabinets.pdf'
+    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
 }, {
     id: 2,
     name: '自动化液体处理系统',
     checked: false,
-    guide: 'device_guide/Automated_liquid_handling_systems.pdf'
+    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
 }, {
     id: 3,
     name: 'PCR仪',
     checked: false,
-    guide: 'device_guide/PCR.mp4'
+    guide: 'src/views/risk/device_guide/PCR.mp4'
 }, {
     id: 4,
     name: '离心机',
     checked: false,
-    guide: 'device_guide/Centrifuge.pdf'
+    guide: 'src/views/risk/device_guide/Centrifuge.pdf'
 }, {
     id: 5,
     name: '电泳系统',
     checked: false,
-    guide: 'device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
 },
 ])
 const handleClose = () => {
@@ -244,10 +244,12 @@ const addEquiment = () => {
 
     riskEquiment.value.forEach((equipment) => {
         if (equipment.checked) {
-            if(equipment.guide != null)
+            if(equipment.guide != null){
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : true});
+            }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : false});
+            equipment.checked = false;
         }
     });
 }
@@ -258,6 +260,7 @@ const addPerson = () => {
         console.log(person)
         if (person.checked) {
             form.person.push({ id: person.id, name: person.name });
+            equipment.checked = false;
         }
     });
 }

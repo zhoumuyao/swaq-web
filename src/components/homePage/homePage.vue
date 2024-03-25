@@ -578,6 +578,11 @@ export default {
       myChart.on("click", function (params) {
         if (params.dataType === "node") {
           console.log(params)
+          if (params.data.name === "处置对象") {
+            that.$router.push({
+              path: `/disposition_object`
+            })
+          }
           if (params.data.name === "风险评估") {
             that.$router.push({
               path: `/risk0`
