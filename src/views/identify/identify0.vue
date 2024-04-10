@@ -5,7 +5,8 @@
       <router-view></router-view>
       <div>
         <!-- 检验鉴定模块-->
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+          :router="true">
           <el-menu-item index="/identify0">生物危险因子采集和检测技术</el-menu-item>
           <el-menu-item index="/identify1">染病个体解剖查验</el-menu-item>
         </el-menu>
@@ -35,8 +36,11 @@
             <div style="  display: flex;justify-content: center;align-items: flex-start; margin-top: 2vh;">
               <el-card class="card_container">
                 <!-- 采集对象 -->
-                <div v-if="active1 === 0" class="center-container">
-                  <el-card style="height: 55vh;width: 20vw;margin-left: 40px">
+                <div v-if="active1 === 0" class="">
+                  <div v-for="(item, index) in Specimen" :key="index"
+                    style="margin-top: 15px;;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ item }}
+                  </div>
+                  <!-- <el-card style="height: 55vh;width: 20vw;margin-left: 40px">
                     可疑感染人员
                     <div v-for="(people, index) in people" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ people }}
                     </div>
@@ -48,27 +52,32 @@
                   </el-card>
                   <el-card style="height: 55vh;width: 20vw;margin-right: 40px">
                     污染物品
-                    <!-- 循环遍历决策结果-->
                     <div v-for="(wupin, index) in wupin" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ wupin }}
                     </div>
-                  </el-card>
+                  </el-card> -->
                 </div>
                 <!-- 采样人员基本要求 -->
                 <div v-if="active1 === 1">
-                  <span>采样人员基本要求</span>
-                  <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <!-- <span>采样人员基本要求</span> -->
+                  <div style="margin-top: 15px;font-size: 20px;text-indent: 2em;">{{ text1 }}
                   </div>
                 </div>
                 <!-- 样本采样基本要求 -->
                 <div v-if="active1 === 2">
-                  <span>样本采样基本要求 </span>
-                  <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <!-- <span>样本采样基本要求 </span> -->
+                  <div style="font-size: 20px;text-indent: 2em">
+                    针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
+                  <div v-for="(text, index) in text2" :key="index"
+                    style="margin-top: 1px;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ text }}
                   </div>
+                  <div style="font-size: 20px;text-indent: 2em">
+                    以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
                 </div>
                 <!-- 采集样本种类 -->
                 <div v-if="active1 === 3">
-                  <span>采集样本种类 </span>
-                  <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <!-- <span style="font-size: 20px">采集样本种类 </span> -->
+                  <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px;font-size: 20px">{{ index + 1
+                    }}、{{ text }}
                   </div>
                 </div>
                 <!-- 样本采集和处理 -->
@@ -76,15 +85,27 @@
                   <div class="search-card">
                     <el-form ref="form" :model="form" :inline="true">
                       <el-form-item label="样本种类：" style="width: 500px">
-                        <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" />
+                        <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
+                        <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px;">
+                          <el-option v-for="sample in samples" :key="sample.type" :label="sample.type"
+                            :value="sample.type">
+                          </el-option>
+                        </el-select>
                       </el-form-item>
-                      <el-form-item>
+                      <!-- <el-form-item>
                         <el-button type="primary" :icon="Search" @click="handleSearch">一键查询</el-button>
-                      </el-form-item>
+                      </el-form-item> -->
                     </el-form>
                   </div>
                   <div class="search-content">
-                    <el-card style="width: 80vw;height: 50vh;">显示查询文字 : {{ description }}</el-card>
+                    <el-card style="width: 80vw;height: 50vh;">
+                      <div v-if="selectedSample">
+                        <h3>采集方法：</h3>
+                        <p>{{ getSampleByType(selectedSample)?.collectionMethod }}</p>
+                        <h3>处理方法：</h3>
+                        <p>{{ getSampleByType(selectedSample)?.collectionMethod }}</p>
+                      </div>
+                    </el-card>
                   </div>
                   <div>
 
@@ -94,25 +115,38 @@
                 <div v-if="active1 === 5" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
-                    <img src="https://i2.sinaimg.cn/IT/2009/0302/20093281737.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="https://i2.sinaimg.cn/IT/2009/0302/20093281737.jpg"
+                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
-                    <label>样本包装和保存</label>
+
+                    <!-- <label>样本包装和保存</label>
                     <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                    </div> -->
+                    <div style="width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/SamplePackagingAndStorage..pdf" type="application/pdf"
+                        width="100%" height="100%">
                     </div>
+
                   </el-card>
                 </div>
                 <!-- 标本送检 -->
                 <div v-if="active1 === 6" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
-                    <img src="https://img0.baidu.com/it/u=3154452766,2862523672&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img
+                      src="https://img0.baidu.com/it/u=3154452766,2862523672&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"
+                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
-                    <label>标本送检</label>
-                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+                    <!-- <label>标本送检</label>
+                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
+                    <div style="width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/SampleSubmission.pdf" type="application/pdf" width="100%"
+                        height="100%">
+                    </div>
                   </el-card>
                 </div>
                 <el-button v-if="active1 > 0" class="back-button" size="large" @click="back1" type="primary">
@@ -142,49 +176,70 @@
                 <!-- 实验室活动生物安全要求 -->
                 <div v-if="active2 === 0" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex">
-                    <img src="https://img-qn.51miz.com/preview/photo/00/01/57/75/P-1577525-2920B238.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="https://img.cjyun.org/a/10135/202008/ba7b58cda32e5665521a5e97aedc706b.jpeg"
+                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                     <!-- <label>显示图片</label> -->
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
-                    <label>实验室活动生物安全要求 </label>
-                    <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>
+                    <!-- <label>实验室活动生物安全要求 </label>
+                    <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
+                    <div style="width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/LSBR.pdf" type="application/pdf" width="100%" height="100%">
+                    </div>
                   </el-card>
                 </div>
                 <!-- 检测人员要求 -->
                 <div v-if="active2 === 1">
-                  <span>样本采样基本要求</span>
-                  <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <!-- <span>样本采样基本要求</span> -->
+                  <div style="margin-top: 15px;font-size: 20px;text-indent: 2em">{{ text7 }}
                   </div>
                 </div>
                 <!-- 检测方法 -->
                 <div v-if="active2 === 2" style="">
+                  <div style="margin-left: 0;">
+                    <el-button plain @click="centerDialogVisible = true">
+                      查看说明
+                    </el-button>
+                  </div>
                   <div class="text-center">
+
+
                     <span style="margin-right: 10px; font-size: 16px;">检测方法：</span>
                     <el-select v-model="selectedOption" placeholder="请选择">
                       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item">
                       </el-option>
                     </el-select>
                     <!-- 毒素 -->
-                    <span v-if="selectedOption.value === 'toxin'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
-                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素">
-                      <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
+                    <span v-if="selectedOption.value === 'toxin'"
+                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
+                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption"
+                      placeholder="请选择毒素">
+                      <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label"
+                        :value="toxin.value"></el-option>
                     </el-select>
                     <!-- 细菌 -->
-                    <span v-if="selectedOption.value === 'bacteria'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
-                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption" placeholder="请选择细菌">
-                      <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label" :value="bacteria.value"></el-option>
+                    <span v-if="selectedOption.value === 'bacteria'"
+                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
+                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption"
+                      placeholder="请选择细菌">
+                      <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label"
+                        :value="bacteria.value"></el-option>
                     </el-select>
                     <!-- 病毒 -->
-                    <span v-if="selectedOption.value === 'virus'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
-                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption" placeholder="请选择病毒">
-                      <el-option v-for="virus in virus_list" :key="virus" :label="virus.label" :value="virus.value"></el-option>
+                    <span v-if="selectedOption.value === 'virus'"
+                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
+                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption"
+                      placeholder="请选择病毒">
+                      <el-option v-for="virus in virus_list" :key="virus" :label="virus.label"
+                        :value="virus.value"></el-option>
                     </el-select>
                   </div>
 
                   <div v-if="selectedOption" class="mt-4">
                     <div v-if="selectedOption.value === 'bacteria'" style="height: 100%;">
-                      <div v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')" style="height: 100%;">
+                      <div v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')"
+                        style="height: 100%;">
                         <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
                           <span>暂无内容</span>
                         </div>
@@ -211,7 +266,8 @@
                       </el-tabs> -->
                     </div>
                     <div v-if="selectedOption.value === 'virus'" style="height: 100%;">
-                      <div v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')" style="height: 100%;">
+                      <div v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')"
+                        style="height: 100%;">
                         <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
                           <span>暂无内容</span>
                         </div>
@@ -237,27 +293,39 @@
                         </el-tab-pane>
                       </el-tabs> -->
                     </div>
-                    <div v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')" style="height: 100%;">
+                    <div
+                      v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')"
+                      style="height: 100%;">
                       <div style="height: 100%;display: flex; justify-content: center; align-items: center;">
                         <span>暂无内容</span>
                       </div>
                     </div>
 
-                    <div v-if="selectedOption.value === 'toxin' && toxinselectedOption === 'ricin'" class="mt-4" style="  display: flex;">
+                    <div v-if="selectedOption.value === 'toxin' && toxinselectedOption === 'ricin'" class="mt-4"
+                      style="  display: flex;">
                       <div style="width: 40%;height: 100%;display: flex; flex-direction: column;">
                         <div style="display: flex;justify-content: center;align-items: center;">
-                          <img src="./image/1.jpg" alt="试剂图片" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                          <img src="./image/1.jpg" alt="试剂图片"
+                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                         <div style="display: flex;justify-content: center;align-items: center;">
-                          <img src="./image/2.jpg" alt="试剂图片" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                          <img src="./image/2.jpg" alt="试剂图片"
+                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                       </div>
                       <div style=" width: 60%;height: 100%;">
-                        <embed src="src/views/identify/PDF/readMe.pdf" type="application/pdf" width="100%" height="100%;">
+                        <embed src="src/views/identify/PDF/readMe.pdf" type="application/pdf" width="100%"
+                          height="100%;">
                       </div>
                     </div>
 
                   </div>
+
+                  <el-dialog v-model="centerDialogVisible" title="说明" width="800px" destroy-on-close draggable>
+                    <div style=" width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/LTA.pdf" type="application/pdf" width="100%" height="100%;">
+                    </div>
+                  </el-dialog>
 
 
                 </div>
@@ -323,6 +391,8 @@ const virus_list = [
 const toxinselectedOption = ref('')
 const bacteriaselectedOption = ref('')
 const virusselectedOption = ref('')
+const selectedSample = ref(null)
+const centerDialogVisible = ref(false)
 const options = ref([
   {
     value: 'bacteria',
@@ -369,26 +439,76 @@ const active2 = ref(0)
 const description = ref('')
 const activeIndex = ref('/identify0')
 
-const text1 = ref([
-  "健康状态：采样人员应该处于良好的健康状态，没有明显的传染病症状。这是为了降低其他人员的感染风险，并确保采样结果的准确性。",
-  "培训和资质：采样人员应该接受过相关培训，并具备必要的资质和技能，以正确、安全地采集样本。这包括了解正确的采样技术、使用适当的工具和设备，以及遵循标准操作程序。",
-  "防护措施：采样人员应该佩戴适当的个人防护装备，如口罩、手套、防护服等，以保护自身和被采样者免受潜在的感染风险。",
-  "遵循规程：采样人员应该遵循相关的规程、指南和标准操作程序，以确保采样过程的一致性和质量控制。这包括采样时的正确操作步骤、样本标识和记录等。",
-  "沟通和隐私保护：采样人员应该具备良好的沟通能力，能够与被采样者进行有效的交流，并尊重其隐私权。他们应该能够解答被采样者可能有的问题，并提供必要的信息和指导。"])
+
+const Specimen = ref([
+  "生物样本：可疑感染人员和需要检测的人员、组织、排泄物、呕吐物、分泌物、涂抹物。",
+  "环境样本：可能被污染的环境或物品，如在突发公共卫生事件现场采集的水、空气、土壤、食品等。",
+]);
+const text1 = ref(
+  "从事样本采集的技术人员应当经过生物安全、各种防护设备使用的技术培训并考核通过。同时需熟悉样本采集方法，熟练掌握样本采集操作流程。应严格按照操作流程进行采样，并按要求做好样本信息记录，确保样本质量符合要求，样本及相关信息可追溯。",
+)
 const text2 = ref([
-  "采样应在适当的环境下进行：对于生物危险因子，采样环境应当是清洁、无污染的。如果可能，应当在生物安全柜中进行操作。",
-  "采样工具：应使用无菌的器具进行采样，以防止样本被污染。工具的选择应当基于样本类型和采样环境。",
-  "样本标记：每个样本应当被清晰地标记，包括采样日期、样本类型、来源等信息，以便于后续的样本管理和分析。",
-  "样本存储：采集的样本应当立即进行适当的处理和存储，以保持其新鲜度和完整性。这可能需要特殊的存储条件，如低温冷藏或特定的介质。",
-  "样本运输：如果样本需要送往其他地方进行检测，应当遵循适当的运输规定，确保样本的安全和完整。"
+  "保护人员安全：所有参与采集工作的人员必须穿戴适当的个人防护装备，包括防护服、口罩、手套、护目镜等。",
+  "消毒和无菌操作：采集器材必须经过严格的消毒处理或使用无菌器材，以防止样本污染。同时采集现场和操作台面等必须进行彻底的清洁和消毒。",
+  "采集流程标准化：采集操作流程必须标准化，确保每个样本的采集过程一致，减少误差。此外样本采集时应尽量避免空气污染和交叉感染。",
+  "采样部位选择：根据疾病特点，选择合适的采样部位，例如咽拭子、鼻拭子、咳痰、血液等。",
+  "样本标识和追踪：每个样本必须清晰样识，包括采集时间、采集地点、采集人员等信息，以确保样本的追溯性和准确性。",
+  "样本运输和存储：采集后的样本必须妥善包装，并按照相关要求进行运输和存储，确保样本的完整性和稳定性。",
+  "及时送检和处理：采集到的样本必须及时送检，并按照相应的处理流程进行处理，以确保能够得到准确的诊断结果，并及时采取相应的措施进行治疗或防控。",
+  "监测样本采集要求：对于物品和环境监测的样本采集，应根据监测对象的特点和要求，选择合适的采样方法和器材，确保采集的样本具有代表性和准确性。"
 ]);
 const text3 = ref([
-  "血液样本：广泛用于检测各种病毒、细菌、寄生虫等病原体，以及各种生物标志物。",
-  "唾液样本：常用于病毒检测，如流感病毒、新冠病毒等。",
-  "组织样本：可以提供病原体在宿主体内的分布和影响情况，常用于组织病理学研究。",
-  "粪便样本：常用于消化道寄生虫、细菌等病原体的检测。",
-  "尿液样本：常用于泌尿系统病原体的检测，也可用于一些生物标志物的检测。"
+  "上呼吸道样本：包括鼻拭子、咽拭子等。",
+  "下呼吸道样本：深咳痰液、肺泡灌洗液、支气管灌洗液、呼吸道吸取物等。",
+  "粪便样本：留取粪便样本约10克（花生大小），如果不便于留取粪便样本，可采集肛拭子。",
+  "血液样本：采集抗凝血，采集量为3-5ml，建议使用含有EDTA抗凝剂的真空釆血管采集血液。",
+  "血清样本：尽量采集急性期、恢复期双份血清。第一份血清应当尽早（最好在发病后7天内）采集，第二份血清应当在发病后第3～4周采集。采集量为3-5ml，建议使用无抗凝剂的真空采血管。血清样本主要用于抗体的测定，不进行核酸检测。",
+  "尿样本：留取中段晨尿，采集量2～3ml。",
+  "物体表面样本：从生物危险现场可能被污染的表面进行涂抹采集的样本，如墙壁、地板、家具、设备等。",
+  "污水样本：根据海运口岸大型进口冷冻物品加工处理场所排水系统分布情况，重点选取污水排水口、内部管网汇集处、污水流向的下游或与市政管网的连接处等2～3处点位进行采样。"
 ]);
+const samples = ref([
+  {
+    type: '鼻拭子',
+    collectionMethod: '使用消毒后的拭子，沿下鼻道的底部向后缓缓深入，轻轻擦拭黏膜表面，确保充分接触并停留 15-30 秒以吸收分泌物。',
+    processingMethod: '将拭子放入含有运输液的样本收集管中，封闭管盖，并确保标签清晰标识采样时间、地点等信息。严格按照标准化程序送检。'
+  },
+  {
+    type: '口咽拭子',
+    collectionMethod: '被采集人员头部微仰，嘴张大，并发“啊”音，露出两侧扁桃体，将拭子越过舌根，在被采集者两侧扁桃体稍微用力来回擦拭至少3次，然后再在咽后壁上下擦拭至少3次。',
+    processingMethod: '将拭子放入含有运输液的样本收集管中，封闭管盖，并确保标签清晰标识采样时间、地点等信息。严格按照标准化程序送检。'
+  },
+  {
+    type: '痰液',
+    collectionMethod: '要求患者咳嗽深呼吸，将痰液从呼吸道中咳出，或者通过气管切开等方式直接采集。',
+    processingMethod: '将痰液样本收集到无菌容器中，密封并标记清晰，避免交叉感染，并及时送检。'
+  },
+  {
+    type: '粪便样本',
+    collectionMethod: '挑取黄豆粒大小的便样本加至无菌容器中，轻轻吹吸3～5次，室温静置10分钟，以8000rpm离心5分钟，吸取上清液进行检测，避免污染。',
+    processingMethod: '将粪便样本收集到无菌容器中，密封并标记清晰，避免交叉感染，并及时送检。'
+  },
+  {
+    type: '血液样本',
+    collectionMethod: '使用无菌注射器采集患者的静脉血样本。',
+    processingMethod: '将血液样本装入含有EDTA抗凝剂的真空采血管中，轻轻倒置混合，防止凝血，然后密封并标记清晰，避免交叉感染，并及时送检。'
+  },
+  {
+    type: '血清样本',
+    collectionMethod: '同血液样本采集方法相同，但需要用真空负压采血管采集血液标本静置一段时间后进行离心分离，获取血清。',
+    processingMethod: '将血清样本收集到干净的离心管中，密封并标记清晰，避免交叉感染，并及时送检。'
+  },
+  {
+    type: '尿样本',
+    collectionMethod: '使用无菌容器收集患者早晨第一次排尿的尿液样本。',
+    processingMethod: '将尿液样本收集到无菌容器中，密封并标记清晰，避免交叉感染，并及时送检。'
+  },
+  {
+    type: '物体表面样本',
+    collectionMethod: '使用消毒后的拭子或采样棉签，从物体表面进行擦拭或拭取样本。',
+    processingMethod: '将拭子或采样棉签放入含有运输液的样本收集管中，封闭管盖，并确保标签清晰标识采样时间、地点等信息。严格按照标准化程序送检。'
+  }
+])
 const text4 = ref([
   "样本包装：采集的样本应该被放置在无菌的、有标签的样本容器中。依据样本的种类，可以选择不同的容器，如真空血管、试管、塑料瓶等。",
   "样本保存：采集后的样本应立即进行适当的保存，以防止其降解或变质。对于大多数的生物样本，需要在2-8℃的冷藏环境中保存。某些特殊的样本，如RNA，可能需要在更低的温度下保存。",
@@ -407,13 +527,9 @@ const text6 = ref([
   "实验室必须定期进行消毒，以维持实验环境的清洁。",
   "实验室人员必须遵守实验室的规章制度，如禁止在实验室内饮食、禁止无目的的实验等。"
 ]);
-const text7 = ref([
-  "专业知识：检测人员应具备微生物学、生物化学或相关领域的专业知识，能够理解并执行生物危险因子的采集和检测任务。",
-  "操作技能：检测人员需要具备实验室操作技能，包括样本的采集、保存、处理和检测。他们应该熟练掌握各种实验设备和技术。",
-  "生物安全知识：检测人员应该了解生物危险因子的潜在风险，包括感染风险、毒性风险等，并知道如何通过个人防护装备、实验操作规程等方式来减小这些风险。",
-  "紧急应对能力：在面对生物事故时，检测人员应该知道如何采取紧急措施，如隔离泄漏源、进行个人防护、报告事故等。",
-  "持续学习：由于生物危险因子和检测技术的知识在不断更新，检测人员应该具有持续学习的能力，定期参加培训，获取最新的科学知识和技术信息。"
-]);
+const text7 = ref(
+  "实验室检测技术人员应当具备实验室工作经历以及相关专业技术技能，接受过致病性病原相关检验检测技能培训。此外检测机构应当按照所开展检测项目及标本量配备实验室检测人员，以保证及时、高效完成检测和结果报告。",
+);
 const wupin = ref(['手套', '防护服', '实验室器皿', '实验室样本管'])
 const people = ref(['张三', '李四'])
 const people2 = ref(['王五'])
@@ -435,6 +551,12 @@ const back2 = () => {
     console.log(activeName.value)
   }
 }
+
+
+const getSampleByType = (selectedSampleType) => {
+  return samples.value.find((sample) => sample.type === selectedSampleType);
+}
+
 </script>
 
 

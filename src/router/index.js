@@ -49,6 +49,28 @@ const router = createRouter({
       component:()=>import('@/views/risk/risk0.vue')
     },
     {
+      path:'/rapid_identification',
+      name:'rapid_identification',
+      component:()=>import('@/views/risk/rapid_identification.vue'),
+      children:[
+        {
+          path:'/basePairs',
+          name:'basePairs',
+          component:()=>import('@/components/rapidIdentification/basePairs.vue'),
+        },
+        {
+          path:'/infrared',
+          name:'infrared',
+          component:()=>import('@/components/rapidIdentification/infrared.vue'),
+        },
+        {
+          path:'/raman',
+          name:'raman',
+          component:()=>import('@/components/rapidIdentification/raman.vue'),
+        }
+      ]
+    },
+    {
       path:'/handle',
       name:'handle',
       component:()=>import('@/views/handle.vue')

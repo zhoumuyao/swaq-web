@@ -10,7 +10,7 @@
       <div style="margin-left: 30px; margin-top: 30px;">
         <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
           <el-step title="计划和准备"></el-step>
-          <el-step title="风险识别"></el-step>
+          <el-step title="风险识别/快速鉴定"></el-step>
           <el-step title="风险分析"></el-step>
           <el-step title="风险评价"></el-step>
         </el-steps>
@@ -25,8 +25,9 @@
                   <span class="label">风险发生的可能性分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input> -->
-                <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1
-                }}、{{ text }}</div>
+                <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+          1
+                  }}、{{ text }}</div>
               </el-card>
 
               <el-card class="field_hazard">
@@ -35,8 +36,9 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
                -->
-                <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px; font-size: medium">{{ index + 1
-                }}、{{ text }}</div>
+                <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px; font-size: medium">{{ index +
+          1
+                  }}、{{ text }}</div>
               </el-card>
 
               <el-card class="jugehappen">
@@ -44,8 +46,9 @@
                   <span class="label">附近居民生命健康影响分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input> -->
-                <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1
-                }}、{{ text }}</div>
+                <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+          1
+                  }}、{{ text }}</div>
               </el-card>
 
               <el-card class="jugehappen">
@@ -54,8 +57,9 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
                -->
-                <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1
-                }}、{{ text }}</div>
+                <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+          1
+                  }}、{{ text }}</div>
               </el-card>
             </div>
             <div class="last_row">
@@ -65,8 +69,9 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
               -->
-                <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px; font-size: medium;">{{ index + 1
-                }}、{{ text }}</div>
+                <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+          1
+                  }}、{{ text }}</div>
               </el-card>
             </div>
           </div>
@@ -116,12 +121,12 @@
                 <template #default="{ row }">
                   <el-checkbox v-model="row.checked"></el-checkbox>
                 </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </div>
-        
-      </div> -->
+</el-table-column>
+</el-table>
+</div>
+</div>
+
+</div> -->
 
 
       <!-- <div>

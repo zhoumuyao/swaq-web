@@ -9,7 +9,7 @@
             <div class="steps">
                 <el-steps :active="0" finish-status="success" style="width: 50%; margin-left: 25%;">
                     <el-step title="计划和准备"></el-step>
-                    <el-step title="风险识别"></el-step>
+                    <el-step title="风险识别/快速鉴定"></el-step>
                     <el-step title="风险分析"></el-step>
                     <el-step title="风险评价"></el-step>
                 </el-steps>
@@ -74,7 +74,8 @@
                                                 <el-table-column prop="name" label="设备名" width="" />
                                                 <el-table-column prop="guide" label="使用说明" width="120">
                                                     <template #default="{ row }">
-                                                        <el-button v-show="row.showButton" type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
+                                                        <el-button v-show="row.showButton" type="primary" size="small"
+                                                            @click="viewGuide(row.guide)">查看</el-button>
                                                     </template>
                                                 </el-table-column>
                                             </el-table>
@@ -84,15 +85,24 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk' }">
-                                <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
-                            </router-link>
+                            <el-button size="large" type="primary" style="width: 120px;"
+                                @click="isRapidIdentify = true">确认</el-button>
                         </div>
+                        <el-dialog v-model="isRapidIdentify" title="是否进行快速鉴定" width="600px" draggable>
+                            <router-link :to="{ path: '/rapid_identification' }">
+                                <el-button type="primary" style="margin-left: 20%; width: 20%;"
+                                    @click="isRapidIdentify = false">进行快速鉴定</el-button>
+                            </router-link>
+                            <router-link :to="{ path: '/risk' }">
+                                <el-button type="success" style="margin-left: 10%; width: 20%;"
+                                    @click="isRapidIdentify = false">进行常规鉴定</el-button>
+                            </router-link>
+                        </el-dialog>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
                             <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
                                 placeholder="请输入警务号"></el-input>
-                            <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;"
-                                circle></el-button>
+                            <el-button type="primary" :icon="Search" @click="handleSearch"
+                                style="display: inline-block;" circle></el-button>
                             <div>
                                 <el-table :data="riskPerson" style="width: 100%" type="selection">
                                     <el-table-column prop="id" label="警务号" width="180" fixed="left">
@@ -116,8 +126,8 @@
                         <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
                             <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
                                 placeholder="请输入设备号"></el-input>
-                            <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;"
-                                circle></el-button>
+                            <el-button type="primary" :icon="Search" @click="handleSearch"
+                                style="display: inline-block;" circle></el-button>
                             <div>
                                 <el-table :data="riskEquiment" style="width: 100%" type="selection">
                                     <el-table-column prop="id" label="设备号" width="180" fixed="left">
@@ -147,7 +157,7 @@
         </div>
     </div>
 </template>
-  
+
 <script setup>
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
@@ -156,6 +166,7 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 
+const isRapidIdentify = ref(false)
 const guideButton = ref(false)
 const PDFsrc = ref("")
 const isViewPdf20 = ref(false);
@@ -244,11 +255,11 @@ const addEquiment = () => {
 
     riskEquiment.value.forEach((equipment) => {
         if (equipment.checked) {
-            if(equipment.guide != null){
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : true});
+            if (equipment.guide != null) {
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
             }
             else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton : false});
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
             equipment.checked = false;
         }
     });
@@ -269,7 +280,7 @@ const onSubmit = () => {
     console.log('submit!')
 }
 </script>
-  
+
 <style scoped>
 .app {
     display: flex;
@@ -370,4 +381,3 @@ const onSubmit = () => {
     /* 距离右侧的间距 */
 }
 </style>
-  

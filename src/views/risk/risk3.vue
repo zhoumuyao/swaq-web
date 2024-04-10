@@ -9,7 +9,7 @@
             <div style="margin-left: 30px; margin-top: 30px;">
                 <el-steps :active="3" finish-status="success" style="width: 50%; margin-left: 25%;">
                     <el-step title="计划和准备"></el-step>
-                    <el-step title="风险识别"></el-step>
+                    <el-step title="风险识别/快速鉴定"></el-step>
                     <el-step title="风险分析"></el-step>
                     <el-step title="风险评价"></el-step>
                 </el-steps>
@@ -76,11 +76,12 @@
                     </div>
                     <div class="next-button" style="margin-left: 40%;">
                         <router-link :to="{ path: '/risk2' }">
-                            <el-button size="large" type="primary" style="margin-top: 10px; width: 120px;">上一步</el-button>
+                            <el-button size="large" type="primary"
+                                style="margin-top: 10px; width: 120px;">上一步</el-button>
                         </router-link>
                         <router-link :to="{ path: '/risk0' }">
-                            <el-button size="large" type="primary" style="margin-top: 10px; ;margin-left: 30px;width: 120px;"
-                                @click="next">完成</el-button>
+                            <el-button size="large" type="primary"
+                                style="margin-top: 10px; ;margin-left: 30px;width: 120px;" @click="next">完成</el-button>
                         </router-link>
                     </div>
                 </el-card>
@@ -174,7 +175,7 @@
         </div>
     </div>
 </template>
-  
+
 <script setup>
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
@@ -321,7 +322,7 @@ function selectFile() {
     this.$refs.fileInput.click();
 };
 </script>
-  
+
 <style scoped>
 .app {
     display: flex;
@@ -402,4 +403,3 @@ function selectFile() {
     /* 上边界距离 */
 }
 </style>
-  
