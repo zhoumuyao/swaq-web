@@ -1,0 +1,67 @@
+<template>
+  <div class="sidebar">
+    <ul>
+      <li v-for="item in menuItems" :key="item.id" :class="{ active: item.isActive }" @click="navigateTo(item.route)">
+        {{ item.name }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      menuItems: [
+        { id: 1, name: '主页', isActive: true, route: 'index' },
+        { id: 2, name: '处置对象', isActive: false, route: 'disposition_object' },
+        { id: 3, name: '风险评估', isActive: false, route: 'risk0' },
+        { id: 4, name: '现场处置', isActive: false, route: 'handle1' },
+        { id: 5, name: '检验鉴定', isActive: false, route: 'identify0' },
+        // 添加更多菜单项...
+      ]
+    };
+  },
+  methods: {
+    navigateTo(route) {
+      this.menuItems.forEach(item => {
+        item.isActive = (item.route === route);
+      });
+      this.$router.push({ name: route });
+    }
+  }
+};
+</script>
+
+<style>
+.sidebar {
+  width: 200px;
+  background-color: #20232a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  /* 添加其他样式，如滚动条等 */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #fff;
+}
+
+.sidebar li:hover {
+  background-color: #3a3f4b;
+}
+
+.sidebar li.active {
+  background-color: #4f5462;
+  font-weight: bold;
+}
+</style>
