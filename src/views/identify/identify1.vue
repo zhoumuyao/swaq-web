@@ -38,26 +38,35 @@
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;overflow: auto;">
-                    <label>相应的设备</label>
-                    <div style="margin-top: 15px;">{{ device }}</div>
+                    <!-- <label>相应的设备</label>
+                    <div style="margin-top: 15px;">{{ device }}</div> -->
+                    <div style=" width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/LabRequirements.pdf" type="application/pdf" width="100%" height="100%;">
+                    </div>
                   </el-card>
                 </div>
                 <!-- 解剖员基本要求 -->
                 <div v-if="active1 === 1">
-                  <span>解剖员文字规程</span>
-                  <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
+                  <!-- <span>解剖员文字规程</span> -->
+                  <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px;font-size: 20px;">{{ index + 1 }}、{{ text }}
                   </div>
                 </div>
                 <!-- 规章制度和规范操作规程 -->
                 <div v-if="active1 === 2" style="overflow: auto;">
                   <!-- <span>规章制度和规范操作规程 </span> -->
-                  <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/R&R.pdf" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 应急预案 -->
                 <div v-if="active1 === 3" style="overflow: auto;">
                   <!-- <span>应急预案 </span> -->
-                  <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/EAP.pdf" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <el-button v-if="active1 > 0" class="back-button" size="large" @click="back1" type="primary">
@@ -94,27 +103,42 @@
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
                     <!-- <label>尸检操作原则 </label> -->
-                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ text }}</div>
+                    <!-- <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ text }}</div> -->
+                    <div style=" width: 100%;height: 50vh;">
+                      <embed src="src/views/identify/PDF/PM.pdf" type="application/pdf" width="100%" height="100%;">
+                    </div>
                   </el-card>
                 </div>
                 <!-- 解剖查验操作及病变检查程序 -->
                 <div v-if="active2 === 1">
                   <!-- <span>解剖查验操作及病变检查程序</span> -->
-                  <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/SampleSubmission.pdf" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 脏器检查 -->
                 <div v-if="active2 === 2">
                   <!-- <span>脏器检查</span> -->
-                  <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/OrganExamination.pdf" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 尸检标本的采集与留取规定 -->
                 <div v-if="active2 === 3">
                   <!-- <span>尸检标本的采集与留取规定</span> -->
-                  <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/PreservationGuidelines.pdf " type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
+
+
+
 
                 <el-button v-if="active2 > -1" class="back-button" size="large" @click="back2" type="primary">
                   上一步
@@ -143,25 +167,37 @@
                 <!--医疗废物处理原则 -->
                 <div v-if="active3 === 0">
                   <!-- <span>医疗废物处理原则</span> -->
-                  <div v-for="(text, index) in medicalWastePrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in medicalWastePrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/MWMP.pdf " type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 解剖器械处理原则 -->
                 <div v-if="active3 === 1">
                   <!-- <span>解剖器械处理原则</span> -->
-                  <div v-for="(text, index) in anatomicalInstrumentPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in anatomicalInstrumentPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/ADP.pdf " type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 标本的处理原则 -->
                 <div v-if="active3 === 2">
                   <!-- <span>标本的处理原则</span> -->
-                  <div v-for="(text, index) in specimenHandlingPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in specimenHandlingPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/SPP.pdf " type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 尸检废弃物及污水处理原则 -->
                 <div v-if="active3 === 3">
                   <!-- <span>尸检废弃物及污水处理原则</span> -->
-                  <div v-for="(text, index) in autopsyWasteAndWastewaterPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  <!-- <div v-for="(text, index) in autopsyWasteAndWastewaterPrinciples" :key="index" style="margin-top: 15px">{{ text }}
+                  </div> -->
+                  <div style=" width: 100%;height: 60vh;">
+                    <embed src="src/views/identify/PDF/PMWTP.pdf " type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <el-button v-if="active3 > -1" class="back-button" size="large" @click="back3" type="primary">
@@ -187,7 +223,13 @@
             <div style="  display: flex;justify-content: center;align-items: flex-start; margin-top: 2vh;">
               <el-card class="card_container">
                 <!--标本形态学、病理学特征和分析技术 -->
+
                 <div v-if="active4 === 0">
+                  <div style="margin-left: 0;">
+                    <el-button plain @click="PMSTDialogVisible = true">
+                      查看说明
+                    </el-button>
+                  </div>
                   <div class="description">
                     <el-card class="text" style="margin:20px 20px 20px 50px;">
                       <label class="label" style="margin-left: 42%">待检测图片</label>
@@ -226,6 +268,12 @@
                 <div v-if="active4 === 1">
                   <label>显示报告</label>
                 </div>
+
+                <el-dialog v-model="PMSTDialogVisible" title="说明" width="800px" destroy-on-close draggable>
+                  <div style=" width: 100%;height: 50vh;">
+                    <embed src="src/views/identify/PDF/PMST.pdf" type="application/pdf" width="100%" height="100%;">
+                  </div>
+                </el-dialog>
 
                 <el-button v-if="active4 > -1" class="back-button" size="large" @click="back4" type="primary">
                   上一步
@@ -310,16 +358,16 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const method = ref([])
 const pathologicalFeatures = ref('')
+const PMSTDialogVisible = ref(false)
 
 const device = ref('尸检台、切片机、脱水机、吸引器、显微镜、照相设备、计量设备、消毒隔离设备、个人防护设备、病理组织取材工作台、储存和运送标本设备、尸体保存设施、污水和污物处理设施等。');
 
 const text2 = ref([
-  "健康状态：解剖员应该处于良好的健康状态，没有明显的传染病症状。",
-  "个人防护装备：解剖员在进行解剖工作时，应佩戴适当的个人防护装备，包括口罩、手套、防护服等。",
-  "解剖操作规程：解剖员应遵循标准的解剖操作规程，包括正确的解剖顺序、解剖器械的使用和操作技巧。",
-  "组织标本处理：解剖员应妥善处理解剖后的组织标本，包括正确的标记、记录和保存。",
-  "工作环境卫生：解剖员应保持工作环境的清洁和卫生，及时清理和处理解剖过程中产生的污物和废弃物。",
-  "沟通与协作：解剖员应具备良好的沟通能力，能够与团队成员和其他相关人员进行有效的交流和协作。"
+  "医学背景：解剖人员需要具备法医学或临床医学背景，并且有解剖学、病理学或相关专业的知识和经验。",
+  "专业培训：解剖人员需要接受专门的生物危险尸体解剖培训，包括解剖工作的技术操作、安全规程、个人防护措施等方面的培训。",
+  "安全意识：解剖人员应具备良好的安全意识，了解生物危险因子的风险，并能够正确使用个人防护装备和消毒设备，以最大程度地减少对自身和他人的伤害。",
+  "操作经验：解剖人员需要具备一定的解剖工作经验，熟悉解剖过程中的技术操作和注意事项，以确保解剖工作的准确性和安全性。",
+  "持证资质：解剖人员需要持有法医鉴定职业资格证书，以证明其具备从事生物危险尸体解剖工作的资质和能力。参加尸检工作的人员限制在5个人以内，其中至少有二名具有副高级以上病理专业技术职务任职资格的医师，其中有一名具有正高级病理专业技术职务任职资格的医师作为主检人员。"
 ]);
 const text3 = ref([
   "染病个体解剖查验规章制度：",
