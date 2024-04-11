@@ -26,24 +26,24 @@
                         </el-select>
                     </div>
                     <el-card class="detectionCard">
-                        <div v-if="isBasePairs == true">
+                        <div v-if="isBasePairs == true" style="height: 500px;">
                             <router-view v-slot="{ Component }">
                                 <transition name="el-fade-in-linear" mode="out-in">
-                                    <component :is="Component" style="height: 100%"/>
+                                    <component :is="Component" style="height: 100%" />
                                 </transition>
                             </router-view>
                         </div>
                         <div v-if="isInfrared == true">
                             <router-view v-slot="{ Component }">
                                 <transition name="el-fade-in-linear" mode="out-in">
-                                    <component :is="Component" style="height: 100%"/>
+                                    <component :is="Component" style="height: 100%" />
                                 </transition>
                             </router-view>
                         </div>
                         <div v-if="isRaman == true">
                             <router-view v-slot="{ Component }">
                                 <transition name="el-fade-in-linear" mode="out-in">
-                                    <component :is="Component" style="height: 100%"/>
+                                    <component :is="Component" style="height: 100%" />
                                 </transition>
                             </router-view>
                         </div>
