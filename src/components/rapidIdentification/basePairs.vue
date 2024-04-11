@@ -50,13 +50,12 @@
       </el-card>
     </div>
   </div>
-
-
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { UploadFilled, Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 
 const textarea = ref("")
 
@@ -66,8 +65,17 @@ const diseaseResult = ref("肝癌")
 
 const isinspect = ref(false)
 
+const upload = ref<UploadInstance>()
+
+const fileList = ref([]);
+
+const handlePreview = () => {
+
+}
+
 function submitbasePairs() {
   isinspect.value = true;
+  upload.value!.submit()
 }
 
 </script>
