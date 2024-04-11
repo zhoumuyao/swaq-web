@@ -40,7 +40,7 @@
                                 </transition>
                             </router-view>
                         </div>
-                        <div v-if="isRaman == true">
+                        <div v-if="isRaman == true" style="height: 500px">
                             <router-view v-slot="{ Component }">
                                 <transition name="el-fade-in-linear" mode="out-in">
                                     <component :is="Component" style="height: 100%" />
@@ -112,6 +112,9 @@ const methodChanged = (value) => {
         isRaman.value = true;
         router.push('/raman')
     }
+    console.log(isBasePairs.value)
+    console.log(isInfrared.value)
+    console.log(isRaman.value)
 }
 </script>
 
