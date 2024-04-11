@@ -33,7 +33,7 @@
                                 </transition>
                             </router-view>
                         </div>
-                        <div v-if="isInfrared == true">
+                        <div v-if="isInfrared == true" style="height: 500px">
                             <router-view v-slot="{ Component }">
                                 <transition name="el-fade-in-linear" mode="out-in">
                                     <component :is="Component" style="height: 100%" />
@@ -48,9 +48,16 @@
                             </router-view>
                         </div>
                     </el-card>
-                    <div class="next-button">
-                        <el-button size="large" type="primary" style="width: 120px;"
-                            @click="isRapidIdentify = true">确认</el-button>
+                    <div class="next-button" style="margin-top: 30px; margin-left: 30%;">
+                        <router-link :to="{ path: '/risk0', }">
+                            <el-button size="large" type="primary"
+                                style="margin-top: 12px; margin-left: 80px; width: 120px;" @click="test">上一步</el-button>
+                        </router-link>
+                        <router-link :to="{ path: '/risk2'}">
+                            <el-button size="large" type="primary"
+                                style="margin-top: 12px; margin-left: 30px; width: 120px;"
+                                @click="test">进行风险分析</el-button>
+                        </router-link>
                     </div>
                 </el-card>
             </div>
@@ -156,6 +163,7 @@ const methodChanged = (value) => {
 }
 
 .detectionCard {
+    position: relative;
     margin-top: 10px;
     height: 60vh;
     width: 100%;
