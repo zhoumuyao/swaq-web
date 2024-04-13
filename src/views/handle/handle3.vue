@@ -22,9 +22,15 @@
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
                 <el-divider></el-divider>
               </div>
-              <!-- 循环遍历决策结果-->
-              <div class="result" v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}
-              </div>
+              <el-card style="width: 100%;height: 55vh;margin-right: 40px;">
+                <div style="width: 100%;height: 50vh;">
+                  <embed src="src/views/handle/PDF/3.pdf" type="application/pdf"
+                         width="100%" height="35%">
+                </div>
+              </el-card>
+<!--              &lt;!&ndash; 循环遍历决策结果&ndash;&gt;-->
+<!--              <div class="result" v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}-->
+<!--              </div>-->
             </el-card>
 
             <el-card class="left-bottom-container" shadow="hover">
@@ -34,12 +40,18 @@
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
                 <el-divider></el-divider>
               </div>
-              <!-- 循环遍历处置意见-->
-              <div>
-                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">
-                  {{index+1}}、{{suggest}}
+              <el-card style="width: 100%;height: 30vh;margin-right: 40px;">
+                <div style="width: 100%;height: 50vh;">
+                  <embed src="src/views/handle/PDF/4.pdf" type="application/pdf"
+                         width="100%" height="35%">
                 </div>
-              </div>
+              </el-card>
+              <!-- 循环遍历处置意见-->
+<!--              <div>-->
+<!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
+<!--                  {{index+1}}、{{suggest}}-->
+<!--                </div>-->
+<!--              </div>-->
             </el-card>
 
             <el-card class="right-container" shadow="hover">
@@ -209,7 +221,7 @@ const copy = (selector) =>{
 }
 
 .card-title{
-  font-size: larger;
+  font-size: medium;
 }
 
 </style>

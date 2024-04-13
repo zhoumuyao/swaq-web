@@ -128,7 +128,6 @@
                       <embed src="src/views/identify/PDF/SamplePackagingAndStorage..pdf" type="application/pdf"
                         width="100%" height="100%">
                     </div>
-
                   </el-card>
                 </div>
                 <!-- 标本送检 -->

@@ -25,10 +25,24 @@
                 </div>
                 <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
+              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 3%">
                 上传现场图片
                 <input type="file" title="上传图片" id="upload-input" style="display:none"/>
               </el-button>
+
+              <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 3%">
+                点击查看现场勘察处置规程
+              </el-button>
+              <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
+<!--                <span>Hi there!</span>-->
+                <el-card style="width: 95%;height: 85vh;margin-right: 40px;">
+                  <div style="width: 100%;height: 85vh;">
+                    <embed src="src/views/handle/PDF/2.pdf" type="application/pdf"
+                           width="100%" height="100%">
+                  </div>
+                </el-card>
+              </el-drawer>
+
             </el-card>
             <el-card class="text" style="margin:20px 30px 20px 30px;">
               <label class="label" style="margin-left: 40%; ">基本信息录入</label>
@@ -81,6 +95,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const showImg = ref(false);
+const drawer = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
@@ -109,6 +124,9 @@ const next = () => {
       return;
     }
     router.push({ path: '/handle3' });
+}
+function handleDisplay() {
+  this.isdisplay = true;
 }
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
