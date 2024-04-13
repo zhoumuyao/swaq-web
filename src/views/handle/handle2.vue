@@ -61,12 +61,16 @@
       </div>
       <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
         <!--                <span>Hi there!</span>-->
-        <el-card style="width: 95%;height: 95vh;margin-right: 40px;">
-          <div style="width: 100%;height: 85vh;">
-            <embed src="src/views/handle/PDF/2.pdf" type="application/pdf"
+<!--        <el-card style="width: 95%;height: 95vh;margin-right: 40px;">-->
+<!--          <div style="width: 100%;height: 85vh;">-->
+<!--            <embed src="src/views/handle/PDF/2.pdf" type="application/pdf"-->
+<!--                   width="100%" height="100%">-->
+<!--          </div>-->
+<!--        </el-card>-->
+          <div style="width: 100%;height: 100%;">
+            <embed src="src/views/handle/PDF/InvestigationAndInquest.pdf" type="application/pdf"
                    width="100%" height="100%">
           </div>
-        </el-card>
       </el-drawer>
       <router-link :to="{path: '/handle1'}">
         <el-button class="previous-button" type="primary" size="large">

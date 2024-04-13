@@ -24,7 +24,7 @@
               </div>
               <el-card style="width: 100%;height: 55vh;margin-right: 40px;">
                 <div style="width: 100%;height: 50vh;">
-                  <embed src="src/views/handle/PDF/3.pdf" type="application/pdf"
+                  <embed src="src/views/handle/PDF/Decision-makingResults.pdf" type="application/pdf"
                          width="100%" height="35%">
                 </div>
               </el-card>
@@ -42,7 +42,7 @@
               </div>
               <el-card style="width: 100%;height: 30vh;margin-right: 40px;">
                 <div style="width: 100%;height: 50vh;">
-                  <embed src="src/views/handle/PDF/4.pdf" type="application/pdf"
+                  <embed src="src/views/handle/PDF/DisposalRecommendations.pdf" type="application/pdf"
                          width="100%" height="35%">
                 </div>
               </el-card>
