@@ -8,9 +8,8 @@
       </div>
 
       <div style="margin-left: 30px; margin-top: 30px;">
-        <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
+        <el-steps :active="1" finish-status="success" style="width: 50%; margin-left: 25%;">
           <el-step title="计划和准备"></el-step>
-          <el-step title="风险识别/快速鉴定"></el-step>
           <el-step title="风险分析"></el-step>
           <el-step title="风险评价"></el-step>
         </el-steps>
@@ -77,7 +76,7 @@
           </div>
           <div class="next-button" style="margin-top: 40px; margin-left: 40%;">
 
-            <router-link :to="{ path: '/risk' }">
+            <router-link :to="{ path: '/risk0' }">
               <el-button size="large" type="primary" style="margin-top: 10px; margin-left: 10px;width: 120px;"
                 @click="beforeRouteLeave">上一步</el-button>
             </router-link>

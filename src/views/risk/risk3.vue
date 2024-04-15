@@ -7,9 +7,8 @@
                 <label style="font: 20px Extra large;">风险评估模块</label>
             </div>
             <div style="margin-left: 30px; margin-top: 30px;">
-                <el-steps :active="3" finish-status="success" style="width: 50%; margin-left: 25%;">
+                <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
                     <el-step title="计划和准备"></el-step>
-                    <el-step title="风险识别/快速鉴定"></el-step>
                     <el-step title="风险分析"></el-step>
                     <el-step title="风险评价"></el-step>
                 </el-steps>
