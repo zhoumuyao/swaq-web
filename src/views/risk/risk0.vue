@@ -229,84 +229,84 @@ const riskEquiment = ref([{
     id: 1,
     name: '空气质量检测器',
     checked: false,
-    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
+    guide: 'src/views/risk/device_guide/air_condition.pdf'
 }, {
     id: 2,
     name: '水质检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
+    guide: 'src/views/risk/device_guide/water_condition_detectiver.pdf'
 }, {
     id: 3,
     name: '土壤测试仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/PCR.mp4'
+    guide: 'src/views/risk/device_guide/soil_condition_detectiver.pdf'
 }, {
     id: 4,
     name: '气体检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Centrifuge.pdf'
+    guide: 'src/views/risk/device_guide/gas_condition_detectiver.pdf'
 }, {
     id: 5,
     name: '放射性检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/radio_condition_detectiver.pdf'
 },
 {
     id: 6,
     name: '拉曼扫描器',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/lama_infrared_condition_detectiver.pdf'
 },
 {
     id: 7,
     name: '红外线探测器',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/infrared_condition_detectiver.pdf'
 },
 {
     id: 8,
     name: '生物危险因子现场快检仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/biology_risk_condition_detectiver.pdf'
 },
 ])
 const riskEquiment2 = ref([{
     id: 9,
     name: 'PCR分析仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
+    guide: 'src/views/risk/device_guide/PCR_condition_detectiver.pdf'
 }, {
     id: 10,
     name: '荧光显微镜光谱仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Automated_liquid_handling_systems.pdf'
+    guide: 'src/views/risk/device_guide/micro_condition_detectiver.pdf'
 }, {
     id: 11,
     name: '质谱仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/PCR.mp4'
+    guide: 'src/views/risk/device_guide/mass_spectra_condition_detectiver.pdf'
 }, {
     id: 12,
     name: '酶标仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Centrifuge.pdf'
+    guide: 'src/views/risk/device_guide/ELIASA_condition_detectiver.pdf'
 }, {
     id: 13,
     name: '离心机',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/centrifugal_condition_detectiver.pdf'
 },
 {
     id: 14,
     name: 'PCR仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/PCR__detectiver.pdf'
 },
 {
     id: 15,
     name: 'ELISA分析仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
+    guide: 'src/views/risk/device_guide/ELISA__detectiver.pdf'
 },
 ])
 //暂时只有两种类型，后续加入数据库进行修改
