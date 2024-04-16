@@ -21,7 +21,7 @@
                             <el-form :model="form" label-width="auto" :inline="true">
                                 <div>
                                     <el-form-item label="检测细胞名称：" style="width: 35vw;">
-                                        <el-input v-model="form.region" style=" width: 60%;"></el-input>
+                                        <el-input v-model="form.cellname" style=" width: 60%;"></el-input>
                                     </el-form-item>
                                 </div>
                                 <div style="display: grid;grid-template-columns: 1fr 1fr;grid-gap: 20px;">
@@ -82,9 +82,9 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk2' }">
+                            <router-link :to="{ path: '/risk2', query:{ cellType: cellType }}">
                                 <el-button type="primary" style="margin-left: 10%; width:"
-                                    @click="isRapidIdentify = false" size="large">进行风险分析</el-button>
+                                    @click="jumpAnalysis" size="large">进行风险分析</el-button>
                             </router-link>
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
@@ -175,8 +175,8 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 
+const cellType = ref(0)
 const equipment = ref('现场检测仪器')
-const isRapidIdentify = ref(false)
 const guideButton = ref(false)
 const PDFsrc = ref("")
 const isViewPdf20 = ref(false);
@@ -192,7 +192,7 @@ const text = ref("");
 const form = reactive({
     province: '',
     city: '',
-    region: '',
+    cellname: '',
     range: '',
     type: [],
     method: '',
@@ -309,6 +309,16 @@ const riskEquiment2 = ref([{
     guide: 'src/views/risk/device_guide/Electrophoresis_system.pdf'
 },
 ])
+//暂时只有两种类型，后续加入数据库进行修改
+const jumpAnalysis =() => {
+    if(form.cellname == '大肠杆菌'){
+        cellType.value = 0;
+    } else if(form.cellname == '新冠病毒') {
+        cellType.value = 1;
+    } else {
+        cellType.value = 2;
+    }
+}
 const handleClose = () => {
     PDFsrc.value = "";
     isViewPdf20.value = false;

@@ -178,9 +178,9 @@
 <script setup>
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import { useRoute } from 'vue-router';
 import Sidebar from '../../components/sideBar/SideBar.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import router from "../../router";
 
 const dialogVisible = ref(false)
@@ -190,33 +190,84 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-const radio = ref("二级");
-const tableData1 = ref([{
+const route = useRoute();
+const cellType = route.query.cellType;
+
+const radio1 = ref("一级");
+const tableData11 = ref([{
     id: 1,
-    virue: '鼠疫',
+    virue: '沙门氏菌',
     checked: true,
 }, {
     id: 2,
-    virue: '霍乱',
+    virue: '嗜肺军团菌',
     checked: true,
 }, {
     id: 3,
-    virue: '麻疹',
-    checked: false,
+    virue: '诺如病毒',
+    checked: true,
 }, {
     id: 4,
-    virue: '传染性非典型肺炎',
-    checked: false,
+    virue: '痢疾杆菌',
+    checked: true,
 }, {
     id: 5,
-    virue: '猩红热',
+    virue: '金黄色葡萄球菌',
     checked: true,
 }, {
     id: 6,
     virue: '登革热',
     checked: false,
 }]);
-const tableData2 = ref([{
+const tableData21 = ref([{
+    id: 1,
+    place: '村级',
+    checked: true,
+}, {
+    id: 2,
+    place: '县级',
+    checked: false,
+}, {
+    id: 3,
+    place: '市级',
+    checked: false,
+}, {
+    id: 4,
+    place: '省级',
+    checked: false,
+}, {
+    id: 5,
+    place: '国家级',
+    checked: false,
+}])
+//临时
+const radio2 = ref("五级");
+const tableData12 = ref([{
+    id: 1,
+    virue: '登革热病毒',
+    checked: true,
+}, {
+    id: 2,
+    virue: '中东呼吸综合征冠状病毒',
+    checked: true,
+}, {
+    id: 3,
+    virue: '乙型肝炎病毒',
+    checked: true,
+}, {
+    id: 4,
+    virue: '流感病毒',
+    checked: true,
+}, {
+    id: 5,
+    virue: '艾滋病病毒',
+    checked: true,
+}, {
+    id: 6,
+    virue: '寨卡病毒',
+    checked: false,
+}]);
+const tableData22 = ref([{
     id: 1,
     place: '村级',
     checked: false,
@@ -231,12 +282,28 @@ const tableData2 = ref([{
 }, {
     id: 4,
     place: '省级',
-    checked: true,
+    checked: false,
 }, {
     id: 5,
     place: '国家级',
-    checked: false,
+    checked: true,
 }])
+const tableData1 = ref([])
+const tableData2 = ref([])
+const radio = ref("")
+
+//临时
+onMounted(() => {
+  if (cellType == 0) {
+    tableData1.value = tableData11.value;
+    tableData2.value = tableData21.value;
+    radio.value = radio1.value;
+  } else if(cellType == 1) {
+    tableData1.value = tableData12.value;
+    tableData2.value = tableData22.value;
+    radio.value = radio2.value;
+  }
+});
 
 
 const sceneImg = ref([{

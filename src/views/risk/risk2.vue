@@ -16,7 +16,7 @@
       </div>
       <div class="prepare-container">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
+          <div slot="header">
             <span>风险分析</span>
             <div class="description">
               <el-card class="jugehappen">
@@ -24,18 +24,19 @@
                   <span class="label">风险发生的可能性分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input> -->
-                <div v-for="(text, index) in text1" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+                <div v-for="(text, index) in text[0]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
+          +
           1
                   }}、{{ text }}</div>
               </el-card>
-
               <el-card class="field_hazard">
                 <div slot="header" class="field_hazardtop">
                   <span class="label">现场勘查工作产生危害分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
                -->
-                <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px; font-size: medium">{{ index +
+                <div v-for="(text, index) in text[1]" :key="index" style="margin-top: 15px; font-size: medium">{{ index
+          +
           1
                   }}、{{ text }}</div>
               </el-card>
@@ -45,7 +46,8 @@
                   <span class="label">附近居民生命健康影响分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input> -->
-                <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+                <div v-for="(text, index) in text[2]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
+          +
           1
                   }}、{{ text }}</div>
               </el-card>
@@ -56,7 +58,8 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
                -->
-                <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+                <div v-for="(text, index) in text[3]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
+          +
           1
                   }}、{{ text }}</div>
               </el-card>
@@ -68,12 +71,14 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
               -->
-                <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px; font-size: medium;">{{ index +
+                <div v-for="(text, index) in text[4]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
+          +
           1
                   }}、{{ text }}</div>
               </el-card>
             </div>
           </div>
+
           <div class="next-button" style="margin-top: 40px; margin-left: 40%;">
 
             <router-link :to="{ path: '/risk0' }">
@@ -83,7 +88,7 @@
             <keep-alive>
               <router-view></router-view>
             </keep-alive>
-            <router-link :to="{ path: '/risk3', query: { img: imageUrl } }">
+            <router-link :to="{ path: '/risk3', query: { cellType: cellType } }">
               <el-button size="large" type="primary" style="margin-top: 10px;margin-left: 30px;width: 120px;"
                 @click="goToRisk3">下一步</el-button>
             </router-link>
@@ -144,42 +149,78 @@
 <script setup>
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
 //import Sidebar from '../../components/sideBar/SideBar.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-
+const route = useRoute();
+const cellType = route.query.cellType;
+const type = ref(0);
 const showImg = ref(false);
-const imageUrl = ref("");
-const showLabel = ref(true);
-const textarea1 = ref("");
-const textarea2 = ref("");
-const textarea3 = ref("");
-const textarea4 = ref("");
-const textarea5 = ref("");
-const text = ref("");
-const text1 = ref([
-  "风险事件的历史数据：通过分析过去发生的类似风险事件的频率和规模，判断此次风险发生的概率为65%。",
-  "相关因素的影响：分析与风险事件相关的各种因素，包括外部环境、市场趋势、政策法规等，判断此次风险发生的概率为60%。",
-  // "现行控制措施的有效性：评估当前已经实施的风险控制措施对减少风险事件发生的影响，判断此次风险发生的概率为50%。",
-])
-const text2 = ref([
-  "化学危害：现场勘查可能涉及到接触有害化学物质，如有毒气体、腐蚀性物质等，可能引起中毒或化学灼伤。",
-  "身体伤害：在现场勘查中可能存在摔倒、碰撞、切割、烧伤等身体伤害风险。",
-  // "物理危害：现场勘查可能存在受到振动、噪音、辐射等物理因素的危害，长期暴露可能导致职业病。",
-])
 
-const text3 = ref([
-  "直接感染风险：如果生物安全事件涉及传染性疾病，附近居民可能面临直接感染的风险。",
-  "粉尘、气味和污染物暴露：某些生物安全事件可能导致粉尘、气味或其他污染物的释放，对附近居民的呼吸道和健康造成影响。"])
-// "心理健康影响：生物安全事件可能对附近居民的心理健康造成影响，特别是在面对疫情等紧急情况时。"])
-const text4 = ref([
-  "生物多样性损害：生物安全事件可能导致某些生物种群的大规模死亡或迁徙，对当地生态系统的物种多样性造成损害。",
-  "土壤和水体污染：某些生物安全事件可能导致有害物质的释放，对土壤和水体造成污染。",])
-// "生态系统破坏：生物安全事件可能导致生态系统结构和功能的破坏，如湿地退化、森林破坏等。"
-const text5 = ref([
-  "经济危害：生物安全事件可能对农业、畜牧业、渔业、林业等产业造成严重影响，导致经济损失。",
-  "动物危害：生物安全事件可能对家畜、野生动物和水生动物等造成危害，包括感染疾病、死亡、栖息地破坏等。"])
+const showLabel = ref(true);
+
+const text1 = ref([
+  [
+    "接触污染物：直接接触受污染的物体（如动物粪便、污水等）可能导致大肠杆菌感染，尤其是在缺乏卫生条件的环境中。",
+    "医疗操作：由于接触不洁净的器械或环境，也存在感染大肠杆菌的风险。",
+    "食品污染：大肠杆菌常常通过受污染的食品进行传播。"
+  ],
+  [
+    "感染风险：在进行现场勘查时，如果不注意个人防护措施，如穿戴手套、口罩等，可能接触到受污染的物质或环境，增加感染大肠杆菌的风险。",
+    "污染扩散：在现场勘查中可能会涉及到受污染的土壤、水源或空气等环境，如果没有采取有效的措施防止污染扩散，可能导致污染范围扩大，影响周边环境和居民健康。",
+  ],
+  [
+    "感染风险：如果附近环境受到大肠杆菌的污染，居民接触到受污染的水源、食物或土壤等可能增加感染风险。",
+    "消化道疾病：大肠杆菌的某些品系可能导致消化道感染，引起腹泻、呕吐、腹痛等症状。如果居民长期暴露在受污染环境中，可能增加患上消化道疾病的可能性。"
+  ],
+  [
+    "水体污染：大肠杆菌是一种指示性细菌。高浓度的大肠杆菌在水体中存在可能对水质造成严重影响，增加水源供水的卫生风险，也可能对水生生物的生存和繁衍产生不利影响。",
+    "土壤污染：在土壤中检测到大肠杆菌可能意味着土壤受到了污染。这种污染可能影响土壤的肥力和生态功能，对植物生长和土壤微生物群落产生负面影响。"
+  ],
+  [
+    "食品安全问题：某些品系的大肠杆菌可能存在于食品中，尤其是生吃或未经充分加热处理的食物。如果人们摄入被污染的食品，可能引起食物中毒，导致腹泻、呕吐等症状。",
+  ]
+]);
+const text2 = ref([
+  [
+    "接触传播：直接接触已感染者的呼吸道分泌物、唾液等可能导致病毒传播。",
+    "空气传播：空气中的飞沫携带病毒，尤其是在密闭环境中长时间暴露于受感染者呼吸道排出的飞沫中，容易造成病毒传播",
+    "病毒变异：病毒的变异可能会增加传播能力或减弱疫苗效果，从而增加病毒传播的风险"
+  ],
+  [
+    "感染风险：在进行新冠病毒现场勘查时，工作人员有可能接触到受感染物体表面的病毒，增加感染的风险。尤其是在密闭空间、人员密集场所或疫情严重区域进行勘查时，感染风险更高。",
+    "交叉感染：如果现场勘查工作人员没有采取必要的防护措施，易导致交叉感染，即工作人员之间相互传播病毒，增加感染范围和数量。",
+  ],
+  [
+    "感染风险：如果附近存在新冠病例或密切接触者，附近居民可能面临感染风险。特别是在社区传播较广泛时，居民接触到受感染者或受感染表面物体的机会增加",
+    "医疗资源紧张：如果疫情在附近蔓延，可能导致医疗资源紧张，包括医院床位、医护人员和防护物资等，影响居民及时就医和得到有效治疗"
+  ],
+  [
+    "医疗废弃物增加：疫情期间，医院和检疫站等医疗机构产生的医疗废弃物量大增，如口罩、手套、防护服等，如果处理不当，可能导致环境污染",
+    "塑料废弃物增加：疫情期间，个人防护物品的使用量大增，包括口罩和手套等塑料制品，如果不能妥善处理，会导致塑料废弃物增加，影响环境健康"
+  ],
+  [
+    "经济影响：新冠病毒疫情对全球经济造成了重大冲击，包括制造业、服务业、旅游业等受到严重影响，导致失业率上升、企业倒闭等经济问题",
+    "心理健康问题：疫情期间，由于社会隔离、恐慌情绪、焦虑等因素，很多人可能面临心理健康问题，如抑郁、焦虑、孤独等，需要及时关注和处理",
+    "社会秩序问题：在疫情期间，由于食品、医疗物资紧缺、信息不对称等原因，可能引发社会动荡、恐慌购物、欺诈等问题，影响社会秩序稳定"
+  ]
+]);
+
+const text = ref([])
+
+//临时
+onMounted(() => {
+  if (cellType == 0) {
+    text.value = text1.value;
+  } else if(cellType == 1){
+    text.value = text2.value;
+  } else {
+    
+  }
+});
+
+
 const tableData1 = ref([{
   id: 1,
   virue: '鼠疫',
