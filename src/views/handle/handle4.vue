@@ -102,13 +102,13 @@ const closeAlert= () => {
 
 .previous-button{
   position: fixed;
-  bottom: 7%;
+  bottom: 3%;
   left: 80%;
 }
 
 .next-button {
   position: fixed;
-  bottom: 7%;
+  bottom: 3%;
   right: 7%;
 }
 
