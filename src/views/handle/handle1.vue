@@ -48,13 +48,14 @@
                   </div>
                 </el-col>
                 <el-col :span="4">
-<!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先放着-->
-<!--                  <div>-->
-<!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
-<!--                  </div>-->
-                      <div>
-                        <el-button type="primary" plain @click="drawer= true">查看操作规程</el-button>
-                      </div>
+                  <!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先
+                  放着-->
+                  <!--                  <div>-->
+                  <!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
+                  <!--                  </div>-->
+                  <div>
+                    <el-button type="primary" plain @click="drawer= true">现场处置规程</el-button>
+                  </div>
                 </el-col>
               </el-form-item>
 
@@ -79,20 +80,68 @@
                 </el-checkbox-group>
               </el-form-item>
 
-              <div>
+              <div class="row_box">
+                <el-row  :gutter="20">
+                  <el-col :span="12">
+                    <el-row>
+                      <div class="custom-label">环境参数</div>
+                    </el-row>
+                    <el-row>
+                      <el-col  :span="8">
+                        <el-form-item label="空气质量">
+                          <el-input v-model="form.airQuality"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="水质状况">
+                          <el-input v-model="form.waterQuality"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-form-item label="土壤状况">
+                          <el-input v-model="form.soilQuality"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </el-col>
+
+                  <el-col :span="12">
+                    <el-row>
+                      <div class="custom-label">人群情况</div>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="人口密度">
+                          <el-input v-model="form.population"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="人员活动">
+                          <el-input v-model="form.activity"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </el-col>
+
+                </el-row>
+
+              </div>
+
+              <div class="row_box">
                 <el-row>
                   <div class="custom-label">天气状况</div>
                 </el-row>
                 <el-row>
                   <el-col :span="6">
-                    <el-form-item label="湿度数值">
-                      <el-input v-model="form.humidity"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
                     <el-form-item label="温度数值">
                       <el-input v-model="form.temperature"></el-input>
                     </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="湿度数值">
+                      <el-input v-model="form.humidity"></el-input>
+                    </el-form-item>
+
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="环境风向">
@@ -107,73 +156,45 @@
                 </el-row>
               </div>
 
-              <div>
+              <div class="row_box">
                 <el-row>
                   <div class="custom-label">地理信息</div>
                 </el-row>
-                <el-form-item label="地形和地貌">
-                  <el-input type="textarea" v-model="form.desc1" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录地形特征，如山脉、河流、湖泊等，这些特征可能会影响病原体的传播路径。"></el-input>
-                </el-form-item>
-                <el-form-item label="地表覆盖">
-                  <el-input type="textarea" v-model="form.desc2" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录土壤类型、植被覆盖等地表特征，这些也可能与病原体传播和存活有关。"></el-input>
-                </el-form-item>
-              </div>
-
-              <div>
-                <el-row>
-                  <div class="custom-label">环境参数</div>
-                </el-row>
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="空气质量">
-                      <el-input v-model="form.airQuality"></el-input>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="地形和地貌">
+                      <el-input type="textarea" v-model="form.desc1" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录地形特征，如山脉、河流、湖泊等，这些特征可能会影响病原体的传播路径。"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="水质状况">
-                      <el-input v-model="form.waterQuality"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="土壤状况">
-                      <el-input v-model="form.soilQuality"></el-input>
+                  <el-col :span="12">
+                    <el-form-item label="地表覆盖">
+                      <el-input type="textarea" v-model="form.desc2" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录土壤类型、植被覆盖等地表特征，这些也可能与病原体传播和存活有关。"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
               </div>
 
-              <div>
-                <el-row>
-                  <div class="custom-label">人群情况</div>
-                </el-row>
-                <el-row>
-                  <el-col :span="8">
-                    <el-form-item label="人口密度">
-                      <el-input v-model="form.population"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-form-item label="人员活动">
-                      <el-input v-model="form.activity"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <!--                  <el-col :span="8">-->
-                  <!--                    <el-form-item label="其他特殊">-->
-                  <!--                      <el-input v-model="form.otherSpecial"></el-input>-->
-                  <!--                    </el-form-item>-->
-                  <!--                  </el-col>-->
-                </el-row>
-              </div>
-
-              <div>
+              <div class="row_box">
                 <el-row>
                   <div class="custom-label">其他特殊环境因素</div>
                 </el-row>
-              <el-row>
-                <el-input type="textarea" v-model="form.desc3" :autosize="{ minRows: 2, maxRows: 5}"
-                          placeholder="周边设施：存在的医疗设施、食品供应点等，以便提供应急支持和资源调配；动物情况：记录周边的动物种类和数量，尤其是与疫源动物相关的信息。"></el-input>
-              </el-row>
-                </div>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="周边设施">
+                      <el-input type="textarea" v-model="form.desc4" :autosize="{ minRows: 2, maxRows: 5}"
+                                placeholder="存在的医疗设施、食品供应点等，以便提供应急支持和资源调配。"></el-input>
+                    </el-form-item>
+                  </el-col>
+
+                  <el-col :span="12">
+                    <el-form-item label="动物情况">
+                      <el-input type="textarea" v-model="form.desc4" :autosize="{ minRows: 2, maxRows: 5}"
+                                placeholder="记录周边的动物种类和数量，尤其是与疫源动物相关的信息。"></el-input>
+                    </el-form-item>
+
+                  </el-col>
+                </el-row>
+              </div>
             </el-form>
           </div>
         </el-card>
@@ -182,10 +203,10 @@
       <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
         <!--                <span>Hi there!</span>-->
 
-          <div style="width: 100%;height: 100%;">
-            <embed src="src/views/handle/PDF/recordingAndProtection.pdf" type="application/pdf"
-                   width="100%" height="100%">
-          </div>
+        <div style="width: 100%;height: 100%;">
+          <embed src="src/views/handle/PDF/recordingAndProtection.pdf" type="application/pdf"
+                 width="100%" height="100%">
+        </div>
 
       </el-drawer>
 
@@ -438,12 +459,16 @@ const openSub1 = () =>{
   width: 30%;
 }
 
+.row_box{
+  padding: 15px 0 15px 0;
+  border-top: Dashed 1px #909399;
+}
+
 .custom-label{
   width: 100%;
   font-weight: bold;
   color: #333;
   font-size: 16px;
   padding: 10px 0 10px 0;
-  border-top: Dashed 1px #909399;
 }
 </style>

@@ -102,11 +102,12 @@ const router = createRouter({
       path:'/handle4',
       name:'handle4',
       component:()=>import('@/views/handle/handle4.vue')
-    },{
-      path:'/handle_sub1',
-      name:'handle_sub1',
-      component:()=>import('@/views/handle/handle_sub1.vue')
     }
+    // ,{
+    //   path:'/handle_sub1',
+    //   name:'handle_sub1',
+    //   component:()=>import('@/views/handle/handle_sub1.vue')
+    // }
 
   ]
 })
