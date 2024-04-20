@@ -154,7 +154,10 @@
                             </router-link>
                         </div>
                         <div v-show="objectClass == 1 || objectClass == 2 || objectClass == 3 || objectClass == 4">
-                            <router-link :to="{ path: '/handle1' }">
+                            <!-- <router-link :to="{ path: '/handle1' }">
+                                <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
+                            </router-link> -->
+                            <router-link :to="{ path: '/risk0' }">
                                 <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
                             </router-link>
                         </div>
