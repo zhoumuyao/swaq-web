@@ -29,7 +29,7 @@
           1
                   }}、{{ text }}</div>
               </el-card>
-              <el-card class="field_hazard">
+              <el-card class="jugehappen">
                 <div slot="header" class="field_hazardtop">
                   <span class="label">现场勘查工作产生危害分析</span>
                 </div>

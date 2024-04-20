@@ -82,7 +82,7 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk2', query:{ cellType: cellType }}">
+                            <router-link :to="{ path: '/risk', query:{ cellType: cellType }}">
                                 <el-button type="primary" style="margin-left: 10%; width:"
                                     @click="jumpAnalysis" size="large">进行风险分析</el-button>
                             </router-link>

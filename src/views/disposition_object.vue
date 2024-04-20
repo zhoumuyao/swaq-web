@@ -68,10 +68,13 @@
                                 <div><label style="font: 20px Extra large;">尸体</label></div>
                             </el-button>
                         </div>
-                        <el-dialog title="是否将尸体作为物证处理" v-model="corpseView" style="height: 200px; width: 30%; margin-top: 200px;">
+                        <el-dialog title="是否将尸体作为物证处理" v-model="corpseView"
+                            style="height: 200px; width: 30%; margin-top: 200px;">
                             <div style="text-align: center; margin-top: 20px;">
-                                <el-button type="primary" plain style="width: 120px; height: 40px;margin-right: 50px;" @click="judgeItem(true)">是</el-button>
-                                <el-button type="danger" plain style="width: 120px; height: 40px;" @click="judgeItem(false)">否</el-button>
+                                <el-button type="primary" plain style="width: 120px; height: 40px;margin-right: 50px;"
+                                    @click="judgeItem(true)">是</el-button>
+                                <el-button type="danger" plain style="width: 120px; height: 40px;"
+                                    @click="judgeItem(false)">否</el-button>
                             </div>
                         </el-dialog>
                     </div>
@@ -88,10 +91,13 @@
                                 <div><label style="font: 20px Extra large;">危险因子</label></div>
                             </el-button>
                         </div>
-                        <el-dialog title="是否进行危险因子提取" v-model="riskfactorView" style="height: 200px; width: 30%; margin-top: 200px;">
+                        <el-dialog title="是否进行危险因子提取" v-model="riskfactorView"
+                            style="height: 200px; width: 30%; margin-top: 200px;">
                             <div style="text-align: center; margin-top: 20px;">
-                                <el-button type="primary" plain style="width: 120px; height: 40px;margin-right: 50px;" @click="extractRiskfactor(true)">是</el-button>
-                                <el-button type="danger" plain style="width: 120px; height: 40px;" @click="extractRiskfactor(false)">否</el-button>
+                                <el-button type="primary" plain style="width: 120px; height: 40px;margin-right: 50px;"
+                                    @click="extractRiskfactor(true)">是</el-button>
+                                <el-button type="danger" plain style="width: 120px; height: 40px;"
+                                    @click="extractRiskfactor(false)">否</el-button>
                             </div>
                         </el-dialog>
                     </div>
@@ -101,10 +107,14 @@
                         <label style="font-size: 20px;">填写处置对象相关信息：</label>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr;">
-                        <div style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px; display: flex;justify-content: center;">
-                            <el-image src="https://img0.baidu.com/it/u=3154452766,2862523672&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=667&amp;h=500" style="width: 95%; height: 95%;margin-top: 2.5%;"></el-image>
+                        <div
+                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px; display: flex;justify-content: center;">
+                            <el-image
+                                src="https://img0.baidu.com/it/u=3154452766,2862523672&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=667&amp;h=500"
+                                style="width: 95%; height: 95%;margin-top: 2.5%;"></el-image>
                         </div>
-                        <div style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px;">
+                        <div
+                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px;">
                             <el-form :model="form" label-width="auto" style="max-width: 600px;margin: 10px 0 0 20px;"
                                 size="large">
                                 <el-form-item>
@@ -113,16 +123,16 @@
                                 </el-form-item>
                                 <el-form-item>
                                     <label style="font-size: 16px; display: inline-block; width: 200px;">处置对象名：</label>
-                                    <el-input v-model="form.id" style="width: 800px;" placeholder="请输入处置对象名" />
+                                    <el-input v-model="form.name" style="width: 800px;" placeholder="请输入处置对象名" />
                                 </el-form-item>
                                 <el-form-item>
                                     <label style="font-size: 16px;display: inline-block; width: 100%;">时间：</label>
                                     <el-col :span="9">
-                                        <el-date-picker v-modelpx="form.date1" type="date" placeholder="请选择日期"
+                                        <el-date-picker v-model="form.date1" type="date" placeholder="请选择日期"
                                             style="width: 100%" />
                                     </el-col>
                                     <el-col :span="1" class="text-center">
-                                        <span class="text-gray-500">----</span>
+                                        <span class="text-gray-500"></span>
                                     </el-col>
                                     <el-col :span="9">
                                         <el-time-picker v-model="form.date2" placeholder="请选择具体时间" style="width:100%" />
@@ -138,7 +148,7 @@
                     </div>
 
                     <div class="next-button">
-                        <div v-show="objectClass == 6|| objectClass == 5">
+                        <div v-show="objectClass == 6 || objectClass == 5">
                             <router-link :to="{ path: '/risk' }">
                                 <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
                             </router-link>
@@ -186,20 +196,20 @@ const extractRiskfactor = (i) => {
     isItem.value = true;
     step.value = 1;
     itemView.value = false;
-    if(i){
+    if (i) {
         objectClass.value = 5;
-    }else{
+    } else {
         objectClass.value = 4;
     }
     console.log(objectClass)
 }
 
 const judgeItem = (i) => {
-    if(i){
+    if (i) {
         isItem.value = true;
         itemView.value = true;
         personView.value = false;
-    }else{
+    } else {
         step.value = 1;
         personView.value = false;
     }
@@ -217,17 +227,17 @@ const classItem = () => {
 
 const classJump = (i) => {
     objectClass.value = i;
-    if(i == 3){
+    if (i == 3) {
         corpseView.value = true;
     }
-    else if(i == 4){
+    else if (i == 4) {
         riskfactorView.value = true;
-    }else{
+    } else {
         step.value = 1;
-        if(i == 1 || i == 2){
+        if (i == 1 || i == 2) {
             personView.value = false;
         }
-        else{
+        else {
             itemView.value = false;
         }
     }
