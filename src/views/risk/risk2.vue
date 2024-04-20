@@ -19,16 +19,19 @@
           <div slot="header">
             <span>风险分析</span>
 
-            <div class="first-row">
-              <el-card class="displaypicture">
-                <div class="image-container" v-if="showornot">
-                  <el-image v-if="cellType == 0" src="src\views\risk\image\escherichia_coli.jpg"></el-image>
-                  <el-image v-else src="src\views\risk\image\COVID.jpg"></el-image>
+            <div class="description">
+              <el-card class="jugehappen">
+                <!-- <div class="jugehappen_top">
+                  <div class="jugehappentop">
+                    <span class="label">大肠杆菌</span>
+                  </div> -->
+                <div v-if="showornot" class="displaypicture">
+                  <el-image class="image-container" v-if="cellType == 0"
+                    src="src\views\risk\image\escherichia_coli.jpg"></el-image>
+                  <el-image class="image-container" v-else src="src\views\risk\image\COVID.jpg"></el-image>
+                  <!-- </div> -->
                 </div>
               </el-card>
-            </div>
-
-            <div class="description">
               <el-card class="jugehappen">
                 <div slot="header" class="jugehappentop">
                   <span class="label">风险发生的可能性分析</span>
@@ -71,8 +74,6 @@
           index + 1 }}、{{ text }}
                 </div>
               </el-card>
-            </div>
-            <div class="last_row">
               <el-card class="jugehappen">
                 <div slot="header" class="jugehappentop">
                   <span class="label">其他危害分析</span>
@@ -84,6 +85,16 @@
                 </div>
               </el-card>
             </div>
+            <!-- <div class="last_row">
+              <el-card class="jugehappen">
+                <div slot="header" class="jugehappentop">
+                  <span class="label">其他危害分析</span>
+                </div>
+                <div v-for="(text, index) in text[4]" :key="index" style="margin-top: 15px; font-size: medium;">{{
+          index + 1 }}、{{ text }}
+                </div>
+              </el-card>
+            </div> -->
           </div>
 
           <div class="next-button" style="margin-top: 40px; margin-left: 40%;">
@@ -168,7 +179,7 @@ const text2 = ref([
   [
     "经济影响：新冠病毒疫情对全球经济造成了重大冲击，包括制造业、服务业、旅游业等受到严重影响，导致失业率上升、企业倒闭等经济问题",
     "心理健康问题：疫情期间，由于社会隔离、恐慌情绪、焦虑等因素，很多人可能面临心理健康问题，如抑郁、焦虑、孤独等，需要及时关注和处理",
-    "社会秩序问题：在疫情期间，由于食品、医疗物资紧缺、信息不对称等原因，可能引发社会动荡、恐慌购物、欺诈等问题，影响社会秩序稳定"
+
   ]
 ]);
 
@@ -321,7 +332,7 @@ function beforeRouteLeave(to, from, next) {
 
 .box-card {
   position: relative;
-  height: 120vh;
+  height: 80vh;
   width: 80vw;
 }
 
@@ -330,13 +341,17 @@ function beforeRouteLeave(to, from, next) {
   font-size: smaller;
 }
 
+.jugehappen_top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
 .displaypicture {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  height: 400px;
-  font-size: smaller;
+  /* margin-top: 10px; */
 }
 
 .field_hazard {
@@ -346,6 +361,10 @@ function beforeRouteLeave(to, from, next) {
 
 .first_row {
   margin: 10px
+}
+
+.image-container {
+  height: 190px;
 }
 
 .last_row {
