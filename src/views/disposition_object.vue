@@ -149,7 +149,7 @@
 
                     <div class="next-button">
                         <div v-show="objectClass == 6 || objectClass == 5">
-                            <router-link :to="{ path: '/risk' }">
+                            <router-link :to="{ path: '/risk0' }">
                                 <el-button size="large" type="primary" style="width: 120px;">确认</el-button>
                             </router-link>
                         </div>
