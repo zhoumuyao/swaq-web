@@ -21,14 +21,20 @@
 
             <div class="description">
               <el-card class="jugehappen">
-                <!-- <div class="jugehappen_top">
-                  <div class="jugehappentop">
-                    <span class="label">大肠杆菌</span>
-                  </div> -->
                 <div v-if="showornot" class="displaypicture">
-                  <el-image class="image-container" v-if="cellType == 0"
-                    src="src\views\risk\image\escherichia_coli.jpg"></el-image>
-                  <el-image class="image-container" v-else src="src\views\risk\image\COVID.jpg"></el-image>
+                  <div class="jugehappentop">
+                    <div>
+                      <span class="label">细胞名称:</span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                      <span class="label">{{ cellName }}</span>
+                    </div>
+                  </div>
+                  <div style="text-align: center;">
+                    <el-image class="image-container" v-if="cellType == 0"
+                      src="src\views\risk\image\escherichia_coli.jpg" :fit="fill"></el-image>
+                    <el-image class="image-container" v-else src="src\views\risk\image\COVID.jpg"></el-image>
+                  </div>
                   <!-- </div> -->
                 </div>
               </el-card>
@@ -136,6 +142,8 @@ const showornot = ref(false);
 
 const src = ref(['src/views/risk/image/escherichia_coli.jpg', 'src/views/risk/image/COVID.jpg']);
 
+const cellName = ref("")
+
 const text1 = ref([
   [
     "接触污染物：直接接触受污染的物体（如动物粪便、污水等）可能导致大肠杆菌感染，尤其是在缺乏卫生条件的环境中。",
@@ -190,9 +198,11 @@ onMounted(() => {
   if (cellType == 0) {
     text.value = text1.value;
     showornot.value = true;
+    cellName.value = "大肠杆菌"
   } else if (cellType == 1) {
     text.value = text2.value;
     showornot.value = true;
+    cellName.value = "新冠病毒"
   } else {
 
   }
@@ -337,7 +347,6 @@ function beforeRouteLeave(to, from, next) {
 }
 
 .jugehappen {
-  height: 190px;
   font-size: smaller;
 }
 
@@ -348,10 +357,9 @@ function beforeRouteLeave(to, from, next) {
 }
 
 .displaypicture {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* margin-top: 10px; */
+  display: grid;
+  grid-template-columns: 3fr 5fr;
+  grid-gap: 10px;
 }
 
 .field_hazard {
