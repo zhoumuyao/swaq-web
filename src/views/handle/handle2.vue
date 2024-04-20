@@ -20,17 +20,17 @@
               <label class="label" style="margin-left: 45%">现场图片</label>
               <el-divider></el-divider>
               <div class="img">
-                <div v-show="showLabel" style="margin-left: 40%; margin-top: 45%; color: darkgray;">
+                <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                   <label style="font:14px Extra Small">请上传现场图片</label>
                 </div>
                 <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
               </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 3%">
+              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%">
                 上传现场图片
                 <input type="file" title="上传图片" id="upload-input" style="display:none"/>
               </el-button>
 
-              <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 3%">
+              <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 10%">
                 点击查看现场勘察处置规程
               </el-button>
 
@@ -79,10 +79,17 @@
       </router-link>
 
 <!--      <router-link :to="{path: '/handle3'}">-->
-      <el-button class="next-button" type="primary" size="large" @click="next">
-        下一步
-      </el-button>
+<!--      <el-button class="next-button" type="primary" size="large" @click="next">-->
+<!--        下一步-->
+<!--      </el-button>-->
 <!--      </router-link>-->
+
+      <!-- 切换页面-->
+      <router-link :to="{path: '/handle3'}">
+        <el-button class="next-button" type="primary" size="large">
+          下一步
+        </el-button>
+      </router-link>
 
     </div>
   </div>
@@ -114,20 +121,20 @@ const selectedItems = ref([]);
 
 const value = ref('');
 // 触发下一步骤
-const next = () => {
-    if (!form.value.name) {
-      // 如果 form.name 为空，弹出提示
-      alert('请填疾病名称！');
-      return; // 中断函数执行
-    } else if(!form.value.description){
-      alert('请添加疾病状况描述')
-      return;
-    } else if(radio.value===1){
-      alert('请勾选疾病性质')
-      return;
-    }
-    router.push({ path: '/handle3' });
-}
+// const next = () => {
+//     if (!form.value.name) {
+//       // 如果 form.name 为空，弹出提示
+//       alert('请填疾病名称！');
+//       return; // 中断函数执行
+//     } else if(!form.value.description){
+//       alert('请添加疾病状况描述')
+//       return;
+//     } else if(radio.value===1){
+//       alert('请勾选疾病性质')
+//       return;
+//     }
+//     router.push({ path: '/handle3' });
+// }
 function handleDisplay() {
   this.isdisplay = true;
 }
@@ -168,13 +175,13 @@ function handleUpload() {
 
 .previous-button{
   position: fixed;
-  bottom: 7%;
+  bottom: 3%;
   left: 80%;
 }
 
 .next-button {
   position: fixed;
-  bottom: 7%;
+  bottom: 3%;
   right: 7%;
 }
 
@@ -185,7 +192,7 @@ function handleUpload() {
   height: 100%;
 }
 .text{
-  height: 500px;
+  height: 93%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   border-radius: 4px;
   border: 1.2px ;
@@ -205,7 +212,7 @@ function handleUpload() {
 }
 
 .img {
-  height: 300px;
+  height: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   border-radius: 4px;
   border: 1.2px solid;

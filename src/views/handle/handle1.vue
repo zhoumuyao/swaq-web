@@ -436,7 +436,7 @@ const openSub1 = () =>{
 }
 .next-button {
   position: fixed;
-  bottom: 7%;
+  bottom: 3%;
   right: 7%;
 }
 .center-container{
