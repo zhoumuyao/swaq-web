@@ -82,9 +82,9 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk', query:{ cellType: cellType }}">
-                                <el-button type="primary" style="margin-left: 10%; width:"
-                                    @click="jumpAnalysis" size="large">进行风险分析</el-button>
+                            <router-link :to="{ path: '/risk2', query: { cellType: cellType } }">
+                                <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
+                                    size="large">进行风险分析</el-button>
                             </router-link>
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
@@ -310,10 +310,10 @@ const riskEquiment2 = ref([{
 },
 ])
 //暂时只有两种类型，后续加入数据库进行修改
-const jumpAnalysis =() => {
-    if(form.cellname == '大肠杆菌'){
+const jumpAnalysis = () => {
+    if (form.cellname == '大肠杆菌') {
         cellType.value = 0;
-    } else if(form.cellname == '新冠病毒') {
+    } else if (form.cellname == '新冠病毒') {
         cellType.value = 1;
     } else {
         cellType.value = 2;

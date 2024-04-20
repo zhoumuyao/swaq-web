@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="next-button" style="margin-left: 40%;">
-                        <router-link :to="{ path: '/risk2' }">
+                        <router-link :to="{ path: '/risk2', query: { cellType: cellType } }">
                             <el-button size="large" type="primary"
                                 style="margin-top: 10px; width: 120px;">上一步</el-button>
                         </router-link>
@@ -294,15 +294,15 @@ const radio = ref("")
 
 //临时
 onMounted(() => {
-  if (cellType == 0) {
-    tableData1.value = tableData11.value;
-    tableData2.value = tableData21.value;
-    radio.value = radio1.value;
-  } else if(cellType == 1) {
-    tableData1.value = tableData12.value;
-    tableData2.value = tableData22.value;
-    radio.value = radio2.value;
-  }
+    if (cellType == 0) {
+        tableData1.value = tableData11.value;
+        tableData2.value = tableData21.value;
+        radio.value = radio1.value;
+    } else if (cellType == 1) {
+        tableData1.value = tableData12.value;
+        tableData2.value = tableData22.value;
+        radio.value = radio2.value;
+    }
 });
 
 

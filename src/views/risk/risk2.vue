@@ -18,16 +18,25 @@
         <el-card class="box-card">
           <div slot="header">
             <span>风险分析</span>
+
+            <div class="first-row">
+              <el-card class="displaypicture">
+                <div class="image-container" v-if="showornot">
+                  <el-image v-if="cellType == 0" src="src\views\risk\image\escherichia_coli.jpg"></el-image>
+                  <el-image v-else src="src\views\risk\image\COVID.jpg"></el-image>
+                </div>
+              </el-card>
+            </div>
+
             <div class="description">
               <el-card class="jugehappen">
                 <div slot="header" class="jugehappentop">
                   <span class="label">风险发生的可能性分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input> -->
-                <div v-for="(text, index) in text[0]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
-          +
-          1
-                  }}、{{ text }}</div>
+                <div v-for="(text, index) in text[0]" :key="index" style="margin-top: 15px; font-size: medium;">{{
+          index + 1 }}、{{ text }}
+                </div>
               </el-card>
               <el-card class="jugehappen">
                 <div slot="header" class="field_hazardtop">
@@ -36,9 +45,10 @@
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
                -->
                 <div v-for="(text, index) in text[1]" :key="index" style="margin-top: 15px; font-size: medium">{{ index
-          +
-          1
-                  }}、{{ text }}</div>
+          + 1
+                  }}、{{
+          text }}
+                </div>
               </el-card>
 
               <el-card class="jugehappen">
@@ -46,10 +56,9 @@
                   <span class="label">附近居民生命健康影响分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input> -->
-                <div v-for="(text, index) in text[2]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
-          +
-          1
-                  }}、{{ text }}</div>
+                <div v-for="(text, index) in text[2]" :key="index" style="margin-top: 15px; font-size: medium;">{{
+          index + 1 }}、{{ text }}
+                </div>
               </el-card>
 
               <el-card class="jugehappen">
@@ -58,10 +67,9 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
                -->
-                <div v-for="(text, index) in text[3]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
-          +
-          1
-                  }}、{{ text }}</div>
+                <div v-for="(text, index) in text[3]" :key="index" style="margin-top: 15px; font-size: medium;">{{
+          index + 1 }}、{{ text }}
+                </div>
               </el-card>
             </div>
             <div class="last_row">
@@ -71,10 +79,9 @@
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
               -->
-                <div v-for="(text, index) in text[4]" :key="index" style="margin-top: 15px; font-size: medium;">{{ index
-          +
-          1
-                  }}、{{ text }}</div>
+                <div v-for="(text, index) in text[4]" :key="index" style="margin-top: 15px; font-size: medium;">{{
+          index + 1 }}、{{ text }}
+                </div>
               </el-card>
             </div>
           </div>
@@ -95,52 +102,6 @@
           </div>
         </el-card>
       </div>
-
-
-      <!-- <div class="description">
-        <div style="margin:20px 40px 0 100px;">
-          <label class="label">现场图片</label>
-          <div class="img">
-            <img id="image-display" :src="$route.query.img" style="height: 100%; width: 100%;">
-          </div>
-        </div>
-        <div style="margin:20px 100px 0 40px">
-          <label class="label">取样结果</label>
-          <div class="text">
-            <el-table
-              :data="tableData1"
-              style="width: 100%"
-              type="selection">
-              <el-table-column
-                prop="virue"
-                label="病毒"
-                width="270"
-                fixed="left">
-              </el-table-column>
-              <el-table-column
-                label="是否选中" 
-                width="180"
-                fixed="right"
-                prop="checked">
-                <template #default="{ row }">
-                  <el-checkbox v-model="row.checked"></el-checkbox>
-                </template>
-</el-table-column>
-</el-table>
-</div>
-</div>
-
-</div> -->
-
-
-      <!-- <div>
-        <router-link :to="{path: '/risk3', query: {img : imageUrl}}">
-          <el-button type="primary" style="margin-top: 10px; margin-left: 80px;" @click="goToRisk3">下一步</el-button>
-        </router-link>
-      </div> -->
-      <div>
-
-      </div>
     </div>
 
   </div>
@@ -159,6 +120,10 @@ const type = ref(0);
 const showImg = ref(false);
 
 const showLabel = ref(true);
+
+const showornot = ref(false);
+
+const src = ref(['src/views/risk/image/escherichia_coli.jpg', 'src/views/risk/image/COVID.jpg']);
 
 const text1 = ref([
   [
@@ -213,10 +178,12 @@ const text = ref([])
 onMounted(() => {
   if (cellType == 0) {
     text.value = text1.value;
-  } else if(cellType == 1){
+    showornot.value = true;
+  } else if (cellType == 1) {
     text.value = text2.value;
+    showornot.value = true;
   } else {
-    
+
   }
 });
 
@@ -354,7 +321,7 @@ function beforeRouteLeave(to, from, next) {
 
 .box-card {
   position: relative;
-  height: 80vh;
+  height: 120vh;
   width: 80vw;
 }
 
@@ -363,9 +330,22 @@ function beforeRouteLeave(to, from, next) {
   font-size: smaller;
 }
 
+.displaypicture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  height: 400px;
+  font-size: smaller;
+}
+
 .field_hazard {
   height: 200px;
   font-size: smaller;
+}
+
+.first_row {
+  margin: 10px
 }
 
 .last_row {
