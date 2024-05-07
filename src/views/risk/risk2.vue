@@ -84,7 +84,7 @@
                 <div slot="header" class="jugehappentop">
                   <span class="label">其他危害分析</span>
                 </div>
-                <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
+                <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input>
               -->
                 <div v-for="(text, index) in text[4]" :key="index" style="margin-top: 15px; font-size: medium;">{{
           index + 1 }}、{{ text }}
