@@ -21,12 +21,12 @@
                 <span style="margin:0 42%;">决策结果</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
                 <el-divider></el-divider>
-                <el-card style="width: 100%;height: 90%;margin-right: 40px;">
+                <div style="width: 100%;height: 90%;margin-right: 40px;">
                   <div style="width: 100%;height: 70vh">
-                    <embed src="src/views/handle/PDF/Decision-makingResults.pdf" type="application/pdf"
-                           width="100%" height="90%">
+                    <embed :src="DecisionMakingResults" type="application/pdf"
+                           width="100%" height="95%">
                   </div>
-                </el-card>
+                </div>
               </div>
             </el-card>
           <!--              &lt;!&ndash; 循环遍历决策结果&ndash;&gt;-->
@@ -40,12 +40,12 @@
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
                 <el-divider></el-divider>
               </div>
-              <el-card style="width: 100%;height: 90%;margin-right: 40px;">
+              <div style="width: 100%;height: 90%;margin-right: 40px;">
                 <div style="width: 100%;height: 100vh;">
-                  <embed src="src/views/handle/PDF/DisposalRecommendations.pdf" type="application/pdf"
-                         width="100%" height="35%">
+                  <embed :src="DisposalRecommendations" type="application/pdf"
+                         width="100%" height="40%">
                 </div>
-              </el-card>
+              </div>
               <!-- 循环遍历处置意见-->
 <!--              <div>-->
 <!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
@@ -91,6 +91,8 @@
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
+import DecisionMakingResults from './PDF/DecisionMakingResults.pdf'
+import DisposalRecommendations from './PDF/DisposalRecommendations.pdf'
 import { useRouter } from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 
@@ -165,13 +167,13 @@ const copy = (selector) =>{
 
 .previous-button{
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   left: 80%;
 }
 
 .next-button {
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   right: 7%;
 }
 .center-container{

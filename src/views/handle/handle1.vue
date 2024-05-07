@@ -204,7 +204,7 @@
         <!--                <span>Hi there!</span>-->
 
         <div style="width: 100%;height: 100%;">
-          <embed src="src/views/handle/PDF/recordingAndProtection.pdf" type="application/pdf"
+          <embed :src="recordingAndProtection" type="application/pdf"
                  width="100%" height="100%">
         </div>
 
@@ -230,6 +230,7 @@ import {
   Delete,
 } from '@element-plus/icons-vue'
 import { InfoFilled } from '@element-plus/icons-vue'
+import recordingAndProtection from './PDF/recordingAndProtection.pdf';
 
 // 当前步骤
 const active = ref(0);
@@ -436,7 +437,7 @@ const openSub1 = () =>{
 }
 .next-button {
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   right: 7%;
 }
 .center-container{
