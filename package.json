@@ -18,7 +18,7 @@
     "electron-packager": "^17.1.2",
     "element-plus": "^2.4.3",
     "pinia": "^2.1.7",
-    "vite-plugin-singlefile": "0.13.5",
+    "vite-plugin-singlefile": "^2.0.1",
     "vue": "^3.3.4",
     "vue-axios": "^3.5.2",
     "vue-icon-font": "^1.0.4",

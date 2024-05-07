@@ -174,6 +174,21 @@ import { useRouter } from "vue-router";
 import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
+import airCondition from './device_guide/air_condition.pdf'
+import waterConditionDetectiver from './device_guide/water_condition_detectiver.pdf'
+import soilConditionDetectiver from './device_guide/soil_condition_detectiver.pdf'
+import gasConditionDetectiver from './device_guide/gas_condition_detectiver.pdf'
+import radioConditionDetectiver from './device_guide/radio_condition_detectiver.pdf'
+import lamaInfraredConditionDetectiver from './device_guide/lama_infrared_condition_detectiver.pdf'
+import infraredConditionDetectiver from './device_guide/infrared_condition_detectiver.pdf'
+import biologyRiskConditionDetectiver from './device_guide/biology_risk_condition_detectiver.pdf'
+import PCRConditionDetectiver from './device_guide/PCR_condition_detectiver.pdf'
+import microConditionDetectiver from './device_guide/micro_condition_detectiver.pdf'
+import massSpectraConditionDetectiver from './device_guide/mass_spectra_condition_detectiver.pdf'
+import ELIASAConditionDetectiver from './device_guide/ELIASA_condition_detectiver.pdf'
+import centrifugalConditionDetectiver from './device_guide/centrifugal_condition_detectiver.pdf'
+import PCRDetectiver from './device_guide/PCR__detectiver.pdf'
+import ELISADetectiver from './device_guide/ELISA__detectiver.pdf'
 
 const cellType = ref(0)
 const equipment = ref('现场检测仪器')
@@ -229,84 +244,84 @@ const riskEquiment = ref([{
     id: 1,
     name: '空气质量检测器',
     checked: false,
-    guide: 'src/views/risk/device_guide/air_condition.pdf'
+    guide: airCondition
 }, {
     id: 2,
     name: '水质检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/water_condition_detectiver.pdf'
+    guide: waterConditionDetectiver
 }, {
     id: 3,
     name: '土壤测试仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/soil_condition_detectiver.pdf'
+    guide: soilConditionDetectiver
 }, {
     id: 4,
     name: '气体检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/gas_condition_detectiver.pdf'
+    guide: gasConditionDetectiver
 }, {
     id: 5,
     name: '放射性检测仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/radio_condition_detectiver.pdf'
+    guide: radioConditionDetectiver
 },
 {
     id: 6,
     name: '拉曼扫描器',
     checked: false,
-    guide: 'src/views/risk/device_guide/lama_infrared_condition_detectiver.pdf'
+    guide: lamaInfraredConditionDetectiver
 },
 {
     id: 7,
     name: '红外线探测器',
     checked: false,
-    guide: 'src/views/risk/device_guide/infrared_condition_detectiver.pdf'
+    guide: infraredConditionDetectiver
 },
 {
     id: 8,
     name: '生物危险因子现场快检仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/biology_risk_condition_detectiver.pdf'
+    guide: biologyRiskConditionDetectiver
 },
 ])
 const riskEquiment2 = ref([{
     id: 9,
     name: 'PCR分析仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/PCR_condition_detectiver.pdf'
+    guide: PCRConditionDetectiver
 }, {
     id: 10,
     name: '荧光显微镜光谱仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/micro_condition_detectiver.pdf'
+    guide: microConditionDetectiver
 }, {
     id: 11,
     name: '质谱仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/mass_spectra_condition_detectiver.pdf'
+    guide: massSpectraConditionDetectiver
 }, {
     id: 12,
     name: '酶标仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/ELIASA_condition_detectiver.pdf'
+    guide: ELIASAConditionDetectiver
 }, {
     id: 13,
     name: '离心机',
     checked: false,
-    guide: 'src/views/risk/device_guide/centrifugal_condition_detectiver.pdf'
+    guide: centrifugalConditionDetectiver
 },
 {
     id: 14,
     name: 'PCR仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/PCR__detectiver.pdf'
+    guide: PCRDetectiver
 },
 {
     id: 15,
     name: 'ELISA分析仪',
     checked: false,
-    guide: 'src/views/risk/device_guide/ELISA__detectiver.pdf'
+    guide: ELISADetectiver
 },
 ])
 //暂时只有两种类型，后续加入数据库进行修改
@@ -325,6 +340,7 @@ const handleClose = () => {
 }
 const viewGuide = (guide) => {
     isViewPdf20.value = true;
+    console.log(guide)
     PDFsrc.value = guide;
 }
 const addEquiment = () => {
