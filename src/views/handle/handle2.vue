@@ -68,7 +68,7 @@
 <!--          </div>-->
 <!--        </el-card>-->
           <div style="width: 100%;height: 100%;">
-            <embed src="src/views/handle/PDF/InvestigationAndInquest.pdf" type="application/pdf"
+            <embed :src="InvestigationAndInquest" type="application/pdf"
                    width="100%" height="100%">
           </div>
       </el-drawer>
@@ -100,6 +100,7 @@ import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
 
 const router = useRouter();
@@ -175,13 +176,13 @@ function handleUpload() {
 
 .previous-button{
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   left: 80%;
 }
 
 .next-button {
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   right: 7%;
 }
 
