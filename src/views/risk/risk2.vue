@@ -21,16 +21,16 @@
 
             <div class="description">
               <el-card class="jugehappen">
-                <div v-if="showornot" class="displaypicture">
+                <div class="displaypicture">
                   <div class="jugehappentop">
                     <div>
                       <span class="label">细胞名称:</span>
                     </div>
                     <div style="margin-top: 10px;">
-                      <span class="label">{{ cellName }}</span>
+                      <span v-if="showornot" class="label">{{ cellName }}</span>
                     </div>
                   </div>
-                  <div style="text-align: center;">
+                  <div v-if="showornot" style="text-align: center;">
                     <el-image class="image-container" v-if="cellType == 0"
                       src="src\views\risk\image\escherichia_coli.jpg" :fit="fill"></el-image>
                     <el-image class="image-container" v-else src="src\views\risk\image\COVID.jpg"></el-image>
