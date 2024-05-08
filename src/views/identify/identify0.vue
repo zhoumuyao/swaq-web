@@ -5,8 +5,7 @@
       <router-view></router-view>
       <div>
         <!-- 检验鉴定模块-->
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-          :router="true">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
           <el-menu-item index="/identify0">生物危险因子采集和检测技术</el-menu-item>
           <el-menu-item index="/identify1">染病个体解剖查验</el-menu-item>
         </el-menu>
@@ -37,8 +36,7 @@
               <el-card class="card_container">
                 <!-- 采集对象 -->
                 <div v-if="active1 === 0" class="">
-                  <div v-for="(item, index) in Specimen" :key="index"
-                    style="margin-top: 15px;;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ item }}
+                  <div v-for="(item, index) in Specimen" :key="index" style="margin-top: 15px;;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ item }}
                   </div>
                   <!-- <el-card style="height: 55vh;width: 20vw;margin-left: 40px">
                     可疑感染人员
@@ -67,8 +65,7 @@
                   <!-- <span>样本采样基本要求 </span> -->
                   <div style="font-size: 20px;text-indent: 2em">
                     针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
-                  <div v-for="(text, index) in text2" :key="index"
-                    style="margin-top: 1px;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ text }}
+                  <div v-for="(text, index) in text2" :key="index" style="margin-top: 1px;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ text }}
                   </div>
                   <div style="font-size: 20px;text-indent: 2em">
                     以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
@@ -77,7 +74,7 @@
                 <div v-if="active1 === 3">
                   <!-- <span style="font-size: 20px">采集样本种类 </span> -->
                   <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px;font-size: 20px">{{ index + 1
-                    }}、{{ text }}
+                  }}、{{ text }}
                   </div>
                 </div>
                 <!-- 样本采集和处理 -->
@@ -87,8 +84,7 @@
                       <el-form-item label="样本种类：" style="width: 500px">
                         <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
                         <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px;">
-                          <el-option v-for="sample in samples" :key="sample.type" :label="sample.type"
-                            :value="sample.type">
+                          <el-option v-for="sample in samples" :key="sample.type" :label="sample.type" :value="sample.type">
                           </el-option>
                         </el-select>
                       </el-form-item>
@@ -115,8 +111,7 @@
                 <div v-if="active1 === 5" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
-                    <img src="https://i2.sinaimg.cn/IT/2009/0302/20093281737.jpg"
-                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="./image/yp.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
@@ -125,8 +120,7 @@
                     <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
                     </div> -->
                     <div style="width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/SamplePackagingAndStorage..pdf" type="application/pdf"
-                        width="100%" height="100%">
+                      <embed :src="SamplePackagingAndStorage" type="application/pdf" width="100%" height="100%">
                     </div>
                   </el-card>
                 </div>
@@ -134,17 +128,14 @@
                 <div v-if="active1 === 6" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
-                    <img
-                      src="https://img0.baidu.com/it/u=3154452766,2862523672&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"
-                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="./image/bbsj.webp" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;">
                     <!-- <label>标本送检</label>
                     <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
                     <div style="width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/SampleSubmission.pdf" type="application/pdf" width="100%"
-                        height="100%">
+                      <embed :src="SampleSubmission" type="application/pdf" width="100%" height="100%">
                     </div>
                   </el-card>
                 </div>
@@ -175,8 +166,7 @@
                 <!-- 实验室活动生物安全要求 -->
                 <div v-if="active2 === 0" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex">
-                    <img src="https://img.cjyun.org/a/10135/202008/ba7b58cda32e5665521a5e97aedc706b.jpeg"
-                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="./image/lab.jpeg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                     <!-- <label>显示图片</label> -->
                   </el-card>
@@ -184,7 +174,7 @@
                     <!-- <label>实验室活动生物安全要求 </label>
                     <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
                     <div style="width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/LSBR.pdf" type="application/pdf" width="100%" height="100%">
+                      <embed :src="LSBR" type="application/pdf" width="100%" height="100%">
                     </div>
                   </el-card>
                 </div>
@@ -210,35 +200,25 @@
                       </el-option>
                     </el-select>
                     <!-- 毒素 -->
-                    <span v-if="selectedOption.value === 'toxin'"
-                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
-                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption"
-                      placeholder="请选择毒素">
-                      <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label"
-                        :value="toxin.value"></el-option>
+                    <span v-if="selectedOption.value === 'toxin'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
+                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素">
+                      <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
                     </el-select>
                     <!-- 细菌 -->
-                    <span v-if="selectedOption.value === 'bacteria'"
-                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
-                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption"
-                      placeholder="请选择细菌">
-                      <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label"
-                        :value="bacteria.value"></el-option>
+                    <span v-if="selectedOption.value === 'bacteria'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
+                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption" placeholder="请选择细菌">
+                      <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label" :value="bacteria.value"></el-option>
                     </el-select>
                     <!-- 病毒 -->
-                    <span v-if="selectedOption.value === 'virus'"
-                      style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
-                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption"
-                      placeholder="请选择病毒">
-                      <el-option v-for="virus in virus_list" :key="virus" :label="virus.label"
-                        :value="virus.value"></el-option>
+                    <span v-if="selectedOption.value === 'virus'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
+                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption" placeholder="请选择病毒">
+                      <el-option v-for="virus in virus_list" :key="virus" :label="virus.label" :value="virus.value"></el-option>
                     </el-select>
                   </div>
 
                   <div v-if="selectedOption" class="mt-4">
                     <div v-if="selectedOption.value === 'bacteria'" style="height: 100%;">
-                      <div v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')"
-                        style="height: 100%;">
+                      <div v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')" style="height: 100%;">
                         <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
                           <span>暂无内容</span>
                         </div>
@@ -265,8 +245,7 @@
                       </el-tabs> -->
                     </div>
                     <div v-if="selectedOption.value === 'virus'" style="height: 100%;">
-                      <div v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')"
-                        style="height: 100%;">
+                      <div v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')" style="height: 100%;">
                         <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
                           <span>暂无内容</span>
                         </div>
@@ -292,29 +271,23 @@
                         </el-tab-pane>
                       </el-tabs> -->
                     </div>
-                    <div
-                      v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')"
-                      style="height: 100%;">
+                    <div v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')" style="height: 100%;">
                       <div style="height: 100%;display: flex; justify-content: center; align-items: center;">
                         <span>暂无内容</span>
                       </div>
                     </div>
 
-                    <div v-if="selectedOption.value === 'toxin' && toxinselectedOption === 'ricin'" class="mt-4"
-                      style="  display: flex;">
+                    <div v-if="selectedOption.value === 'toxin' && toxinselectedOption === 'ricin'" class="mt-4" style="  display: flex;">
                       <div style="width: 40%;height: 100%;display: flex; flex-direction: column;">
                         <div style="display: flex;justify-content: center;align-items: center;">
-                          <img src="./image/1.jpg" alt="试剂图片"
-                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                          <img src="./image/1.jpg" alt="试剂图片" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                         <div style="display: flex;justify-content: center;align-items: center;">
-                          <img src="./image/2.jpg" alt="试剂图片"
-                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                          <img src="./image/2.jpg" alt="试剂图片" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                       </div>
                       <div style=" width: 60%;height: 100%;">
-                        <embed src="src/views/identify/PDF/readMe.pdf" type="application/pdf" width="100%"
-                          height="100%;">
+                        <embed :src="readMe" type="application/pdf" width="100%" height="100%;">
                       </div>
                     </div>
 
@@ -322,7 +295,7 @@
 
                   <el-dialog v-model="centerDialogVisible" title="说明" width="800px" destroy-on-close draggable>
                     <div style=" width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/LTA.pdf" type="application/pdf" width="100%" height="100%;">
+                      <embed :src="LTA" type="application/pdf" width="100%" height="100%;">
                     </div>
                   </el-dialog>
 
@@ -364,6 +337,24 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 import { ElConfigProvider } from "element-plus";
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
+import ADP from './PDF/ADP.pdf';
+import EAP from './PDF/EAP.pdf';
+import LabRequirements from './PDF/LabRequirements.pdf';
+import LSBR from './PDF/LSBR.pdf';
+import LTA from './PDF/LTA.pdf';
+import MWMP from './PDF/MWMP.pdf';
+import OrganExamination from './PDF/OrganExamination.pdf';
+import PM from './PDF/PM.pdf';
+import ADPMSTP from './PDF/PMST.pdf';
+import PMWTP from './PDF/PMWTP.pdf';
+import PreservationGuidelines from './PDF/PreservationGuidelines.pdf';
+import RAR from './PDF/RAR.pdf';
+import readMe from './PDF/readMe.pdf';
+import SamplePackagingAndStorage from './PDF/SamplePackagingAndStorage..pdf';
+import SampleSubmission from './PDF/SampleSubmission.pdf';
+import SPP from './PDF/SPP.pdf';
+
+
 
 
 

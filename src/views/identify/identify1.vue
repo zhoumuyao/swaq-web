@@ -5,8 +5,7 @@
       <router-view></router-view>
       <div>
         <!-- 检验鉴定模块-->
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-          :router="true">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
           <el-menu-item index="/identify0">生物危险因子采集和检测技术</el-menu-item>
           <el-menu-item index="/identify1">染病个体解剖查验</el-menu-item>
         </el-menu>
@@ -35,17 +34,14 @@
                 <div v-if="active1 === 0" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
-                    <img
-                      src="https://img2.baidu.com/it/u=373455438,1378872333&fm=253&fmt=auto&app=138&f=JPEG?w=736&h=500"
-                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="./image/lab2.webp" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                   </el-card>
                   <el-card style="width: 45%;height: 55vh;margin-right: 40px;overflow: auto;">
                     <!-- <label>相应的设备</label>
                     <div style="margin-top: 15px;">{{ device }}</div> -->
                     <div style=" width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/LabRequirements.pdf" type="application/pdf" width="100%"
-                        height="100%;">
+                      <embed :src="LabRequirements" type="application/pdf" width="100%" height="100%;">
                     </div>
                   </el-card>
                 </div>
@@ -53,7 +49,7 @@
                 <div v-if="active1 === 1">
                   <!-- <span>解剖员文字规程</span> -->
                   <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px;font-size: 20px;">{{ index +
-          1 }}、{{ text }}
+                    1 }}、{{ text }}
                   </div>
                 </div>
                 <!-- 规章制度和规范操作规程 -->
@@ -62,7 +58,7 @@
                   <!-- <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/R&R.pdf" type="application/pdf" width="100%" height="100%;">
+                    <embed :src="RAR" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 应急预案 -->
@@ -71,7 +67,7 @@
                   <!-- <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/EAP.pdf" type="application/pdf" width="100%" height="100%;">
+                    <embed :src="EAP" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <el-button v-if="active1 > 0" class="back-button" size="large" @click="back1" type="primary">
@@ -102,8 +98,7 @@
                 <!--尸检操作原则 -->
                 <div v-if="active2 === 0" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex">
-                    <img src="https://sc.sinaimg.cn/2012/0302/U5958P841DT20120302172051.jpg"
-                      style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
+                    <img src="./image/sj.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
 
                     <!-- <label>显示图片</label> -->
                   </el-card>
@@ -111,7 +106,7 @@
                     <!-- <label>尸检操作原则 </label> -->
                     <!-- <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ text }}</div> -->
                     <div style=" width: 100%;height: 50vh;">
-                      <embed src="src/views/identify/PDF/PM.pdf" type="application/pdf" width="100%" height="100%;">
+                      <embed :src="PM" type="application/pdf" width="100%" height="100%;">
                     </div>
                   </el-card>
                 </div>
@@ -121,8 +116,7 @@
                   <!-- <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/SampleSubmission.pdf" type="application/pdf" width="100%"
-                      height="100%;">
+                    <embed :src="SampleSubmission" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 脏器检查 -->
@@ -131,8 +125,7 @@
                   <!-- <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/OrganExamination.pdf" type="application/pdf" width="100%"
-                      height="100%;">
+                    <embed :src="OrganExamination" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 尸检标本的采集与留取规定 -->
@@ -141,8 +134,7 @@
                   <!-- <div v-for="(text, index) in text7" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/PreservationGuidelines.pdf " type="application/pdf" width="100%"
-                      height="100%;">
+                    <embed :src="PreservationGuidelines" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
 
@@ -179,7 +171,7 @@
                   <!-- <div v-for="(text, index) in medicalWastePrinciples" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/MWMP.pdf " type="application/pdf" width="100%" height="100%;">
+                    <embed :src="MWMP" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 解剖器械处理原则 -->
@@ -188,7 +180,7 @@
                   <!-- <div v-for="(text, index) in anatomicalInstrumentPrinciples" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/ADP.pdf " type="application/pdf" width="100%" height="100%;">
+                    <embed :src="ADP" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 标本的处理原则 -->
@@ -197,7 +189,7 @@
                   <!-- <div v-for="(text, index) in specimenHandlingPrinciples" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/SPP.pdf " type="application/pdf" width="100%" height="100%;">
+                    <embed :src="SPP" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <!-- 尸检废弃物及污水处理原则 -->
@@ -206,7 +198,7 @@
                   <!-- <div v-for="(text, index) in autopsyWasteAndWastewaterPrinciples" :key="index" style="margin-top: 15px">{{ text }}
                   </div> -->
                   <div style=" width: 100%;height: 60vh;">
-                    <embed src="src/views/identify/PDF/PMWTP.pdf " type="application/pdf" width="100%" height="100%;">
+                    <embed :src="PMWTP" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </div>
                 <el-button v-if="active3 > -1" class="back-button" size="large" @click="back3" type="primary">
@@ -249,8 +241,7 @@
                         </div>
                         <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
                       </div>
-                      <el-button type="primary" id="upload-button" @click="handleUpload"
-                        style="margin-left: 38%;margin-top: 3%">
+                      <el-button type="primary" id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
                         上传检测图片
                         <input type="file" title="上传图片" id="upload-input" style="display:none" />
                       </el-button>
@@ -260,15 +251,13 @@
                       <el-divider></el-divider>
                       <div style="margin:0 30px;">
                         病理学特征描述：
-                        <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;"
-                          v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
+                        <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
                       </div>
                       <div style="margin:10px 30px 0 30px;">
                         分析识别方法：
                         <div style="margin-top: 10px;">
                           <el-select v-model="method" placeholder="请选择分析技术">
-                            <el-option v-for="(technique, index) in techniques" :key="index" :label="technique"
-                              :value="technique"></el-option>
+                            <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
                           </el-select>
                         </div>
                       </div>
@@ -283,7 +272,7 @@
 
                 <el-dialog v-model="PMSTDialogVisible" title="说明" width="800px" destroy-on-close draggable>
                   <div style=" width: 100%;height: 50vh;">
-                    <embed src="src/views/identify/PDF/PMST.pdf" type="application/pdf" width="100%" height="100%;">
+                    <embed src="PMST" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </el-dialog>
 
@@ -315,6 +304,22 @@ import Sidebar from '../../components/sideBar/SideBar.vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 import { ElConfigProvider } from "element-plus";
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
+import ADP from './PDF/ADP.pdf';
+import EAP from './PDF/EAP.pdf';
+import LabRequirements from './PDF/LabRequirements.pdf';
+import LSBR from './PDF/LSBR.pdf';
+import LTA from './PDF/LTA.pdf';
+import MWMP from './PDF/MWMP.pdf';
+import OrganExamination from './PDF/OrganExamination.pdf';
+import PM from './PDF/PM.pdf';
+import ADPMSTP from './PDF/PMST.pdf';
+import PMWTP from './PDF/PMWTP.pdf';
+import PreservationGuidelines from './PDF/PreservationGuidelines.pdf';
+import RAR from './PDF/RAR.pdf';
+import readMe from './PDF/readMe.pdf';
+import SamplePackagingAndStorage from './PDF/SamplePackagingAndStorage..pdf';
+import SampleSubmission from './PDF/SampleSubmission.pdf';
+import SPP from './PDF/SPP.pdf';
 
 
 const selectedOption = ref(null)
