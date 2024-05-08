@@ -195,23 +195,23 @@
 
 
                     <span style="margin-right: 10px; font-size: 16px;">检测方法：</span>
-                    <el-select v-model="selectedOption" placeholder="请选择">
+                    <el-select v-model="selectedOption" placeholder="请选择" style="width: 300px">
                       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item">
                       </el-option>
                     </el-select>
                     <!-- 毒素 -->
-                    <span v-if="selectedOption.value === 'toxin'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
-                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素">
+                    <span v-if="selectedOption.value === 'toxin'" style="margin-left: 400px;margin-right: 10px; font-size: 16px;">毒素选择：</span>
+                    <el-select v-if="selectedOption.value === 'toxin'" v-model="toxinselectedOption" placeholder="请选择毒素" style="width: 300px">
                       <el-option v-for="toxin in toxin_list" :key="toxin" :label="toxin.label" :value="toxin.value"></el-option>
                     </el-select>
                     <!-- 细菌 -->
-                    <span v-if="selectedOption.value === 'bacteria'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
-                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption" placeholder="请选择细菌">
+                    <span v-if="selectedOption.value === 'bacteria'" style="margin-left: 400px;margin-right: 10px; font-size: 16px;">细菌选择：</span>
+                    <el-select v-if="selectedOption.value === 'bacteria'" v-model="bacteriaselectedOption" placeholder="请选择细菌" style="width: 300px">
                       <el-option v-for="bacteria in bacteria_list" :key="bacteria" :label="bacteria.label" :value="bacteria.value"></el-option>
                     </el-select>
                     <!-- 病毒 -->
-                    <span v-if="selectedOption.value === 'virus'" style="margin-left: 10px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
-                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption" placeholder="请选择病毒">
+                    <span v-if="selectedOption.value === 'virus'" style="margin-left: 400px;margin-right: 10px; font-size: 16px;">病毒选择：</span>
+                    <el-select v-if="selectedOption.value === 'virus'" v-model="virusselectedOption" placeholder="请选择病毒" style="width: 300px">
                       <el-option v-for="virus in virus_list" :key="virus" :label="virus.label" :value="virus.value"></el-option>
                     </el-select>
                   </div>
