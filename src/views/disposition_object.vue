@@ -12,7 +12,7 @@
                     <el-step title="填写相关信息"></el-step>
                 </el-steps>
             </div>
-            <el-card style="margin: 10px 100px; height: 75vh;">
+            <el-card :body-style="{height: '75vh'}" style="margin: 10px 100px;position: relative;">
                 <div class="selectObject" v-show="!(isEnviroment || isItem || isPerson)">
                     <div class="object">
                         <el-button class="objectBtn1" round plain type="info" @click="classPerson">
@@ -102,20 +102,20 @@
                         </el-dialog>
                     </div>
                 </el-dialog>
-                <div v-show="step == 1" style="margin: 10px; position: relative;">
+                <div v-show="step == 1" style="height: 90%; margin: 10px; overflow:auto">
                     <div>
                         <label style="font-size: 20px;">填写处置对象相关信息：</label>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; height: 95%;">
                         <div
-                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px; display: flex;justify-content: center;">
+                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 3%;height: 93%;">
                             <el-image
                                 src="https://img0.baidu.com/it/u=3154452766,2862523672&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=667&amp;h=500"
-                                style="width: 95%; height: 95%;margin-top: 2.5%;"></el-image>
+                                style="width: 95%; height: 95%;margin: 2.5% 0 0 2.5%;"></el-image>
                         </div>
                         <div
-                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 20px;">
-                            <el-form :model="form" label-width="auto" style="max-width: 600px;margin: 10px 0 0 20px;"
+                            style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 3%; height: 93%;">
+                            <el-form :model="form" label-width="auto" style="max-width: 600px;margin: 10px 0 0 20px; height: 95%;"
                                 size="large">
                                 <el-form-item>
                                     <label style="font-size: 16px;display: inline-block; width: 200px;">处置对象号：</label>
@@ -308,9 +308,9 @@ const classEnviroment = () => {
 
 .next-button {
     position: absolute;
-    bottom: -60px;
+    bottom: 5%;
     /* 距离底部的间距 */
-    right: 20px;
+    right: 5%;
     /* 距离右侧的间距 */
 }
 </style>
