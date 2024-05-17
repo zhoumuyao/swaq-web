@@ -9,7 +9,7 @@
             <div class="steps">
                 <el-steps :active="0" finish-status="success" style="width: 50%; margin-left: 25%;">
                     <el-step title="计划和准备"></el-step>
-                    <el-step title="风险分析"></el-step>
+                    <el-step title="风险识别"></el-step>
                     <el-step title="风险评价"></el-step>
                 </el-steps>
             </div>
@@ -17,25 +17,47 @@
                 <el-card class="prepare-form">
                     <div style="width: 100%;">
                         <label class="label">设立初步的评估方案:</label>
-                        <div style="margin-top: 10px;">
-                            <el-form :model="form" label-width="auto" :inline="true">
-                                <div>
-                                    <el-form-item label="检测细胞名称：" style="width: 35vw;">
-                                        <el-input v-model="form.cellname" style=" width: 60%;"></el-input>
+                        <div style="margin-top: 10px; width: 100%;">
+                            <el-form :model="form" :inline="true" style="width: 100%;">
+                                <el-form-item label="风险评估时间：">
+                                    <el-date-picker v-model="form.date" type="date" placeholder="选择日期" size="default"
+                                        style="margin-right: 20px;" />
+                                    <el-time-picker v-model="form.time" placeholder="选择时间" size="default" />
+                                </el-form-item>
+                                <div style="width: 100%;">
+                                    <el-form-item label="风险评估地点：" >
+                                        <div style=" width: 90%;">
+                                            <label class="font" style="font-size:14px; color: #606266;">经度: </label>
+                                            <el-input class="position" placeholder="请输入经度"
+                                                v-model="form.position.longitude"></el-input>
+                                            <label class="font" style="font-size:14px; color: #606266;">经度: </label>
+                                            <el-input class="position" placeholder="请输入经度"
+                                                v-model="form.position.latitude"></el-input>
+                                            <label class="font" style="font-size:14px; color: #606266;">国家: </label>
+                                            <el-input class="position" placeholder="请输入国家"
+                                                v-model="form.position.country"></el-input>
+                                            <label class="font" style="font-size:14px; color: #606266;">省份: </label>
+                                            <el-input class="position" placeholder="请输入省份"
+                                                v-model="form.position.province"></el-input>
+                                            <label class="font" style="font-size:14px; color: #606266;">市区: </label>
+                                            <el-input class="position" placeholder="请输入市区"
+                                                v-model="form.position.urban"></el-input>
+                                            <label class="font" style="font-size:14px; color: #606266;">具体描述: </label>
+                                            <el-input class="position" placeholder="具体描述"
+                                                v-model="form.position.description" style="width: 10%; margin-right: 0"></el-input>
+                                        </div>
                                     </el-form-item>
                                 </div>
                                 <div style="display: grid;grid-template-columns: 1fr 1fr;grid-gap: 20px;">
-                                    <el-form-item label="风险评估目标：" prop="type" style="width: 35vw;">
-                                        <el-checkbox-group v-model="form.type">
-                                            <el-checkbox label="病毒" name="pathogen" />
-                                            <el-checkbox label="病原菌" name="pests" />
-                                            <el-checkbox label="生物毒素" name="genetically-engineered" />
-                                            <el-checkbox label="放射性武器" name="genetically-engineered" />
-                                            <el-checkbox label="化学武器" name="genetically-engineered" />
-                                        </el-checkbox-group>
+                                    <el-form-item label="风险评估目标：" prop="type">
+                                        <el-radio-group v-model="form.type">
+                                            <el-radio :label="1">病毒</el-radio>
+                                            <el-radio :label="2">细菌</el-radio>
+                                            <el-radio :label="3">毒素</el-radio>
+                                        </el-radio-group>
                                     </el-form-item>
                                     <el-form-item label="评估程序规划：">
-                                        <el-select v-model="form.method" placeholder="请选择评估程序方法">
+                                        <el-select v-model="form.method" placeholder="请选择评估程序方法" style="width: 30%;">
                                             <el-option label="风险因素分析法" value="1" />
                                             <el-option label="模糊综合评价法" value="2" />
                                             <el-option label="内部控制评价法" value="3" />
@@ -52,7 +74,7 @@
                                             <el-button type="primary" :icon="Plus" circle
                                                 @click="addperson = true"></el-button>
                                         </div>
-                                        <el-card>
+                                        <el-card class="card">
                                             <el-table :data="form.person" style="width: 100%; height: 45vh">
                                                 <el-table-column prop="id" label="警务号" width="" />
                                                 <el-table-column prop="name" label="姓名" width="" />
@@ -65,7 +87,7 @@
                                             <el-button el-button type="primary" :icon="Plus" circle
                                                 @click="addequiment = true"></el-button>
                                         </div>
-                                        <el-card>
+                                        <el-card class="card">
                                             <el-table :data="form.equipment" style="width: 100%; height: 45vh">
                                                 <el-table-column prop="id" label="设备号" width="" />
                                                 <el-table-column prop="name" label="设备名" width="" />
@@ -82,7 +104,7 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk2', query: { cellType: cellType } }">
+                            <router-link :to="{ path: '/risk_identification' }">
                                 <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
                                     size="large">进行风险分析</el-button>
                             </router-link>
@@ -114,31 +136,34 @@
                         </el-dialog>
                         <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
                             <div>
-                                <el-radio-group v-model="equipment" style="width: 45%;">
-                                    <el-radio-button label="现场检测仪器"></el-radio-button>
-                                    <el-radio-button label="实验室检测仪器"></el-radio-button>
-                                </el-radio-group>
-                                <el-input style="display: inline-block; width: 30%; margin:7px 10px 0 15%;"
-                                    v-model="personID" placeholder="请输入设备号"></el-input>
-                                <el-button type="primary" :icon="Search" @click="handleSearch"
-                                    style="display: inline-block; margin-top: 7px;" circle>
-                                </el-button>
+                                <el-select v-model="equipment" placeholder="请选择设备种类" style="width: 30%;">
+                                    <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
+                                <div style="display: inline;" v-if="equipment != '选项1'">
+                                    <el-input style="display: inline-block; width: 30%; margin:0px 10px 0 30%;"
+                                        v-model="personID" placeholder="请输入设备号"></el-input>
+                                    <el-button type="primary" :icon="Search" @click="handleSearch" circle>
+                                    </el-button>
+                                </div>
+                                <div style="display: inline;" v-if="equipment == '选项1'">
+                                    <el-select v-model="grade" placeholder="请选择设备种类" style="width: 25%; margin-left: 5%">
+                                        <el-option v-for="item in gradeOptions" :key="item.value" :label="item.label"
+                                            :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                    <el-input style="display: inline-block; width: 25%; margin:0px 10px 0 5%"
+                                        v-model="personID" placeholder="请输入设备号"></el-input>
+                                    <el-button type="primary" :icon="Search" @click="handleSearch" circle>
+                                    </el-button>
+                                </div>
                             </div>
                             <div>
-                                <el-table v-if="equipment == '现场检测仪器'" :data="riskEquiment"
-                                    style="width: 100%; margin-top: 10px; " type="selection" height="40vh">
-                                    <el-table-column prop="id" label="设备号" width="180" fixed="left">
-                                    </el-table-column>
-                                    <el-table-column prop="name" label="设备名" width="180" fixed="left">
-                                    </el-table-column>
-                                    <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
-                                        <template #default="{ row }">
-                                            <el-checkbox v-model="row.checked"></el-checkbox>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                                <el-table v-if="equipment == '实验室检测仪器'" :data="riskEquiment2"
-                                    style="width: 100%; margin-top: 10px;" type="selection" height="40vh">
+                                <el-table
+                                    v-if="equipment == '选项1' || equipment == '选项2' || equipment == '选项3' || equipment == '选项4' || equipment == ''"
+                                    :data="getRiskEquipmentData()" style="width: 100%; margin-top: 10px; "
+                                    type="selection" height="40vh">
                                     <el-table-column prop="id" label="设备号" width="180" fixed="left">
                                     </el-table-column>
                                     <el-table-column prop="name" label="设备名" width="180" fixed="left">
@@ -173,7 +198,7 @@ import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, reactive } from 'vue';
-import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
+import { Delete, RefreshRight, Search, Plus, Filter, Position } from "@element-plus/icons-vue"
 import airCondition from './device_guide/air_condition.pdf'
 import waterConditionDetectiver from './device_guide/water_condition_detectiver.pdf'
 import soilConditionDetectiver from './device_guide/soil_condition_detectiver.pdf'
@@ -190,8 +215,35 @@ import centrifugalConditionDetectiver from './device_guide/centrifugal_condition
 import PCRDetectiver from './device_guide/PCR__detectiver.pdf'
 import ELISADetectiver from './device_guide/ELISA__detectiver.pdf'
 
+const gradeOptions = ref([{
+    value: '选项1',
+    label: '特殊防护'
+}, {
+    value: '选项2',
+    label: '一般防护'
+}, {
+    value: '选项3',
+    label: '基础防护'
+}
+])
+
+const grade = ref("")
+
+const options = ref([{
+    value: '选项1',
+    label: '防护装备'
+}, {
+    value: '选项2',
+    label: '交通装备'
+}, {
+    value: '选项3',
+    label: '取样装备'
+}, {
+    value: '选项4',
+    label: '记录装备'
+}])
 const cellType = ref(0)
-const equipment = ref('现场检测仪器')
+const equipment = ref("")
 const guideButton = ref(false)
 const PDFsrc = ref("")
 const isViewPdf20 = ref(false);
@@ -205,11 +257,20 @@ const textarea1 = ref("");
 const textarea2 = ref("");
 const text = ref("");
 const form = reactive({
+    date: '',
+    time: '',
+    position: {
+        longitude: '',
+        latitude: '',
+        country: '',
+        province: '',
+        urban: '',
+        description: ''
+    },
     province: '',
     city: '',
-    cellname: '',
     range: '',
-    type: [],
+    type: 1,
     method: '',
     person: [{}],
     equipment: [{}],
@@ -241,98 +302,214 @@ const riskPerson = ref([{
 },
 ])
 const riskEquiment = ref([{
-    id: 1,
-    name: '空气质量检测器',
+    id: 6,
+    name: '正压防护服',
     checked: false,
     guide: airCondition
 }, {
-    id: 2,
-    name: '水质检测仪',
+    id: 7,
+    name: '医用乳胶手套',
     checked: false,
     guide: waterConditionDetectiver
 }, {
-    id: 3,
-    name: '土壤测试仪',
+    id: 8,
+    name: '透明防护面具',
     checked: false,
     guide: soilConditionDetectiver
 }, {
-    id: 4,
-    name: '气体检测仪',
+    id: 9,
+    name: '密封式防护镜',
     checked: false,
     guide: gasConditionDetectiver
 }, {
-    id: 5,
-    name: '放射性检测仪',
+    id: 10,
+    name: '鞋套',
     checked: false,
     guide: radioConditionDetectiver
 },
 {
-    id: 6,
-    name: '拉曼扫描器',
+    id: 11,
+    name: 'N95/KN95颗粒物防护口罩或以上级别的口罩',
     checked: false,
     guide: lamaInfraredConditionDetectiver
-},
-{
-    id: 7,
-    name: '红外线探测器',
-    checked: false,
-    guide: infraredConditionDetectiver
-},
-{
-    id: 8,
-    name: '生物危险因子现场快检仪',
-    checked: false,
-    guide: biologyRiskConditionDetectiver
-},
+}
 ])
 const riskEquiment2 = ref([{
-    id: 9,
-    name: 'PCR分析仪',
+    id: 12,
+    name: '防护服',
     checked: false,
     guide: PCRConditionDetectiver
 }, {
-    id: 10,
-    name: '荧光显微镜光谱仪',
+    id: 13,
+    name: '医用乳胶手套',
     checked: false,
     guide: microConditionDetectiver
 }, {
-    id: 11,
-    name: '质谱仪',
+    id: 14,
+    name: '透明防护面具',
     checked: false,
     guide: massSpectraConditionDetectiver
 }, {
-    id: 12,
-    name: '酶标仪',
+    id: 15,
+    name: '密封式防护镜',
     checked: false,
     guide: ELIASAConditionDetectiver
 }, {
-    id: 13,
-    name: '离心机',
+    id: 16,
+    name: '鞋套',
     checked: false,
     guide: centrifugalConditionDetectiver
 },
 {
-    id: 14,
-    name: 'PCR仪',
+    id: 17,
+    name: 'N95/KN95颗粒物防护口罩或以上级别的口罩',
+    checked: false,
+    guide: PCRDetectiver
+},
+])
+
+const riskEquiment3 = ref([{
+    id: 18,
+    name: '口罩',
+    checked: false,
+    guide: PCRConditionDetectiver
+}, {
+    id: 19,
+    name: '眼罩',
+    checked: false,
+    guide: microConditionDetectiver
+}, {
+    id: 20,
+    name: '头罩',
+    checked: false,
+    guide: massSpectraConditionDetectiver
+}, {
+    id: 21,
+    name: '手套',
+    checked: false,
+    guide: ELIASAConditionDetectiver
+}, {
+    id: 22,
+    name: '鞋套',
+    checked: false,
+    guide: centrifugalConditionDetectiver
+}
+])
+
+const riskEquiment4 = ref([{
+    id: 23,
+    name: '生物安全现场勘查车',
+    checked: false,
+    guide: PCRConditionDetectiver
+}, {
+    id: 24,
+    name: '信息传输车辆',
+    checked: false,
+    guide: microConditionDetectiver
+}, {
+    id: 25,
+    name: '快速响应车辆',
+    checked: false,
+    guide: massSpectraConditionDetectiver
+}, {
+    id: 26,
+    name: '承载设备车辆',
+    checked: false,
+    guide: ELIASAConditionDetectiver
+}
+])
+
+const riskEquiment5 = ref([{
+    id: 27,
+    name: '现场采样设备',
+    checked: false,
+    guide: PCRConditionDetectiver
+}, {
+    id: 28,
+    name: '样品分析设备',
+    checked: false,
+    guide: microConditionDetectiver
+}, {
+    id: 29,
+    name: '生物安全现场勘查工具箱',
+    checked: false,
+    guide: massSpectraConditionDetectiver
+}, {
+    id: 30,
+    name: '空气采样设备',
+    checked: false,
+    guide: ELIASAConditionDetectiver
+}, {
+    id: 31,
+    name: '现场检测仪',
+    checked: false,
+    guide: centrifugalConditionDetectiver
+},
+{
+    id: 32,
+    name: '红外光谱仪',
     checked: false,
     guide: PCRDetectiver
 },
 {
-    id: 15,
-    name: 'ELISA分析仪',
+    id: 33,
+    name: '拉曼光谱仪',
+    checked: false,
+    guide: ELISADetectiver
+},
+{
+    id: 34,
+    name: '微流控系统',
     checked: false,
     guide: ELISADetectiver
 },
 ])
+
+const riskEquiment6 = ref([{
+    id: 35,
+    name: '无人机摄像系统',
+    checked: false,
+    guide: PCRConditionDetectiver
+}, {
+    id: 36,
+    name: '手持式相机',
+    checked: false,
+    guide: microConditionDetectiver
+}, {
+    id: 37,
+    name: '平板电脑',
+    checked: false,
+    guide: massSpectraConditionDetectiver
+}, {
+    id: 38,
+    name: '警务手机',
+    checked: false,
+    guide: ELIASAConditionDetectiver
+}
+])
+
+const getRiskEquipmentData = () => {
+    switch (equipment.value) {
+        case '选项1':
+            switch (grade.value){
+                case '选项1': return riskEquiment.value;
+                case '选项2': return riskEquiment2.value;
+                case '选项3': return riskEquiment3.value;
+                default: return [];
+            }
+        case '选项2':
+            return riskEquiment4.value;
+        case '选项3':
+            return riskEquiment5.value;
+        case '选项4':
+            return riskEquiment6.value;
+        default:
+            return [];
+    }
+}
 //暂时只有两种类型，后续加入数据库进行修改
 const jumpAnalysis = () => {
-    if (form.cellname == '大肠杆菌') {
-        cellType.value = 0;
-    } else if (form.cellname == '新冠病毒') {
-        cellType.value = 1;
-    } else {
-        cellType.value = 2;
-    }
+
 }
 const handleClose = () => {
     PDFsrc.value = "";
@@ -355,6 +532,46 @@ const addEquiment = () => {
             equipment.checked = false;
         }
     }); riskEquiment2.value.forEach((equipment) => {
+        if (equipment.checked) {
+            if (equipment.guide != null) {
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
+            }
+            else
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
+            equipment.checked = false;
+        }
+    });
+    riskEquiment3.value.forEach((equipment) => {
+        if (equipment.checked) {
+            if (equipment.guide != null) {
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
+            }
+            else
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
+            equipment.checked = false;
+        }
+    });
+    riskEquiment4.value.forEach((equipment) => {
+        if (equipment.checked) {
+            if (equipment.guide != null) {
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
+            }
+            else
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
+            equipment.checked = false;
+        }
+    });
+    riskEquiment5.value.forEach((equipment) => {
+        if (equipment.checked) {
+            if (equipment.guide != null) {
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
+            }
+            else
+                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
+            equipment.checked = false;
+        }
+    });
+    riskEquiment6.value.forEach((equipment) => {
         if (equipment.checked) {
             if (equipment.guide != null) {
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
@@ -480,5 +697,15 @@ const onSubmit = () => {
     /* 距离底部的间距 */
     right: 20px;
     /* 距离右侧的间距 */
+}
+
+.position {
+    margin-left: 10px;
+    margin-right: 20px;
+    width: 10%;
+}
+
+.card{
+    height: 80%;
 }
 </style>

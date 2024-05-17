@@ -32,21 +32,21 @@ const router = createRouter({
       name:'disposition_object',
       component:()=>import('@/views/disposition_object.vue'),
     },{
+      path:'/create_case',
+      name:'create_case',
+      component:()=>import('@/views/create_case.vue'),
+    },{
+      path:'/risk_identification',
+      name:'risk_identification',
+      component:()=>import('@/views/risk/risk_identification.vue')
+    },{
+      path:'/risk_assessment',
+      name:'risk_assessment',
+      component:()=>import('@/views/risk/risk_assessment.vue')
+    },{
       path:'/risk',
       name:'risk',
-      component:()=>import('@/views/risk/risk1.vue')
-    },{
-      path:'/risk2',
-      name:'risk2',
-      component:()=>import('@/views/risk/risk2.vue')
-    },{
-      path:'/risk3',
-      name:'risk3',
-      component:()=>import('@/views/risk/risk3.vue')
-    },{
-      path:'/risk0',
-      name:'risk0',
-      component:()=>import('@/views/risk/risk0.vue')
+      component:()=>import('@/views/risk/risk.vue')
     },
     {
       path:'/rapid_identification',

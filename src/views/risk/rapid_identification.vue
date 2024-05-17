@@ -74,6 +74,11 @@ import { ref, reactive } from 'vue';
 import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
 import router from "@/router/index.js";
 
+const Specimen = ref([
+  "生物样本：可疑感染人员和需要检测的人员、组织、排泄物、呕吐物、分泌物、涂抹物。",
+  "环境样本：可能被污染的环境或物品，如在突发公共卫生事件现场采集的水、空气、土壤、食品等。",
+]);
+
 const isBasePairs = ref(false);
 const isInfrared = ref(false);
 const isRaman = ref(false);

@@ -1,3 +1,4 @@
+<!-- 修改为risk_identification -->
 <template>
   <div class="app">
     <!--    <sidebar></sidebar>-->
@@ -6,7 +7,7 @@
       <div
         style="padding: 20px; border-bottom: solid 2px; border-color: darkgray"
       >
-        <label style="font: 20px Extra large">风险评估模块</label>
+        <label style="font: 20px Extra large">风险识别模块</label>
       </div>
 
       <div style="margin-left: 30px; margin-top: 30px">

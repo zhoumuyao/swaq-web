@@ -9,7 +9,7 @@
             <div style="margin-left: 30px; margin-top: 30px;">
                 <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
                     <el-step title="计划和准备"></el-step>
-                    <el-step title="风险分析"></el-step>
+                    <el-step title="风险识别"></el-step>
                     <el-step title="风险评价"></el-step>
                 </el-steps>
             </div>
@@ -20,17 +20,17 @@
                         <div class="description">
                             <el-card class="relation_to_risk">
                                 <div slot="header" class="jugehappentop">
-                                    <span>与潜在风险关系</span>
+                                    <span>风险等级</span>
                                 </div>
                                 <div style="margin:20px 10px 0 10px">
 
                                     <div class="text">
                                         <el-table :data="tableData1" style="width: 100%" type="selection">
-                                            <el-table-column prop="virue" label="风险" width="500" fixed="left">
+                                            <el-table-column prop="virue" label="等级" width="500" fixed="left">
                                             </el-table-column>
-                                            <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
+                                            <el-table-column label="确认等级" width="200" fixed="right" prop="checked" style="text-align: center;">
                                                 <template #default="{ row }">
-                                                    <el-checkbox v-model="row.checked"></el-checkbox>
+                                                    <el-radio v-model="riskGradeRadio" :label="String(row.id)"> <label></label></el-radio>
                                                 </template>
                                             </el-table-column>
                                         </el-table>
@@ -40,7 +40,7 @@
 
                             <el-card class="relation_to_risk">
                                 <div slot="header" class="jugehappentop">
-                                    <span>可能产生的影响范围</span>
+                                    <span>应急响应机制</span>
                                 </div>
                                 <div style="margin:20px 10px 0 10px">
 
@@ -50,7 +50,7 @@
                                             </el-table-column>
                                             <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
                                                 <template #default="{ row }">
-                                                    <el-checkbox v-model="row.checked"></el-checkbox>
+                                                    <el-radio v-model="emergencyResponse" :label="String(row.id)"> <label></label></el-radio>
                                                 </template>
                                             </el-table-column>
                                         </el-table>
@@ -61,20 +61,18 @@
                         <div class="last_row">
                             <el-card class="jugehappen">
                                 <div slot="header" class="jugehappentop">
-                                    <span>风险等级</span>
+                                    <span>评估方案</span>
                                 </div>
                                 <el-radio-group v-model="radio">
-                                    <el-radio label="一级">一级</el-radio>
-                                    <el-radio label="二级">二级</el-radio>
-                                    <el-radio label="三级">三级</el-radio>
-                                    <el-radio label="四级">四级</el-radio>
-                                    <el-radio label="五级">五级</el-radio>
+                                    <el-radio label="一级">现场处置</el-radio>
+                                    <el-radio label="二级">实验室处置</el-radio>
+                                    <el-radio label="三级">防护处置</el-radio>
                                 </el-radio-group>
                             </el-card>
                         </div>
                     </div>
                     <div class="next-button" style="margin-left: 40%;">
-                        <router-link :to="{ path: '/risk2', query: { cellType: cellType } }">
+                        <router-link :to="{ path: '/risk_identification', query: { cellType: cellType } }">
                             <el-button size="large" type="primary"
                                 style="margin-top: 10px; width: 120px;">上一步</el-button>
                         </router-link>
@@ -194,116 +192,39 @@ const route = useRoute();
 const cellType = route.query.cellType;
 
 const radio1 = ref("一级");
-const tableData11 = ref([{
-    id: 1,
-    virue: '沙门氏菌',
-    checked: true,
-}, {
-    id: 2,
-    virue: '嗜肺军团菌',
-    checked: true,
-}, {
-    id: 3,
-    virue: '诺如病毒',
-    checked: true,
-}, {
-    id: 4,
-    virue: '痢疾杆菌',
-    checked: true,
-}, {
-    id: 5,
-    virue: '金黄色葡萄球菌',
-    checked: true,
-}, {
-    id: 6,
-    virue: '登革热',
-    checked: false,
-}]);
-const tableData21 = ref([{
-    id: 1,
-    place: '村级',
-    checked: true,
-}, {
-    id: 2,
-    place: '县级',
-    checked: false,
-}, {
-    id: 3,
-    place: '市级',
-    checked: false,
-}, {
-    id: 4,
-    place: '省级',
-    checked: false,
-}, {
-    id: 5,
-    place: '国家级',
-    checked: false,
-}])
-//临时
-const radio2 = ref("五级");
-const tableData12 = ref([{
-    id: 1,
-    virue: '登革热病毒',
-    checked: true,
-}, {
-    id: 2,
-    virue: '中东呼吸综合征冠状病毒',
-    checked: true,
-}, {
-    id: 3,
-    virue: '乙型肝炎病毒',
-    checked: true,
-}, {
-    id: 4,
-    virue: '流感病毒',
-    checked: true,
-}, {
-    id: 5,
-    virue: '艾滋病病毒',
-    checked: true,
-}, {
-    id: 6,
-    virue: '寨卡病毒',
-    checked: false,
-}]);
-const tableData22 = ref([{
-    id: 1,
-    place: '村级',
-    checked: false,
-}, {
-    id: 2,
-    place: '县级',
-    checked: false,
-}, {
-    id: 3,
-    place: '市级',
-    checked: false,
-}, {
-    id: 4,
-    place: '省级',
-    checked: false,
-}, {
-    id: 5,
-    place: '国家级',
-    checked: true,
-}])
-const tableData1 = ref([])
-const tableData2 = ref([])
+
+const emergencyResponse = ref('1')
+const riskGradeRadio = ref('1')
 const radio = ref("")
 
-//临时
-onMounted(() => {
-    if (cellType == 0) {
-        tableData1.value = tableData11.value;
-        tableData2.value = tableData21.value;
-        radio.value = radio1.value;
-    } else if (cellType == 1) {
-        tableData1.value = tableData12.value;
-        tableData2.value = tableData22.value;
-        radio.value = radio2.value;
-    }
-});
+const tableData1 = ref([{
+    id: 1,
+    virue: '无明确生物风险',
+}, {
+    id: 2,
+    virue: '三级生物风险',
+}, {
+    id: 3,
+    virue: '二级生物风险',
+}, {
+    id: 4,
+    virue: '一级生物风险',
+}]);
+const tableData2 = ref([{
+    id: 1,
+    place: '低',
+    checked: true,
+}, {
+    id: 2,
+    place: '中',
+    checked: false,
+}, {
+    id: 3,
+    place: '高',
+    checked: false,
+}])
+
+
 
 
 const sceneImg = ref([{
