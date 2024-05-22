@@ -18,6 +18,7 @@ export default {
         { id: 3, name: '风险评估', isActive: false, route: 'risk' },
         { id: 4, name: '现场处置', isActive: false, route: 'handle1' },
         { id: 5, name: '检验鉴定', isActive: false, route: 'identify0' },
+        { id: 6, name: '评价与反馈', isActive: false, route: 'handle4' }
         // 添加更多菜单项...
       ]
     };

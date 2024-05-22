@@ -17,6 +17,7 @@
     "electron": "^30.0.2",
     "electron-packager": "^17.1.2",
     "element-plus": "^2.4.3",
+    "jspdf": "^2.5.1",
     "pinia": "^2.1.7",
     "vite-plugin-singlefile": "^0.13.5",
     "vue": "^3.3.4",
