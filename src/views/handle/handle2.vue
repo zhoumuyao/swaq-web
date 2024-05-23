@@ -19,9 +19,9 @@
             <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
               <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">环境图片</label>
-                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
                   <el-icon><Location /></el-icon>
-                  {{city}}
+                  {{Position}}
                 </el-button>
                 <el-divider></el-divider>
                 <div class="img">
@@ -44,9 +44,9 @@
               </el-tab-pane>
               <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">人员图片</label>
-                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
                   <el-icon><Location /></el-icon>
-                  {{city}}
+                  {{Position}}
                 </el-button>
                 <el-divider></el-divider>
                 <div class="img">
@@ -70,9 +70,9 @@
               <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">物证图片</label>
 
-                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
                   <el-icon><Location /></el-icon>
-                  {{city}}
+                  {{Position}}
                 </el-button>
                 <el-divider></el-divider>
                 <div class="img">
@@ -136,11 +136,6 @@
         </el-button>
       </router-link>
 
-<!--      <router-link :to="{path: '/handle3'}">-->
-<!--      <el-button class="next-button" type="primary" size="large" @click="next">-->
-<!--        下一步-->
-<!--      </el-button>-->
-<!--      </router-link>-->
 
       <!-- 切换页面-->
       <router-link :to="{path: '/handle3'}">
@@ -156,7 +151,7 @@
 <script setup >
 // type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
 
-import { ref, onMounted} from 'vue';
+import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
@@ -164,7 +159,7 @@ import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
 import example from './PDF/example.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
 import {Location} from "@element-plus/icons-vue";
-
+import MapLoader from "@/util/util";
 const router = useRouter();
 
 const showImg = ref(false);
@@ -173,7 +168,7 @@ const drawer = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-const city = ref("获取定位");
+let Position = ref("获取定位");
 // 当前步骤
 const active = ref(1);
 const radio = ref(1);
@@ -186,26 +181,14 @@ const selectedItems = ref([]);
 const activeName = ref('first')
 const value = ref('');
 
-
-onMounted(async () => {
-  try {
-    await loadMap();
-  } catch (error) {
-    console.error('地图 API 加载失败', error);
-  }
-});
-const loadMap = () => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066';
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
+function getPosition(){
+  MapLoader().then((formattedAddress) => {
+    Position.value=formattedAddress;
+    console.log('定位成功，地址为：', Position);
+  }).catch((error) => {
+    console.error('定位失败：', error);
   });
-};
-
-
-
+}
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
   let uploadInput = document.getElementById("upload-input");

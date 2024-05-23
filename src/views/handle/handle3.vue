@@ -26,7 +26,7 @@
                     <div style="width: 100%;height: 90%;margin-right: 40px;">
                       <div style="width: 100%;height: 70vh">
                         <embed :src="DecisionMakingResults" type="application/pdf"
-                               width="100%" height="95%">
+                               width="100%" height="80%">
                       </div>
                     </div>
                   </div>
@@ -41,7 +41,7 @@
                   <div style="width: 100%;height: 90%;margin-right: 40px;">
                     <div style="width: 100%;height: 100vh;">
                       <embed :src="adviceSave" type="application/pdf"
-                             width="100%" height="40%">
+                             width="100%" height="50%">
                     </div>
                   </div>
                   <!-- 循环遍历处置意见-->
@@ -271,12 +271,13 @@ const copy = (selector) =>{
 }
 .el-tabs {
   height: 100%;
-  display: flex;
+  display: grid;
   flex-direction: column;
 }
 
 .el-tab-pane {
-  height: 600px;
+  display: grid;
+  margin-bottom: 50%;
   flex-grow: 1;
 }
 
