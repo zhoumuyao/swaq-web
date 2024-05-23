@@ -11,6 +11,8 @@
     "electron:build": "vite build && electron-builder"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
+    "@element-plus/icons": "^0.0.11",
     "@element-plus/icons-vue": "^2.1.0",
     "axios": "^1.6.0",
     "echarts": "^5.4.3",
@@ -19,10 +21,13 @@
     "element-plus": "^2.4.3",
     "jspdf": "^2.5.1",
     "pinia": "^2.1.7",
+    "rollup-plugin-external-globals": "^0.10.0",
     "vite-plugin-singlefile": "^0.13.5",
     "vue": "^3.3.4",
+    "vue-amap": "^0.5.10",
     "vue-axios": "^3.5.2",
     "vue-icon-font": "^1.0.4",
+    "vue-jsonp": "^2.0.0",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
   },
@@ -30,6 +35,8 @@
     "@vitejs/plugin-vue": "^4.4.0",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-vue-components": "^0.25.2",
-    "vite": "^4.4.11"
+    "vite": "^4.4.11",
+    "vite-plugin-externals": "^0.6.2",
+    "webpack-merge": "^5.10.0"
   }
 }

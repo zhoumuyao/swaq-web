@@ -19,6 +19,10 @@
             <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
               <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">环境图片</label>
+                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                  <el-icon><Location /></el-icon>
+                  {{city}}
+                </el-button>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -40,6 +44,10 @@
               </el-tab-pane>
               <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">人员图片</label>
+                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                  <el-icon><Location /></el-icon>
+                  {{city}}
+                </el-button>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -47,17 +55,25 @@
                   </div>
                   <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%">
+                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
                   <input type="file" title="上传图片" id="upload-input" style="display:none"/>
                 </el-button>
-
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 10%">
-                  点击查看现场勘察处置规程
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  图片上传示例
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  查看现场勘察处置规程
                 </el-button>
               </el-tab-pane>
               <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">物证图片</label>
+
+                <el-button type="primary"  style="margin-left: 20%" @click="getCity">
+                  <el-icon><Location /></el-icon>
+                  {{city}}
+                </el-button>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -65,13 +81,16 @@
                   </div>
                   <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%">
+                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
                   <input type="file" title="上传图片" id="upload-input" style="display:none"/>
                 </el-button>
-
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 10%">
-                  点击查看现场勘察处置规程
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  图片上传示例
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  查看现场勘察处置规程
                 </el-button>
               </el-tab-pane>
             </el-tabs>
@@ -134,14 +153,17 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script setup >
+// type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
+
+import { ref, onMounted} from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
 import example from './PDF/example.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
+import {Location} from "@element-plus/icons-vue";
 
 const router = useRouter();
 
@@ -151,6 +173,7 @@ const drawer = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
+const city = ref("获取定位");
 // 当前步骤
 const active = ref(1);
 const radio = ref(1);
@@ -162,24 +185,27 @@ const form = ref({
 const selectedItems = ref([]);
 const activeName = ref('first')
 const value = ref('');
-// 触发下一步骤
-// const next = () => {
-//     if (!form.value.name) {
-//       // 如果 form.name 为空，弹出提示
-//       alert('请填疾病名称！');
-//       return; // 中断函数执行
-//     } else if(!form.value.description){
-//       alert('请添加疾病状况描述')
-//       return;
-//     } else if(radio.value===1){
-//       alert('请勾选疾病性质')
-//       return;
-//     }
-//     router.push({ path: '/handle3' });
-// }
-function handleDisplay() {
-  this.isdisplay = true;
-}
+
+
+onMounted(async () => {
+  try {
+    await loadMap();
+  } catch (error) {
+    console.error('地图 API 加载失败', error);
+  }
+});
+const loadMap = () => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
+
+
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
   let uploadInput = document.getElementById("upload-input");
