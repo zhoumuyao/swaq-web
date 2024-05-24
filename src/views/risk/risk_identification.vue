@@ -16,10 +16,18 @@
             <div style="width: 100%;display: flex;justify-content: center;align-items: flex-start; ">
                 <el-card :body-style="{ height: '75vh' }"
                     style="margin: 10px; justify-content: center;position: relative; width: 80vw">
+                    <div style="width: 100%;">
+                        <el-steps style="width:80%; height: 30px; margin-bottom: 20px" :active="step" finish-status="success" simple>
+                            <el-step title="选择处置对象" />
+                            <el-step title="填写相关信息" />
+                            <el-step title="采集对象" />
+                            <el-step title="采样人员基本要求" />
+                            <el-step title="样本采样基本要求" />
+                            <el-step title="采集样本种类" />
+                            <el-step title="样本采集和处理" />
+                        </el-steps>
+                    </div>
                     <div v-show="!(isEpidemic || isItem || isPerson)">
-                        <div style="height: 30px;">
-                            <label class="label">请选择处置对象:</label>
-                        </div>
                         <div class="selectObject">
                             <div class="object">
                                 <el-button class="objectBtn1" round plain type="info" @click="classPerson">
@@ -64,16 +72,13 @@
                         <div class="next-button">
                             <div>
                                 <router-link :to="{ path: '/risk' }">
-                                    <el-button size="large" type="primary" style="width: 120px; margin-left: 10px"
-                                    >上一步</el-button>
+                                    <el-button size="large" type="primary"
+                                        style="width: 120px; margin-left: 10px">上一步</el-button>
                                 </router-link>
                             </div>
                         </div>
                     </div>
                     <div v-show="step == 1" style="height: 90%; margin: 10px; overflow:auto">
-                        <div>
-                            <label style="font-size: 20px;">填写处置对象相关信息：</label>
-                        </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; height: 95%;">
                             <div
                                 style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); width: 90%;  margin-top: 3%;height: 93%;">
@@ -129,9 +134,6 @@
                         </div>
                     </div>
                     <div v-show="step == 2" class="">
-                        <div>
-                            <label class="label">采集对象：</label>
-                        </div>
                         <div v-for="(item, index) in Specimen" :key="index"
                             style="margin-top: 15px;;text-indent: 2em;font-size: 20px">{{ index + 1 }}、{{ item }}
                         </div>
@@ -161,9 +163,6 @@
                     </div>
                     <!-- 采样人员基本要求 -->
                     <div v-if="step == 3">
-                        <div>
-                            <label class="label">采样人员基本要求：</label>
-                        </div>
                         <!-- <span>采样人员基本要求</span> -->
                         <div style="margin-top: 15px;font-size: 20px;text-indent: 2em;">{{ text1 }}
                         </div>
@@ -178,9 +177,6 @@
                     </div>
                     <!-- 样本采样基本要求 -->
                     <div v-if="step == 4">
-                        <div>
-                            <label class="label">样本采样基本要求：</label>
-                        </div>
                         <!-- <span>样本采样基本要求 </span> -->
                         <div style="font-size: 20px;text-indent: 2em">
                             针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
@@ -200,9 +196,6 @@
                     </div>
                     <!-- 采集样本种类 -->
                     <div v-if="step == 5">
-                        <div>
-                            <label class="label">采集样本种类：</label>
-                        </div>
                         <!-- <span style="font-size: 20px">采集样本种类 </span> -->
                         <div v-for="(text, index) in text3" :key="index" style="margin-top: 15px;font-size: 20px">{{
                     index + 1
@@ -219,9 +212,6 @@
                     </div>
                     <!-- 样本采集和处理 -->
                     <div v-if="step == 6" style="display: block;">
-                        <div>
-                            <label class="label">样本采集和处理：</label>
-                        </div>
                         <div class="search-card">
                             <el-form ref="form" :model="form" :inline="true">
                                 <el-form-item label="样本种类：" style="width: 500px">
@@ -238,7 +228,7 @@
                             </el-form>
                         </div>
                         <div class="search-content">
-                            <el-card style="width: 80vw;height: 50vh;">
+                            <el-card style="width: 100%;height: 50vh;">
                                 <div v-if="selectedSample">
                                     <h3>采集方法：</h3>
                                     <p>{{ getSampleByType(selectedSample)?.collectionMethod }}</p>
@@ -252,7 +242,8 @@
                                 @click="step = step - 1">上一步
                             </el-button>
                             <router-link :to="{ path: '/risk_assessment' }">
-                                <el-button size="large" type="primary" style="width: 120px; margin-left: 10px" @click="step = 0">确认
+                                <el-button size="large" type="primary" style="width: 120px; margin-left: 10px"
+                                    @click="step = 0">确认
                                 </el-button>
                             </router-link>
                         </div>
@@ -487,7 +478,7 @@ const classEnviroment = () => {
 
 .next-button {
     position: absolute;
-    bottom: 5%;
+    bottom: 2%;
     /* 距离底部的间距 */
     right: 5%;
     /* 距离右侧的间距 */

@@ -20,12 +20,13 @@
                         <div style="margin-top: 10px; width: 100%;">
                             <el-form :model="form" :inline="true" style="width: 100%;">
                                 <el-form-item label="风险评估时间：">
-                                    <el-date-picker v-model="form.date" type="date" placeholder="选择日期" size="default"
-                                        style="margin-right: 20px;" />
-                                    <el-time-picker v-model="form.time" placeholder="选择时间" size="default" />
+                                    <el-date-picker v-model="form.date" type="date" placeholder="选择日期"
+                                    format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="margin: 0 30px;" />
+                                    <el-time-picker v-model="form.time" placeholder="选择时间"  format="HH:mm:ss"
+                                        value-format="HH:mm:ss" />
                                 </el-form-item>
                                 <div style="width: 100%;">
-                                    <el-form-item label="风险评估地点：" >
+                                    <el-form-item label="风险评估地点：">
                                         <div style=" width: 90%;">
                                             <label class="font" style="font-size:14px; color: #606266;">经度: </label>
                                             <el-input class="position" placeholder="请输入经度"
@@ -44,7 +45,8 @@
                                                 v-model="form.position.urban"></el-input>
                                             <label class="font" style="font-size:14px; color: #606266;">具体描述: </label>
                                             <el-input class="position" placeholder="具体描述"
-                                                v-model="form.position.description" style="width: 10%; margin-right: 0"></el-input>
+                                                v-model="form.position.description"
+                                                style="width: 10%; margin-right: 0"></el-input>
                                         </div>
                                     </el-form-item>
                                 </div>
@@ -104,10 +106,11 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            <router-link :to="{ path: '/risk_identification' }">
-                                <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
-                                    size="large">进行风险分析</el-button>
-                            </router-link>
+                            
+                                <!--   btn    -->
+
+                            <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
+                                size="large">进行风险分析</el-button>
                         </div>
                         <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
                             <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
@@ -148,7 +151,8 @@
                                     </el-button>
                                 </div>
                                 <div style="display: inline;" v-if="equipment == '选项1'">
-                                    <el-select v-model="grade" placeholder="请选择设备种类" style="width: 25%; margin-left: 5%">
+                                    <el-select v-model="grade" placeholder="请选择设备种类"
+                                        style="width: 25%; margin-left: 5%">
                                         <el-option v-for="item in gradeOptions" :key="item.value" :label="item.label"
                                             :value="item.value">
                                         </el-option>
@@ -193,12 +197,13 @@
 </template>
 
 <script setup>
-import { get } from "@/net";
+import { get, post } from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import Sidebar from '../../components/sideBar/SideBar.vue';
-import { ref, reactive } from 'vue';
-import { Delete, RefreshRight, Search, Plus, Filter, Position } from "@element-plus/icons-vue"
+import router from "@/router";
+import { ref, reactive, onMounted } from 'vue';
+import { Search, Plus } from "@element-plus/icons-vue"
 import airCondition from './device_guide/air_condition.pdf'
 import waterConditionDetectiver from './device_guide/water_condition_detectiver.pdf'
 import soilConditionDetectiver from './device_guide/soil_condition_detectiver.pdf'
@@ -214,6 +219,28 @@ import ELIASAConditionDetectiver from './device_guide/ELIASA_condition_detective
 import centrifugalConditionDetectiver from './device_guide/centrifugal_condition_detectiver.pdf'
 import PCRDetectiver from './device_guide/PCR__detectiver.pdf'
 import ELISADetectiver from './device_guide/ELISA__detectiver.pdf'
+
+onMounted(() => {
+    const route = useRoute()
+    const id = route.query.id;
+    /* if (id) {
+        post('/api/case/select_case', {
+            id: id
+        }, (data) => {
+            form.date = data.date
+            form.time = data.time
+            form.position.longitude = String(data.longitude)
+            form.position.latitude = String(data.latitude)
+            form.position.country = data.country
+            form.position.province = data.province
+            form.position.urban = data.urban
+            form.position.description = data.description
+        })
+    } */
+});
+
+const route = useRoute()
+const id = route.query.id;
 
 const gradeOptions = ref([{
     value: '选项1',
@@ -242,20 +269,14 @@ const options = ref([{
     value: '选项4',
     label: '记录装备'
 }])
-const cellType = ref(0)
+
 const equipment = ref("")
-const guideButton = ref(false)
 const PDFsrc = ref("")
 const isViewPdf20 = ref(false);
 const addperson = ref(false);
 const addequiment = ref(false)
 const personID = ref()
-const showImg = ref(false);
-const imageUrl = ref("");
-const showLabel = ref(true);
-const textarea1 = ref("");
-const textarea2 = ref("");
-const text = ref("");
+
 const form = reactive({
     date: '',
     time: '',
@@ -267,14 +288,12 @@ const form = reactive({
         urban: '',
         description: ''
     },
-    province: '',
-    city: '',
-    range: '',
     type: 1,
     method: '',
-    person: [{}],
-    equipment: [{}],
+    person: [],
+    equipment: [],
 });
+
 const riskPerson = ref([{
     id: 1,
     name: 'John',
@@ -491,7 +510,7 @@ const riskEquiment6 = ref([{
 const getRiskEquipmentData = () => {
     switch (equipment.value) {
         case '选项1':
-            switch (grade.value){
+            switch (grade.value) {
                 case '选项1': return riskEquiment.value;
                 case '选项2': return riskEquiment2.value;
                 case '选项3': return riskEquiment3.value;
@@ -507,10 +526,31 @@ const getRiskEquipmentData = () => {
             return [];
     }
 }
-//暂时只有两种类型，后续加入数据库进行修改
-const jumpAnalysis = () => {
 
+
+const jumpAnalysis = () => {
+    console.log(form.person.map(item => item.id))
+/*     post('/api/risk/plan', {
+            id: id,
+            date: form.date,
+            time: form.time,
+            longitude: form.position.longitude,
+            latitude: form.position.latitude,
+            country: form.position.country,
+            province: form.position.province,
+            urban: form.position.urban,
+            description: form.position.description,
+            type: form.type,
+            method: form.method,
+            pidList: form.person.map(item => item.id),
+            eidList: form.equipment.map(item => item.id)
+        }, (data) => {
+            ElMessage.success("新建成功")
+        }) */
+   router.push({ path: '/risk_identification', query: { id: id } })
 }
+
+
 const handleClose = () => {
     PDFsrc.value = "";
     isViewPdf20.value = false;
@@ -586,12 +626,12 @@ const addPerson = () => {
     addperson.value = false;
 
     riskPerson.value.forEach((person) => {
-        console.log(person)
         if (person.checked) {
             form.person.push({ id: person.id, name: person.name });
-            equipment.checked = false;
+            person.checked = false;
         }
     });
+    console.log(form.person)
 }
 
 const onSubmit = () => {
@@ -705,7 +745,7 @@ const onSubmit = () => {
     width: 10%;
 }
 
-.card{
+.card {
     height: 80%;
 }
 </style>

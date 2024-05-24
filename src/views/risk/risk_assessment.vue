@@ -76,7 +76,7 @@
                             <el-button size="large" type="primary"
                                 style="margin-top: 10px; width: 120px;">上一步</el-button>
                         </router-link>
-                        <router-link :to="{ path: '/risk0' }">
+                        <router-link :to="{ path: '/handle1' }">
                             <el-button size="large" type="primary"
                                 style="margin-top: 10px; ;margin-left: 30px;width: 120px;" @click="next">完成</el-button>
                         </router-link>

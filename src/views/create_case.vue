@@ -15,8 +15,9 @@
                             <el-form-item>
                                 <label class="font" style="font-size:19px; color: #606266;">案件建立时间: </label>
                                 <el-date-picker v-model="form.date" type="date" placeholder="选择日期" size="large"
-                                    style="margin: 0 30px;" />
-                                <el-time-picker v-model="form.date" placeholder="选择时间" size="large" />
+                                    format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="margin: 0 30px;" />
+                                <el-time-picker v-model="form.time" placeholder="选择时间" size="large" format="HH:mm:ss"
+                                    value-format="HH:mm:ss" />
                             </el-form-item>
                             <el-form-item style="margin-top: 30px;">
                                 <div>
@@ -52,9 +53,7 @@
                     </div>
                     <el-footer class="footer">
                         <div class="btn">
-                           <router-link :to="{ path: '/risk' }">
-                                <el-button type="primary" size="large">新建案件</el-button>
-                            </router-link>
+                            <el-button type="primary" size="large" @click="createCase">新建案件</el-button>
                         </div>
                     </el-footer>
                 </el-card>
@@ -65,9 +64,32 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ElMessage } from 'element-plus';
+import { ref, reactive, onMounted } from 'vue';
+import router from "@/router";
+import { useRoute } from "vue-router";
+import { post, get } from "@/net";
 
 
+
+onMounted(() => {
+    const route = useRoute()
+    const id = route.query.id;
+    if (id) {
+        post('/api/case/select_case', {
+            id: id
+        }, (data) => {
+            form.date = data.date
+            form.time = data.time
+            form.position.longitude = String(data.longitude)
+            form.position.latitude = String(data.latitude)
+            form.position.country = data.country
+            form.position.province = data.province
+            form.position.urban = data.urban
+            form.position.description = data.description
+        })
+    }
+});
 
 const form = reactive({
     date: '',
@@ -81,6 +103,30 @@ const form = reactive({
         description: ''
     }
 })
+
+const createCase = () => {
+    console.log(form)
+    post('/api/case/create_case', {
+        date: form.date,
+        time: form.time,
+        longitude: form.position.longitude,
+        latitude: form.position.latitude,
+        country: form.position.country,
+        province: form.position.province,
+        urban: form.position.urban,
+        description: form.position.description
+    }, (message) => {
+        ElMessage.success("新建成功")
+        router.push({ path: '/risk', query: { id: message } })
+    }, (message) => {
+        console.log(message)
+        if (message == -1) {
+            ElMessage.warning("请填写所有参数")
+        } else {
+            ElMessage.warning(message)
+        }
+    })
+}
 
 
 </script>
