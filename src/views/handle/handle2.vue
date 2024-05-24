@@ -9,32 +9,91 @@
           <el-step title="现场详细勘察" ></el-step>
           <el-step title="现场信息智能录入"></el-step>
           <el-step title="现场无害化处理"></el-step>
-          <el-step title="评价与反馈"></el-step>
+<!--          <el-step title="评价与反馈"></el-step>-->
         </el-steps>
       </div>
       <div  class="center-container">
 <!--        <el-card class="card_box" style="margin:0px 100px 0px 40px;">-->
         <el-card class="card_box">
           <div class="description">
-            <el-card class="text" style="margin:20px 20px 20px 50px;">
-              <label class="label" style="margin-left: 45%">现场图片</label>
-              <el-divider></el-divider>
-              <div class="img">
-                <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                  <label style="font:14px Extra Small">请上传现场图片</label>
+            <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
+              <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
+                <label class="label" style="margin-left: 45%">环境图片</label>
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                  <el-icon><Location /></el-icon>
+                  {{Position}}
+                </el-button>
+                <el-divider></el-divider>
+                <div class="img">
+                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
+                    <label style="font:14px Extra Small">请上传环境图片</label>
+                  </div>
+                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
                 </div>
-                <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
-              </div>
-              <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%">
-                上传现场图片
-                <input type="file" title="上传图片" id="upload-input" style="display:none"/>
-              </el-button>
+                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                  上传现场图片
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  图片上传示例
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  查看现场勘察处置规程
+                </el-button>
+              </el-tab-pane>
+              <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
+                <label class="label" style="margin-left: 45%">人员图片</label>
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                  <el-icon><Location /></el-icon>
+                  {{Position}}
+                </el-button>
+                <el-divider></el-divider>
+                <div class="img">
+                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
+                    <label style="font:14px Extra Small">请上传人员图片</label>
+                  </div>
+                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                </div>
+                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                  上传现场图片
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  图片上传示例
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  查看现场勘察处置规程
+                </el-button>
+              </el-tab-pane>
+              <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
+                <label class="label" style="margin-left: 45%">物证图片</label>
 
-              <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 10%">
-                点击查看现场勘察处置规程
-              </el-button>
-
-            </el-card>
+                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                  <el-icon><Location /></el-icon>
+                  {{Position}}
+                </el-button>
+                <el-divider></el-divider>
+                <div class="img">
+                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
+                    <label style="font:14px Extra Small">请上传物证图片</label>
+                  </div>
+                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                </div>
+                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                  上传现场图片
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  图片上传示例
+                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                </el-button>
+                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                  查看现场勘察处置规程
+                </el-button>
+              </el-tab-pane>
+            </el-tabs>
             <el-card class="text" style="margin:20px 30px 20px 30px;">
               <label class="label" style="margin-left: 40%; ">基本信息录入</label>
               <el-divider></el-divider>
@@ -60,17 +119,16 @@
         </el-card>
       </div>
       <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
-        <!--                <span>Hi there!</span>-->
-<!--        <el-card style="width: 95%;height: 95vh;margin-right: 40px;">-->
-<!--          <div style="width: 100%;height: 85vh;">-->
-<!--            <embed src="src/views/handle/PDF/2.pdf" type="application/pdf"-->
-<!--                   width="100%" height="100%">-->
-<!--          </div>-->
-<!--        </el-card>-->
           <div style="width: 100%;height: 100%;">
             <embed :src="InvestigationAndInquest" type="application/pdf"
                    width="100%" height="100%">
           </div>
+      </el-drawer>
+      <el-drawer v-model="exampleDrawer" title="I am the title" :with-header="false" size="50%">
+        <div style="width: 100%;height: 100%;">
+          <embed :src="example" type="application/pdf"
+                 width="100%" height="100%">
+        </div>
       </el-drawer>
       <router-link :to="{path: '/handle1'}">
         <el-button class="previous-button" type="primary" size="large">
@@ -78,11 +136,6 @@
         </el-button>
       </router-link>
 
-<!--      <router-link :to="{path: '/handle3'}">-->
-<!--      <el-button class="next-button" type="primary" size="large" @click="next">-->
-<!--        下一步-->
-<!--      </el-button>-->
-<!--      </router-link>-->
 
       <!-- 切换页面-->
       <router-link :to="{path: '/handle3'}">
@@ -95,21 +148,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup >
+// type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
+
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
+import example from './PDF/example.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
-
+import {Location} from "@element-plus/icons-vue";
+import MapLoader from "@/util/util";
 const router = useRouter();
 
 const showImg = ref(false);
+const exampleDrawer = ref(false);
 const drawer = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
+let Position = ref("获取定位");
 // 当前步骤
 const active = ref(1);
 const radio = ref(1);
@@ -119,25 +178,16 @@ const form = ref({
   description : '',
 })
 const selectedItems = ref([]);
-
+const activeName = ref('first')
 const value = ref('');
-// 触发下一步骤
-// const next = () => {
-//     if (!form.value.name) {
-//       // 如果 form.name 为空，弹出提示
-//       alert('请填疾病名称！');
-//       return; // 中断函数执行
-//     } else if(!form.value.description){
-//       alert('请添加疾病状况描述')
-//       return;
-//     } else if(radio.value===1){
-//       alert('请勾选疾病性质')
-//       return;
-//     }
-//     router.push({ path: '/handle3' });
-// }
-function handleDisplay() {
-  this.isdisplay = true;
+
+function getPosition(){
+  MapLoader().then((formattedAddress) => {
+    Position.value=formattedAddress;
+    console.log('定位成功，地址为：', Position);
+  }).catch((error) => {
+    console.error('定位失败：', error);
+  });
 }
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
