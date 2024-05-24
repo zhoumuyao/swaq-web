@@ -126,9 +126,9 @@
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/handle4'}">
+      <router-link :to="{path: '/index'}">
         <el-button class="next-button" type="primary" size="large">
-          下一步
+          完成
         </el-button>
       </router-link>
     </div>
