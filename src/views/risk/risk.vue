@@ -553,8 +553,10 @@ const handleClose = () => {
     isViewPdf20.value = false;
 }
 const viewGuide = (guide) => {
+    switch(guide){
+        case "airCondition": PDFsrc.value = airCondition
+    }
     isViewPdf20.value = true;
-    PDFsrc.value = guide;
     console.log(PDFsrc.value)
 }
 const addEquiment = () => {
