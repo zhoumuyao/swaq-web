@@ -21,8 +21,8 @@
                             <el-form :model="form" :inline="true" style="width: 100%;">
                                 <el-form-item label="风险评估时间：">
                                     <el-date-picker v-model="form.date" type="date" placeholder="选择日期"
-                                    format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="margin: 0 30px;" />
-                                    <el-time-picker v-model="form.time" placeholder="选择时间"  format="HH:mm:ss"
+                                        format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="margin: 0 30px;" />
+                                    <el-time-picker v-model="form.time" placeholder="选择时间" format="HH:mm:ss"
                                         value-format="HH:mm:ss" />
                                 </el-form-item>
                                 <div style="width: 100%;">
@@ -74,7 +74,7 @@
                                         <div style="margin-bottom: 10px;">
                                             <label class="smalllabel">风险评估人员：</label>
                                             <el-button type="primary" :icon="Plus" circle
-                                                @click="addperson = true"></el-button>
+                                                @click="addperson = true;"></el-button>
                                         </div>
                                         <el-card class="card">
                                             <el-table :data="form.person" style="width: 100%; height: 45vh">
@@ -106,8 +106,8 @@
                             </el-form>
                         </div>
                         <div class="next-button">
-                            
-                                <!--   btn    -->
+
+                            <!--   btn    -->
 
                             <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
                                 size="large">进行风险分析</el-button>
@@ -223,6 +223,23 @@ import ELISADetectiver from './device_guide/ELISA__detectiver.pdf'
 onMounted(() => {
     const route = useRoute()
     const id = route.query.id;
+
+    post('/api/risk/select_person', {
+    }, (data) => {
+        riskPerson.value = data;
+        riskPerson.value.forEach(function(item) {
+            item.checked = false;
+        });
+    })
+
+    post('/api/risk/select_equipment', {
+    }, (data) => {
+        equipments.value = data;
+        equipments.value.forEach(function(item) {
+            item.checked = false;
+        });
+        console.log(equipments.value)
+    })
     /* if (id) {
         post('/api/case/select_case', {
             id: id
@@ -238,6 +255,9 @@ onMounted(() => {
         })
     } */
 });
+
+const riskPerson = ref([])
+const equipments = ref([])
 
 const route = useRoute()
 const id = route.query.id;
@@ -294,32 +314,6 @@ const form = reactive({
     equipment: [],
 });
 
-const riskPerson = ref([{
-    id: 1,
-    name: 'John',
-    checked: false,
-},
-{
-    id: 2,
-    name: 'Tom',
-    checked: false,
-},
-{
-    id: 3,
-    name: 'Bill',
-    checked: false,
-},
-{
-    id: 4,
-    name: 'Jerry',
-    checked: false,
-},
-{
-    id: 5,
-    name: 'David',
-    checked: false,
-},
-])
 const riskEquiment = ref([{
     id: 6,
     name: '正压防护服',
@@ -507,21 +501,24 @@ const riskEquiment6 = ref([{
 }
 ])
 
+
+
+
 const getRiskEquipmentData = () => {
     switch (equipment.value) {
         case '选项1':
             switch (grade.value) {
-                case '选项1': return riskEquiment.value;
-                case '选项2': return riskEquiment2.value;
-                case '选项3': return riskEquiment3.value;
+                case '选项1': return equipments.value.filter(equipment => equipment.type1 === 1);
+                case '选项2': return equipments.value.filter(equipment => equipment.type2 === 1);
+                case '选项3': return equipments.value.filter(equipment => equipment.type3 === 1);
                 default: return [];
             }
         case '选项2':
-            return riskEquiment4.value;
+            return equipments.value.filter(equipment => equipment.type4 === 1);
         case '选项3':
-            return riskEquiment5.value;
+            return equipments.value.filter(equipment => equipment.type5 === 1);
         case '选项4':
-            return riskEquiment6.value;
+            return equipments.value.filter(equipment => equipment.type6 === 1);
         default:
             return [];
     }
@@ -530,24 +527,24 @@ const getRiskEquipmentData = () => {
 
 const jumpAnalysis = () => {
     console.log(form.person.map(item => item.id))
-/*     post('/api/risk/plan', {
-            id: id,
-            date: form.date,
-            time: form.time,
-            longitude: form.position.longitude,
-            latitude: form.position.latitude,
-            country: form.position.country,
-            province: form.position.province,
-            urban: form.position.urban,
-            description: form.position.description,
-            type: form.type,
-            method: form.method,
-            pidList: form.person.map(item => item.id),
-            eidList: form.equipment.map(item => item.id)
-        }, (data) => {
-            ElMessage.success("新建成功")
-        }) */
-   router.push({ path: '/risk_identification', query: { id: id } })
+    /*     post('/api/risk/plan', {
+                id: id,
+                date: form.date,
+                time: form.time,
+                longitude: form.position.longitude,
+                latitude: form.position.latitude,
+                country: form.position.country,
+                province: form.position.province,
+                urban: form.position.urban,
+                description: form.position.description,
+                type: form.type,
+                method: form.method,
+                pidList: form.person.map(item => item.id),
+                eidList: form.equipment.map(item => item.id)
+            }, (data) => {
+                ElMessage.success("新建成功")
+            }) */
+    router.push({ path: '/risk_identification', query: { id: id } })
 }
 
 
@@ -557,19 +554,19 @@ const handleClose = () => {
 }
 const viewGuide = (guide) => {
     isViewPdf20.value = true;
-    console.log(guide)
     PDFsrc.value = guide;
+    console.log(PDFsrc.value)
 }
 const addEquiment = () => {
     addequiment.value = false;
-    riskEquiment.value.forEach((equipment) => {
+    form.equipment = []; 
+    equipments.value.forEach((equipment) => {
         if (equipment.checked) {
             if (equipment.guide != null) {
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     }); riskEquiment2.value.forEach((equipment) => {
         if (equipment.checked) {
@@ -578,7 +575,6 @@ const addEquiment = () => {
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     });
     riskEquiment3.value.forEach((equipment) => {
@@ -588,7 +584,6 @@ const addEquiment = () => {
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     });
     riskEquiment4.value.forEach((equipment) => {
@@ -598,7 +593,6 @@ const addEquiment = () => {
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     });
     riskEquiment5.value.forEach((equipment) => {
@@ -608,7 +602,6 @@ const addEquiment = () => {
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     });
     riskEquiment6.value.forEach((equipment) => {
@@ -618,20 +611,19 @@ const addEquiment = () => {
             }
             else
                 form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-            equipment.checked = false;
         }
     });
 }
 const addPerson = () => {
     addperson.value = false;
-
+    form.person = []; 
+    console.log(riskPerson.value)
     riskPerson.value.forEach((person) => {
+        console.log(person)
         if (person.checked) {
             form.person.push({ id: person.id, name: person.name });
-            person.checked = false;
         }
     });
-    console.log(form.person)
 }
 
 const onSubmit = () => {
