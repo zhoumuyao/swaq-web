@@ -1,3 +1,4 @@
+<!-- 修改为risk_identification -->
 <template>
   <div class="app">
     <!--    <sidebar></sidebar>-->
@@ -6,7 +7,7 @@
       <div
         style="padding: 20px; border-bottom: solid 2px; border-color: darkgray"
       >
-        <label style="font: 20px Extra large">风险评估模块</label>
+        <label style="font: 20px Extra large">风险识别模块</label>
       </div>
 
       <div style="margin-left: 30px; margin-top: 30px">
@@ -27,21 +28,22 @@
 
             <div class="description">
               <el-card class="jugehappen">
-                <div v-if="showornot" class="displaypicture">
-                  <div class="jugehappentop">
+                <div class="displaypicture">
+                  <div class="jugehappentop" >
                     <div>
                       <span class="label">细胞名称:</span>
                     </div>
-                    <div style="margin-top: 10px">
-                      <span class="label">{{ cellName }}</span>
+                    <div style="margin-top: 10px;">
+                      <span v-if="showornot" class="label">{{ cellName }}</span>
                     </div>
                   </div>
-                  <div style="text-align: center">
+                  <div v-if="showornot" style="text-align: center" >
                     <el-image
                       class="image-container"
                       v-if="cellType == 0"
                       :src="escherichiacoliImage"
                       :fit="fill"
+                      style="height: 160px;"
                     ></el-image>
                     <el-image
                       class="image-container"
@@ -112,7 +114,7 @@
                 <div slot="header" class="jugehappentop">
                   <span class="label">其他危害分析</span>
                 </div>
-                <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input> 
+                <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input>
               -->
                 <div
                   v-for="(text, index) in text[4]"

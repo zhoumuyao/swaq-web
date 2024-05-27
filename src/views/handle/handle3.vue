@@ -9,65 +9,113 @@
           <el-step title="现场详细勘察" ></el-step>
           <el-step title="现场信息智能录入"></el-step>
           <el-step title="现场无害化处理"></el-step>
-          <el-step title="评价与反馈"></el-step>
+<!--          <el-step title="评价与反馈"></el-step>-->
         </el-steps>
       </div>
 
       <div class="center-container">
         <el-card class="card_box">
-            <el-card class="left-top-container" shadow="hover">
+          <el-tabs v-model="activeName" type="border-card"  class="el-tabs">
+            <el-tab-pane label="保留现场" name="first"  class="el-tab-pane">
+                <el-card class="left-top-container" shadow="hover">
+                  <!-- 左上方的内容 -->
+                  <div slot="header" class="card-title">
+                    <span style="margin:0 42%;">决策结果</span>
+                    <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
+                    <el-divider></el-divider>
+                    <div style="width: 100%;height: 90%;margin-right: 40px;">
+                      <div style="width: 100%;height: 70vh">
+                        <embed :src="DecisionMakingResults" type="application/pdf"
+                               width="100%" height="80%">
+                      </div>
+                    </div>
+                  </div>
+                </el-card>
+                <el-card class="left-bottom-container" shadow="hover">
+                  <!-- 左下方的内容 -->
+                  <div slot="header" class="card-title">
+                    <span style="margin:0 42%;">处置建议</span>
+                    <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
+                    <el-divider></el-divider>
+                  </div>
+                  <div style="width: 100%;height: 90%;margin-right: 40px;">
+                    <div style="width: 100%;height: 100vh;">
+                      <embed :src="adviceSave" type="application/pdf"
+                             width="100%" height="50%">
+                    </div>
+                  </div>
+                  <!-- 循环遍历处置意见-->
+                  <!--              <div>-->
+                  <!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
+                  <!--                  {{index+1}}、{{suggest}}-->
+                  <!--                </div>-->
+                  <!--              </div>-->
+                </el-card>
+                <el-card class="right-container" shadow="hover">
+                  <!-- 右侧的内容 -->
+                  <div slot="header" class="card-title" >
+                    <span style="margin:0 43%;">Tips</span>
+                    <el-button style="float: right; padding: 3px 0" type="text" @click="copy('tips')">复制</el-button>
+                  </div>
+                  <!-- 循环遍TIPS-->
+                  <div style="width: 100%;height: 90%;margin-right: 40px;">
+                    <div style="width: 100%;height: 100vh;">
+                      {{Tips1}}
+                    </div>
+                  </div>
+                </el-card>
+            </el-tab-pane>
+            <el-tab-pane label="不保留现场" name="second" class="el-tab-pane">
+              <el-card class="left-top-container" shadow="hover">
               <!-- 左上方的内容 -->
               <div slot="header" class="card-title">
                 <span style="margin:0 42%;">决策结果</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
                 <el-divider></el-divider>
-                <el-card style="width: 100%;height: 90%;margin-right: 40px;">
+                <div style="width: 100%;height: 90%;margin-right: 40px;">
                   <div style="width: 100%;height: 70vh">
-                    <embed src="src/views/handle/PDF/Decision-makingResults.pdf" type="application/pdf"
-                           width="100%" height="90%">
+                    <embed :src="DecisionMakingResults" type="application/pdf"
+                           width="100%" height="95%">
                   </div>
-                </el-card>
+                </div>
               </div>
             </el-card>
-          <!--              &lt;!&ndash; 循环遍历决策结果&ndash;&gt;-->
-          <!--              <div class="result" v-for="(result,index) in Results" :key="index" style="margin-top: 15px">{{index+1}}、{{result}}-->
-          <!--              </div>-->
-
-            <el-card class="left-bottom-container" shadow="hover">
-              <!-- 左下方的内容 -->
-              <div slot="header" class="card-title">
-                <span style="margin:0 42%;">处置建议</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
-                <el-divider></el-divider>
-              </div>
-              <el-card style="width: 100%;height: 90%;margin-right: 40px;">
-                <div style="width: 100%;height: 100vh;">
-                  <embed src="src/views/handle/PDF/DisposalRecommendations.pdf" type="application/pdf"
-                         width="100%" height="35%">
+              <el-card class="left-bottom-container" shadow="hover">
+                <!-- 左下方的内容 -->
+                <div slot="header" class="card-title">
+                  <span style="margin:0 42%;">处置建议</span>
+                  <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
+                  <el-divider></el-divider>
+                </div>
+                <div style="width: 100%;height: 90%;margin-right: 40px;">
+                  <div style="width: 100%;height: 100vh;">
+                    <embed :src="adviceNotSave" type="application/pdf"
+                           width="100%" height="40%">
+                  </div>
+                </div>
+                <!-- 循环遍历处置意见-->
+                <!--              <div>-->
+                <!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
+                <!--                  {{index+1}}、{{suggest}}-->
+                <!--                </div>-->
+                <!--              </div>-->
+              </el-card>
+              <el-card class="right-container" shadow="hover">
+                <!-- 右侧的内容 -->
+                <div slot="header" class="card-title" >
+                  <span style="margin:0 43%;">Tips</span>
+                  <el-button style="float: right; padding: 3px 0" type="text" @click="copy('tips')">复制</el-button>
+                </div>
+                <!-- 循环遍TIPS-->
+                <div style="width: 100%;height: 90%;margin-right: 40px;">
+                  <div style="width: 100%;height: 100vh;">
+                    {{Tips2}}
+                  </div>
                 </div>
               </el-card>
-              <!-- 循环遍历处置意见-->
-<!--              <div>-->
-<!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
-<!--                  {{index+1}}、{{suggest}}-->
-<!--                </div>-->
-<!--              </div>-->
-            </el-card>
+            </el-tab-pane>
+          </el-tabs>
 
-            <el-card class="right-container" shadow="hover">
-              <!-- 右侧的内容 -->
-              <div slot="header" class="card-title" >
-                <span style="margin:0 43%;">Tips</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="copy('tips')">复制</el-button>
-              </div>
-              <!-- 循环遍TIPS-->
-              <div>
-                {{Tips}}
-<!--                <div class="tips" v-for="(tip,index) in Tips" :key="index" style="margin-top: 15px">-->
-<!--                  {{index+1}}、{{tip}}-->
-<!--                </div>-->
-              </div>
-            </el-card>
         </el-card>
       </div>
 
@@ -78,9 +126,9 @@
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/handle4'}">
+      <router-link :to="{path: '/index'}">
         <el-button class="next-button" type="primary" size="large">
-          下一步
+          完成
         </el-button>
       </router-link>
     </div>
@@ -91,12 +139,19 @@
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
+import DecisionMakingResults from './PDF/DecisionMakingResults.pdf'
+import DisposalRecommendations from './PDF/DisposalRecommendations.pdf'
+import adviceNotSave from './PDF/advice_notSave.pdf'
+import adviceSave from './PDF/advice_save.pdf'
 import { useRouter } from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
-
+import jsPDF from 'jspdf';
 // 当前步骤
 const active = ref(2);
 const value = ref('');
+const activeName = ref('first')
+
+const location = ref({ lat: 0, lng: 0 });
 
 const Results = ref(['紧急撤离： 首要任务是确保所有人员的安全。因此，迅速进行紧急撤离，并使用紧急广播系统通知所有在场人员。',
   '隔离事故现场： 立即采取措施将事故现场隔离，防止泄漏物质扩散到其他区域。',
@@ -107,11 +162,13 @@ const Suggests = ref("穿戴个人防护装备： 参与处置的救援人员必
 
 )
 
-const Tips = ref(
+const Tips1 = ref(
   "穿戴适当的个人防护装备·避免直接接触·定期洗手·隔离受感染区域·限制人员流动·报告有关部门"
-  // ' 提供应急医疗服务： 为受伤或可能受感染的人员提供紧急医疗服务。',
-  // '使用有效消毒剂： 使用有效的消毒剂对受感染或受污染的区域进行消毒，以确保杀灭可能的病原体或危险物质。'
 )
+const Tips2 = ref(
+    "清理并消毒现场·安全处置废弃物·撤离无关人员·通风换气·恢复正常秩序·记录和报告"
+)
+
 const copy = (selector) =>{
   let elements = null;
   if (selector === 'suggest'){
@@ -165,13 +222,13 @@ const copy = (selector) =>{
 
 .previous-button{
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   left: 80%;
 }
 
 .next-button {
   position: fixed;
-  bottom: 3%;
+  bottom: 7%;
   right: 7%;
 }
 .center-container{
@@ -183,6 +240,8 @@ const copy = (selector) =>{
 
 .card_box{
   height:85%;
+  display: flex;
+  flex-direction: column;
   overflow-y:auto;
   overflow-x:hidden;
   margin:0px 100px 0px 40px;
@@ -193,22 +252,33 @@ const copy = (selector) =>{
   top: 4%;
   left: 6%;
   width: 40%;
-  height: 80%;
+  height: 85%;
 }
 .left-bottom-container{
   position: absolute;
   top: 4%;
   left: 50%;
   width: 40%;
-  height: 55%;
+  height: 60%;
 }
 
 .right-container{
   position: absolute;
-  top: 60%;
+  top: 70%;
   left: 50%;
   width: 40%;
-  height: 15%;
+  height: 19%;
+}
+.el-tabs {
+  height: 100%;
+  display: grid;
+  flex-direction: column;
+}
+
+.el-tab-pane {
+  display: grid;
+  margin-bottom: 50%;
+  flex-grow: 1;
 }
 
 .card-title{
