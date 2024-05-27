@@ -28,9 +28,11 @@
                                         <el-table :data="tableData1" style="width: 100%" type="selection">
                                             <el-table-column prop="virue" label="等级" width="500" fixed="left">
                                             </el-table-column>
-                                            <el-table-column label="确认等级" width="200" fixed="right" prop="checked" style="text-align: center;">
+                                            <el-table-column label="确认等级" width="200" fixed="right" prop="checked"
+                                                style="text-align: center;">
                                                 <template #default="{ row }">
-                                                    <el-radio v-model="riskGradeRadio" :label="String(row.id)"> <label></label></el-radio>
+                                                    <el-radio v-model="riskGradeRadio" :label="String(row.id)">
+                                                        <label></label></el-radio>
                                                 </template>
                                             </el-table-column>
                                         </el-table>
@@ -50,7 +52,8 @@
                                             </el-table-column>
                                             <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
                                                 <template #default="{ row }">
-                                                    <el-radio v-model="emergencyResponse" :label="String(row.id)"> <label></label></el-radio>
+                                                    <el-radio v-model="emergencyResponse" :label="String(row.id)">
+                                                        <label></label></el-radio>
                                                 </template>
                                             </el-table-column>
                                         </el-table>
@@ -72,14 +75,11 @@
                         </div>
                     </div>
                     <div class="next-button" style="margin-left: 40%;">
-                        <router-link :to="{ path: '/risk_identification', query: { cellType: cellType } }">
-                            <el-button size="large" type="primary"
-                                style="margin-top: 10px; width: 120px;">上一步</el-button>
-                        </router-link>
-                        <router-link :to="{ path: '/handle1' }">
-                            <el-button size="large" type="primary"
-                                style="margin-top: 10px; ;margin-left: 30px;width: 120px;" @click="next">完成</el-button>
-                        </router-link>
+                        <el-button size="large" type="primary" style="margin-top: 10px; width: 120px;"
+                            @click="back">上一步</el-button>
+                        <el-button size="large" type="primary"
+                            style="margin-top: 10px; ;margin-left: 30px;width: 120px;"
+                            @click="jumpHandle">完成</el-button>
                     </div>
                 </el-card>
             </div>
@@ -179,7 +179,10 @@ import { ElMessage } from "element-plus";
 import { useRoute } from 'vue-router';
 import Sidebar from '../../components/sideBar/SideBar.vue';
 import { ref, onMounted } from 'vue';
-import router from "../../router";
+import router from "@/router";
+
+const route = useRoute()
+const id = route.query.id
 
 const dialogVisible = ref(false)
 const textarea = ref("")
@@ -188,8 +191,7 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-const route = useRoute();
-const cellType = route.query.cellType;
+
 
 const radio1 = ref("一级");
 
@@ -308,6 +310,16 @@ function getPicture(event) {
 function selectFile() {
     this.$refs.fileInput.click();
 };
+
+
+const back = () => {
+    router.push({ path: '/risk_identification', query: { id: id, back: 1 } })
+}
+
+const jumpHandle = () => {
+    router.push({ path: '/handle1', query: { id: id } })
+}
+
 </script>
 
 <style scoped>

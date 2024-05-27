@@ -73,22 +73,6 @@ import { post, get } from "@/net";
 
 
 onMounted(() => {
-    const route = useRoute()
-    const id = route.query.id;
-    if (id) {
-        post('/api/case/select_case', {
-            id: id
-        }, (data) => {
-            form.date = data.date
-            form.time = data.time
-            form.position.longitude = String(data.longitude)
-            form.position.latitude = String(data.latitude)
-            form.position.country = data.country
-            form.position.province = data.province
-            form.position.urban = data.urban
-            form.position.description = data.description
-        })
-    }
 });
 
 const form = reactive({

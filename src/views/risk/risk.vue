@@ -118,7 +118,7 @@
                             <el-button type="primary" :icon="Search" @click="handleSearch"
                                 style="display: inline-block;" circle></el-button>
                             <div>
-                                <el-table :data="riskPerson" style="width: 100%" type="selection">
+                                <el-table :data="persons" style="width: 100%" type="selection">
                                     <el-table-column prop="id" label="警务号" width="180" fixed="left">
                                     </el-table-column>
                                     <el-table-column prop="name" label="姓名" width="180" fixed="left">
@@ -202,7 +202,7 @@ import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import Sidebar from '../../components/sideBar/SideBar.vue';
 import router from "@/router";
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onBeforeMount } from 'vue';
 import { Search, Plus } from "@element-plus/icons-vue"
 import airCondition from './device_guide/air_condition.pdf'
 import waterConditionDetectiver from './device_guide/water_condition_detectiver.pdf'
@@ -220,14 +220,12 @@ import centrifugalConditionDetectiver from './device_guide/centrifugal_condition
 import PCRDetectiver from './device_guide/PCR__detectiver.pdf'
 import ELISADetectiver from './device_guide/ELISA__detectiver.pdf'
 
-onMounted(() => {
-    const route = useRoute()
-    const id = route.query.id;
+onBeforeMount(() => {
 
     post('/api/risk/select_person', {
     }, (data) => {
-        riskPerson.value = data;
-        riskPerson.value.forEach(function(item) {
+        persons.value = data;
+        persons.value.forEach(function (item) {
             item.checked = false;
         });
     })
@@ -235,13 +233,13 @@ onMounted(() => {
     post('/api/risk/select_equipment', {
     }, (data) => {
         equipments.value = data;
-        equipments.value.forEach(function(item) {
+        equipments.value.forEach(function (item) {
             item.checked = false;
         });
-        console.log(equipments.value)
     })
-    /* if (id) {
-        post('/api/case/select_case', {
+
+    if (id && back) {
+        post('/api/risk/select_riskPlan', {
             id: id
         }, (data) => {
             form.date = data.date
@@ -252,15 +250,36 @@ onMounted(() => {
             form.position.province = data.province
             form.position.urban = data.urban
             form.position.description = data.description
+            form.type = data.type
+            form.method = String(data.method)
         })
-    } */
+
+        post('/api/risk/select_RiskPerson', {
+            id: id
+        }, (data) => {
+            personIdList.value = data
+            form.person = persons.value.filter((person) =>  personIdList.value.includes(person.id))
+        })
+
+        post('/api/risk/select_RiskEquipment', {
+            id: id
+        }, (data) => {
+            EquipmentIdList.value = data
+            form.equipment = equipments.value.filter((equipment) =>  EquipmentIdList.value.includes(equipment.id))
+        })
+    }
 });
 
-const riskPerson = ref([])
+const personIdList = ref([])
+const EquipmentIdList = ref([])
+
+
+const persons = ref([])
 const equipments = ref([])
 
 const route = useRoute()
 const id = route.query.id;
+const back = route.query.back;
 
 const gradeOptions = ref([{
     value: '选项1',
@@ -314,196 +333,6 @@ const form = reactive({
     equipment: [],
 });
 
-const riskEquiment = ref([{
-    id: 6,
-    name: '正压防护服',
-    checked: false,
-    guide: airCondition
-}, {
-    id: 7,
-    name: '医用乳胶手套',
-    checked: false,
-    guide: waterConditionDetectiver
-}, {
-    id: 8,
-    name: '透明防护面具',
-    checked: false,
-    guide: soilConditionDetectiver
-}, {
-    id: 9,
-    name: '密封式防护镜',
-    checked: false,
-    guide: gasConditionDetectiver
-}, {
-    id: 10,
-    name: '鞋套',
-    checked: false,
-    guide: radioConditionDetectiver
-},
-{
-    id: 11,
-    name: 'N95/KN95颗粒物防护口罩或以上级别的口罩',
-    checked: false,
-    guide: lamaInfraredConditionDetectiver
-}
-])
-const riskEquiment2 = ref([{
-    id: 12,
-    name: '防护服',
-    checked: false,
-    guide: PCRConditionDetectiver
-}, {
-    id: 13,
-    name: '医用乳胶手套',
-    checked: false,
-    guide: microConditionDetectiver
-}, {
-    id: 14,
-    name: '透明防护面具',
-    checked: false,
-    guide: massSpectraConditionDetectiver
-}, {
-    id: 15,
-    name: '密封式防护镜',
-    checked: false,
-    guide: ELIASAConditionDetectiver
-}, {
-    id: 16,
-    name: '鞋套',
-    checked: false,
-    guide: centrifugalConditionDetectiver
-},
-{
-    id: 17,
-    name: 'N95/KN95颗粒物防护口罩或以上级别的口罩',
-    checked: false,
-    guide: PCRDetectiver
-},
-])
-
-const riskEquiment3 = ref([{
-    id: 18,
-    name: '口罩',
-    checked: false,
-    guide: PCRConditionDetectiver
-}, {
-    id: 19,
-    name: '眼罩',
-    checked: false,
-    guide: microConditionDetectiver
-}, {
-    id: 20,
-    name: '头罩',
-    checked: false,
-    guide: massSpectraConditionDetectiver
-}, {
-    id: 21,
-    name: '手套',
-    checked: false,
-    guide: ELIASAConditionDetectiver
-}, {
-    id: 22,
-    name: '鞋套',
-    checked: false,
-    guide: centrifugalConditionDetectiver
-}
-])
-
-const riskEquiment4 = ref([{
-    id: 23,
-    name: '生物安全现场勘查车',
-    checked: false,
-    guide: PCRConditionDetectiver
-}, {
-    id: 24,
-    name: '信息传输车辆',
-    checked: false,
-    guide: microConditionDetectiver
-}, {
-    id: 25,
-    name: '快速响应车辆',
-    checked: false,
-    guide: massSpectraConditionDetectiver
-}, {
-    id: 26,
-    name: '承载设备车辆',
-    checked: false,
-    guide: ELIASAConditionDetectiver
-}
-])
-
-const riskEquiment5 = ref([{
-    id: 27,
-    name: '现场采样设备',
-    checked: false,
-    guide: PCRConditionDetectiver
-}, {
-    id: 28,
-    name: '样品分析设备',
-    checked: false,
-    guide: microConditionDetectiver
-}, {
-    id: 29,
-    name: '生物安全现场勘查工具箱',
-    checked: false,
-    guide: massSpectraConditionDetectiver
-}, {
-    id: 30,
-    name: '空气采样设备',
-    checked: false,
-    guide: ELIASAConditionDetectiver
-}, {
-    id: 31,
-    name: '现场检测仪',
-    checked: false,
-    guide: centrifugalConditionDetectiver
-},
-{
-    id: 32,
-    name: '红外光谱仪',
-    checked: false,
-    guide: PCRDetectiver
-},
-{
-    id: 33,
-    name: '拉曼光谱仪',
-    checked: false,
-    guide: ELISADetectiver
-},
-{
-    id: 34,
-    name: '微流控系统',
-    checked: false,
-    guide: ELISADetectiver
-},
-])
-
-const riskEquiment6 = ref([{
-    id: 35,
-    name: '无人机摄像系统',
-    checked: false,
-    guide: PCRConditionDetectiver
-}, {
-    id: 36,
-    name: '手持式相机',
-    checked: false,
-    guide: microConditionDetectiver
-}, {
-    id: 37,
-    name: '平板电脑',
-    checked: false,
-    guide: massSpectraConditionDetectiver
-}, {
-    id: 38,
-    name: '警务手机',
-    checked: false,
-    guide: ELIASAConditionDetectiver
-}
-])
-
-
-
-
 const getRiskEquipmentData = () => {
     switch (equipment.value) {
         case '选项1':
@@ -524,108 +353,111 @@ const getRiskEquipmentData = () => {
     }
 }
 
-
-const jumpAnalysis = () => {
-    console.log(form.person.map(item => item.id))
-    /*     post('/api/risk/plan', {
-                id: id,
-                date: form.date,
-                time: form.time,
-                longitude: form.position.longitude,
-                latitude: form.position.latitude,
-                country: form.position.country,
-                province: form.position.province,
-                urban: form.position.urban,
-                description: form.position.description,
-                type: form.type,
-                method: form.method,
-                pidList: form.person.map(item => item.id),
-                eidList: form.equipment.map(item => item.id)
-            }, (data) => {
-                ElMessage.success("新建成功")
-            }) */
-    router.push({ path: '/risk_identification', query: { id: id } })
+const createRiskPEList = () => {
+    post('/api/risk/delete_riskPerson', {
+        id: id,
+    }, (data) => {
+        post('/api/risk/add_riskPerson', {
+            id: id,
+            persons: personIdList.value
+        }, (data) => {
+            router.push({ path: '/risk_identification', query: { id: id } })
+        }, (data) => {
+            ElMessage.warning(data)
+        })
+    }, (data) => {
+        ElMessage.warning(data)
+    })
+    post('/api/risk/delete_riskEquipment', {
+        id: id,
+    }, (data) => {
+        post('/api/risk/add_riskEquipment', {
+            id: id,
+            equipments: EquipmentIdList.value
+        }, (data) => {
+            router.push({ path: '/risk_identification', query: { id: id } })
+        }, (data) => {
+            ElMessage.warning(data)
+        })
+    }, (data) => {
+        ElMessage.warning(data)
+    })
 }
 
+const jumpAnalysis = () => {
+    if (back != 1) {
+        post('/api/risk/create_plan', {
+            id: id,
+            date: form.date,
+            time: form.time,
+            longitude: form.position.longitude,
+            latitude: form.position.latitude,
+            country: form.position.country,
+            province: form.position.province,
+            urban: form.position.urban,
+            description: form.position.description,
+            type: form.type,
+            method: form.method,
+            isUpdate: false
+        }, (data) => {
+            createRiskPEList()
+        }, (data) => {
+            ElMessage.warning(data)
+        });
+    } else {
+        post('/api/risk/create_plan', {
+            id: id,
+            date: form.date,
+            time: form.time,
+            longitude: form.position.longitude,
+            latitude: form.position.latitude,
+            country: form.position.country,
+            province: form.position.province,
+            urban: form.position.urban,
+            description: form.position.description,
+            type: form.type,
+            method: form.method,
+            isUpdate: true
+        }, (data) => {
+            createRiskPEList()
+        }, (data) => {
+            ElMessage.warning(data)
+        })
+    }
+}
 
 const handleClose = () => {
     PDFsrc.value = "";
     isViewPdf20.value = false;
 }
 const viewGuide = (guide) => {
-    switch(guide){
+    switch (guide) {
         case "airCondition": PDFsrc.value = airCondition
     }
     isViewPdf20.value = true;
-    console.log(PDFsrc.value)
 }
-const addEquiment = () => {
-    addequiment.value = false;
-    form.equipment = []; 
-    equipments.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    }); riskEquiment2.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    });
-    riskEquiment3.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    });
-    riskEquiment4.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    });
-    riskEquiment5.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    });
-    riskEquiment6.value.forEach((equipment) => {
-        if (equipment.checked) {
-            if (equipment.guide != null) {
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: true });
-            }
-            else
-                form.equipment.push({ id: equipment.id, name: equipment.name, guide: equipment.guide, showButton: false });
-        }
-    });
-}
+
 const addPerson = () => {
     addperson.value = false;
-    form.person = []; 
-    console.log(riskPerson.value)
-    riskPerson.value.forEach((person) => {
-        console.log(person)
+    personIdList.value = [];
+    persons.value.forEach((person) => {
         if (person.checked) {
-            form.person.push({ id: person.id, name: person.name });
+            personIdList.value.push(person.id);
         }
     });
+    form.person = persons.value.filter((person) => personIdList.value.includes(person.id))
+}
+
+const addEquiment = () => {
+    console.log(equipments.value)
+    addequiment.value = false;
+    EquipmentIdList.value = [];
+    equipments.value.forEach((equipment) => {
+        if (equipment.checked) {
+            EquipmentIdList.value.push(equipment.id);
+        }
+    });
+    form.equipment = equipments.value.filter((equipment) => EquipmentIdList.value.includes(equipment.id))
 }
 
 const onSubmit = () => {

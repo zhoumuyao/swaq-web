@@ -17,7 +17,8 @@
                 <el-card :body-style="{ height: '75vh' }"
                     style="margin: 10px; justify-content: center;position: relative; width: 80vw">
                     <div style="width: 100%;">
-                        <el-steps style="width:80%; height: 30px; margin-bottom: 20px" :active="step" finish-status="success" simple>
+                        <el-steps style="width:80%; height: 30px; margin-bottom: 20px" :active="step"
+                            finish-status="success" simple>
                             <el-step title="选择处置对象" />
                             <el-step title="填写相关信息" />
                             <el-step title="采集对象" />
@@ -71,10 +72,8 @@
                         </div>
                         <div class="next-button">
                             <div>
-                                <router-link :to="{ path: '/risk' }">
-                                    <el-button size="large" type="primary"
-                                        style="width: 120px; margin-left: 10px">上一步</el-button>
-                                </router-link>
+                                <el-button size="large" type="primary" style="width: 120px; margin-left: 10px"
+                                    @click="back">上一步</el-button>
                             </div>
                         </div>
                     </div>
@@ -117,7 +116,7 @@
                                     </el-form-item>
                                     <el-form-item>
                                         <label style="font-size: 16px;display: inline-block; width: 100%;">采样要求：</label>
-                                        <el-input v-model="form.request" style="width: 800px" :rows="6" type="textarea"
+                                        <el-input v-model="form.require" style="width: 800px" :rows="6" type="textarea"
                                             placeholder="请输入要求"></el-input>
                                     </el-form-item>
                                 </el-form>
@@ -241,11 +240,9 @@
                             <el-button size="large" type="primary" style="width: 120px; margin-right: 20px"
                                 @click="step = step - 1">上一步
                             </el-button>
-                            <router-link :to="{ path: '/risk_assessment' }">
-                                <el-button size="large" type="primary" style="width: 120px; margin-left: 10px"
-                                    @click="step = 0">确认
-                                </el-button>
-                            </router-link>
+                            <el-button size="large" type="primary" style="width: 120px; margin-left: 10px"
+                                @click="jumpAssessment">确认
+                            </el-button>
                         </div>
                     </div>
                 </el-card>
@@ -256,13 +253,34 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { get, post } from "@/net";
+import { ref, reactive, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import Sidebar from '../../components/sideBar/SideBar.vue';
 import { User, UserFilled, Folder, Warning } from "@element-plus/icons-vue"
 import { ElConfigProvider } from "element-plus";
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import router from "@/router";
+
+onMounted(() => {
+    if (id && back1) {
+        post('/api/risk/select_riskPlan', {
+            id: id
+        }, (data) => {
+            console.log(data)
+            form.type = String(data.sampleType)
+            form.name = data.sampleContent
+            form.method = String(data.testMethod)
+            form.require = data.sampleRequirement
+        })
+    }
+})
+
+const route = useRoute()
+const id = route.query.id
+const back1 = route.query.back;
 
 const selectedSample = ref(null)
 
@@ -385,7 +403,7 @@ const form = reactive({
     type: '',
     name: '',
     method: '',
-    request: '',
+    require: '',
 })
 const backStep = () => {
     step.value = 0;
@@ -415,6 +433,27 @@ const classEnviroment = () => {
     isEpidemic.value = true;
     step.value = 1;
     objectClass.value = 3;
+}
+
+const back = () => {
+    router.push({ path: '/risk', query: { id: id, back: 1 } })
+}
+
+const jumpAssessment = () => {
+    step.value = 0
+    post('/api/risk/update_riskIdentification', {
+            id: id,
+            objectClass: objectClass.value,
+            sampleType: parseInt(form.type),
+            sampleContent: form.name,
+            testMethod: parseInt(form.method),
+            sampleRequirement: form.require,
+        }, (data) => {
+            console.log(data)
+            router.push({ path: '/risk_assessment', query: { id: id } })
+        }, (data) => {
+            ElMessage.warning(data)
+        })
 }
 
 </script>
