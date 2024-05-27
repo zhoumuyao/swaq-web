@@ -258,14 +258,25 @@ onBeforeMount(() => {
             id: id
         }, (data) => {
             personIdList.value = data
-            form.person = persons.value.filter((person) =>  personIdList.value.includes(person.id))
+            form.person = persons.value.filter((person) => personIdList.value.includes(person.id))
+            persons.value.forEach((item) => {
+                if (personIdList.value.includes(item.id)) {
+                    item.checked = true;
+                }
+            });
         })
 
         post('/api/risk/select_RiskEquipment', {
             id: id
         }, (data) => {
             EquipmentIdList.value = data
-            form.equipment = equipments.value.filter((equipment) =>  EquipmentIdList.value.includes(equipment.id))
+            form.equipment = equipments.value.filter((equipment) => EquipmentIdList.value.includes(equipment.id))
+            form.equipment.forEach(item => { item.showButton = true; });
+            equipments.value.forEach((item) => {
+                if (EquipmentIdList.value.includes(item.id)) {
+                    item.checked = true;
+                }
+            });
         })
     }
 });
@@ -443,6 +454,7 @@ const addPerson = () => {
     persons.value.forEach((person) => {
         if (person.checked) {
             personIdList.value.push(person.id);
+
         }
     });
     form.person = persons.value.filter((person) => personIdList.value.includes(person.id))
@@ -458,6 +470,7 @@ const addEquiment = () => {
         }
     });
     form.equipment = equipments.value.filter((equipment) => EquipmentIdList.value.includes(equipment.id))
+    form.equipment.forEach(item => { item.showButton = true; });
 }
 
 const onSubmit = () => {
