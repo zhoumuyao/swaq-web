@@ -1,7 +1,12 @@
 <template>
   <div class="sidebar">
     <ul>
-      <li v-for="item in menuItems" :key="item.id" :class="{ active: item.isActive }" @click="navigateTo(item.route)">
+      <li
+        v-for="item in menuItems"
+        :key="item.id"
+        :class="{ active: item.isActive }"
+        @click="navigateTo(item.route)"
+      >
         {{ item.name }}
       </li>
     </ul>
@@ -13,24 +18,25 @@ export default {
   data() {
     return {
       menuItems: [
-        { id: 1, name: '主页', isActive: true, route: 'index' },
-        { id: 2, name: '新建案件', isActive: false, route: 'create_case' },
-        { id: 3, name: '风险评估', isActive: false, route: 'risk' },
-        { id: 4, name: '现场处置', isActive: false, route: 'handle1' },
-        { id: 5, name: '检验鉴定', isActive: false, route: 'identify0' },
-        { id: 6, name: '评价与反馈', isActive: false, route: 'handle4' }
+        { id: 1, name: "主页", isActive: true, route: "index" },
+        { id: 2, name: "新建案件", isActive: false, route: "create_case" },
+        { id: 3, name: "查看案件", isActive: false, route: "view_case" },
+        { id: 4, name: "风险评估", isActive: false, route: "risk" },
+        { id: 5, name: "现场处置", isActive: false, route: "handle1" },
+        { id: 6, name: "检验鉴定", isActive: false, route: "identify0" },
+        { id: 7, name: "评价与反馈", isActive: false, route: "handle4" },
         // 添加更多菜单项...
-      ]
+      ],
     };
   },
   methods: {
     navigateTo(route) {
-      this.menuItems.forEach(item => {
-        item.isActive = (item.route === route);
+      this.menuItems.forEach((item) => {
+        item.isActive = item.route === route;
       });
       this.$router.push({ name: route });
-    }
-  }
+    },
+  },
 };
 </script>
 

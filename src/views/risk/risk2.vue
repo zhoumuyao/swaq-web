@@ -4,9 +4,7 @@
     <!--    <sidebar></sidebar>-->
     <div class="content">
       <router-view></router-view>
-      <div
-        style="padding: 20px; border-bottom: solid 2px; border-color: darkgray"
-      >
+      <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray">
         <label style="font: 20px Extra large">风险识别模块</label>
       </div>
 
@@ -29,15 +27,21 @@
             <div class="description">
               <el-card class="jugehappen">
                 <div class="displaypicture">
-                  <div class="jugehappentop" >
+                  <div class="jugehappentop">
                     <div>
                       <span class="label">细胞名称:</span>
                     </div>
                     <div style="margin-top: 10px;">
-                      <span v-if="showornot" class="label">{{ cellName }}</span>
+                      <span
+                        v-if="showornot"
+                        class="label"
+                      >{{ cellName }}</span>
                     </div>
                   </div>
-                  <div v-if="showornot" style="text-align: center" >
+                  <div
+                    v-if="showornot"
+                    style="text-align: center"
+                  >
                     <el-image
                       class="image-container"
                       v-if="cellType == 0"
@@ -55,7 +59,10 @@
                 </div>
               </el-card>
               <el-card class="jugehappen">
-                <div slot="header" class="jugehappentop">
+                <div
+                  slot="header"
+                  class="jugehappentop"
+                >
                   <span class="label">风险发生的可能性分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea1"></el-input> -->
@@ -68,7 +75,10 @@
                 </div>
               </el-card>
               <el-card class="jugehappen">
-                <div slot="header" class="field_hazardtop">
+                <div
+                  slot="header"
+                  class="field_hazardtop"
+                >
                   <span class="label">现场勘查工作产生危害分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea2"></el-input>
@@ -83,7 +93,10 @@
               </el-card>
 
               <el-card class="jugehappen">
-                <div slot="header" class="jugehappentop">
+                <div
+                  slot="header"
+                  class="jugehappentop"
+                >
                   <span class="label">附近居民生命健康影响分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea3"></el-input> -->
@@ -97,7 +110,10 @@
               </el-card>
 
               <el-card class="jugehappen">
-                <div slot="header" class="jugehappentop">
+                <div
+                  slot="header"
+                  class="jugehappentop"
+                >
                   <span class="label">生态环境危害分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea4"></el-input>
@@ -111,7 +127,10 @@
                 </div>
               </el-card>
               <el-card class="jugehappen">
-                <div slot="header" class="jugehappentop">
+                <div
+                  slot="header"
+                  class="jugehappentop"
+                >
                   <span class="label">其他危害分析</span>
                 </div>
                 <!-- <el-input class="inputtype" type="textarea" :autosize="{ minRows: 6, maxRows: 10}" placeholder="请输入内容" v-model="textarea5"></el-input>
@@ -137,29 +156,28 @@
             </div> -->
           </div>
 
-          <div class="next-button" style="margin-top: 40px; margin-left: 40%">
+          <div
+            class="next-button"
+            style="margin-top: 40px; margin-left: 40%"
+          >
             <router-link :to="{ path: '/risk0' }">
               <el-button
                 size="large"
                 type="primary"
                 style="margin-top: 10px; margin-left: 10px; width: 120px"
                 @click="beforeRouteLeave"
-                >上一步</el-button
-              >
+              >上一步</el-button>
             </router-link>
             <keep-alive>
               <router-view></router-view>
             </keep-alive>
-            <router-link
-              :to="{ path: '/risk3', query: { cellType: cellType } }"
-            >
+            <router-link :to="{ path: '/risk3', query: { cellType: cellType } }">
               <el-button
                 size="large"
                 type="primary"
                 style="margin-top: 10px; margin-left: 30px; width: 120px"
                 @click="goToRisk3"
-                >下一步</el-button
-              >
+              >下一步</el-button>
             </router-link>
           </div>
         </el-card>

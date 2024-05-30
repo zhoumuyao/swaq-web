@@ -36,6 +36,10 @@ const router = createRouter({
       name:'create_case',
       component:()=>import('@/views/create_case.vue'),
     },{
+      path:'/view_case',
+      name:'view_case',
+      component:()=>import('@/views/view_case.vue'),
+    },{
       path:'/risk_identification',
       name:'risk_identification',
       component:()=>import('@/views/risk/risk_identification.vue')
