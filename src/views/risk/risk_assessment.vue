@@ -7,11 +7,7 @@
         <label style="font: 20px Extra large;">风险评估模块</label>
       </div>
       <div style="margin-left: 30px; margin-top: 30px;">
-        <el-steps
-          :active="2"
-          finish-status="success"
-          style="width: 50%; margin-left: 25%;"
-        >
+        <el-steps :active="2" finish-status="success" style="width: 50%; margin-left: 25%;">
           <el-step title="计划和准备"></el-step>
           <el-step title="风险识别"></el-step>
           <el-step title="风险评价"></el-step>
@@ -19,34 +15,17 @@
       </div>
       <div class="prepare-container">
         <el-card class="reckon_risk">
-          <div
-            slot="header"
-            class="clearfix"
-          >
+          <div slot="header" class="clearfix">
             <span>风险评价</span>
             <div class="description">
               <el-card class="relation_to_risk">
-                <div
-                  slot="header"
-                  class="jugehappentop"
-                >
+                <div slot="header" class="jugehappentop">
                   <span>风险等级</span>
                 </div>
                 <div style="margin:20px 10px 0 10px">
-
                   <div class="text">
-                    <el-table
-                      :data="tableData1"
-                      style="width: 100%;"
-                      type="selection"
-                    >
-                      <el-table-column
-                        prop="virue"
-                        label="等级"
-                        width="500"
-                        fixed="left"
-                      >
-                      </el-table-column>
+                    <el-table :data="tableData1" style="width: 100%;" type="selection">
+                      <el-table-column prop="virue" label="等级" width="500" fixed="left"></el-table-column>
                       <el-table-column
                         label="确认等级"
                         width="200"
@@ -55,11 +34,9 @@
                         style="text-align: center;"
                       >
                         <template #default="{ row }">
-                          <el-radio
-                            v-model="riskGradeRadio"
-                            :label="String(row.id)"
-                          >
-                            <label></label></el-radio>
+                          <el-radio v-model="riskGradeRadio" :label="String(row.id)">
+                            <label></label>
+                          </el-radio>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -68,39 +45,18 @@
               </el-card>
 
               <el-card class="relation_to_risk">
-                <div
-                  slot="header"
-                  class="jugehappentop"
-                >
+                <div slot="header" class="jugehappentop">
                   <span>应急响应机制</span>
                 </div>
                 <div style="margin:20px 10px 0 10px">
-
                   <div class="text">
-                    <el-table
-                      :data="tableData2"
-                      style="width: 100%"
-                      type="selection"
-                    >
-                      <el-table-column
-                        prop="place"
-                        label="地区"
-                        width="500"
-                        fixed="left"
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        label="是否可能产生"
-                        width="200"
-                        fixed="right"
-                        prop="checked"
-                      >
+                    <el-table :data="tableData2" style="width: 100%" type="selection">
+                      <el-table-column prop="place" label="地区" width="500" fixed="left"></el-table-column>
+                      <el-table-column label="是否可能产生" width="200" fixed="right" prop="checked">
                         <template #default="{ row }">
-                          <el-radio
-                            v-model="emergencyResponse"
-                            :label="String(row.id)"
-                          >
-                            <label></label></el-radio>
+                          <el-radio v-model="emergencyResponse" :label="String(row.id)">
+                            <label></label>
+                          </el-radio>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -110,10 +66,7 @@
             </div>
             <div class="last_row">
               <el-card class="jugehappen">
-                <div
-                  slot="header"
-                  class="jugehappentop"
-                >
+                <div slot="header" class="jugehappentop">
                   <span>评估方案</span>
                 </div>
                 <el-radio-group v-model="radio">
@@ -124,7 +77,7 @@
               </el-card>
               <el-card>
                 <!-- <label>实验室活动生物安全要求 </label>
-                    <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
+                <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
                 <div style="width: 100%;height: 30vh;">
                   <embed
                     v-if="radio=='一级'"
@@ -132,29 +85,20 @@
                     type="application/pdf"
                     width="100%"
                     height="100%"
-                  >
+                  />
                   <embed
                     v-if="radio=='二级'"
                     :src="lab"
                     type="application/pdf"
                     width="100%"
                     height="100%"
-                  >
-                  <embed
-                    v-else
-                    :src="protective"
-                    type="application/pdf"
-                    width="100%"
-                    height="100%"
-                  >
+                  />
+                  <embed v-else :src="protective" type="application/pdf" width="100%" height="100%" />
                 </div>
               </el-card>
             </div>
           </div>
-          <div
-            class="next-button"
-            style="margin-left: 40%;"
-          >
+          <div class="next-button" style="margin-left: 40%;">
             <el-button
               size="large"
               type="primary"
@@ -252,7 +196,7 @@
             </div>
             <div>
 
-            </div> -->
+      </div>-->
     </div>
   </div>
 </template>
@@ -417,7 +361,7 @@ const back = () => {
 };
 
 const jumpHandle = () => {
-  router.push({ path: "/handle1", query: { id: id } });
+  router.push({ path: "/index", query: { id: id } });
 };
 </script>
 
