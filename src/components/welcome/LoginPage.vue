@@ -52,9 +52,6 @@ const form = reactive({
 const login = () =>{
   if(!form.username || !form.password){
     ElMessage.warning("请填写用户名和密码！")
-  }else if(form.username === 'admin' && form.password === '123456'){
-    ElMessage.success(message),
-        router.push('/index')
   }else{
     post('/api/auth/login',{
       username:form.username,
