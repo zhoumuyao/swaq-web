@@ -265,7 +265,7 @@
                 <el-row :gutter="20">
                   <el-col :span="12">
                     <el-form-item label="周边设施">
-                      <el-input type="textarea" v-model="form.desc4" :autosize="{ minRows: 2, maxRows: 5}"
+                      <el-input type="textarea" v-model="form.desc3" :autosize="{ minRows: 2, maxRows: 5}"
                                 placeholder="存在的医疗设施、食品供应点等，以便提供应急支持和资源调配。"></el-input>
                     </el-form-item>
                   </el-col>
@@ -327,6 +327,7 @@ const form = ref({
   desc1 : '',
   desc2 : '',
   desc3 : '',
+  desc4 : '',
   humidity: '',
   temperature: '',
   windDirection: '',
@@ -756,7 +757,7 @@ const value5 = ref('');
 const value6 = ref('');
 const value7 = ref('');
 const value8 = ref('');
-
+const value9 = ref('');
 
 const removeChoosenButton = () => {
   // 清空下拉框内容
