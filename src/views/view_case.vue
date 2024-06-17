@@ -24,6 +24,7 @@
               <el-table-column prop="view_details" label="查看详情">
                 <template #default="{row}">
                   <el-button type="primary" size="small" @click="viewDetails(row.view_details)">查看</el-button>
+                  <el-button type="success" size="small" @click="ismodify">修改</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -54,6 +55,19 @@ const isViewPdf = ref(false);
 const PDFsrc = ref("");
 
 const tableData = ref([]);
+
+const modifydate = ref("");
+const ismodify = () => {
+  this.$alert("这是一段内容", "标题名称", {
+    confirmButtonText: "确定",
+    callback: (action) => {
+      this.$message({
+        type: "info",
+        message: `action: ${action}`,
+      });
+    },
+  });
+};
 
 // const tableData = reactive([
 
