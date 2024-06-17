@@ -64,13 +64,15 @@
                       ></el-input>
                       <label class="font" style="font-size:14px; color: #606266;">市区:</label>
                       <el-input class="position" placeholder="请输入市区" v-model="form.position.urban"></el-input>
-                      <label class="font" style="font-size:14px; color: #606266;">具体描述:</label>
-                      <el-input
-                        class="position"
-                        placeholder="具体描述"
-                        v-model="form.position.description"
-                        style="width: 10%; margin-right: 0"
-                      ></el-input>
+                      <div style="display: block;margin-top: 0.5em;">
+                        <label class="font" style="font-size:14px; color: #606266;">具体描述:</label>
+                        <el-input
+                          class="position"
+                          placeholder="具体描述"
+                          v-model="form.position.description"
+                          style="width: 90%; margin-right: 0;"
+                        ></el-input>
+                      </div>
                     </div>
                   </el-form-item>
                 </div>
@@ -288,6 +290,17 @@ onBeforeMount(() => {
     equipments.value.forEach(function (item) {
       item.checked = false;
     });
+  });
+
+  post("/api/case/search_case", { id: id }, (data) => {
+    form.date = data.date;
+    form.time = data.time;
+    form.position.longitude = String(data.longitude);
+    form.position.latitude = String(data.latitude);
+    form.position.country = data.country;
+    form.position.province = data.province;
+    form.position.urban = data.urban;
+    form.position.description = data.description;
   });
 
   if (id && back) {
