@@ -15,7 +15,7 @@
 
       <div class="center-container">
         <el-card class="card_box">
-          <div style="width: 92%;margin: 20px">
+          <div style="width: 95%;margin: 20px">
             <el-form :model="form" label-width="100px">
               <el-form-item label="生物危险因子">
                 <el-col :span="16">
@@ -92,7 +92,7 @@
                       <div class="custom-label">环境参数</div>
                     </el-row>
                     <el-row>
-                      <el-col  :span="8">
+                      <el-col :span="8">
                         <el-form-item label="空气质量">
 <!--                          <el-input v-model="form.airQuality"></el-input>-->
                           <el-select v-model="value1" placeholder="请选择">
@@ -174,67 +174,74 @@
 
               <div class="row_box">
                 <el-row>
-                  <div class="custom-label">天气状况</div>
+                  <el-col :span="2"><div class="custom-label">天气状况</div></el-col>
+                  <el-col :span="2"><el-button type="text" @click="getWeatherData" style=" padding: 15px 0 10px 0;">一键获取</el-button></el-col>
+                  <el-col :span="20"><div style=" padding: 10px 0 10px 0;font-size: 14px;">{{form.province}}/{{form.city}}</div></el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="6">
-                    <el-form-item label="温度数值" placeholder="单位为℃">
-<!--                      <el-input v-model="form.temperature"></el-input>-->
-                      <el-select v-model="value8" placeholder="请选择">
-                        <el-option
-                            v-for="item in temperature"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          <span style="float: left">{{ item.label }}</span>
-                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>
-                        </el-option>
-                      </el-select>
+                  <el-col :span="4">
+                    <el-form-item label="温度数值">
+                      <el-input v-model="form.temperature" placeholder="单位为℃"></el-input>
+<!--                      <el-select v-model="value8" placeholder="请选择">-->
+<!--                        <el-option-->
+<!--                            v-for="item in temperature"-->
+<!--                            :key="item.value"-->
+<!--                            :label="item.label"-->
+<!--                            :value="item.value">-->
+<!--                          <span style="float: left">{{ item.label }}</span>-->
+<!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
+<!--                        </el-option>-->
+<!--                      </el-select>-->
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="湿度数值" placeholder="单位为%">
-<!--                      <el-input v-model="form.humidity"></el-input>-->
-                      <el-select v-model="value9" placeholder="请选择">
-                        <el-option
-                            v-for="item in humidity"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          <span style="float: left">{{ item.label }}</span>
-                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="环境风向">
-<!--                      <el-input v-model="form.windDirection"></el-input>-->
-                      <el-select v-model="value6" placeholder="请选择">
-                        <el-option
-                            v-for="item in windDirection"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          <span style="float: left">{{ item.label }}</span>
-                        </el-option>
-                      </el-select>
+                  <el-col :span="5">
+                    <el-form-item label="湿度数值">
+                      <el-input v-model="form.humidity" placeholder="单位为%"></el-input>
+<!--                      <el-select v-model="value9" placeholder="请选择">-->
+<!--                        <el-option-->
+<!--                            v-for="item in humidity"-->
+<!--                            :key="item.value"-->
+<!--                            :label="item.label"-->
+<!--                            :value="item.value">-->
+<!--                          <span style="float: left">{{ item.label }}</span>-->
+<!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
+<!--                        </el-option>-->
+<!--                      </el-select>-->
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="5">
+                    <el-form-item label="天气现象">
+                      <el-input v-model="form.weather"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="5">
                     <el-form-item label="风速数值">
-<!--                      <el-input v-model="form.windSpeed"></el-input>-->
-                      <el-select v-model="value7" placeholder="请选择">
-                        <el-option
-                            v-for="item in windSpeed"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          <span style="float: left">{{ item.label }}</span>
-                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>
-                        </el-option>
-                      </el-select>
+                      <el-input v-model="form.windpower"  placeholder="单位为m/s"></el-input>
+                      <!--                      <el-select v-model="value7" placeholder="请选择">-->
+                      <!--                        <el-option-->
+                      <!--                            v-for="item in windpower"-->
+                      <!--                            :key="item.value"-->
+                      <!--                            :label="item.label"-->
+                      <!--                            :value="item.value">-->
+                      <!--                          <span style="float: left">{{ item.label }}</span>-->
+                      <!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
+                      <!--                        </el-option>-->
+                      <!--                      </el-select>-->
+                    </el-form-item>
+                  </el-col>
+
+                  <el-col :span="5">
+                    <el-form-item label="环境风向">
+                      <el-input v-model="form.winddirection"></el-input>
+                      <!--                      <el-select v-model="value6" placeholder="请选择">-->
+                      <!--                        <el-option-->
+                      <!--                            v-for="item in winddirection"-->
+                      <!--                            :key="item.value"-->
+                      <!--                            :label="item.label"-->
+                      <!--                            :value="item.value">-->
+                      <!--                          <span style="float: left">{{ item.label }}</span>-->
+                      <!--                        </el-option>-->
+                      <!--                      </el-select>-->
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -265,7 +272,7 @@
                 <el-row :gutter="20">
                   <el-col :span="12">
                     <el-form-item label="周边设施">
-                      <el-input type="textarea" v-model="form.desc4" :autosize="{ minRows: 2, maxRows: 5}"
+                      <el-input type="textarea" v-model="form.desc3" :autosize="{ minRows: 2, maxRows: 5}"
                                 placeholder="存在的医疗设施、食品供应点等，以便提供应急支持和资源调配。"></el-input>
                     </el-form-item>
                   </el-col>
@@ -295,11 +302,11 @@
       </el-drawer>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle2'}">
-        <el-button class="next-button" type="primary" size="large">
+<!--      <router-link :to="{path: '/handle2'}">-->
+        <el-button class="next-button" type="primary" size="large" @click="next_page">
           下一步
         </el-button>
-      </router-link>
+<!--      </router-link>-->
     </div>
   </div>
 </template>
@@ -308,13 +315,14 @@
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import router from '@/router';
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import {
   Delete,
 } from '@element-plus/icons-vue'
 import { InfoFilled } from '@element-plus/icons-vue'
 import recordingAndProtection from './PDF/recordingAndProtection.pdf';
+import axios from "axios";
 
 // 当前步骤
 const active = ref(0);
@@ -327,10 +335,14 @@ const form = ref({
   desc1 : '',
   desc2 : '',
   desc3 : '',
+  desc4 : '',
   humidity: '',
+  province:'省份',
+  city:'城市',
   temperature: '',
-  windDirection: '',
-  windSpeed: '',
+  winddirection: '',
+  windpower: '',
+  weather:'',
   // airQuality: '',
   waterQuality: '',
   soilQuality: '',
@@ -655,7 +667,7 @@ const temperature = ref([{
   label: '酷热'
 }]);
 
-const windDirection = ref([{
+const winddirection = ref([{
   value: 'N',
   label: '北风'
 }, {
@@ -707,7 +719,7 @@ const windDirection = ref([{
 }
 ]);
 
-const windSpeed = ref([{
+const windpower = ref([{
   value: '< 0.5 m/s',
   label: '无风'
 }, {
@@ -756,6 +768,7 @@ const value5 = ref('');
 const value6 = ref('');
 const value7 = ref('');
 const value8 = ref('');
+const value9 = ref('');
 
 
 const removeChoosenButton = () => {
@@ -767,6 +780,97 @@ const openSub1 = () =>{
   //跳转至现场信息记录与现场保护PDF子页面
   // router.push('/other-page');
   window.open('/identify0', '_blank');
+}
+
+const getWeatherData = async () => {
+  // 调用高德API获取地理位置和天气信息
+  axios.get('https://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e')
+    .then(function(response) {
+      // console.log(response.data);
+      // 获取现在的城市的adcode编码
+      const adcode = response.data.adcode;
+
+      // 使用adcode的值来获取天气数据
+      axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
+        .then(function(weatherResponse) {
+          console.log(weatherResponse.data); // 处理天气数据
+          form.value.temperature = weatherResponse.data.lives[0].temperature;//温度
+          form.value.humidity = weatherResponse.data.lives[0].humidity;//湿度
+          form.value.weather = weatherResponse.data.lives[0].weather;//天气现象
+          form.value.winddirection = weatherResponse.data.lives[0].winddirection;//风向
+          form.value.windpower = weatherResponse.data.lives[0].windpower;//风速
+
+          // 显示当前位置
+          form.value.province = weatherResponse.data.lives[0].province;
+          form.value.city = weatherResponse.data.lives[0].city;
+
+        })
+        .catch(function(error) {
+          console.error("Error fetching weather data:", error);
+        });
+    })
+    .catch(function(error) {
+      console.error(error);
+    });
+};
+
+const isFormValid = () =>{
+  /**
+   * name : '',
+   *   type : ['记录环境参数', '现场勘察', '生物危险因子检材'],
+   *   desc1 : '',
+   *   desc2 : '',
+   *   desc3 : '',
+   *   desc4 : '',
+   *   humidity: '',
+   *   province:'省份',
+   *   city:'城市',
+   *   temperature: '',
+   *   winddirection: '',
+   *   windpower: '',
+   *   weather:'',
+   *   // airQuality: '',
+   *   waterQuality: '',
+   *   soilQuality: '',
+   *   population:'',
+   *   activity:'',
+   *   otherSpecial:'',
+   *   date1: '',
+   *   date2:''
+   * */
+  if(form.value.desc1.trim() !== '' &&
+      form.value.desc2.trim() !== '' &&
+      form.value.desc3.trim() !== '' &&
+      form.value.desc4.trim() !== ''&&
+      form.value.humidity.trim() !== '' &&
+      form.value.temperature.trim() !== '' &&
+      form.value.winddirection.trim() !== '' &&
+      form.value.windpower.trim() !== '' &&
+      form.value.weather.trim() !== '' &&
+      form.value.date1 !== '' &&
+      form.value.date2 !== '' &&
+      value1.value.trim() !== '' &&
+      value2.value.trim() !== '' &&
+      value3.value.trim() !== '' &&
+      value4.value !== ''&&
+      value5.value !== ''&&
+      selectedItems.value !== []){
+    return true; // 如果所有字段都不为空，则返回true
+  } else {
+    return false; // 如果有任何一个字段为空，则返回false
+  }
+}
+const next_page = () =>{
+  if (isFormValid()) {
+    router.push('/handle2');
+  }
+  else{
+    ElMessage({
+      message: '请输入完整的信息',
+      type: 'error'
+    });
+  }
+
 }
 
 
