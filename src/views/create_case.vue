@@ -35,6 +35,12 @@
                 <div>
                   <label class="font" style="font-size:19px; color: #606266;">案件建立地点:</label>
                 </div>
+                <el-button type="primary" style="margin-left: 20%" @click="getPosition">
+                  <el-icon>
+                    <Location />
+                  </el-icon>
+                  {{Position}}
+                </el-button>
                 <div style="margin-top: 20px; width: 100%; padding: 10px; ">
                   <label class="font" style="font-size:16px; color: #606266;">经度:</label>
                   <el-input class="position" placeholder="请输入经度" v-model="form.position.longitude"></el-input>
@@ -79,8 +85,16 @@ import { ref, reactive, onMounted } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { post, get } from "@/net";
+import { Location } from "@element-plus/icons-vue";
+import MapLoader from "@/util/util";
 
-onMounted(() => {});
+onMounted(() => {
+  getCurrentTime();
+  getCurrentDate();
+});
+
+let Position = ref("获取定位");
+const result = ref();
 
 const form = reactive({
   date: "",
@@ -94,6 +108,80 @@ const form = reactive({
     description: "",
   },
 });
+
+const getCurrentTime = () => {
+  const date = new Date();
+  const hours = String(date.getHours()).padStart(2, "0"); // 小时补零
+  const minutes = String(date.getMinutes()).padStart(2, "0"); // 分钟补零
+  const seconds = String(date.getSeconds()).padStart(2, "0"); // 秒数补零
+  form.time = `${hours}:${minutes}:${seconds}`;
+  console.log(form.time);
+};
+
+const getCurrentDate = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // 月份从0开始，需要加1，并且补零
+  const day = String(date.getDate()).padStart(2, "0"); // 补零
+  form.date = `${year}-${month}-${day}`;
+  console.log(form.date);
+};
+
+function getPosition() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // 使用经纬度获取国家信息
+        fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const country = data.countryName;
+
+            console.log("经度：", longitude);
+            console.log("纬度：", latitude);
+            console.log("国家：", country);
+            form.position.longitude = longitude;
+            form.position.latitude = latitude;
+            if (country == "China") {
+              form.position.country = "中国";
+            }
+
+            MapLoader()
+              .then((formattedAddress) => {
+                console.log(formattedAddress);
+                Position.value = formattedAddress;
+                console.log("定位成功，地址为：", Position.value);
+
+                // 使用split方法按照"省"、"市"进行分割
+                let result = Position.value
+                  .split(/省|市/)
+                  .map((part) => part.trim());
+                form.position.province = result[0];
+                form.position.urban = result[1];
+                form.position.description = result[2];
+                console.log(result);
+              })
+              .catch((error) => {
+                console.error("定位失败：", error);
+              });
+          })
+          .catch((error) => {
+            console.error("无法获取国家信息：", error);
+          });
+      },
+      (error) => {
+        console.error("定位失败：", error);
+      }
+    );
+  } else {
+    console.error("浏览器不支持 Geolocation API");
+  }
+}
 
 const createCase = () => {
   console.log(form);
@@ -123,6 +211,24 @@ const createCase = () => {
     }
   );
 };
+
+// function getPosition() {
+//   MapLoader()
+//     .then((formattedAddress) => {
+//       Position.value = formattedAddress;
+//       console.log("定位成功，地址为：", Position);
+
+//       // 使用split方法按照"省"、"市"、"区"进行分割
+//       let result = Position.value.split(/省|市/).map((part) => part.trim());
+//       form.position.province = result[0];
+//       form.position.urban = result[1];
+//       form.position.description = result[2];
+//       console.log(result);
+//     })
+//     .catch((error) => {
+//       console.error("定位失败：", error);
+//     });
+// }
 </script>
 
 
