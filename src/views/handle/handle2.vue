@@ -19,10 +19,10 @@
             <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
               <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">环境图片</label>
-                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                <el-text type="primary"  style="margin-left: 20%" >
                   <el-icon><Location /></el-icon>
                   {{Position}}
-                </el-button>
+                </el-text>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -44,10 +44,10 @@
               </el-tab-pane>
               <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">人员图片</label>
-                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                <el-text type="primary"  style="margin-left: 20%" @click="getPosition">
                   <el-icon><Location /></el-icon>
                   {{Position}}
-                </el-button>
+                </el-text>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -70,10 +70,11 @@
               <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">物证图片</label>
 
-                <el-button type="primary"  style="margin-left: 20%" @click="getPosition">
+                <el-text type="primary"  style="margin-left: 20%" @click="getPosition">
                   <el-icon><Location /></el-icon>
                   {{Position}}
-                </el-button>
+                </el-text>
+
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -151,6 +152,7 @@
 <script setup >
 // type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
 
+import { onMounted } from "vue";
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
@@ -161,6 +163,17 @@ import example from './PDF/example.pdf';
 import {Location} from "@element-plus/icons-vue";
 import MapLoader from "@/util/util";
 const router = useRouter();
+import axios from "axios";
+import myBMap from "/src/util/myBMap";
+
+
+
+
+
+
+
+
+
 
 const showImg = ref(false);
 const exampleDrawer = ref(false);
@@ -168,7 +181,7 @@ const drawer = ref(false);
 const imageUrl = ref("");
 const showLabel = ref(true);
 const text = ref("");
-let Position = ref("获取定位");
+let Position = ref("获取定位中");
 // 当前步骤
 const active = ref(1);
 const radio = ref(1);
@@ -181,6 +194,34 @@ const selectedItems = ref([]);
 const activeName = ref('first')
 const value = ref('');
 
+
+onMounted(() => {
+  console.log("mounted...")
+  getLocation();
+})
+function getLocation() {
+  //Toast("如长时间未获取办理区域请手动选择");
+  myBMap.init().then(() => {
+    let that = this;
+    let geolocation = new BMap.Geolocation();
+    // 创建百度地理位置实例，代替 navigator.geolocation
+    geolocation.getCurrentPosition(function (e) {
+      if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        // 百度 geolocation 的经纬度属性不同，此处是 point.lat 而不是 coords.latitude
+        let point = new BMap.Point(e.point.lng, e.point.lat);
+        let gc = new BMap.Geocoder();
+        gc.getLocation(point, function (rs) {
+          Position.value = rs.address
+          console.log(rs.address);
+          //<<<<<<<<<<<<<<<<需要的位置信息在这获取
+        });
+      } else {
+        Toast("定位失败，请手动选择区域或重新定位");
+        this.showloading = false;
+      }
+    });
+  });
+}
 function getPosition(){
   MapLoader().then((formattedAddress) => {
     Position.value=formattedAddress;
@@ -209,7 +250,30 @@ function handleUpload() {
   uploadInput.click();
 }
 
+const getCityInfo = async () => {
+  // 调用高德API获取地理位置和天气信息
+  axios.get('https://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e')
+      .then(function(response) {
+        // console.log(response.data);
+        // 获取现在的城市的adcode编码
+        const adcode = response.data.adcode;
 
+        // 使用adcode的值来获取天气数据
+        axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
+            .then(function(weatherResponse) {
+              // 显示当前位置
+              form.value.province = weatherResponse.data.lives[0].province;
+              form.value.city = weatherResponse.data.lives[0].city;
+
+            })
+            .catch(function(error) {
+              console.error("Error fetching weather data:", error);
+            });
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+};
 </script>
 
 <style scoped>
