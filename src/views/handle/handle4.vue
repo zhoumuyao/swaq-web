@@ -20,7 +20,7 @@
       <div v-if="active === 3" class="center-container">
         <el-card class="card_box">
           <div style="margin-left:40%;margin-top: 50px">
-            <div>现场处置评分</div>
+            <div>生物安全处置评分</div>
             <div>
               <el-rate
                   style="margin-left:0%"
@@ -65,6 +65,16 @@
         </el-button>
       </router-link>
     </div>
+    <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
+      <!--                <span>Hi there!</span>-->
+
+      <div style="width: 100%;height: 100%;">
+        <embed :src="report" type="application/pdf"
+               width="100%" height="100%">
+      </div>
+
+
+    </el-drawer>
   </div>
 </template>
 
@@ -77,11 +87,10 @@ import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
 import uploadImage from './image/sj.jpg'
 import ttf from './simhei.ttf'
-
-
-
+import report from "@/views/handle/PDF/report.pdf";
 
 // 当前步骤
+const drawer = ref(false)
 const active = ref(3);
 const Starvalue = ref(0);
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
@@ -103,53 +112,57 @@ const submit = () => {
   }
 }
 const  generateReport =async () => {
-
-    const doc = new jsPDF();
-    const customFontBase64 = await loadFont();
-    // 添加自定义字体
-    doc.addFileToVFS('customFont.ttf', customFontBase64);
-    doc.addFont('customFont.ttf', 'customFont', 'normal');
-    doc.setFont('customFont');
-    // 创建一个新的 jsPDF 实例
-
-
-    // doc.setFontSize(16);
-    doc.text("生物安全现场处置报告", 80, 10);
+    // const doc = new jsPDF();
+    // const customFontBase64 = await loadFont();
+    // // 添加自定义字体
+    // doc.addFileToVFS('customFont.ttf', customFontBase64);
+    // doc.addFont('customFont.ttf', 'customFont', 'normal');
+    // doc.setFont('customFont');
+    // // 创建一个新的 jsPDF 实例
     //
-    // 添加案件信息
-    doc.setFontSize(12);
-    doc.text("案件信息:", 10, 20);
+    //
+    // // doc.setFontSize(16);
+    // doc.text("生物安全现场处置报告", 80, 10);
+    // //
+    // // 添加案件信息
+    // doc.setFontSize(12);
+    // doc.text("案件信息:", 10, 20);
+    //
+    // doc.setFontSize(10);
+    // doc.text("疾病名称：登革热", 10, 30);
+    // doc.text("现场温度：25°C", 10, 40);
+    // doc.text("现场湿度：60%", 10, 50);
+    // doc.text("水质状况：良好", 10, 60);
+    // doc.text("土壤状况：正常", 10, 70);
+    //
+    // // 添加现场图片
+    // doc.setFontSize(12);
+    // doc.text("现场图片:", 10, 80);
+    // doc.addImage(uploadImage, 'JPEG', 10, 90, 180, 100);  // 调整图片位置和大小
+    //
+    // // 添加处置方式
+    // doc.setFontSize(12);
+    // doc.text("处置方式：", 10, 200);
+    // doc.setFontSize(10);
+    // doc.text("1. 消毒措施：", 10, 210);
+    // doc.text("  - 使用含氯消毒剂对污染区域进行全面消毒。", 10, 220);
+    // doc.text("  - 确保消毒剂覆盖所有可能接触病原体的表面。", 10, 230);
+    // doc.text("  - 重复消毒过程以确保彻底清除病原体。", 10, 240);
+    // doc.text("2. 隔离措施：", 10, 250);
+    // doc.text("  - 对受影响区域进行隔离，禁止无关人员进入。", 10, 260);
+    // doc.text("  - 设置明显的警示标志，告知存在生物安全风险。", 10, 270);
+    // doc.text("  - 对现场工作人员进行个人防护装备的配备和培训。", 10, 280);
+    // // doc.text("3. 其他处置措施：", 10, 290);
+    // // doc.text("  - 对水质和土壤进行监测，确保无进一步污染。", 10, 300);
+    // // doc.text("  - 根据情况，可能需要对受污染土壤进行挖掘和安全处理。", 10, 310);
+    // doc.text("审核人签名：", 140, 290);
+    // doc.line(160,290,180,290)
+    // // 保存 PDF 文件
+    // doc.save('report.pdf');
 
-    doc.setFontSize(10);
-    doc.text("疾病名称：登革热", 10, 30);
-    doc.text("现场温度：25°C", 10, 40);
-    doc.text("现场湿度：60%", 10, 50);
-    doc.text("水质状况：良好", 10, 60);
-    doc.text("土壤状况：正常", 10, 70);
 
-    // 添加现场图片
-    doc.setFontSize(12);
-    doc.text("现场图片:", 10, 90);
-    doc.addImage(uploadImage, 'JPEG', 10, 100, 180, 100);  // 调整图片位置和大小
 
-    // 添加处置方式
-    doc.setFontSize(12);
-    doc.text("处置方式：", 10, 210);
-    doc.setFontSize(10);
-    doc.text("1. 消毒措施：", 10, 220);
-    doc.text("  - 使用含氯消毒剂对污染区域进行全面消毒。", 10, 230);
-    doc.text("  - 确保消毒剂覆盖所有可能接触病原体的表面。", 10, 240);
-    doc.text("  - 重复消毒过程以确保彻底清除病原体。", 10, 250);
-    doc.text("2. 隔离措施：", 10, 260);
-    doc.text("  - 对受影响区域进行隔离，禁止无关人员进入。", 10, 270);
-    doc.text("  - 设置明显的警示标志，告知存在生物安全风险。", 10, 280);
-    doc.text("  - 对现场工作人员进行个人防护装备的配备和培训。", 10, 290);
-    doc.text("3. 其他处置措施：", 10, 300);
-    doc.text("  - 对水质和土壤进行监测，确保无进一步污染。", 10, 310);
-    doc.text("  - 根据情况，可能需要对受污染土壤进行挖掘和安全处理。", 10, 320);
-
-    // 保存 PDF 文件
-    doc.save('report.pdf');
+    drawer.value = true
 }
 //
 const closeAlert= () => {
