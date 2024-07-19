@@ -20,27 +20,58 @@
             <div style="margin-top: 10px; width: 100%;">
               <el-form :model="form" :inline="true" style="width: 100%;">
                 <el-form-item label="风险评估时间：">
-                  <el-date-picker v-model="form.date" type="date" placeholder="选择日期" format="YYYY/MM/DD"
-                    value-format="YYYY-MM-DD" style="margin: 0 30px;" />
-                  <el-time-picker v-model="form.time" placeholder="选择时间" format="HH:mm:ss" value-format="HH:mm:ss" />
+                  <el-date-picker
+                    v-model="form.date"
+                    type="date"
+                    placeholder="选择日期"
+                    format="YYYY/MM/DD"
+                    value-format="YYYY-MM-DD"
+                    style="margin: 0 30px;"
+                  />
+                  <el-time-picker
+                    v-model="form.time"
+                    placeholder="选择时间"
+                    format="HH:mm:ss"
+                    value-format="HH:mm:ss"
+                  />
                 </el-form-item>
                 <div style="width: 100%;">
                   <el-form-item label="风险评估地点：">
                     <div style=" width: 90%;">
                       <label class="font" style="font-size:14px; color: #606266;">经度:</label>
-                      <el-input class="position" placeholder="请输入经度" v-model="form.position.longitude"></el-input>
+                      <el-input
+                        class="position"
+                        placeholder="请输入经度"
+                        v-model="form.position.longitude"
+                      ></el-input>
                       <label class="font" style="font-size:14px; color: #606266;">纬度:</label>
-                      <el-input class="position" placeholder="请输入经度" v-model="form.position.latitude"></el-input>
+                      <el-input
+                        class="position"
+                        placeholder="请输入经度"
+                        v-model="form.position.latitude"
+                      ></el-input>
                       <label class="font" style="font-size:14px; color: #606266;">国家:</label>
-                      <el-input class="position" placeholder="请输入国家" v-model="form.position.country"></el-input>
+                      <el-input
+                        class="position"
+                        placeholder="请输入国家"
+                        v-model="form.position.country"
+                      ></el-input>
                       <label class="font" style="font-size:14px; color: #606266;">省份:</label>
-                      <el-input class="position" placeholder="请输入省份" v-model="form.position.province"></el-input>
+                      <el-input
+                        class="position"
+                        placeholder="请输入省份"
+                        v-model="form.position.province"
+                      ></el-input>
                       <label class="font" style="font-size:14px; color: #606266;">市区:</label>
                       <el-input class="position" placeholder="请输入市区" v-model="form.position.urban"></el-input>
                       <div style="display: block;margin-top: 0.5em;">
                         <label class="font" style="font-size:14px; color: #606266;">具体描述:</label>
-                        <el-input class="position" placeholder="具体描述" v-model="form.position.description"
-                          style="width: 70%; margin-right: 0;"></el-input>
+                        <el-input
+                          class="position"
+                          placeholder="具体描述"
+                          v-model="form.position.description"
+                          style="width: 70%; margin-right: 0;"
+                        ></el-input>
                       </div>
                     </div>
                   </el-form-item>
@@ -70,7 +101,13 @@
                   <div>
                     <div style="margin-bottom: 10px;">
                       <label class="smalllabel">评估装备设备：</label>
-                      <el-button el-button type="primary" :icon="Plus" circle @click="addequiment = true"></el-button>
+                      <el-button
+                        el-button
+                        type="primary"
+                        :icon="Plus"
+                        circle
+                        @click="addequiment = true"
+                      ></el-button>
                     </div>
                     <el-card class="card">
                       <el-table :data="form.equipment" style="width: 100%; height: 45vh">
@@ -78,8 +115,12 @@
                         <el-table-column prop="name" label="设备名" width />
                         <el-table-column prop="guide" label="使用说明" width="120">
                           <template #default="{ row }">
-                            <el-button v-show="row.showButton" type="primary" size="small"
-                              @click="viewGuide(row.guide)">查看</el-button>
+                            <el-button
+                              v-show="row.showButton"
+                              type="primary"
+                              size="small"
+                              @click="viewGuide(row.guide)"
+                            >查看</el-button>
                           </template>
                         </el-table-column>
                       </el-table>
@@ -91,14 +132,26 @@
             <div class="next-button">
               <!--   btn    -->
 
-              <el-button type="primary" style="margin-left: 10%; width:" @click="jumpAnalysis"
-                size="large">进行风险分析</el-button>
+              <el-button
+                type="primary"
+                style="margin-left: 10%; width:"
+                @click="jumpAnalysis"
+                size="large"
+              >进行风险分析</el-button>
             </div>
             <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
-              <el-input style="display: inline-block; width: 30%; margin:0 10px 0 60%;" v-model="personID"
-                placeholder="请输入警务号"></el-input>
-              <el-button type="primary" :icon="Search" @click="handleSearch" style="display: inline-block;"
-                circle></el-button>
+              <el-input
+                style="display: inline-block; width: 30%; margin:0 10px 0 60%;"
+                v-model="personID"
+                placeholder="请输入警务号"
+              ></el-input>
+              <el-button
+                type="primary"
+                :icon="Search"
+                @click="handleSearch"
+                style="display: inline-block;"
+                circle
+              ></el-button>
               <div>
                 <el-table :data="persons" style="width: 100%" type="selection">
                   <el-table-column prop="id" label="警务号" width="180" fixed="left"></el-table-column>
@@ -120,28 +173,50 @@
             <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
               <div>
                 <el-select v-model="equipment" placeholder="请选择设备种类" style="width: 30%;">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label"
-                    :value="item.value"></el-option>
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
                 </el-select>
                 <div style="display: inline;" v-if="equipment != '选项1'">
-                  <el-input style="display: inline-block; width: 30%; margin:0px 10px 0 30%;" v-model="personID"
-                    placeholder="请输入设备号"></el-input>
+                  <el-input
+                    style="display: inline-block; width: 30%; margin:0px 10px 0 30%;"
+                    v-model="personID"
+                    placeholder="请输入设备号"
+                  ></el-input>
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
                 </div>
                 <div style="display: inline;" v-if="equipment == '选项1'">
-                  <el-select v-model="grade" placeholder="请选择设备种类" style="width: 25%; margin-left: 5%">
-                    <el-option v-for="item in gradeOptions" :key="item.value" :label="item.label"
-                      :value="item.value"></el-option>
+                  <el-select
+                    v-model="grade"
+                    placeholder="请选择设备种类"
+                    style="width: 25%; margin-left: 5%"
+                  >
+                    <el-option
+                      v-for="item in gradeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
                   </el-select>
-                  <el-input style="display: inline-block; width: 25%; margin:0px 10px 0 5%" v-model="personID"
-                    placeholder="请输入设备号"></el-input>
+                  <el-input
+                    style="display: inline-block; width: 25%; margin:0px 10px 0 5%"
+                    v-model="personID"
+                    placeholder="请输入设备号"
+                  ></el-input>
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
                 </div>
               </div>
               <div>
                 <el-table
                   v-if="equipment == '选项1' || equipment == '选项2' || equipment == '选项3' || equipment == '选项4' || equipment == ''"
-                  :data="getRiskEquipmentData()" style="width: 100%; margin-top: 10px; " type="selection" height="40vh">
+                  :data="getRiskEquipmentData()"
+                  style="width: 100%; margin-top: 10px; "
+                  type="selection"
+                  height="40vh"
+                >
                   <el-table-column prop="id" label="设备号" width="180" fixed="left"></el-table-column>
                   <el-table-column prop="name" label="设备名" width="180" fixed="left"></el-table-column>
                   <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
@@ -203,7 +278,6 @@ import w from "./device_guide/23.pdf";
 import x from "./device_guide/24.pdf";
 import y from "./device_guide/25.pdf";
 import z from "./device_guide/26.pdf";
-
 
 onBeforeMount(() => {
   post("/api/risk/select_person", {}, (data) => {
@@ -516,58 +590,58 @@ const viewGuide = (guide) => {
       PDFsrc.value = h;
       break;
     case "9":
-      PDFsrc.value = i; 
+      PDFsrc.value = i;
       break;
     case "10":
-      PDFsrc.value = j; 
+      PDFsrc.value = j;
       break;
     case "11":
-      PDFsrc.value = k; 
+      PDFsrc.value = k;
       break;
     case "12":
-      PDFsrc.value = l; 
+      PDFsrc.value = l;
       break;
     case "13":
-      PDFsrc.value = m; 
+      PDFsrc.value = m;
       break;
     case "14":
-      PDFsrc.value = n; 
+      PDFsrc.value = n;
       break;
     case "15":
-      PDFsrc.value = o; 
+      PDFsrc.value = o;
       break;
     case "16":
-      PDFsrc.value = p; 
+      PDFsrc.value = p;
       break;
     case "17":
-      PDFsrc.value = q; 
+      PDFsrc.value = q;
       break;
     case "18":
-      PDFsrc.value = r; 
+      PDFsrc.value = r;
       break;
     case "19":
-      PDFsrc.value = s; 
+      PDFsrc.value = s;
       break;
     case "20":
-      PDFsrc.value = t; 
+      PDFsrc.value = t;
       break;
     case "21":
-      PDFsrc.value = u; 
+      PDFsrc.value = u;
       break;
     case "22":
-      PDFsrc.value = v; 
+      PDFsrc.value = v;
       break;
     case "23":
-      PDFsrc.value = w; 
+      PDFsrc.value = w;
       break;
     case "24":
-      PDFsrc.value = x; 
+      PDFsrc.value = x;
       break;
     case "25":
-      PDFsrc.value = y; 
+      PDFsrc.value = y;
       break;
     case "26":
-      PDFsrc.value = z; 
+      PDFsrc.value = z;
       break;
   }
   isViewPdf20.value = true;
