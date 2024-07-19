@@ -81,8 +81,8 @@ const form =reactive({
 const validateUsername = (rules,value,callback)=>{
   if(value === ""){
     callback(new Error('请输入用户名'))
-  }else if(!/^[\u4E00-\u9FA5A-Za-z]+$/.test(value)){
-    callback(new Error('用户名不能包含特殊字符，只能是中文/英文'))
+  }else if(!/^[\u4E00-\u9FA5A-Za-z0-9]+$/.test(value)){
+    callback(new Error('用户名不能包含特殊字符，只能是中文/英文/数字'))
   }else {
     callback()
   }

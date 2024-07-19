@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       menuItems: [
-        { id: 1, name: "主页", isActive: true, route: "index" },
+        { id: 1, name: "主页", isActive: false, route: "index" },
         { id: 2, name: "新建案件", isActive: false, route: "create_case" },
         { id: 3, name: "查看案件", isActive: false, route: "view_case" },
         { id: 4, name: "风险评估", isActive: false, route: "risk" },
@@ -31,9 +31,7 @@ export default {
   },
   methods: {
     navigateTo(route) {
-      this.menuItems.forEach((item) => {
-        item.isActive = item.route === route;
-      });
+
       this.$router.push({ name: route });
     },
   },
