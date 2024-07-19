@@ -247,45 +247,12 @@
                 </el-row>
               </div>
 
-              <div class="row_box">
-                <el-row>
-                  <div class="custom-label">地理信息</div>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="地形和地貌">
-                      <el-input type="textarea" v-model="form.desc1" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录地形特征，如山脉、河流、湖泊等，这些特征可能会影响病原体的传播路径。"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="地表覆盖">
-                      <el-input type="textarea" v-model="form.desc2" :autosize="{ minRows: 1, maxRows: 3}" placeholder="记录土壤类型、植被覆盖等地表特征，这些也可能与病原体传播和存活有关。"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
+              <div class="baidumap" id="allmap">
               </div>
 
-              <div class="row_box">
-                <el-row>
-                  <div class="custom-label">其他特殊环境因素</div>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="周边设施">
-                      <el-input type="textarea" v-model="form.desc3" :autosize="{ minRows: 2, maxRows: 5}"
-                                placeholder="存在的医疗设施、食品供应点等，以便提供应急支持和资源调配。"></el-input>
-                    </el-form-item>
-                  </el-col>
 
-                  <el-col :span="12">
-                    <el-form-item label="动物情况">
-                      <el-input type="textarea" v-model="form.desc4" :autosize="{ minRows: 2, maxRows: 5}"
-                                placeholder="记录周边的动物种类和数量，尤其是与疫源动物相关的信息。"></el-input>
-                    </el-form-item>
 
-                  </el-col>
-                </el-row>
-              </div>
+
             </el-form>
           </div>
         </el-card>
@@ -312,7 +279,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {onMounted,onBeforeMount, ref} from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
 import router from '@/router';
@@ -323,6 +290,9 @@ import {
 import { InfoFilled } from '@element-plus/icons-vue'
 import recordingAndProtection from './PDF/recordingAndProtection.pdf';
 import axios from "axios";
+import myBMap from "@/util/myBMap";
+
+
 
 // 当前步骤
 const active = ref(0);
@@ -350,7 +320,7 @@ const form = ref({
   activity:'',
   otherSpecial:'',
   date1: '',
-  date2:''
+  date2:'',
 })
 const selectedItems = ref([]);
 
@@ -769,8 +739,74 @@ const value6 = ref('');
 const value7 = ref('');
 const value8 = ref('');
 const value9 = ref('');
+let lat = ref('');
+let lon = ref('');
+
+onBeforeMount(() => {
+  console.log("组件挂载前");
+  getLocation();
+});
+
+onMounted(() => {
+  console.log("mounted...")
+
+})
 
 
+function getLocation() {
+  console.log("getlocation")
+  myBMap.init().then(() => {
+    let geolocation = new BMap.Geolocation();
+    // 创建百度地理位置实例，代替 navigator.geolocation
+    geolocation.getCurrentPosition(function (e) {
+      if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        // 百度 geolocation 的经纬度属性不同，此处是 point.lat 而不是 coords.latitude
+        let point = new BMap.Point(e.point.lng, e.point.lat);
+        lat.value = e.point.lat
+        console.log(111)
+        console.log(lat.value)
+        lon.value = e.point.lng
+        console.log(222)
+        console.log(lon.value)
+        initMap1(lon.value,lat.value)
+      } else {
+        Toast("定位失败");
+        this.showloading = false;
+      }
+    });
+  });
+
+}
+function initMap1 (lng, lat) {
+//1.创建地图实例
+  var map = new BMap.Map("allmap");//创建地图实例
+  // console.log(lon.value)
+  console.log("init map" )
+  var point = new BMap.Point(lng, lat); // 创建点坐标
+
+  map.centerAndZoom(point, 12); // 初始化地图，设置中心点坐标和地图级别
+  map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+  map.addControl(new BMap.NavigationControl());//添加导航控件
+  map.addControl(new BMap.ScaleControl());// 添加比例尺控件
+  map.addControl(new BMap.OverviewMapControl());//添加地图缩略图
+  map.addControl(new BMap.MapTypeControl());//添加地图类型
+  //map.setMapStyle({ style: 'midnight' }) //地图风格
+
+  var marker = new BMap.Marker(point); // 创建标注
+  map.addOverlay(marker); // 将标注添加到地图中
+  //提示信息
+  var infoWindow = new BMap.InfoWindow("这是提示信息");
+  // 鼠标移上标注点要发生的事
+  marker.addEventListener("mouseover", function () {
+    this.openInfoWindow(infoWindow);
+  });
+
+  // 鼠标移开标注点要发生的事
+  marker.addEventListener("mouseout", function () {
+    this.closeInfoWindow(infoWindow);
+  });
+}
 const removeChoosenButton = () => {
   // 清空下拉框内容
   selectedItems.value = [];
@@ -877,6 +913,19 @@ const next_page = () =>{
 </script>
 
 <style scoped>
+
+.baidumap {
+  width: 70%;
+  height: 30%;
+  border: 1px solid red;
+  position: absolute;
+  left: 0;
+  top: 30%;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
 .app {
   display: flex;
   height: 100vh;
@@ -923,5 +972,17 @@ const next_page = () =>{
   color: #333;
   font-size: 16px;
   padding: 10px 0 10px 0;
+}
+.baidumap > .BMap_cpyCtrl {
+  display: none !important;
+}
+.BMap_noprint{
+  display: block !important;
+}
+.anchorBL{
+  display: none;
+}
+.BMap_scaleCtrl{
+  display: none !important;
 }
 </style>

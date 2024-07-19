@@ -26,7 +26,7 @@
     "vue": "^3.3.4",
     "vue-amap": "^0.5.10",
     "vue-axios": "^3.5.2",
-    "vue-baidu-map": "^0.21.22",
+    "vue-baidu-map-3x": "^1.0.39",
     "vue-icon-font": "^1.0.4",
     "vue-jsonp": "^2.0.0",
     "vue-router": "^4.2.5",
