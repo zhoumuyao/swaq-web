@@ -99,14 +99,14 @@
               <label class="label" style="margin-left: 40%; ">基本信息录入</label>
               <el-divider></el-divider>
               <div style="margin: 30px;">
-                疾病名称：<el-input placeholder="请输入疾病名称" style="display: inline-block; width: 75%; " v-model="form.name"></el-input>
+                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%; " v-model="form.name"></el-input>
               </div>
               <el-divider></el-divider>
               <div style="margin:30px 30px 20px 30px;">
-                <!--                  疾病性质：-->
-                疾病性质：<el-form-item  v-model="form.type">
-                  <el-radio v-model="radio" label="传染性疾病" name="type" ></el-radio><br>
-                  <el-radio v-model="radio" label="非传染性疾病" name="type" ></el-radio><br>
+                <!--                  生物危险因子性质：-->
+                生物危险因子性质：<el-form-item  v-model="form.type">
+                  <el-radio v-model="radio" label="传染性" name="type" ></el-radio><br>
+                  <el-radio v-model="radio" label="非传染性" name="type" ></el-radio><br>
                   <el-radio v-model="radio" label="未知" name="type" ></el-radio>
                 </el-form-item>
               </div>
