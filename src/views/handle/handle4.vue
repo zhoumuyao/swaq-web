@@ -186,18 +186,13 @@ const closeAlert= () => {
 .previous-button{
   position: fixed;
   bottom: 7%;
-  left: 80%;
+  left: 83%;
 }
 
 .next-button {
   position: fixed;
   bottom: 7%;
-  right: 7%;
-}
-
-.upload-demo {
-  width: 400%;
-  height: 200%;
+  right: 6%;
 }
 
 .center-container{
@@ -211,41 +206,7 @@ const closeAlert= () => {
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
-  margin:0px 100px 0px 40px;
-}
-
-.box-card{
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.left-top-container{
-  position: fixed;
-  top: 20%;
-  left: 21%;
-  width: 50%;
-  height: 35%;
-}
-.left-bottom-container{
-  position: fixed;
-  top: 60%;
-  left: 21%;
-  width: 50%;
-  height: 35%;
-}
-
-.right-container{
-  position: fixed;
-  top: 20%;
-  right: 5%;
-  width: 20%;
-  height: 65%;
-}
-
-.card-title{
-  font-size: larger;
+  margin:0 60px 0 40px;
 }
 
 .scrollbar-wrapper {

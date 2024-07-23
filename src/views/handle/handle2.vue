@@ -19,10 +19,13 @@
             <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
               <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">环境图片</label>
-                <el-text type="primary"  style="margin-left: 20%" >
-                  <el-icon><Location /></el-icon>
-                  {{Position}}
-                </el-text>
+                <div>
+                  <el-text type="primary" >
+                    <el-icon><Location /></el-icon>
+                    {{Position}}
+                  </el-text>
+                </div>
+
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -44,10 +47,12 @@
               </el-tab-pane>
               <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">人员图片</label>
-                <el-text type="primary"  style="margin-left: 20%" @click="getPosition">
-                  <el-icon><Location /></el-icon>
-                  {{Position}}
-                </el-text>
+                <div>
+                  <el-text type="primary" @click="getPosition">
+                    <el-icon><Location /></el-icon>
+                    {{Position}}
+                  </el-text>
+                </div>
                 <el-divider></el-divider>
                 <div class="img">
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
@@ -69,11 +74,12 @@
               </el-tab-pane>
               <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">物证图片</label>
-
-                <el-text type="primary"  style="margin-left: 20%" @click="getPosition">
-                  <el-icon><Location /></el-icon>
-                  {{Position}}
-                </el-text>
+                <div>
+                  <el-text type="primary" @click="getPosition">
+                    <el-icon><Location /></el-icon>
+                    {{Position}}
+                  </el-text>
+                </div>
 
                 <el-divider></el-divider>
                 <div class="img">
@@ -166,15 +172,6 @@ const router = useRouter();
 import axios from "axios";
 import myBMap from "/src/util/myBMap";
 
-
-
-
-
-
-
-
-
-
 const showImg = ref(false);
 const exampleDrawer = ref(false);
 const drawer = ref(false);
@@ -249,31 +246,6 @@ function handleUpload() {
   });
   uploadInput.click();
 }
-
-const getCityInfo = async () => {
-  // 调用高德API获取地理位置和天气信息
-  axios.get('https://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e')
-      .then(function(response) {
-        // console.log(response.data);
-        // 获取现在的城市的adcode编码
-        const adcode = response.data.adcode;
-
-        // 使用adcode的值来获取天气数据
-        axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
-            .then(function(weatherResponse) {
-              // 显示当前位置
-              form.value.province = weatherResponse.data.lives[0].province;
-              form.value.city = weatherResponse.data.lives[0].city;
-
-            })
-            .catch(function(error) {
-              console.error("Error fetching weather data:", error);
-            });
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-};
 </script>
 
 <style scoped>
@@ -291,13 +263,13 @@ const getCityInfo = async () => {
 .previous-button{
   position: fixed;
   bottom: 7%;
-  left: 80%;
+  left: 83%;
 }
 
 .next-button {
   position: fixed;
   bottom: 7%;
-  right: 7%;
+  right: 5%;
 }
 
 .center-container{
@@ -317,13 +289,13 @@ const getCityInfo = async () => {
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
-  margin:0px 100px 0px 40px;
+  margin:0 60px 0 40px;
 }
 .description{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
-  margin:0px
+  margin:0
 }
 
 .img {

@@ -600,145 +600,11 @@ const activity = ref([{
     }]
 }]);
 
-const humidity = ref([{
-  value: '≤30%',
-  label: '干燥'
-}, {
-  value: '30%-60%',
-  label: '舒适',
-}, {
-  value: '60%-70%',
-  label: '潮湿'
-}, {
-  value: '70%-90%',
-  label: '闷热'
-}, {
-  value: '≥90%',
-  label: '极度潮湿'
-}]);
-
-const temperature = ref([{
-  value: '<0℃',
-  label: '寒冷',
-},{
-  value: '0℃-10℃',
-  label: '微寒',
-},{
-  value: '10℃-20℃',
-  label: '凉爽',
-},{
-  value: '20℃-15℃',
-  label: '舒适'
-}, {
-  value: '25°C-35°C',
-  label: '炎热',
-}, {
-  value: '≥35°C',
-  label: '酷热'
-}]);
-
-const winddirection = ref([{
-  value: 'N',
-  label: '北风'
-}, {
-  value: 'NNE',
-  label: '东北偏北风',
-}, {
-  value: 'NE',
-  label: '东北风'
-}, {
-  value: 'ENE',
-  label: '东北偏东风'
-}, {
-  value: 'E',
-    label: '东风'
-}, {
-  value: 'ESE',
-      label: '东南偏东风'
-}, {
-  value: 'SE',
-      label: '东南风'
-}, {
-  value: 'SSE',
-      label: '东南偏南风'
-}, {
-  value: 'S',
-      label: '南风'
-}, {
-  value: 'SSW',
-      label: '西南偏南风'
-}, {
-  value: 'SW',
-      label: '西南风'
-}, {
-  value: 'WSW',
-      label: '西南偏西风'
-}, {
-  value: 'W',
-      label: '西风'
-}, {
-  value: 'WNW',
-      label: '西北偏西风'
-}, {
-  value: 'NW',
-      label: '西北风'
-},
-{
-  value: 'NNW',
-      label: '西北偏北风'
-}
-]);
-
-const windpower = ref([{
-  value: '< 0.5 m/s',
-  label: '无风'
-}, {
-  value: '0.5–1.5 m/s',
-  label: '软风',
-}, {
-  value: '1.6–3.3 m/s',
-  label: '轻风'
-}, {
-  value: '3.4–5.5 m/s',
-  label: '微风'
-}, {
-  value: '5.5–7.9 m/s',
-  label: '和风'
-}, {
-  value: '8–10.7 m/s',
-  label: '清风'
-}, {
-  value: '10.8–13.8 m/s',
-  label: '强风'
-}, {
-  value: '13.9–17.1 m/s',
-  label: '疾风'
-}, {
-  value: '17.2–20.7 m/s',
-  label: '大风'
-}, {
-  value: '20.8–24.4 m/s',
-  label: '烈风'
-}, {
-  value: '24.5–28.4 m/s',
-  label: '狂风'
-}, {
-  value: '28.5–32.6 m/s',
-  label: '暴风'
-}, {
-  value: '≥ 32.7 m/s',
-  label: '飓风'
-}]);
-
 const value1 = ref('');
 const value2 = ref('');
 const value3 = ref('');
 const value4 = ref('');
 const value5 = ref('');
-const value6 = ref('');
-const value7 = ref('');
-const value8 = ref('');
-const value9 = ref('');
 let lat = ref('');
 let lon = ref('');
 
@@ -819,61 +685,62 @@ const openSub1 = () =>{
 }
 
 const getWeatherData = async () => {
-  // 调用高德API获取地理位置和天气信息
+  // 调用高德API获取adcode编码
   axios.get('https://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e')
-    .then(function(response) {
-      // console.log(response.data);
-      // 获取现在的城市的adcode编码
-      const adcode = response.data.adcode;
+      .then(function(response) {
+        console.log(response.data);
+        // 获取现在的城市的adcode编码
+        const adcode = response.data.adcode;
+        // 调用百度API通过adcode获取天气信息
+        axios.get(`http://localhost:8080/api/weather/${adcode}`)
+            .then(response => {
+              // 请求成功，将后端返回的数据赋值给 weapons 数组
+              console.log(response.data);
+              // location位置信息 weather天气信息
+              const location = response.data.result.location;
+              const weather = response.data.result.now;
 
+              form.value.temperature = weather.temp;//温度
+              form.value.humidity = weather.rh;//湿度
+              form.value.weather = weather.text;//天气现象
+              form.value.winddirection = weather.wind_dir;//风向
+              form.value.windpower = weather.wind_class;//风速
+
+              // 显示当前位置
+              form.value.province = location.province;//省份
+              form.value.city = location.city;//城市
+
+              ElMessage({
+                message: '成功获取天气状况',
+                type: 'success',
+              });
+            })
+            .catch(error => {
+              console.error('获取数据失败：', error);
+            });
       // 使用adcode的值来获取天气数据
-      axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
-        .then(function(weatherResponse) {
-          console.log(weatherResponse.data); // 处理天气数据
-          form.value.temperature = weatherResponse.data.lives[0].temperature;//温度
-          form.value.humidity = weatherResponse.data.lives[0].humidity;//湿度
-          form.value.weather = weatherResponse.data.lives[0].weather;//天气现象
-          form.value.winddirection = weatherResponse.data.lives[0].winddirection;//风向
-          form.value.windpower = weatherResponse.data.lives[0].windpower;//风速
-
-          // 显示当前位置
-          form.value.province = weatherResponse.data.lives[0].province;
-          form.value.city = weatherResponse.data.lives[0].city;
-
-        })
-        .catch(function(error) {
-          console.error("Error fetching weather data:", error);
-        });
-    })
-    .catch(function(error) {
-      console.error(error);
-    });
-};
+      // axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
+      //   .then(function(weatherResponse) {
+      //     console.log(weatherResponse.data); // 处理天气数据
+      //     form.value.temperature = weatherResponse.data.lives[0].temperature;//温度
+      //     form.value.humidity = weatherResponse.data.lives[0].humidity;//湿度
+      //     form.value.weather = weatherResponse.data.lives[0].weather;//天气现象
+      //     form.value.winddirection = weatherResponse.data.lives[0].winddirection;//风向
+      //     form.value.windpower = weatherResponse.data.lives[0].windpower;//风速
+      //
+      //     // 显示当前位置
+      //     form.value.province = weatherResponse.data.lives[0].province;
+      //     form.value.city = weatherResponse.data.lives[0].city;
+      //
+      //   })
+      //   .catch(function(error) {
+      //     console.error("Error fetching weather data:", error);
+      //   });
+      })
+}
 
 const isFormValid = () =>{
-  /**
-   * name : '',
-   *   type : ['记录环境参数', '现场勘察', '生物危险因子检材'],
-   *   desc1 : '',
-   *   desc2 : '',
-   *   desc3 : '',
-   *   desc4 : '',
-   *   humidity: '',
-   *   province:'省份',
-   *   city:'城市',
-   *   temperature: '',
-   *   winddirection: '',
-   *   windpower: '',
-   *   weather:'',
-   *   // airQuality: '',
-   *   waterQuality: '',
-   *   soilQuality: '',
-   *   population:'',
-   *   activity:'',
-   *   otherSpecial:'',
-   *   date1: '',
-   *   date2:''
-   * */
+  // 确保所有选项不为空
   if(form.value.desc1.trim() !== '' &&
       form.value.desc2.trim() !== '' &&
       form.value.desc3.trim() !== '' &&
@@ -939,7 +806,7 @@ const next_page = () =>{
 .next-button {
   position: fixed;
   bottom: 7%;
-  right: 7%;
+  right: 5%;
 }
 .center-container{
   position: fixed;
@@ -952,7 +819,7 @@ const next_page = () =>{
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
-  margin:0px 100px 0px 40px;
+  margin:0 60px 0 40px;
 }
 
 .scrollbar-wrapper {
