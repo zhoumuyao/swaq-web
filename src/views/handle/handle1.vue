@@ -15,246 +15,228 @@
 
       <div class="center-container">
         <el-card class="card_box">
-          <div style="width: 95%;margin: 20px">
-            <el-form :model="form" label-width="100px">
-              <el-form-item label="生物危险因子">
-                <el-col :span="16">
-                  <div>
-                    <el-scrollbar wrap-class="scrollbar-wrapper">
-                      <el-cascader
-                          placeholder="添加/搜索生物危险因子信息"
-                          :options="options"
-                          v-model="selectedItems"
-                          :props="{ multiple: true }"
-                          filterable
-                          style="width: 100%;"></el-cascader>
-                    </el-scrollbar>
-                  </div>
-                </el-col>
-                <el-col :span="2">
-                  <div>
-                    <el-popconfirm
-                        width="250"
-                        confirm-button-text="确定"
-                        cancel-button-text="取消"
-                        :icon="InfoFilled"
-                        icon-color="#626AEF"
-                        title="确定清空所有生物危险因子吗？"
-                        @confirm="removeChoosenButton">
-                      <template #reference>
-                        <el-button>清空</el-button>
-                      </template>
-                    </el-popconfirm>
-                  </div>
-                </el-col>
-                <el-col :span="3">
-                  <!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先
-                  放着-->
-                  <!--                  <div>-->
-                  <!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
-                  <!--                  </div>-->
-                  <div>
-                    <el-button type="primary" plain @click="drawer= true">现场处置规程</el-button>
-                  </div>
-                </el-col>
-                <el-col :span="3">
-                  <div>
-                    <el-button type="primary" plain @click="openSub1">样本的采集与运输</el-button>
-                  </div>
-                </el-col>
-              </el-form-item>
+          <el-form :model="form" label-width="100px">
+            <el-form-item label="生物危险因子">
+              <el-col :span="16">
+                <div>
+                  <el-scrollbar wrap-class="scrollbar-wrapper">
+                    <el-cascader
+                        placeholder="添加/搜索生物危险因子信息"
+                        :options="options"
+                        v-model="selectedItems"
+                        :props="{ multiple: true }"
+                        filterable
+                        style="width: 100%;"></el-cascader>
+                  </el-scrollbar>
+                </div>
+              </el-col>
+              <el-col :span="2">
+                <div>
+                  <el-popconfirm
+                      width="250"
+                      confirm-button-text="确定"
+                      cancel-button-text="取消"
+                      :icon="InfoFilled"
+                      icon-color="#626AEF"
+                      title="确定清空所有生物危险因子吗？"
+                      @confirm="removeChoosenButton">
+                    <template #reference>
+                      <el-button>清空</el-button>
+                    </template>
+                  </el-popconfirm>
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先
+                放着-->
+                <!--                  <div>-->
+                <!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
+                <!--                  </div>-->
+                <div>
+                  <el-button type="primary" plain @click="drawer= true">现场处置规程</el-button>
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <div>
+                  <el-button type="primary" plain @click="openSub1">样本的采集与运输</el-button>
+                </div>
+              </el-col>
+            </el-form-item>
 
-              <el-form-item label="案件时间">
-                <el-row>
-                  <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-                  </el-col>
-                  <el-col :span="2" > </el-col>
-                  <el-col :span="11">
-                    <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-                  </el-col>
-                </el-row>
-              </el-form-item>
+            <el-form-item label="案件时间">
+              <el-row>
+                <el-col :span="11">
+                  <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+                </el-col>
+                <el-col :span="2" > </el-col>
+                <el-col :span="11">
+                  <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+                </el-col>
+              </el-row>
+            </el-form-item>
 
 
-              <el-form-item label="勘察工作">
-                <el-checkbox-group v-model="form.type">
-                  <el-checkbox label="记录环境参数" name="type" v-model="checkboxValue"></el-checkbox>
-                  <el-checkbox label="现场勘察" name="type" v-model="checkboxValue"></el-checkbox>
-                  <el-checkbox label="生物危险因子检材" name="type" v-model="checkboxValue"></el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
+            <el-form-item label="勘察工作">
+              <el-checkbox-group v-model="form.type">
+                <el-checkbox label="记录环境参数" name="type" v-model="checkboxValue"></el-checkbox>
+                <el-checkbox label="现场勘察" name="type" v-model="checkboxValue"></el-checkbox>
+                <el-checkbox label="生物危险因子检材" name="type" v-model="checkboxValue"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
 
-              <div class="row_box">
-                <el-row  :gutter="20">
-                  <el-col :span="12">
-                    <el-row>
+            <div class="row_box">
+              <el-row  :gutter="20">
+                <el-col :span="12">
+                  <el-row>
+                    <el-col :span="4">
                       <div class="custom-label">环境参数</div>
-                    </el-row>
-                    <el-row>
-                      <el-col :span="8">
-                        <el-form-item label="空气质量">
+                    </el-col>
+                    <el-col :span="6">
+                      <el-popover placement="right" :width="400" trigger="click">
+                        <template #reference>
+                          <el-link type="primary" :underline="false" style="padding: 10px 0 5px 0;">空气质量指数AQI</el-link>
+                        </template>
+                        <img src="./image/IQA.png" alt="Image" style="width: 500px; height: auto;display: block;" />
+                      </el-popover>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-popover placement="right" :width="400" trigger="click">
+                        <template #reference>
+                          <el-link type="primary" :underline="false" style="padding: 10px 0 5px 0;">地表水质量标准</el-link>
+                        </template>
+                        <img src="./image/water.png" alt="Image" style="width:400px; height: auto;display: block;" />
+                      </el-popover>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-popover placement="right" :width="400" trigger="click">
+                        <template #reference>
+                          <el-link type="primary" :underline="false" style="padding: 10px 0 5px 0;">土壤环境量标准</el-link>
+                        </template>
+                        <img src="./image/soil.png" alt="Image" style="width:400px; height: auto;display: block;" />
+                      </el-popover>
+                    </el-col>
+
+                  </el-row>
+                  <el-row>
+                    <el-col :span="8">
+                      <el-form-item label="空气质量">
 <!--                          <el-input v-model="form.airQuality"></el-input>-->
-                          <el-select v-model="value1" placeholder="请选择">
-                            <el-option
-                                v-for="item in airQuality"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                              <span style="float: left">{{ item.label }}</span>
-                              <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="水质状况">
+                        <el-select v-model="form.airQuality" placeholder="请选择">
+                          <el-option
+                              v-for="item in airQuality"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            <span style="float: left">{{ item.label }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-form-item label="水质状况">
 <!--                          <el-input v-model="form.waterQuality"></el-input>-->
-                          <el-select v-model="value2" placeholder="请选择">
-                            <el-option
-                                v-for="item in waterQuality"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                              <span style="float: left">{{ item.label }}</span>
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="土壤状况">
+                        <el-select v-model="form.waterQuality" placeholder="请选择">
+                          <el-option
+                              v-for="item in waterQuality"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            <span style="float: left">{{ item.label }}</span>
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-form-item label="土壤状况">
 <!--                          <el-input v-model="form.soilQuality"></el-input>-->
-                          <el-select v-model="value3" placeholder="请选择">
-                            <el-option
-                                v-for="item in soilQuality"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                              <span style="float: left">{{ item.label }}</span>
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </el-col>
+                        <el-select v-model="form.soilQuality" placeholder="请选择">
+                          <el-option
+                              v-for="item in soilQuality"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            <span style="float: left">{{ item.label }}</span>
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-col>
 
-                  <el-col :span="12">
-                    <el-row>
-                      <div class="custom-label">人群情况</div>
-                    </el-row>
-                    <el-row>
-                      <el-col :span="12">
-                        <el-form-item label="人口密度">
+                <el-col :span="12">
+                  <el-row>
+                    <div class="custom-label">人群情况</div>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="12">
+                      <el-form-item label="人口密度">
 <!--                          <el-input v-model="form.population"></el-input>-->
-                          <el-cascader
-                              v-model="value4"
-                              :options="population"
-                              placeholder="请选择"
-                              :props= "{multiple: true}"
-                          ></el-cascader>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item label="人员活动">
+                        <el-cascader
+                            v-model="form.population"
+                            :options="population"
+                            placeholder="请选择"
+                            :props= "{multiple: true}"
+                        ></el-cascader>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="人员活动">
 <!--                          <el-input v-model="form.activity"></el-input>-->
-                          <el-cascader
-                              v-model="value5"
-                              :options="activity"
-                              placeholder="请选择"
-                              :props= "{multiple: true}">
-                          </el-cascader>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </el-col>
+                        <el-cascader
+                            v-model="form.activity"
+                            :options="activity"
+                            placeholder="请选择"
+                            :props= "{multiple: true}">
+                        </el-cascader>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-col>
 
-                </el-row>
+              </el-row>
 
-              </div>
+            </div>
 
-              <div class="row_box">
-                <el-row>
-                  <el-col :span="2"><div class="custom-label">天气状况</div></el-col>
-                  <el-col :span="2"><el-button type="text" @click="getWeatherData" style=" padding: 15px 0 10px 0;">一键获取</el-button></el-col>
-                  <el-col :span="20"><div style=" padding: 10px 0 10px 0;font-size: 14px;">{{form.province}}/{{form.city}}</div></el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="4">
-                    <el-form-item label="温度数值">
-                      <el-input v-model="form.temperature" placeholder="单位为℃"></el-input>
-<!--                      <el-select v-model="value8" placeholder="请选择">-->
-<!--                        <el-option-->
-<!--                            v-for="item in temperature"-->
-<!--                            :key="item.value"-->
-<!--                            :label="item.label"-->
-<!--                            :value="item.value">-->
-<!--                          <span style="float: left">{{ item.label }}</span>-->
-<!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
-<!--                        </el-option>-->
-<!--                      </el-select>-->
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="湿度数值">
-                      <el-input v-model="form.humidity" placeholder="单位为%"></el-input>
-<!--                      <el-select v-model="value9" placeholder="请选择">-->
-<!--                        <el-option-->
-<!--                            v-for="item in humidity"-->
-<!--                            :key="item.value"-->
-<!--                            :label="item.label"-->
-<!--                            :value="item.value">-->
-<!--                          <span style="float: left">{{ item.label }}</span>-->
-<!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
-<!--                        </el-option>-->
-<!--                      </el-select>-->
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="天气现象">
-                      <el-input v-model="form.weather"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="风速数值">
-                      <el-input v-model="form.windpower"  placeholder="单位为m/s"></el-input>
-                      <!--                      <el-select v-model="value7" placeholder="请选择">-->
-                      <!--                        <el-option-->
-                      <!--                            v-for="item in windpower"-->
-                      <!--                            :key="item.value"-->
-                      <!--                            :label="item.label"-->
-                      <!--                            :value="item.value">-->
-                      <!--                          <span style="float: left">{{ item.label }}</span>-->
-                      <!--                          <span style="float: right; color: #8492a6; font-size: 8px">{{ item.value }}</span>-->
-                      <!--                        </el-option>-->
-                      <!--                      </el-select>-->
-                    </el-form-item>
-                  </el-col>
+            <div class="row_box">
+              <el-row>
+                <el-col :span="2"><div class="custom-label">天气状况</div></el-col>
+                <el-col :span="2"><el-button type="text" @click="getWeatherData" style=" padding: 15px 0 10px 0;">一键获取</el-button></el-col>
+                <el-col :span="20"><div style=" padding: 10px 0 10px 0;font-size: 14px;">{{form.province}}/{{form.city}}</div></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="4">
+                  <el-form-item label="温度数值">
+                    <el-input v-model="form.temperature" placeholder="单位为℃"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="湿度数值">
+                    <el-input v-model="form.humidity" placeholder="单位为%"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="天气现象">
+                    <el-input v-model="form.weather"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="风速数值">
+                    <el-input v-model="form.windpower"  placeholder="单位为m/s"></el-input>
+                  </el-form-item>
+                </el-col>
 
-                  <el-col :span="5">
-                    <el-form-item label="环境风向">
-                      <el-input v-model="form.winddirection"></el-input>
-                      <!--                      <el-select v-model="value6" placeholder="请选择">-->
-                      <!--                        <el-option-->
-                      <!--                            v-for="item in winddirection"-->
-                      <!--                            :key="item.value"-->
-                      <!--                            :label="item.label"-->
-                      <!--                            :value="item.value">-->
-                      <!--                          <span style="float: left">{{ item.label }}</span>-->
-                      <!--                        </el-option>-->
-                      <!--                      </el-select>-->
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </div>
+                <el-col :span="5">
+                  <el-form-item label="环境风向">
+                    <el-input v-model="form.winddirection"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
 
-              <div class="baidumap" id="allmap">
-              </div>
+            <div class="baidumap" id="allmap"></div>
 
-
-
-
-            </el-form>
-          </div>
+          </el-form>
         </el-card>
       </div>
 
@@ -291,7 +273,7 @@ import { InfoFilled } from '@element-plus/icons-vue'
 import recordingAndProtection from './PDF/recordingAndProtection.pdf';
 import axios from "axios";
 import myBMap from "@/util/myBMap";
-
+import { ElNotification } from 'element-plus'
 
 
 // 当前步骤
@@ -302,23 +284,18 @@ const drawer = ref(false);
 const form = ref({
   name : '',
   type : ['记录环境参数', '现场勘察', '生物危险因子检材'],
-  desc1 : '',
-  desc2 : '',
-  desc3 : '',
-  desc4 : '',
-  humidity: '',
   province:'省份',
   city:'城市',
   temperature: '',
+  humidity: '',
   winddirection: '',
   windpower: '',
   weather:'',
-  // airQuality: '',
+  airQuality : '',
   waterQuality: '',
   soilQuality: '',
   population:'',
   activity:'',
-  otherSpecial:'',
   date1: '',
   date2:'',
 })
@@ -498,6 +475,16 @@ const airQuality = ref([{
   label: '严重污染'
 }]);
 
+const open2 = () => {
+  ElNotification({
+    title: 'Prompt',
+    dangerouslyUseHTMLString: true,
+    message: '<strong><img src="./image/IQA.png" alt="Image"></strong>',
+  })
+}
+
+const showPopup = ref(false);
+
 const waterQuality= ref([{
   value: '1',
   label: 'I类'
@@ -600,11 +587,6 @@ const activity = ref([{
     }]
 }]);
 
-const value1 = ref('');
-const value2 = ref('');
-const value3 = ref('');
-const value4 = ref('');
-const value5 = ref('');
 let lat = ref('');
 let lon = ref('');
 
@@ -741,23 +723,20 @@ const getWeatherData = async () => {
 
 const isFormValid = () =>{
   // 确保所有选项不为空
-  if(form.value.desc1.trim() !== '' &&
-      form.value.desc2.trim() !== '' &&
-      form.value.desc3.trim() !== '' &&
-      form.value.desc4.trim() !== ''&&
-      form.value.humidity.trim() !== '' &&
-      form.value.temperature.trim() !== '' &&
-      form.value.winddirection.trim() !== '' &&
-      form.value.windpower.trim() !== '' &&
-      form.value.weather.trim() !== '' &&
+  if(selectedItems.value !== []&&
       form.value.date1 !== '' &&
       form.value.date2 !== '' &&
-      value1.value.trim() !== '' &&
-      value2.value.trim() !== '' &&
-      value3.value.trim() !== '' &&
-      value4.value !== ''&&
-      value5.value !== ''&&
-      selectedItems.value !== []){
+      form.value.airQuality.trim() !== '' &&
+      form.value.waterQuality.trim() !== '' &&
+      form.value.soilQuality.trim() !== '' &&
+      form.value.population !== '' &&
+      form.value.activity !== '' &&
+      form.value.temperature.trim() !== '' &&
+      form.value.humidity.trim() !== '' &&
+      form.value.weather.trim() !== '' &&
+      form.value.windpower.trim() !== '' &&
+      form.value.winddirection.trim() !== ''
+      ){
     return true; // 如果所有字段都不为空，则返回true
   } else {
     return false; // 如果有任何一个字段为空，则返回false
@@ -780,19 +759,6 @@ const next_page = () =>{
 </script>
 
 <style scoped>
-
-.baidumap {
-  width: 70%;
-  height: 30%;
-  border: 1px solid red;
-  position: absolute;
-  left: 0;
-  top: 30%;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-
 .app {
   display: flex;
   height: 100vh;
@@ -816,10 +782,24 @@ const next_page = () =>{
 }
 
 .card_box{
-  height:85%;
+  height:80%;
   overflow-y:auto;
   overflow-x:hidden;
   margin:0 60px 0 40px;
+  padding: 20px;
+
+}
+
+.baidumap {
+  width: 70%;
+  height: 295px;
+  border: 1px solid red;
+
+  left: 15%;
+  //left: 0;
+  //top: 30%;
+  //right: 0;
+  //bottom: 0;
 }
 
 .scrollbar-wrapper {
@@ -851,5 +831,28 @@ const next_page = () =>{
 }
 .BMap_scaleCtrl{
   display: none !important;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-trigger {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.image-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: none; /* 默认隐藏 */
 }
 </style>
