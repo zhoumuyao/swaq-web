@@ -13,19 +13,6 @@ export default {
             window.onBMapCallback = function () {
                 resolve(BMap);
             };
-            let getCurrentCityName = function () {
-                return new Promise(function (resolve, reject) {
-                    let myCity = new BMap.LocalCity()
-                    myCity.get(function (result) {
-                        resolve(result.name)
-                    })
-                })
-            }
-            // 插入script脚本
-            let scriptNode = document.createElement('script');
-            scriptNode.setAttribute(type, 'text/javascript');
-            scriptNode.setAttribute('src', BMap_URL);
-            document.body.appendChild(scriptNode);
         });
     }
 }

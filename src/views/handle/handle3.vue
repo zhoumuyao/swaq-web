@@ -223,13 +223,13 @@ const copy = (selector) =>{
 .previous-button{
   position: fixed;
   bottom: 7%;
-  left: 80%;
+  left: 83%;
 }
 
 .next-button {
   position: fixed;
   bottom: 7%;
-  right: 7%;
+  right: 6%;
 }
 .center-container{
   position: fixed;
@@ -242,9 +242,9 @@ const copy = (selector) =>{
   height:85%;
   display: flex;
   flex-direction: column;
-  overflow-y:auto;
+  //overflow-y:auto;
   overflow-x:hidden;
-  margin:0px 100px 0px 40px;
+  margin:0 60px 0 40px;
 }
 
 .left-top-container{
