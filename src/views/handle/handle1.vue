@@ -674,7 +674,7 @@ const getWeatherData = async () => {
         // 获取现在的城市的adcode编码
         const adcode = response.data.adcode;
         // 调用百度API通过adcode获取天气信息
-        axios.get(`http://localhost:8080/api/weather/${adcode}`)
+        axios.get(`http://localhost:8082/api/weather/${adcode}`)
             .then(response => {
               // 请求成功，将后端返回的数据赋值给 weapons 数组
               console.log(response.data);

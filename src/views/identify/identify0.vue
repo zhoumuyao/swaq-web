@@ -131,7 +131,6 @@
                 >
                   <div class="search-card">
                     <el-form
-                      ref="form"
                       :model="form"
                       :inline="true"
                     >

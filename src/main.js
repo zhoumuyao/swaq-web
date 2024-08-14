@@ -9,7 +9,7 @@ import axios from "axios";
 
 const app = createApp(App)
 // 开发环境用localhost
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://localhost:8082'
 
 // 给甲方用的公网镜像
 // axios.defaults.baseURL = 'https://fee3-219-230-74-133.ngrok-free.app'
