@@ -105,7 +105,7 @@
               <label class="label" style="margin-left: 40%; ">基本信息录入</label>
               <el-divider></el-divider>
               <div style="margin: 30px;">
-                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%; " v-model="form.name"></el-input>
+                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%;padding-top: 10px; " v-model="form.name"></el-input>
               </div>
               <el-divider></el-divider>
               <div style="margin:30px 30px 20px 30px;">
