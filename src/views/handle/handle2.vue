@@ -31,15 +31,15 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传环境图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display1" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(1)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -58,15 +58,15 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传人员图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display2" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(2)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -86,15 +86,15 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传物证图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display3" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(3)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -227,9 +227,12 @@ function getPosition(){
     console.error('定位失败：', error);
   });
 }
-function handleUpload() {
-  let imageDisplay = document.getElementById("image-display");
-  let uploadInput = document.getElementById("upload-input");
+function handleUpload(index) {
+  let elementId = "image-display"+index;
+  let imageDisplay = document.getElementById(elementId);
+  let uploadElementId = "upload-input"+index;
+  let uploadInput = document.getElementById(uploadElementId);
+
   uploadInput.addEventListener("change", function(event) {
     let files = event.target.files; // 获取选择的文件列表
     if (files.length > 0) {
