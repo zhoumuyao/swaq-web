@@ -413,7 +413,7 @@
           <!-- 样本采集和处理 -->
           <div v-if="step == 4" style="display: block">
             <div class="search-card">
-              <el-form ref="form" :model="form" :inline="true">
+              <el-form :model="formSampleget" :inline="true">
                 <el-form-item label="样本种类：" style="width: 500px">
                   <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
                   <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px">
@@ -647,72 +647,72 @@ const peopleOptions = [
     label: "组织",
   },
   {
-    value: "3",
+    value: "排泄物",
     label: "排泄物",
   },
   {
-    value: "4",
+    value: "呕吐物",
     label: "呕吐物",
   },
   {
-    value: "5",
+    value: "分泌物",
     label: "分泌物",
   },
   {
-    value: "6",
+    value: "涂抹物",
     label: "涂抹物",
   },
 ];
 
 const itemOptions = [
   {
-    value: "7",
+    value: "现场物品",
     label: "现场物品",
   },
 ];
 
 const epidemicOptions = [
   {
-    value: "8",
+    value: "植物",
     label: "植物",
   },
   {
-    value: "9",
+    value: "动物",
     label: "动物",
   },
   {
-    value: "10",
+    value: "人",
     label: "人",
   },
   {
-    value: "11",
+    value: "动物尸体",
     label: "动物尸体",
   },
   {
-    value: "12",
+    value: "人尸体",
     label: "人尸体",
   },
   {
-    value: "13",
+    value: "水",
     label: "水",
   },
   {
-    value: "14",
+    value: "土壤",
     label: "土壤",
   },
 ];
 
 const methodOptions = [
   {
-    value: "1",
+    value: "生物信息快速检验",
     label: "生物信息快速检验",
   },
   {
-    value: "2",
+    value: "红外光谱快速检测",
     label: "红外光谱快速检测",
   },
   {
-    value: "3",
+    value: "拉曼光谱快速检测",
     label: "拉曼光谱快速检测",
   },
 ];
@@ -724,6 +724,7 @@ const objectClass = ref(0);
 const objectClassStr = ref();
 
 const disposal_obj = ref([]);
+const formSampleget = ref();
 const form = reactive({
   type: "",
   name: "",
