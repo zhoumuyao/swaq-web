@@ -3,17 +3,11 @@
     <!--    <sidebar></sidebar>-->
     <div class="content">
       <router-view></router-view>
-      <div
-        style="padding: 20px; border-bottom: solid 2px; border-color: darkgray"
-      >
+      <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray">
         <label style="font: 20px Extra large">处置对象</label>
       </div>
       <div class="steps">
-        <el-steps
-          :active="1"
-          finish-status="success"
-          style="width: 50%; margin-left: 25%"
-        >
+        <el-steps :active="1" finish-status="success" style="width: 50%; margin-left: 25%">
           <el-step title="计划和准备"></el-step>
           <el-step title="风险识别"></el-step>
           <el-step title="风险评价"></el-step>
@@ -106,13 +100,8 @@
               </div>
             </div>
           </div>-->
-          <div
-            v-if="step == 0"
-            style="height: 90%; margin: 10px; overflow: auto"
-          >
-            <div
-              style="display: grid; grid-template-columns: 1fr 1fr; height: 95%"
-            >
+          <div v-if="step == 0" style="height: 90%; margin: 10px; overflow: auto">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; height: 95%">
               <div
                 style="
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
@@ -128,9 +117,7 @@
                     v-for="(item, index) in Specimen"
                     :key="index"
                     style="margin-top: 15px; text-indent: 2em; font-size: 18px"
-                  >
-                    {{ index + 1 }}、{{ item }}
-                  </div>
+                  >{{ index + 1 }}、{{ item }}</div>
                 </div>
               </div>
               <div
@@ -144,35 +131,15 @@
               >
                 <div style="margin: 15px">
                   <label class="smalllabel">处置对象：</label>
-                  <el-button
-                    type="primary"
-                    :icon="Plus"
-                    circle
-                    @click="adddisposal = true"
-                  ></el-button>
+                  <el-button type="primary" :icon="Plus" circle @click="adddisposal = true"></el-button>
                 </div>
                 <el-card style="margin: 5px">
                   <el-table :data="disposal_obj" stripe style="width: 100%">
-                    <el-table-column
-                      prop="objectClass"
-                      label="处置对象"
-                    ></el-table-column>
-                    <el-table-column
-                      prop="sampleType"
-                      label="采样种类"
-                    ></el-table-column>
-                    <el-table-column
-                      prop="sampleContent"
-                      label="采样内容"
-                    ></el-table-column>
-                    <el-table-column
-                      prop="testMethod"
-                      label="快检方法"
-                    ></el-table-column>
-                    <el-table-column
-                      prop="result"
-                      label="快检结果"
-                    ></el-table-column>
+                    <el-table-column prop="objectClass" label="处置对象"></el-table-column>
+                    <el-table-column prop="sampleType" label="采样种类"></el-table-column>
+                    <el-table-column prop="sampleContent" label="采样内容"></el-table-column>
+                    <el-table-column prop="testMethod" label="快检方法"></el-table-column>
+                    <el-table-column prop="result" label="快检结果"></el-table-column>
                     <!-- <el-table-column prop="sampleRequirement" label="采样要求"></el-table-column> -->
                   </el-table>
                 </el-card>
@@ -263,15 +230,13 @@
                   type="primary"
                   style="width: 120px; margin-right: 20px"
                   @click="backStep"
-                  >上一步</el-button
-                >
+                >上一步</el-button>
                 <el-button
                   size="large"
                   type="primary"
                   style="width: 120px; margin-left: 10px"
                   @click="step = step + 1"
-                  >确认</el-button
-                >
+                >确认</el-button>
               </div>
             </div>
 
@@ -290,9 +255,7 @@
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item>
-                  <label style="font-size: 16px; display: block; width: 200px"
-                    >采样种类：</label
-                  >
+                  <label style="font-size: 16px; display: block; width: 200px">采样种类：</label>
                   <div style="width: 800px">
                     <el-select
                       v-model="form.type"
@@ -325,21 +288,11 @@
                   </div>
                 </el-form-item>
                 <el-form-item>
-                  <label
-                    style="font-size: 16px; display: inline-block; width: 200px"
-                    >采样内容：</label
-                  >
-                  <el-input
-                    v-model="form.name"
-                    style="width: 800px"
-                    placeholder="请输入采样内容名"
-                  />
+                  <label style="font-size: 16px; display: inline-block; width: 200px">采样内容：</label>
+                  <el-input v-model="form.name" style="width: 800px" placeholder="请输入采样内容名" />
                 </el-form-item>
                 <el-form-item>
-                  <label
-                    style="font-size: 16px; display: inline-block; width: 100%"
-                    >快检方法：</label
-                  >
+                  <label style="font-size: 16px; display: inline-block; width: 100%">快检方法：</label>
                   <div style="width: 800px">
                     <el-select
                       v-model="form.method"
@@ -357,21 +310,11 @@
                   </div>
                 </el-form-item>
                 <el-form-item>
-                  <label
-                    style="font-size: 16px; display: inline-block; width: 200px"
-                    >快检结果：</label
-                  >
-                  <el-input
-                    v-model="form.result"
-                    style="width: 800px"
-                    placeholder="请输入快检结果"
-                  />
+                  <label style="font-size: 16px; display: inline-block; width: 200px">快检结果：</label>
+                  <el-input v-model="form.result" style="width: 800px" placeholder="请输入快检结果" />
                 </el-form-item>
                 <el-form-item>
-                  <label
-                    style="font-size: 16px; display: inline-block; width: 100%"
-                    >采样要求：</label
-                  >
+                  <label style="font-size: 16px; display: inline-block; width: 100%">采样要求：</label>
                   <el-input
                     v-model="form.require"
                     style="width: 800px"
@@ -384,9 +327,7 @@
               <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="adddisposal = false">取消</el-button>
-                  <el-button type="primary" @click="addDisposal"
-                    >确认</el-button
-                  >
+                  <el-button type="primary" @click="addDisposal">确认</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -395,9 +336,7 @@
           <!-- 采样人员基本要求 -->
           <div v-if="step == 1">
             <!-- <span>采样人员基本要求</span> -->
-            <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">
-              {{ text1 }}
-            </div>
+            <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text1 }}</div>
             <div class="next-button">
               <div>
                 <el-button
@@ -405,34 +344,30 @@
                   type="primary"
                   style="width: 120px; margin-right: 20px"
                   @click="step = step - 1"
-                  >上一步</el-button
-                >
+                >上一步</el-button>
                 <el-button
                   size="large"
                   type="primary"
                   style="width: 120px; margin-left: 10px"
                   @click="step = step + 1"
-                  >确认</el-button
-                >
+                >确认</el-button>
               </div>
             </div>
           </div>
           <!-- 样本采样基本要求 -->
           <div v-if="step == 2">
             <!-- <span>样本采样基本要求 </span> -->
-            <div style="font-size: 20px; text-indent: 2em">
-              针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：
-            </div>
+            <div
+              style="font-size: 20px; text-indent: 2em"
+            >针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
             <div
               v-for="(text, index) in text2"
               :key="index"
               style="margin-top: 1px; text-indent: 2em; font-size: 20px"
-            >
-              {{ index + 1 }}、{{ text }}
-            </div>
-            <div style="font-size: 20px; text-indent: 2em">
-              以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。
-            </div>
+            >{{ index + 1 }}、{{ text }}</div>
+            <div
+              style="font-size: 20px; text-indent: 2em"
+            >以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
             <div class="next-button">
               <div>
                 <el-button
@@ -440,15 +375,13 @@
                   type="primary"
                   style="width: 120px; margin-right: 20px"
                   @click="step = step - 1"
-                  >上一步</el-button
-                >
+                >上一步</el-button>
                 <el-button
                   size="large"
                   type="primary"
                   style="width: 120px; margin-left: 10px"
                   @click="step = step + 1"
-                  >确认</el-button
-                >
+                >确认</el-button>
               </div>
             </div>
           </div>
@@ -459,9 +392,7 @@
               v-for="(text, index) in text3"
               :key="index"
               style="margin-top: 15px; font-size: 20px"
-            >
-              {{ index + 1 }}、{{ text }}
-            </div>
+            >{{ index + 1 }}、{{ text }}</div>
             <div class="next-button">
               <div>
                 <el-button
@@ -469,15 +400,13 @@
                   type="primary"
                   style="width: 120px; margin-right: 20px"
                   @click="step = step - 1"
-                  >上一步</el-button
-                >
+                >上一步</el-button>
                 <el-button
                   size="large"
                   type="primary"
                   style="width: 120px; margin-left: 10px"
                   @click="step = step + 1"
-                  >确认</el-button
-                >
+                >确认</el-button>
               </div>
             </div>
           </div>
@@ -487,11 +416,7 @@
               <el-form ref="form" :model="form" :inline="true">
                 <el-form-item label="样本种类：" style="width: 500px">
                   <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
-                  <el-select
-                    v-model="selectedSample"
-                    placeholder="请选择样本类型"
-                    style="width: 500px"
-                  >
+                  <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px">
                     <el-option
                       v-for="sample in filteredSamples"
                       :key="sample.type"
@@ -521,15 +446,13 @@
                 type="primary"
                 style="width: 120px; margin-right: 20px"
                 @click="step = step - 1"
-                >上一步</el-button
-              >
+              >上一步</el-button>
               <el-button
                 size="large"
                 type="primary"
                 style="width: 120px; margin-left: 10px"
                 @click="jumpAssessment"
-                >确认</el-button
-              >
+              >确认</el-button>
             </div>
           </div>
         </el-card>
@@ -813,6 +736,7 @@ const backStep = () => {
   isPerson.value = false;
   isItem.value = false;
   isEpidemic.value = false;
+  router.push({ path: "/risk", query: { id: id, back: 1 } });
 };
 
 const getSampleByType = (selectedSampleType) => {
