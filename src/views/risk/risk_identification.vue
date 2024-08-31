@@ -477,7 +477,7 @@ import { Search, Plus } from "@element-plus/icons-vue";
 const filteredSamples = computed(() => {
   console.log(samples.value);
   console.log(form.type);
-  return samples.value.filter((sample) => sample.kind == form.type);
+  return samples.value.filter((sample) => sample.kind == 3);
 });
 
 onMounted(() => {
@@ -647,72 +647,72 @@ const peopleOptions = [
     label: "组织",
   },
   {
-    value: "排泄物",
+    value: "3",
     label: "排泄物",
   },
   {
-    value: "呕吐物",
+    value: "4",
     label: "呕吐物",
   },
   {
-    value: "分泌物",
+    value: "5",
     label: "分泌物",
   },
   {
-    value: "涂抹物",
+    value: "6",
     label: "涂抹物",
   },
 ];
 
 const itemOptions = [
   {
-    value: "现场物品",
+    value: "7",
     label: "现场物品",
   },
 ];
 
 const epidemicOptions = [
   {
-    value: "植物",
+    value: "8",
     label: "植物",
   },
   {
-    value: "动物",
+    value: "9",
     label: "动物",
   },
   {
-    value: "人",
+    value: "10",
     label: "人",
   },
   {
-    value: "动物尸体",
+    value: "11",
     label: "动物尸体",
   },
   {
-    value: "人尸体",
+    value: "12",
     label: "人尸体",
   },
   {
-    value: "水",
+    value: "13",
     label: "水",
   },
   {
-    value: "土壤",
+    value: "14",
     label: "土壤",
   },
 ];
 
 const methodOptions = [
   {
-    value: "生物信息快速检验",
+    value: "1",
     label: "生物信息快速检验",
   },
   {
-    value: "红外光谱快速检测",
+    value: "2",
     label: "红外光谱快速检测",
   },
   {
-    value: "拉曼光谱快速检测",
+    value: "3",
     label: "拉曼光谱快速检测",
   },
 ];
