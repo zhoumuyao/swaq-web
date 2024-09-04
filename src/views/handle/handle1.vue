@@ -274,12 +274,15 @@ import recordingAndProtection from './PDF/recordingAndProtection.pdf';
 import axios from "axios";
 import myBMap from "@/util/myBMap";
 import { ElNotification } from 'element-plus'
+import {useRoute} from "vue-router";
 
 
 // 当前步骤
 const active = ref(0);
 const checkboxValue = ref(0)
 const drawer = ref(false);
+const route = useRoute();
+const id = route.query.id;
 
 const form = ref({
   name : '',
@@ -749,7 +752,7 @@ const isFormValid = () =>{
 }
 const next_page = () =>{
   if (isFormValid()) {
-    router.push('/handle2');
+    router.push({ path: "/handle2", query: { id: id } });
   }
   else{
     ElMessage({

@@ -120,13 +120,13 @@
       </div>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle2'}">
+      <router-link :to="{path: '/handle2',query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/handle4'}">
+      <router-link :to="{path: '/handle4',query: { id: id }}">
         <el-button class="next-button" type="primary" size="large">
           完成
         </el-button>
@@ -143,13 +143,16 @@ import DecisionMakingResults from './PDF/DecisionMakingResults.pdf'
 import DisposalRecommendations from './PDF/DisposalRecommendations.pdf'
 import adviceNotSave from './PDF/advice_notSave.pdf'
 import adviceSave from './PDF/advice_save.pdf'
-import { useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
 // 当前步骤
 const active = ref(2);
 const value = ref('');
 const activeName = ref('first')
+
+const route = useRoute();
+const id = route.query.id;
 
 const location = ref({ lat: 0, lng: 0 });
 
