@@ -31,15 +31,16 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传环境图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+
+                  <img v-show="showImg" id="image-display1" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(1)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -58,15 +59,15 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传人员图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display2" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(2)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -86,15 +87,15 @@
                   <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
                     <label style="font:14px Extra Small">请上传物证图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display3" src="" style="height: 100%; width: 100%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(3)" style="margin-left: 27%;width:52%;margin-top: 15%;">
                   上传现场图片
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
                 <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   图片上传示例
-                  <input type="file" title="上传图片" id="upload-input" style="display:none"/>
+                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
                 <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
                   查看现场勘察处置规程
@@ -105,7 +106,7 @@
               <label class="label" style="margin-left: 40%; ">基本信息录入</label>
               <el-divider></el-divider>
               <div style="margin: 30px;">
-                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%; " v-model="form.name"></el-input>
+                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%;padding-top: 10px; " v-model="form.name"></el-input>
               </div>
               <el-divider></el-divider>
               <div style="margin:30px 30px 20px 30px;">
@@ -137,7 +138,7 @@
                  width="100%" height="100%">
         </div>
       </el-drawer>
-      <router-link :to="{path: '/handle1'}">
+      <router-link :to="{path: '/handle1', query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
@@ -145,8 +146,8 @@
 
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle3'}">
-        <el-button class="next-button" type="primary" size="large">
+      <router-link :to="{path: '/handle3',query: { id: id }}">
+        <el-button class="next-button" type="primary" size="large" @click="createInfo">
           下一步
         </el-button>
       </router-link>
@@ -160,15 +161,17 @@
 
 import { onMounted } from "vue";
 import { ref } from 'vue';
-import { get } from "@/net";
+import {get, post} from "@/net";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
 import example from './PDF/example.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
 import {Location} from "@element-plus/icons-vue";
 import MapLoader from "@/util/util";
-const router = useRouter();
+
+const route = useRoute();
+const id = route.query.id;
 import axios from "axios";
 import myBMap from "/src/util/myBMap";
 
@@ -196,6 +199,18 @@ onMounted(() => {
   console.log("mounted...")
   getLocation();
 })
+function createInfo() {
+  post(
+      "/api/infoInput/createInfo",
+      {
+        id: id,
+        name : form.value.name
+      },
+      (data) => {
+        console.log(id);
+      }
+  );
+}
 function getLocation() {
   //Toast("如长时间未获取办理区域请手动选择");
   myBMap.init().then(() => {
@@ -227,9 +242,12 @@ function getPosition(){
     console.error('定位失败：', error);
   });
 }
-function handleUpload() {
-  let imageDisplay = document.getElementById("image-display");
-  let uploadInput = document.getElementById("upload-input");
+function handleUpload(index) {
+  let elementId = "image-display"+index;
+  let imageDisplay = document.getElementById(elementId);
+  let uploadElementId = "upload-input"+index;
+  let uploadInput = document.getElementById(uploadElementId);
+
   uploadInput.addEventListener("change", function(event) {
     let files = event.target.files; // 获取选择的文件列表
     if (files.length > 0) {

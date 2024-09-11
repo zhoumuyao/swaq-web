@@ -3,34 +3,23 @@
     <!--    <sidebar></sidebar>-->
     <div class="content">
       <router-view></router-view>
-      <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray; ">
-        <label style="font: 20px Extra large; display: inline-block; margin-left: 40%" >评价与反馈</label>
+      <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray;text-align: center">
+        <label style="font: 20px Extra large; display: inline-block;">评价与反馈</label>
       </div>
-
-<!--      <div>-->
-        <!--        现场处置模块-->
-<!--        <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">-->
-<!--          <el-step title="现场详细勘察" ></el-step>-->
-<!--          <el-step title="现场信息智能录入"></el-step>-->
-<!--          <el-step title="现场无害化处理"></el-step>-->
-<!--          <el-step title="评价与反馈"></el-step>-->
-<!--        </el-steps>-->
-<!--      </div>-->
-
+      
       <div v-if="active === 3" class="center-container">
         <el-card class="card_box">
-          <div style="margin-left:40%;margin-top: 50px">
-            <div>生物安全处置评分</div>
+          <div style="margin-top: 30px;text-align: center">
+            <div style="font-size: 20px;font-weight: bold;">生物安全处置评分</div>
             <div>
               <el-rate
-                  style="margin-left:0%"
+                  style="margin-left:0"
                   v-model="Starvalue"
-                  :texts="texts"
-                  show-text>
-              </el-rate>
+                />
+                <span style="margin-left: 10px;">{{ texts[Starvalue - 1] }}</span>
             </div>
           </div>
-          <div style="margin: 50px 50px 0 50px">
+          <div style="margin: 30px 50px 0 50px">
             <el-input
                 type="textarea"
                 :autosize="{ minRows: 8, maxRows: 15}"
@@ -38,11 +27,30 @@
                 v-model="textarea">
             </el-input>
           </div>
-          <div style="float: right;margin-top: 50px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
-          <div style="float: right;margin-top: 50px;margin-right: 50px"><el-button type="primary" @click="generateReport">生成简易报告</el-button></div>
+          <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
+          <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="generateReport">生成简易报告</el-button></div>
 
+          <div style="margin: 70px 50px 0 50px">
+            <el-table :data="tableData" height="300" style="width: 100%">
+              <el-table-column prop="date" label="日期" width="150" />
+
+              <!-- 评分列使用 el-rate -->
+              <el-table-column label="评分" width="200">
+                <template v-slot="scope">
+                  <el-rate
+                      v-model="scope.row.rate"
+                      disabled
+                      style="margin-left: 0;"
+                  />
+                </template>
+              </el-table-column>
+
+              <el-table-column prop="feedback" label="反馈内容"/>
+            </el-table>
+          </div>
         </el-card>
       </div>
+
       <el-alert
           v-if="alertVisible && active === 3"
           title="提交成功"
@@ -89,6 +97,8 @@ import uploadImage from './image/sj.jpg'
 import ttf from './simhei.ttf'
 import report from "@/views/handle/PDF/report.pdf";
 
+
+
 // 当前步骤
 const drawer = ref(false)
 const active = ref(3);
@@ -96,6 +106,46 @@ const Starvalue = ref(0);
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
 const textarea = ref('')
 const alertVisible = ref(false)
+
+
+const tableData = ref([
+  {
+    date: '2024/5/3',
+    rate: '5',
+    feedback: '用起来比较流畅。',
+  },
+  {
+    date: '2024/5/2',
+    rate: '4',
+    feedback: '细节方面还需要再完善。',
+  },
+  {
+    date: '2024/5/4',
+    rate: '3',
+    feedback: '还不错，但可以更好。',
+  },
+  {
+    date: '2024/5/1',
+    rate: '5',
+    feedback: '流程明确，具有较高参考价值',
+  },
+  {
+    date: '2024/5/8',
+    rate: '4',
+    feedback: '提供了比较好的服务',
+  },
+  {
+    date: '2024/5/6',
+    rate: '2',
+    feedback: '不是太懂如何使用。',
+  },
+  {
+    date: '2024/5/7',
+    rate: '4',
+    feedback: '很好的产品！',
+  },
+]);
+
 
 const loadFont = async () => {
   const response = await fetch(ttf);  // 替换为字体文件的实际路径
@@ -109,6 +159,23 @@ const loadFont = async () => {
 const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
     alertVisible.value = true;
+    const newEntry = {
+      date: new Date().toLocaleDateString(),
+      rate: Starvalue.value,
+      feedback: textarea.value
+    };
+
+    // tableData.value.push(newEntry);
+
+    // 使用 unshift 方法将新数据添加到数组的开头
+    tableData.value.unshift(newEntry);
+
+    console.log(newEntry);
+
+    Starvalue.value = 0;
+    textarea.value = '';
+  } else {
+    alert('请填写评分和反馈内容。');
   }
 }
 const  generateReport =async () => {
