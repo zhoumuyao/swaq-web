@@ -6,8 +6,9 @@
       <div>
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场详细勘察" ></el-step>
-          <el-step title="现场信息智能录入"></el-step>
+          <el-step title="现场信息智能录入" ></el-step>
+          <el-step title="生物危险因子信息" ></el-step>
+          <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
 <!--          <el-step title="评价与反馈"></el-step>-->
         </el-steps>
@@ -120,13 +121,13 @@
       </div>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle2',query: { id: id }}">
+      <router-link :to="{path: '/invest',query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/handle4',query: { id: id }}">
+      <router-link :to="{path: '/feedback',query: { id: id }}">
         <el-button class="next-button" type="primary" size="large">
           完成
         </el-button>
@@ -147,7 +148,7 @@ import {useRoute, useRouter} from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
 // 当前步骤
-const active = ref(2);
+const active = ref(3);
 const value = ref('');
 const activeName = ref('first')
 

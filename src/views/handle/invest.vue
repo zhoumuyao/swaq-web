@@ -6,8 +6,9 @@
       <div>
         <!--        现场详细勘察模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场详细勘察" ></el-step>
-          <el-step title="现场信息智能录入"></el-step>
+          <el-step title="现场信息智能录入" ></el-step>
+          <el-step title="生物危险因子信息" ></el-step>
+          <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
 <!--          <el-step title="评价与反馈"></el-step>-->
         </el-steps>
@@ -250,12 +251,19 @@
 
       </el-drawer>
 
+      <router-link :to="{path: '/dangerInfo', query: { id: id }}">
+        <el-button class="previous-button" type="primary" size="large">
+          上一步
+        </el-button>
+      </router-link>
+
+
       <!-- 切换页面-->
-<!--      <router-link :to="{path: '/handle2'}">-->
-        <el-button class="next-button" type="primary" size="large" @click="next_page">
+      <router-link :to="{path: '/doHandle',query: { id: id }}">
+        <el-button class="next-button" type="primary" size="large" @click="createInfo">
           下一步
         </el-button>
-<!--      </router-link>-->
+      </router-link>
     </div>
   </div>
 </template>
@@ -278,7 +286,7 @@ import {useRoute} from "vue-router";
 
 
 // 当前步骤
-const active = ref(0);
+const active = ref(2);
 const checkboxValue = ref(0)
 const drawer = ref(false);
 const route = useRoute();
@@ -750,18 +758,6 @@ const isFormValid = () =>{
     return false; // 如果有任何一个字段为空，则返回false
   }
 }
-const next_page = () =>{
-  if (isFormValid()) {
-    router.push({ path: "/handle2", query: { id: id } });
-  }
-  else{
-    ElMessage({
-      message: '请输入完整的信息',
-      type: 'error'
-    });
-  }
-
-}
 
 
 </script>
@@ -851,7 +847,11 @@ const next_page = () =>{
   border: 1px solid #ccc;
   padding: 10px;
 }
-
+.previous-button{
+  position: fixed;
+  bottom: 7%;
+  left: 83%;
+}
 .image-popup {
   position: absolute;
   top: 100%;
