@@ -88,51 +88,90 @@
             <div>
               <el-card>
                 <div class="caseContent">
-                  案件时间：{{ caseData.date }} {{ caseData.time }}
+                  <div>案件时间：</div>
+                  <div>{{ caseData.date }} {{ caseData.time }}</div>
                 </div>
                 <div class="caseContent">
-                  案件地点： 经度：{{ caseData.longitude }} 纬度：{{
-                    caseData.latitude
-                  }}
-                  国家：{{ caseData.country }} 省份：{{
-                    caseData.province
-                  }}
-                  市区：{{ caseData.urban }} 具体描述：{{
-                    caseData.description
-                  }}
-                </div>
-                <div class="caseContent">风险评估目标：{{ caseData.type }}</div>
-                <div class="caseContent">
-                  风险评估人员：
-                  <div
-                    v-for="item in caseData.persons"
-                    :key="item.id"
-                    style="display: inline-block; margin: 0 10px"
-                  >
-                    {{ item.name }}
+                  <div>案件地点：</div>
+                  <div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      经度：{{ caseData.longitude }}
+                    </div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      纬度：{{ caseData.latitude }}
+                    </div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      国家：{{ caseData.country }}
+                    </div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      省份：{{ caseData.province }}
+                    </div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      市区：{{ caseData.urban }}
+                    </div>
+                    <div style="display: inline-block; margin-right: 30px">
+                      具体描述：{{ caseData.description }}
+                    </div>
                   </div>
                 </div>
                 <div class="caseContent">
-                  评估装备设备：
-                  <div
-                    v-for="item in caseData.equipments"
-                    :key="item.id"
-                    style="display: inline-block; margin: 0 10px"
-                  >
-                    {{ item.name }}
+                  <div>风险评估目标：</div>
+                  <div>
+                    {{ caseData.type }}
                   </div>
                 </div>
                 <div class="caseContent">
-                  采样种类：{{ caseData.sampleType }}
+                  <div>风险评估人员：</div>
+                  <div>
+                    <div
+                      v-for="item in caseData.persons"
+                      :key="item.id"
+                      style="display: inline-block; margin-right: 20px"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </div>
                 </div>
                 <div class="caseContent">
-                  采样内容：{{ caseData.sampleContent }}
+                  <div style="display: inline-block">评估装备设备：</div>
+                  <div>
+                    <div
+                      v-for="item in caseData.equipments"
+                      :key="item.id"
+                      style="display: inline-block; margin-right: 20px"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </div>
                 </div>
                 <div class="caseContent">
-                  快检方法：{{ caseData.testMethod }}
-                </div>
-                <div class="caseContent">
-                  采样要求：{{ caseData.sampleRequirement }}
+                  <div>处置对象信息：</div>
+                  <div>
+                    <div
+                      v-for="item in caseData.disposal"
+                      :key="item.disposalId"
+                      style="display: block; margin-bottom: 10px"
+                    >
+                      <div style="display: inline-block; margin-right: 20px">
+                        处置对象类型：{{ item.objectClass }}
+                      </div>
+                      <div style="display: inline-block; margin-right: 20px">
+                        采样种类：{{ item.sampleType }}
+                      </div>
+                      <div style="display: inline-block; margin-right: 20px">
+                        采样内容：{{ item.sampleContent }}
+                      </div>
+                      <div style="display: inline-block; margin-right: 20px">
+                        快检方法：{{ item.testMethod }}
+                      </div>
+                      <div style="display: inline-block; margin-right: 20px">
+                        快检结果：{{ item.result }}
+                      </div>
+                      <div style="display: inline-block; margin-right: 20px">
+                        采样要求：{{ item.sampleRequirement }}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -172,11 +211,33 @@
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, onBeforeMount, onMounted } from "vue";
 import { get, post } from "@/net";
 import { ElMessage } from "element-plus";
-
 import router from "@/router";
+
+onMounted(() => {
+  const output = ref("");
+
+  onMounted(() => {
+    const childProcess = spawn("C:/Users/dulixin/Desktop/xj_wargame_engine/雄君推演引擎.exe");
+
+    // 监听 stdout 输出
+    childProcess.stdout.on("data", (data) => {
+      output.value += data.toString();
+    });
+
+    // 监听 stderr 输出
+    childProcess.stderr.on("data", (error) => {
+      console.error(`Error: ${error.toString()}`);
+    });
+
+    // 监听 exit 事件
+    childProcess.on("exit", (code) => {
+      console.log(`Process completed with exit code: ${code}`);
+    });
+  });
+});
 
 onBeforeMount(() => {
   post("/api/case/view_case", {}, (data) => {
@@ -267,14 +328,10 @@ const caseData = ref({
   province: "",
   urban: "",
   description: "",
-  type: 1,
-  objectClass: 1,
-  sampleType: 1,
-  sampleContent: "",
-  testMethod: 1,
-  sampleRequirement: "",
+  type: "",
   persons: [],
   equipments: [],
+  disposal: [],
 });
 
 const selectCaseMessage = (id) => {
@@ -306,10 +363,33 @@ const selectCaseMessage = (id) => {
           caseData.value.equipments = equipments.value
             .filter((equipment) => EquipmentIdList.value.includes(equipment.id))
             .map((item) => ({ id: item.id, name: item.name }));
-          console.log(caseData.value.equipments);
+        }
+      );
+      post(
+        "/api/disposal/search_disposal",
+        {
+          id: id,
+        },
+        (data) => {
+          caseData.value.disposal = data;
+          console.log(caseData.value.disposal);
         }
       );
       caseData.value = data;
+      console.log(data.type);
+      switch (data.type) {
+        case 1:
+          caseData.value.type = "病毒";
+          break;
+        case 2:
+          caseData.value.type = "细菌";
+          break;
+        case 3:
+          caseData.value.type = "毒素";
+          break;
+        default:
+          caseData.value.type = "未知";
+      }
     },
     (data) => {
       ElMessage.warning("获得数据失败");
@@ -328,7 +408,7 @@ const viewCase = (id) => {
 };
 
 const jumpModify = (url, id) => {
-  router.push({ path: url, query: { id: id } });
+  router.push({ path: url, query: { id: id, back: 1 } });
 };
 </script>
 
@@ -351,6 +431,8 @@ const jumpModify = (url, id) => {
 }
 
 .caseContent {
+  display: grid;
+  grid-template-columns: 1fr 8fr;
   margin: 10px;
   font-size: 16px;
 }

@@ -674,7 +674,7 @@ const getWeatherData = async () => {
         // 获取现在的城市的adcode编码
         const adcode = response.data.adcode;
         // 调用百度API通过adcode获取天气信息
-        axios.get(`http://localhost:8082/api/weather/${adcode}`)
+        axios.get(`http://localhost:8080/api/weather/${adcode}`)
             .then(response => {
               // 请求成功，将后端返回的数据赋值给 weapons 数组
               console.log(response.data);
@@ -726,16 +726,16 @@ const isFormValid = () =>{
   if(selectedItems.value !== []&&
       form.value.date1 !== '' &&
       form.value.date2 !== '' &&
-      form.value.airQuality.trim() !== '' &&
-      form.value.waterQuality.trim() !== '' &&
-      form.value.soilQuality.trim() !== '' &&
+      form.value.airQuality !== '' &&
+      form.value.waterQuality !== '' &&
+      form.value.soilQuality !== '' &&
       form.value.population !== '' &&
       form.value.activity !== '' &&
-      form.value.temperature.trim() !== '' &&
-      form.value.humidity.trim() !== '' &&
-      form.value.weather.trim() !== '' &&
-      form.value.windpower.trim() !== '' &&
-      form.value.winddirection.trim() !== ''
+      form.value.temperature !== '' &&
+      form.value.humidity !== '' &&
+      form.value.weather !== '' &&
+      form.value.windpower !== '' &&
+      form.value.winddirection !== ''
       ){
     return true; // 如果所有字段都不为空，则返回true
   } else {
