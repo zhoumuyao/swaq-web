@@ -91,21 +91,25 @@ const router = createRouter({
       name:'identify1',
       component:()=>import('@/views/identify/identify1.vue')
     },{
-      path:'/handle1',
-      name:'handle1',
-      component:()=>import('@/views/handle/handle1.vue')
+      path:'/infoInput',
+      name:'infoInput',
+      component:()=>import('@/views/handle/infoInput.vue')
     },{
-      path:'/handle2',
-      name:'handle2',
-      component:()=>import('@/views/handle/handle2.vue')
+      path:'/dangerInfo',
+      name:'dangerInfo',
+      component:()=>import('@/views/handle/dangerInfo.vue')
     },{
-      path:'/handle3',
-      name:'handle3',
-      component:()=>import('@/views/handle/handle3.vue')
+      path:'/invest',
+      name:'invest',
+      component:()=>import('@/views/handle/invest.vue')
     },{
-      path:'/handle4',
-      name:'handle4',
-      component:()=>import('@/views/handle/handle4.vue')
+      path:'/doHandle',
+      name:'doHandle',
+      component:()=>import('@/views/handle/doHandle.vue')
+    },{
+      path:'/feedback',
+      name:'feedback',
+      component:()=>import('@/views/handle/feedback.vue')
     }
     // ,{
     //   path:'/handle_sub1',

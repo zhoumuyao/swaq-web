@@ -6,7 +6,7 @@
       <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray;text-align: center">
         <label style="font: 20px Extra large; display: inline-block;">评价与反馈</label>
       </div>
-      
+
       <div v-if="active === 3" class="center-container">
         <el-card class="card_box">
           <div style="margin-top: 30px;text-align: center">
@@ -61,7 +61,7 @@
       </el-alert>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle3'}">
+      <router-link :to="{path: '/doHandle'}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
@@ -101,7 +101,7 @@ import report from "@/views/handle/PDF/report.pdf";
 
 // 当前步骤
 const drawer = ref(false)
-const active = ref(3);
+const active = ref(4);
 const Starvalue = ref(0);
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
 const textarea = ref('')

@@ -6,8 +6,9 @@
       <div>
         <!--        现场信息智能录入模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场详细勘察" ></el-step>
-          <el-step title="现场信息智能录入"></el-step>
+          <el-step title="现场信息智能录入" ></el-step>
+          <el-step title="生物危险因子信息" ></el-step>
+          <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
 <!--          <el-step title="评价与反馈"></el-step>-->
         </el-steps>
@@ -138,19 +139,13 @@
                  width="100%" height="100%">
         </div>
       </el-drawer>
-      <router-link :to="{path: '/handle1', query: { id: id }}">
-        <el-button class="previous-button" type="primary" size="large">
-          上一步
-        </el-button>
-      </router-link>
-
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/handle3',query: { id: id }}">
-        <el-button class="next-button" type="primary" size="large" @click="createInfo">
-          下一步
-        </el-button>
-      </router-link>
+      <!--      <router-link :to="{path: '/handle2'}">-->
+      <el-button class="next-button" type="primary" size="large" @click="next_page">
+        下一步
+      </el-button>
+      <!--      </router-link>-->
 
     </div>
   </div>
@@ -174,6 +169,7 @@ const route = useRoute();
 const id = route.query.id;
 import axios from "axios";
 import myBMap from "/src/util/myBMap";
+import router from "@/router";
 
 const showImg = ref(false);
 const exampleDrawer = ref(false);
@@ -183,7 +179,7 @@ const showLabel = ref(true);
 const text = ref("");
 let Position = ref("获取定位中");
 // 当前步骤
-const active = ref(1);
+const active = ref(0);
 const radio = ref(1);
 const form = ref({
   name : ' ',
@@ -199,17 +195,35 @@ onMounted(() => {
   console.log("mounted...")
   getLocation();
 })
-function createInfo() {
-  post(
-      "/api/infoInput/createInfo",
-      {
-        id: id,
-        name : form.value.name
-      },
-      (data) => {
-        console.log(id);
-      }
-  );
+// function createInfo() {
+//   post(
+//       "/api/infoInput/createInfo",
+//       {
+//         id: id,
+//         name : form.value.name,
+//         quality : form.value.type,
+//         discription : form.value.description,
+//         env_img :,
+//         good_img :,
+//         per_img :
+//       },
+//       (data)s => {
+//         console.log(id);
+//       }
+//   );
+// }
+
+const next_page = () =>{
+  if (isFormValid()) {
+    router.push({path: "/dangerInfo", query: {id: id}});
+  }
+  else{
+    ElMessage({
+      message: '请输入完整的信息',
+      type: 'error'
+    });
+  }
+
 }
 function getLocation() {
   //Toast("如长时间未获取办理区域请手动选择");
@@ -264,6 +278,18 @@ function handleUpload(index) {
   });
   uploadInput.click();
 }
+const isFormValid = () =>{
+  // 确保所有选项不为空
+  if(selectedItems.value !== []&&
+      form.value.type!== '' &&
+      form.value.name !== '' &&
+      form.value.description !== ''
+  ){
+    return true; // 如果所有字段都不为空，则返回true
+  } else {
+    return false; // 如果有任何一个字段为空，则返回false
+  }
+}
 </script>
 
 <style scoped>
@@ -278,11 +304,6 @@ function handleUpload(index) {
   /* 添加其他样式，如内容区域的填充等 */
 }
 
-.previous-button{
-  position: fixed;
-  bottom: 7%;
-  left: 83%;
-}
 
 .next-button {
   position: fixed;
