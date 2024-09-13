@@ -37,70 +37,94 @@
               finish-status="success"
               simple
             >
-              <el-step title="填写相关信息" />
               <el-step title="采样人员基本要求" />
               <el-step title="样本采样基本要求" />
               <el-step title="采集样本种类" />
+              <el-step title="填写相关信息" />
               <el-step title="样本采集和处理" />
             </el-steps>
           </div>
-          <!-- <div v-show="!(isEpidemic || isItem || isPerson)">
-            <div class="selectObject">
-              <div class="object">
-                <el-button class="objectBtn1" round plain type="info" @click="classPerson">
-                  <div>
-                    <div>
-                      <el-icon size="80">
-                        <UserFilled />
-                      </el-icon>
-                    </div>
-                    <div style="margin-top: 30px;">
-                      <label style="font: 30px Extra large;">人</label>
-                    </div>
-                  </div>
-                </el-button>
-              </div>
-              <div class="object">
-                <el-button class="objectBtn1" round plain type="info" @click="classItem">
-                  <div>
-                    <div>
-                      <el-icon size="80">
-                        <Folder />
-                      </el-icon>
-                    </div>
-                    <div style="margin-top: 30px;">
-                      <label style="font: 30px Extra large;">物证</label>
-                    </div>
-                  </div>
-                </el-button>
-              </div>
-              <div class="object">
-                <el-button class="objectBtn1" round plain type="info" @click="classEnviroment">
-                  <div>
-                    <div>
-                      <el-icon size="80">
-                        <Warning />
-                      </el-icon>
-                    </div>
-                    <div style="margin-top: 30px;">
-                      <label style="font: 30px Extra large;">疫源</label>
-                    </div>
-                  </div>
-                </el-button>
-              </div>
-            </div>
+
+          <!-- 采样人员基本要求 -->
+          <div v-if="step == 0">
+            <!-- <span>采样人员基本要求</span> -->
+            <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text1 }}</div>
             <div class="next-button">
               <div>
                 <el-button
                   size="large"
                   type="primary"
-                  style="width: 120px; margin-left: 10px"
-                  @click="back"
+                  style="width: 120px; margin-right: 20px"
+                  @click="step = step - 1"
                 >上一步</el-button>
+                <el-button
+                  size="large"
+                  type="primary"
+                  style="width: 120px; margin-left: 10px"
+                  @click="step = step + 1"
+                >确认</el-button>
               </div>
             </div>
-          </div>-->
-          <div v-if="step == 0" style="height: 90%; margin: 10px; overflow: auto">
+          </div>
+          <!-- 样本采样基本要求 -->
+          <div v-if="step == 1">
+            <!-- <span>样本采样基本要求 </span> -->
+            <div
+              style="font-size: 20px; text-indent: 2em"
+            >针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
+            <div
+              v-for="(text, index) in text2"
+              :key="index"
+              style="margin-top: 1px; text-indent: 2em; font-size: 20px"
+            >{{ index + 1 }}、{{ text }}</div>
+            <div
+              style="font-size: 20px; text-indent: 2em"
+            >以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
+            <div class="next-button">
+              <div>
+                <el-button
+                  size="large"
+                  type="primary"
+                  style="width: 120px; margin-right: 20px"
+                  @click="step = step - 1"
+                >上一步</el-button>
+                <el-button
+                  size="large"
+                  type="primary"
+                  style="width: 120px; margin-left: 10px"
+                  @click="step = step + 1"
+                >确认</el-button>
+              </div>
+            </div>
+          </div>
+          <!-- 采集样本种类 -->
+          <div v-if="step == 2">
+            <!-- <span style="font-size: 20px">采集样本种类 </span> -->
+            <div
+              v-for="(text, index) in text3"
+              :key="index"
+              style="margin-top: 15px; font-size: 20px"
+            >{{ index + 1 }}、{{ text }}</div>
+            <div class="next-button">
+              <div>
+                <el-button
+                  size="large"
+                  type="primary"
+                  style="width: 120px; margin-right: 20px"
+                  @click="step = step - 1"
+                >上一步</el-button>
+                <el-button
+                  size="large"
+                  type="primary"
+                  style="width: 120px; margin-left: 10px"
+                  @click="step = step + 1"
+                >确认</el-button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 填写相关信息 -->
+          <div v-if="step == 3" style="height: 90%; margin: 10px; overflow: auto">
             <div style="display: grid; grid-template-columns: 1fr 1fr; height: 95%">
               <div
                 style="
@@ -139,87 +163,16 @@
                     <el-table-column prop="sampleType" label="采样种类"></el-table-column>
                     <el-table-column prop="sampleContent" label="采样内容"></el-table-column>
                     <el-table-column prop="testMethod" label="快检方法"></el-table-column>
+                    <el-table-column prop="testMethod" label="使用说明" width="120">
+                      <template #default="{ row }">
+                        <el-button type="primary" size="small" @click="viewGuide(row.testMethod)">查看</el-button>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="result" label="快检结果"></el-table-column>
+
                     <!-- <el-table-column prop="sampleRequirement" label="采样要求"></el-table-column> -->
                   </el-table>
                 </el-card>
-
-                <!-- <el-form
-                  :model="form"
-                  label-width="auto"
-                  style="max-width: 600px;margin: 10px 0 0 20px; height: 95%;"
-                  size="large"
-                >
-                  <el-form-item>
-                    <label style="font-size: 16px;display: block; width: 200px;">采样种类：</label>
-                    <div style="width: 800px;">
-                      <el-select
-                        v-model="form.type"
-                        placeholder="请选择采样种类"
-                        size="large"
-                        style="width: 100%"
-                      >
-                        <el-option
-                          v-if="objectClass == 1"
-                          v-for="item in peopleOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        />
-                        <el-option
-                          v-if="objectClass == 2"
-                          v-for="item in itemOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        />
-                        <el-option
-                          v-if="objectClass == 3"
-                          v-for="item in epidemicOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        />
-                      </el-select>
-                    </div>
-                  </el-form-item>
-                  <el-form-item>
-                    <label style="font-size: 16px; display: inline-block; width: 200px;">采样内容：</label>
-                    <el-input v-model="form.name" style="width: 800px;" placeholder="请输入采样内容名" />
-                  </el-form-item>
-                  <el-form-item>
-                    <label style="font-size: 16px;display: inline-block; width: 100%;">快检方法：</label>
-                    <div style="width: 800px;">
-                      <el-select
-                        v-model="form.method"
-                        placeholder="请选择快检方法"
-                        size="large"
-                        style="width: 100%"
-                      >
-                        <el-option
-                          v-for="item in methodOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        />
-                      </el-select>
-                    </div>
-                  </el-form-item>
-                  <el-form-item>
-                    <label style="font-size: 16px; display: inline-block; width: 200px;">快检结果：</label>
-                    <el-input v-model="form.result" style="width: 800px;" placeholder="请输入快检结果" />
-                  </el-form-item>
-                  <el-form-item>
-                    <label style="font-size: 16px;display: inline-block; width: 100%;">采样要求：</label>
-                    <el-input
-                      v-model="form.require"
-                      style="width: 800px"
-                      :rows="5"
-                      type="textarea"
-                      placeholder="请输入要求"
-                    ></el-input>
-                  </el-form-item>
-                </el-form>-->
               </div>
             </div>
 
@@ -331,85 +284,12 @@
                 </span>
               </template>
             </el-dialog>
+
+            <el-dialog title="预览文件" v-model="isViewPdf20" :before-close="handleClose" width="80vw">
+              <iframe :src="PDFsrc" frameborder="0" style="width: 75vw; height: 70vh"></iframe>
+            </el-dialog>
           </div>
 
-          <!-- 采样人员基本要求 -->
-          <div v-if="step == 1">
-            <!-- <span>采样人员基本要求</span> -->
-            <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text1 }}</div>
-            <div class="next-button">
-              <div>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-right: 20px"
-                  @click="step = step - 1"
-                >上一步</el-button>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-left: 10px"
-                  @click="step = step + 1"
-                >确认</el-button>
-              </div>
-            </div>
-          </div>
-          <!-- 样本采样基本要求 -->
-          <div v-if="step == 2">
-            <!-- <span>样本采样基本要求 </span> -->
-            <div
-              style="font-size: 20px; text-indent: 2em"
-            >针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
-            <div
-              v-for="(text, index) in text2"
-              :key="index"
-              style="margin-top: 1px; text-indent: 2em; font-size: 20px"
-            >{{ index + 1 }}、{{ text }}</div>
-            <div
-              style="font-size: 20px; text-indent: 2em"
-            >以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
-            <div class="next-button">
-              <div>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-right: 20px"
-                  @click="step = step - 1"
-                >上一步</el-button>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-left: 10px"
-                  @click="step = step + 1"
-                >确认</el-button>
-              </div>
-            </div>
-          </div>
-          <!-- 采集样本种类 -->
-          <div v-if="step == 3">
-            <!-- <span style="font-size: 20px">采集样本种类 </span> -->
-            <div
-              v-for="(text, index) in text3"
-              :key="index"
-              style="margin-top: 15px; font-size: 20px"
-            >{{ index + 1 }}、{{ text }}</div>
-            <div class="next-button">
-              <div>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-right: 20px"
-                  @click="step = step - 1"
-                >上一步</el-button>
-                <el-button
-                  size="large"
-                  type="primary"
-                  style="width: 120px; margin-left: 10px"
-                  @click="step = step + 1"
-                >确认</el-button>
-              </div>
-            </div>
-          </div>
           <!-- 样本采集和处理 -->
           <div v-if="step == 4" style="display: block">
             <div class="search-card">
@@ -474,6 +354,10 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 import router from "@/router";
 import { Search, Plus } from "@element-plus/icons-vue";
 
+import a from "./detect_plan/infrared.pdf";
+import b from "./detect_plan/lamandetect.pdf";
+import c from "./detect_plan/biodetect.pdf";
+
 const filteredSamples = computed(() => {
   console.log(samples.value);
   console.log(form.type);
@@ -521,6 +405,25 @@ const id = route.query.id;
 const back1 = route.query.back;
 
 const selectedSample = ref(null);
+const PDFsrc = ref("");
+const isViewPdf20 = ref(false);
+
+const viewGuide = (testMethod) => {
+  console.log(testMethod);
+  if (testMethod == "红外光谱快速检测") {
+    PDFsrc.value = a;
+  } else if (testMethod == "生物信息快速检测") {
+    PDFsrc.value = b;
+  } else {
+    PDFsrc.value = c;
+  }
+  isViewPdf20.value = true;
+};
+
+const handleClose = () => {
+  PDFsrc.value = "";
+  isViewPdf20.value = false;
+};
 
 const Specimen = ref([
   "生物样本：可疑感染人员和需要检测的人员、组织、排泄物、呕吐物、分泌物、涂抹物。",

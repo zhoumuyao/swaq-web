@@ -76,13 +76,19 @@
                     </div>
                   </el-form-item>
                 </div>
-                <div style="display: grid;grid-template-columns: 1fr 1fr;grid-gap: 20px;">
+                <div style="display: grid;grid-template-columns: repeat(5, auto);grid-gap: 20px;">
                   <el-form-item label="风险评估目标：" prop="type">
-                    <el-radio-group v-model="form.type">
-                      <el-radio :label="1">病毒</el-radio>
-                      <el-radio :label="2">细菌</el-radio>
-                      <el-radio :label="3">毒素</el-radio>
-                    </el-radio-group>
+                    <el-checkbox-group v-model="form.type">
+                      <el-checkbox label="1">病毒</el-checkbox>
+                      <el-checkbox label="2">细菌</el-checkbox>
+                      <el-checkbox label="3">毒素</el-checkbox>
+                      <el-checkbox label="4">其他</el-checkbox>
+                    </el-checkbox-group>
+                    <el-input
+                      placeholder="请输入细节信息"
+                      v-model="form.objectDescription"
+                      style="width: 400px; margin-left: 1cm;"
+                    ></el-input>
                   </el-form-item>
                 </div>
                 <div class="person_equiment">
@@ -115,12 +121,7 @@
                         <el-table-column prop="name" label="设备名" width />
                         <el-table-column prop="guide" label="使用说明" width="120">
                           <template #default="{ row }">
-                            <el-button
-                              v-show="row.showButton"
-                              type="primary"
-                              size="small"
-                              @click="viewGuide(row.guide)"
-                            >查看</el-button>
+                            <el-button type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
                           </template>
                         </el-table-column>
                       </el-table>
@@ -140,18 +141,28 @@
               >进行风险分析</el-button>
             </div>
             <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
-              <el-input
-                style="display: inline-block; width: 30%; margin:0 10px 0 60%;"
-                v-model="personID"
-                placeholder="请输入警务号"
-              ></el-input>
-              <el-button
-                type="primary"
-                :icon="Search"
-                @click="handleSearch"
-                style="display: inline-block;"
-                circle
-              ></el-button>
+              <div style="display: flex; align-items: center;">
+                <el-input
+                  style="display: inline-block; width: 30%; margin:0 10px 0 60%;"
+                  v-model="personID"
+                  placeholder="请输入警务号"
+                ></el-input>
+                <el-button
+                  type="primary"
+                  :icon="Search"
+                  @click="handleSearch"
+                  style="display: inline-block;"
+                  circle
+                ></el-button>
+                <el-button
+                  type="primary"
+                  :icon="Plus"
+                  circle
+                  @click="addRiskperson = true;"
+                  style="display: inline-block;"
+                ></el-button>
+              </div>
+
               <div>
                 <el-table :data="persons" style="width: 100%" type="selection">
                   <el-table-column prop="id" label="警务号" width="180" fixed="left"></el-table-column>
@@ -170,8 +181,24 @@
                 </span>
               </template>
             </el-dialog>
+            <el-dialog v-model="addRiskperson" title="新增风险评估人员" width="600px" draggable>
+              <el-form :model="newRiskpeople" style="display: flex; flex-direction: column;">
+                <el-form-item label="警务号">
+                  <el-input v-model="newRiskpeople.newid" style="width:10rem; margin-left: 5px;"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                  <el-input v-model="newRiskpeople.newname" style="width:10rem; margin-left: 20px"></el-input>
+                </el-form-item>
+              </el-form>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="addRiskperson = false">取消</el-button>
+                  <el-button type="primary" @click="addRiskPeople">确认</el-button>
+                </span>
+              </template>
+            </el-dialog>
             <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
-              <div>
+              <div style="display: flex; align-items: center;">
                 <el-select v-model="equipment" placeholder="请选择设备种类" style="width: 30%;">
                   <el-option
                     v-for="item in options"
@@ -180,19 +207,23 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-                <div style="display: inline;" v-if="equipment != '选项1'">
+                <div
+                  style="display: flex; text-align: center;width: 100%;"
+                  v-if="equipment != '选项1'"
+                >
                   <el-input
-                    style="display: inline-block; width: 30%; margin:0px 10px 0 30%;"
+                    style="width: 30%; margin:0px 20px 0 30%;"
                     v-model="personID"
                     placeholder="请输入设备号"
                   ></el-input>
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
+                  <el-button type="primary" :icon="Plus" circle @click="addRiskEquipment = true;"></el-button>
                 </div>
-                <div style="display: inline;" v-if="equipment == '选项1'">
+                <div style="display: flex;" v-if="equipment == '选项1'">
                   <el-select
                     v-model="grade"
                     placeholder="请选择设备种类"
-                    style="width: 25%; margin-left: 5%"
+                    style="width: 35%; margin-left: 5%"
                   >
                     <el-option
                       v-for="item in gradeOptions"
@@ -202,11 +233,12 @@
                     ></el-option>
                   </el-select>
                   <el-input
-                    style="display: inline-block; width: 25%; margin:0px 10px 0 5%"
+                    style="display: flex; width: 25%; margin:0px 20px 0 5%"
                     v-model="personID"
                     placeholder="请输入设备号"
                   ></el-input>
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
+                  <el-button type="primary" :icon="Plus" circle @click="addRiskEquipment = true;"></el-button>
                 </div>
               </div>
               <div>
@@ -230,6 +262,52 @@
                 <span class="dialog-footer">
                   <el-button @click="addequiment = false">取消</el-button>
                   <el-button type="primary" @click="addEquiment">确认</el-button>
+                </span>
+              </template>
+            </el-dialog>
+            <el-dialog v-model="addRiskEquipment" title="新增风险评估设备" width="600px" draggable>
+              <el-form :model="equipmentform" label-width="80px">
+                <el-form-item label="设备种类">
+                  <div style="display: flex; align-items: center;width: 100%;">
+                    <el-select
+                      v-model="equipmentform.equipment"
+                      placeholder="请选择设备种类"
+                      style="width: 50%;"
+                    >
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                    <div style="display: flex;" v-if="equipmentform.equipment == '选项1'">
+                      <el-select
+                        v-model="equipmentform.grade"
+                        placeholder="请选择设备种类"
+                        style="width: 100%; margin-left: 10px"
+                      >
+                        <el-option
+                          v-for="item in gradeOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        ></el-option>
+                      </el-select>
+                    </div>
+                  </div>
+                </el-form-item>
+                <el-form-item label="设备号">
+                  <el-input v-model="equipmentform.id"></el-input>
+                </el-form-item>
+                <el-form-item label="设备名">
+                  <el-input v-model="equipmentform.name"></el-input>
+                </el-form-item>
+              </el-form>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="addRiskEquipment = false">取消</el-button>
+                  <el-button type="primary" @click="newEquiment">确认</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -312,6 +390,7 @@ onBeforeMount(() => {
         id: id,
       },
       (data) => {
+        console.log(data);
         form.date = data.date;
         form.time = data.time;
         form.position.longitude = String(data.longitude);
@@ -320,7 +399,9 @@ onBeforeMount(() => {
         form.position.province = data.province;
         form.position.urban = data.urban;
         form.position.description = data.description;
-        form.type = data.type;
+        form.type = data.type.split(",");
+        console.log(form.type);
+        form.objectDescription = data.bjectDescription;
       }
     );
 
@@ -374,6 +455,10 @@ const equipments = ref([]);
 const route = useRoute();
 const id = route.query.id;
 const back = route.query.back;
+const newRiskpeople = reactive({
+  newid: "",
+  newname: "",
+});
 
 const gradeOptions = ref([
   {
@@ -416,7 +501,23 @@ const PDFsrc = ref("");
 const isViewPdf20 = ref(false);
 const addperson = ref(false);
 const addequiment = ref(false);
+const addRiskperson = ref(false);
+const addRiskEquipment = ref(false);
 const personID = ref();
+let multitype = ref("");
+const newequimentkind = ref([]);
+const type1 = ref(0);
+const type2 = ref(0);
+const type3 = ref(0);
+const type4 = ref(0);
+const type5 = ref(0);
+const type6 = ref(0);
+const equipmentform = reactive({
+  equipment: "",
+  grade: "",
+  id: "",
+  name: "",
+});
 
 const form = reactive({
   date: "",
@@ -429,10 +530,80 @@ const form = reactive({
     urban: "",
     description: "",
   },
-  type: 1,
+  type: [],
   person: [],
   equipment: [],
+  objectDescription: "",
 });
+
+const newEquiment = () => {
+  addRiskEquipment.value = false;
+  console.log(equipmentform);
+  if (equipmentform.grade == "选项1") {
+    type1.value = 1;
+  }
+  if (equipmentform.grade == "选项2") {
+    type2.value = 1;
+  }
+  if (equipmentform.grade == "选项3") {
+    type3.value = 1;
+  }
+  if (equipmentform.equipment == "选项2") {
+    type4.value = 1;
+  }
+  if (equipmentform.equipment == "选项3") {
+    type5.value = 1;
+  }
+  if (equipmentform.equipment == "选项4") {
+    type6.value = 1;
+  }
+  console.log(typeof type1.value);
+  console.log(newequimentkind);
+  post(
+    "/api/risk/add_newEquipment",
+    {
+      id: equipmentform.id,
+      name: equipmentform.name,
+      type1: type1.value,
+      type2: type2.value,
+      type3: type3.value,
+      type4: type4.value,
+      type5: type5.value,
+      type6: type6.value,
+    },
+    (data) => {
+      ElMessage.warning(data);
+      post("/api/risk/select_equipment", {}, (data) => {
+        equipments.value = data;
+        equipments.value.forEach(function (item) {
+          item.checked = false;
+        });
+      });
+    }
+  );
+};
+
+const addRiskPeople = () => {
+  addRiskperson.value = false;
+  console.log(newRiskpeople.newid);
+  console.log(newRiskpeople.newname);
+  post(
+    "/api/risk/add_newriskPerson",
+    {
+      id: newRiskpeople.newid,
+      name: newRiskpeople.newname,
+    },
+    (data) => {
+      ElMessage.warning(data);
+      post("/api/risk/select_person", {}, (data) => {
+        persons.value = data;
+        persons.value.forEach(function (item) {
+          item.checked = false;
+        });
+      });
+    }
+  );
+};
 
 const getRiskEquipmentData = () => {
   switch (equipment.value) {
@@ -510,6 +681,10 @@ const createRiskPEList = () => {
 };
 
 const jumpAnalysis = () => {
+  console.log(typeof form.type);
+  multitype = form.type.join(",");
+  console.log(typeof multitype);
+  console.log(multitype);
   if (back != 1) {
     post(
       "/api/risk/create_plan",
@@ -523,7 +698,8 @@ const jumpAnalysis = () => {
         province: form.position.province,
         urban: form.position.urban,
         description: form.position.description,
-        type: form.type,
+        type: multitype,
+        objectDescription: form.objectDescription,
         isUpdate: false,
       },
       (data) => {
@@ -534,28 +710,32 @@ const jumpAnalysis = () => {
       }
     );
   } else {
-    post(
-      "/api/risk/create_plan",
-      {
-        id: id,
-        date: form.date,
-        time: form.time,
-        longitude: form.position.longitude,
-        latitude: form.position.latitude,
-        country: form.position.country,
-        province: form.position.province,
-        urban: form.position.urban,
-        description: form.position.description,
-        type: form.type,
-        isUpdate: true,
-      },
-      (data) => {
-        createRiskPEList();
-      },
-      (data) => {
-        ElMessage.warning(data);
-      }
-    );
+    console.log(multitype),
+      console.log(form),
+      console.log(id),
+      post(
+        "/api/risk/create_plan",
+        {
+          id: id,
+          date: form.date,
+          time: form.time,
+          longitude: form.position.longitude,
+          latitude: form.position.latitude,
+          country: form.position.country,
+          province: form.position.province,
+          urban: form.position.urban,
+          description: form.position.description,
+          type: multitype,
+          objectDescription: form.objectDescription,
+          isUpdate: true,
+        },
+        (data) => {
+          createRiskPEList();
+        },
+        (data) => {
+          ElMessage.warning(data);
+        }
+      );
   }
 };
 
@@ -643,6 +823,8 @@ const viewGuide = (guide) => {
     case "26":
       PDFsrc.value = z;
       break;
+    default:
+      PDFsrc.value = z;
   }
   isViewPdf20.value = true;
 };
