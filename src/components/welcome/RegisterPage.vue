@@ -13,6 +13,20 @@
             </template>
           </el-input>
         </el-form-item>
+        <el-form-item prop="police_id">
+          <el-input v-model="form.police_id" type="text" placeholder="警号">
+            <template #prefix>
+              <el-icon><user/></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="police_station">
+          <el-input v-model="form.police_station" type="text" placeholder="所属警局">
+            <template #prefix>
+              <el-icon><user/></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="form.password" type="password" placeholder="密码">
             <template #prefix>
@@ -72,6 +86,8 @@ import {post} from "@/net";
 
 const form =reactive({
   username:'',
+  police_id:'',
+  police_station:'',
   password:'',
   password_repeat:'',
   email:'',
@@ -103,6 +119,10 @@ const rules = {
     { validator: validateUsername, trigger: ['blur','change'] },
     { min: 2, max: 8, message: '用户名长度必须在2-8个字符之间', trigger: ['blur','change'] },
   ],
+  police_id:[
+    { validator: validateUsername, trigger: ['blur','change'] },
+    { min: 2, max: 8, message: '警号长度必须在2-8个字符之间', trigger: ['blur','change'] },
+  ],
   password:[
     {required: true,message: '请输入密码',trigger: 'blur'},
     { min: 6, max: 16, message: '密码长度必须在6-16个字符之间', trigger: ['blur','change'] },
@@ -116,7 +136,6 @@ const rules = {
   ],
   code:[
     {required: true,message: '请输入验证码',trigger: 'blur'},
-
   ]
 }
 
@@ -135,6 +154,8 @@ const register = ()=>{
     if(isValid){
       post('/api/auth/register',{
         username: form.username,
+        police_id: form.police_id,
+        police_station: form.police_station,
         password: form.password,
         email: form.email,
         code: form.code

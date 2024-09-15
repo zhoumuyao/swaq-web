@@ -2,7 +2,8 @@
   <div class="app">
     <div class="content">
       <homePage :key="componentKey" style="margin-top: 1vh"></homePage>
-      <div>
+      <div style="position: relative; bottom: 2rem; left: 1rem;">
+        在线人数：{{numberOnline}}人
         <el-button @click="logout" type="danger" plain style="margin-left: 80%">退出登录</el-button>
       </div>
     </div>
@@ -16,6 +17,7 @@ import router from "@/router";
 import HomePage from "@/components/homePage/homePage.vue";
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
+const numberOnline = ref(1);
 const componentKey = ref(0);
 
 const logout = () => {
