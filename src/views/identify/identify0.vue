@@ -22,17 +22,10 @@
           <router-link to="/identify1">
             <h3 style="margin-left: 20px;">染病个体解剖查验</h3>
           </router-link>
-        </div> -->
+        </div>-->
 
-        <el-tabs
-          v-model="activeName"
-          class="demo-tabs"
-          @tab-click="handleClick"
-        >
-          <el-tab-pane
-            label="样本采集及运输"
-            name="first"
-          >
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+          <el-tab-pane label="样本采集及运输" name="first">
             <!-- 样本采集及运输步骤条 -->
             <div>
               <el-steps
@@ -50,68 +43,43 @@
                 <el-step title="标本送检"></el-step>
               </el-steps>
             </div>
-            <div style="
+            <div
+              style="
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
                 margin-top: 2vh;
-              ">
+              "
+            >
               <el-card class="card_container">
                 <!-- 采集对象 -->
-                <div
-                  v-if="active1 === 0"
-                  class=""
-                >
+                <div v-if="active1 === 0" class>
                   <div
                     v-for="(item, index) in Specimen"
                     :key="index"
                     style="margin-top: 15px;;text-indent: 2em;font-size: 20px"
-                  >{{ index + 1 }}、{{ item }}
-                  </div>
-                  <!-- <el-card style="height: 55vh;width: 20vw;margin-left: 40px">
-                    可疑感染人员
-                    <div v-for="(people, index) in people" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ people }}
-                    </div>
-                  </el-card>
-                  <el-card style="height: 55vh;width: 20vw;">
-                    待检测的人员
-                    <div v-for="(people, index) in people2" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ people }}
-                    </div>
-                  </el-card>
-                  <el-card style="height: 55vh;width: 20vw;margin-right: 40px">
-                    污染物品
-                    <div v-for="(wupin, index) in wupin" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ wupin }}
-                    </div>
-                  </el-card> -->
+                  >{{ index + 1 }}、{{ item }}</div>
                 </div>
                 <!-- 采样人员基本要求 -->
                 <div v-if="active1 === 1">
                   <!-- <span>采样人员基本要求</span> -->
-                  <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">
-                    {{ text1 }}
-                  </div>
+                  <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text1 }}</div>
                 </div>
                 <!-- 样本采样基本要求 -->
                 <div v-if="active1 === 2">
                   <!-- <span>样本采样基本要求 </span> -->
-                  <div style="font-size: 20px;text-indent: 2em">
-                    针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
+                  <div
+                    style="font-size: 20px;text-indent: 2em"
+                  >针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
                   <div
                     v-for="(text, index) in text2"
                     :key="index"
                     style="margin-top: 1px;text-indent: 2em;font-size: 20px"
-                  >{{ index + 1 }}、{{ text }}
-                  </div>
+                  >{{ index + 1 }}、{{ text }}</div>
+
                   <div
-                    v-for="(text, index) in text2"
-                    :key="index"
-                    style="margin-top: 1px; text-indent: 2em; font-size: 20px"
-                  >
-                    {{ index + 1 }}、{{ text }}
-                  </div>
-                  <div style="font-size: 20px; text-indent: 2em">
-                    以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。
-                  </div>
+                    style="font-size: 20px; text-indent: 2em"
+                  >以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
                 </div>
                 <!-- 采集样本种类 -->
                 <div v-if="active1 === 3">
@@ -120,24 +88,16 @@
                     v-for="(text, index) in text3"
                     :key="index"
                     style="margin-top: 15px;font-size: 20px"
-                  >{{ index + 1
-                  }}、{{ text }}
+                  >
+                    {{ index + 1
+                    }}、{{ text }}
                   </div>
                 </div>
                 <!-- 样本采集和处理 -->
-                <div
-                  v-if="active1 === 4"
-                  style="display: block"
-                >
+                <div v-if="active1 === 4" style="display: block">
                   <div class="search-card">
-                    <el-form
-                      :model="form"
-                      :inline="true"
-                    >
-                      <el-form-item
-                        label="样本种类："
-                        style="width: 500px"
-                      >
+                    <el-form :model="form" :inline="true">
+                      <el-form-item label="样本种类：" style="width: 500px">
                         <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
                         <el-select
                           v-model="selectedSample"
@@ -149,13 +109,12 @@
                             :key="sample.type"
                             :label="sample.type"
                             :value="sample.type"
-                          >
-                          </el-option>
+                          ></el-option>
                         </el-select>
                       </el-form-item>
                       <!-- <el-form-item>
                         <el-button type="primary" :icon="Search" @click="handleSearch">一键查询</el-button>
-                      </el-form-item> -->
+                      </el-form-item>-->
                     </el-form>
                   </div>
                   <div class="search-content">
@@ -164,13 +123,13 @@
                         <h3>采集方法：</h3>
                         <p>
                           {{
-                            getSampleByType(selectedSample)?.collectionMethod
+                          getSampleByType(selectedSample)?.collectionMethod
                           }}
                         </p>
                         <h3>处理方法：</h3>
                         <p>
                           {{
-                            getSampleByType(selectedSample)?.collectionMethod
+                          getSampleByType(selectedSample)?.collectionMethod
                           }}
                         </p>
                       </div>
@@ -179,69 +138,65 @@
                   <div></div>
                 </div>
                 <!-- 样本包装和保存 -->
-                <div
-                  v-if="active1 === 5"
-                  class="center-container"
-                >
-                  <el-card style="
+                <div v-if="active1 === 5" class="center-container">
+                  <el-card
+                    style="
                       width: 45%;
                       height: 55vh;
                       margin-left: 40px;
                       display: flex;
                       justify-content: center;
-                    ">
+                    "
+                  >
                     <!-- <label>显示图片</label> -->
                     <img
                       src="./image/yp.jpg"
                       style="object-fit: cover; width: 100%; height: 100%;"
                       alt="实验室生物安全"
-                    >
-
+                    />
                   </el-card>
                   <el-card style="width: 45%; height: 55vh; margin-right: 40px">
                     <!-- <label>样本包装和保存</label>
                     <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
-                    </div> -->
+                    </div>-->
                     <div style="width: 100%;height: 50vh;">
                       <embed
                         :src="SamplePackagingAndStorage"
                         type="application/pdf"
                         width="100%"
                         height="100%"
-                      >
+                      />
                     </div>
                   </el-card>
                 </div>
                 <!-- 标本送检 -->
-                <div
-                  v-if="active1 === 6"
-                  class="center-container"
-                >
-                  <el-card style="
+                <div v-if="active1 === 6" class="center-container">
+                  <el-card
+                    style="
                       width: 45%;
                       height: 55vh;
                       margin-left: 40px;
                       display: flex;
                       justify-content: center;
-                    ">
+                    "
+                  >
                     <!-- <label>显示图片</label> -->
                     <img
                       src="./image/bbsj.webp"
                       style="object-fit: cover; width: 100%; height: 100%;"
                       alt="实验室生物安全"
-                    >
-
+                    />
                   </el-card>
                   <el-card style="width: 45%; height: 55vh; margin-right: 40px">
                     <!-- <label>标本送检</label>
-                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
+                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
                     <div style="width: 100%;height: 50vh;">
                       <embed
                         :src="SampleSubmission"
                         type="application/pdf"
                         width="100%"
                         height="100%"
-                      >
+                      />
                     </div>
                   </el-card>
                 </div>
@@ -251,28 +206,21 @@
                   size="large"
                   @click="back1"
                   type="primary"
-                >
-                  上一步
-                </el-button>
+                >上一步</el-button>
                 <el-button
                   v-if="active1 < 8"
                   class="next-button"
                   size="large"
                   @click="next1"
                   type="primary"
-                >
-                  下一步
-                </el-button>
+                >下一步</el-button>
                 <!-- <el-button v-if="active1 === 8" class="exit-button" size="large" @click="back">
                     返回
-                  </el-button> -->
+                </el-button>-->
               </el-card>
             </div>
           </el-tab-pane>
-          <el-tab-pane
-            label="实验室检测"
-            name="second"
-          >
+          <el-tab-pane label="实验室检测" name="second">
             <!-- 实验室检测步骤条 -->
             <div>
               <el-steps
@@ -287,75 +235,55 @@
                 <el-step title="检测仪器"></el-step>
               </el-steps>
             </div>
-            <div style="
+            <div
+              style="
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
                 margin-top: 2vh;
-              ">
+              "
+            >
               <el-card class="card_container">
                 <!-- 实验室活动生物安全要求 -->
-                <div
-                  v-if="active2 === 0"
-                  class="center-container"
-                >
-                  <el-card style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex">
+                <div v-if="active2 === 0" class="center-container">
+                  <el-card
+                    style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex"
+                  >
                     <img
                       src="./image/lab.jpeg"
                       style="object-fit: cover; width: 100%; height: 100%;"
                       alt="实验室生物安全"
-                    >
+                    />
 
                     <!-- <label>显示图片</label> -->
                   </el-card>
                   <el-card style="width: 45%; height: 55vh; margin-right: 40px">
                     <!-- <label>实验室活动生物安全要求 </label>
-                    <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div> -->
+                    <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
                     <div style="width: 100%;height: 50vh;">
-                      <embed
-                        :src="LSBR"
-                        type="application/pdf"
-                        width="100%"
-                        height="100%"
-                      >
+                      <embed :src="LSBR" type="application/pdf" width="100%" height="100%" />
                     </div>
                   </el-card>
                 </div>
                 <!-- 检测人员要求 -->
                 <div v-if="active2 === 1">
                   <!-- <span>样本采样基本要求</span> -->
-                  <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">
-                    {{ text7 }}
-                  </div>
+                  <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text7 }}</div>
                 </div>
                 <!-- 检测方法 -->
-                <div
-                  v-if="active2 === 2"
-                  style=""
-                >
+                <div v-if="active2 === 2" style>
                   <div style="margin-left: 0">
-                    <el-button
-                      plain
-                      @click="centerDialogVisible = true"
-                    >
-                      查看说明
-                    </el-button>
+                    <el-button plain @click="centerDialogVisible = true">查看说明</el-button>
                   </div>
                   <div class="text-center">
-
                     <span style="margin-right: 10px; font-size: 16px;">检测方法：</span>
-                    <el-select
-                      v-model="selectedOption"
-                      placeholder="请选择"
-                      style="width: 300px"
-                    >
+                    <el-select v-model="selectedOption" placeholder="请选择" style="width: 300px">
                       <el-option
                         v-for="item in options"
                         :key="item.value"
                         :label="item.label"
                         :value="item"
-                      >
-                      </el-option>
+                      ></el-option>
                     </el-select>
                     <!-- 毒素 -->
                     <span
@@ -413,19 +341,15 @@
                     </el-select>
                   </div>
 
-                  <div
-                    v-if="selectedOption"
-                    class="mt-4"
-                  >
-                    <div
-                      v-if="selectedOption.value === 'bacteria'"
-                      style="height: 100%;"
-                    >
+                  <div v-if="selectedOption" class="mt-4">
+                    <div v-if="selectedOption.value === 'bacteria'" style="height: 100%;">
                       <div
                         v-if="selectedOption.value === 'bacteria' && !(bacteriaselectedOption === '')"
                         style="height: 100%;"
                       >
-                        <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
+                        <div
+                          style="height: 100%;display: flex; justify-content: center;align-items: center;"
+                        >
                           <span>暂无内容</span>
                         </div>
                       </div>
@@ -448,17 +372,16 @@
                         <el-tab-pane label="质控">
                           <p>{{ selectedOption.qualityControl }}</p>
                         </el-tab-pane>
-                      </el-tabs> -->
+                      </el-tabs>-->
                     </div>
-                    <div
-                      v-if="selectedOption.value === 'virus'"
-                      style="height: 100%;"
-                    >
+                    <div v-if="selectedOption.value === 'virus'" style="height: 100%;">
                       <div
                         v-if="selectedOption.value === 'virus' && !(virusselectedOption === '')"
                         style="height: 100%;"
                       >
-                        <div style="height: 100%;display: flex; justify-content: center;align-items: center;">
+                        <div
+                          style="height: 100%;display: flex; justify-content: center;align-items: center;"
+                        >
                           <span>暂无内容</span>
                         </div>
                       </div>
@@ -481,13 +404,15 @@
                         <el-tab-pane label="质控">
                           <p>{{ selectedOption.qualityControl }}</p>
                         </el-tab-pane>
-                      </el-tabs> -->
+                      </el-tabs>-->
                     </div>
                     <div
                       v-if="selectedOption.value === 'toxin' && !(toxinselectedOption === 'ricin') && !(toxinselectedOption === '')"
                       style="height: 100%;"
                     >
-                      <div style="height: 100%;display: flex; justify-content: center; align-items: center;">
+                      <div
+                        style="height: 100%;display: flex; justify-content: center; align-items: center;"
+                      >
                         <span>暂无内容</span>
                       </div>
                     </div>
@@ -503,23 +428,18 @@
                             src="./image/1.jpg"
                             alt="试剂图片"
                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                          >
+                          />
                         </div>
                         <div style="display: flex;justify-content: center;align-items: center;">
                           <img
                             src="./image/2.jpg"
                             alt="试剂图片"
                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                          >
+                          />
                         </div>
                       </div>
                       <div style=" width: 60%;height: 100%;">
-                        <embed
-                          :src="readMe"
-                          type="application/pdf"
-                          width="100%"
-                          height="100%;"
-                        >
+                        <embed :src="readMe" type="application/pdf" width="100%" height="100%;" />
                       </div>
                     </div>
                   </div>
@@ -532,12 +452,7 @@
                     draggable
                   >
                     <div style=" width: 100%;height: 50vh;">
-                      <embed
-                        :src="LTA"
-                        type="application/pdf"
-                        width="100%"
-                        height="100%;"
-                      >
+                      <embed :src="LTA" type="application/pdf" width="100%" height="100%;" />
                     </div>
                   </el-dialog>
                 </div>
@@ -555,25 +470,10 @@
                       ></el-button>
                     </div>
                     <el-card>
-                      <el-table
-                        :data="form.equipment"
-                        style="width: 100%; height: 45vh"
-                      >
-                        <el-table-column
-                          prop="id"
-                          label="设备号"
-                          width=""
-                        />
-                        <el-table-column
-                          prop="name"
-                          label="设备名"
-                          width=""
-                        />
-                        <el-table-column
-                          prop="guide"
-                          label="使用说明"
-                          width="120"
-                        >
+                      <el-table :data="form.equipment" style="width: 100%; height: 45vh">
+                        <el-table-column prop="id" label="设备号" width />
+                        <el-table-column prop="name" label="设备名" width />
+                        <el-table-column prop="guide" label="使用说明" width="120">
                           <template #default="{ row }">
                             <el-button
                               v-show="row.showButton"
@@ -587,12 +487,7 @@
                     </el-card>
                   </div>
 
-                  <el-dialog
-                    v-model="addequiment"
-                    title="选择检测仪器"
-                    width="600px"
-                    draggable
-                  >
+                  <el-dialog v-model="addequiment" title="选择检测仪器" width="600px" draggable>
                     <div>
                       <el-input
                         style="
@@ -613,8 +508,7 @@
                           margin-right: 0px;
                         "
                         circle
-                      >
-                      </el-button>
+                      ></el-button>
                     </div>
                     <div>
                       <el-table
@@ -623,26 +517,9 @@
                         type="selection"
                         height="40vh"
                       >
-                        <el-table-column
-                          prop="id"
-                          label="设备号"
-                          width="180"
-                          fixed="left"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          prop="name"
-                          label="设备名"
-                          width="180"
-                          fixed="left"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                          label="是否选中"
-                          width="180"
-                          fixed="right"
-                          prop="checked"
-                        >
+                        <el-table-column prop="id" label="设备号" width="180" fixed="left"></el-table-column>
+                        <el-table-column prop="name" label="设备名" width="180" fixed="left"></el-table-column>
+                        <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
                           <template #default="{ row }">
                             <el-checkbox v-model="row.checked"></el-checkbox>
                           </template>
@@ -652,10 +529,7 @@
                     <template #footer>
                       <span class="dialog-footer">
                         <el-button @click="addequiment = false">取消</el-button>
-                        <el-button
-                          type="primary"
-                          @click="addEquiment"
-                        >确认</el-button>
+                        <el-button type="primary" @click="addEquiment">确认</el-button>
                       </span>
                     </template>
                   </el-dialog>
@@ -665,11 +539,7 @@
                     :before-close="handleClose"
                     width="80vw"
                   >
-                    <iframe
-                      :src="PDFsrc"
-                      frameborder="0"
-                      style="width: 75vw; height: 70vh"
-                    ></iframe>
+                    <iframe :src="PDFsrc" frameborder="0" style="width: 75vw; height: 70vh"></iframe>
                   </el-dialog>
                 </div>
                 <el-button
@@ -678,33 +548,23 @@
                   size="large"
                   @click="back2"
                   type="primary"
-                >
-                  上一步
-                </el-button>
+                >上一步</el-button>
                 <el-button
                   v-if="active2 < 3"
                   class="next-button"
                   size="large"
                   @click="next2"
                   type="primary"
-                >
-                  下一步
-                </el-button>
+                >下一步</el-button>
 
                 <div v-if="active2 === 3">
                   <router-link to="/identify1">
-                    <el-button
-                      class="next-button"
-                      size="large"
-                      type="primary"
-                    >
-                      跳转
-                    </el-button>
+                    <el-button class="next-button" size="large" type="primary">跳转</el-button>
                   </router-link>
                 </div>
                 <!-- <el-button v-if="active2 === 3" class="exit-button" size="large" @click="back">
                   返回
-                </el-button> -->
+                </el-button>-->
               </el-card>
             </div>
           </el-tab-pane>

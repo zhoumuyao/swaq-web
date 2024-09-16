@@ -30,18 +30,24 @@
             width: 80vw;
           "
         >
-          <div style="width: 100%">
+          <div class="stepStyle" style="width: 100%">
             <el-steps
-              style="width: 80%; height: 30px; margin-bottom: 20px"
+              style="width: 100%; height: 30px; margin-bottom: 100px;font-size: 10px;"
               :active="step"
+              align-center
               finish-status="success"
-              simple
             >
               <el-step title="采样人员基本要求" />
               <el-step title="样本采样基本要求" />
               <el-step title="采集样本种类" />
               <el-step title="填写相关信息" />
-              <el-step title="样本采集和处理" />
+              <el-step title="采集对象"></el-step>
+              <el-step title="采样人员基本要求"></el-step>
+              <el-step title="样本采样基本要求"></el-step>
+              <el-step title="采集样本种类"></el-step>
+              <el-step title="样本采集和处理"></el-step>
+              <el-step title="样本包装和保存"></el-step>
+              <el-step title="标本送检"></el-step>
             </el-steps>
           </div>
 
@@ -55,7 +61,7 @@
                   size="large"
                   type="primary"
                   style="width: 120px; margin-right: 20px"
-                  @click="step = step - 1"
+                  @click="backStep"
                 >上一步</el-button>
                 <el-button
                   size="large"
@@ -182,7 +188,7 @@
                   size="large"
                   type="primary"
                   style="width: 120px; margin-right: 20px"
-                  @click="backStep"
+                  @click="step = step - 1"
                 >上一步</el-button>
                 <el-button
                   size="large"
@@ -291,11 +297,11 @@
           </div>
 
           <!-- 样本采集和处理 -->
-          <div v-if="step == 4" style="display: block">
+          <!-- <div v-if="step == 4" style="display: block">
             <div class="search-card">
               <el-form :model="formSampleget" :inline="true">
                 <el-form-item label="样本种类：" style="width: 500px">
-                  <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
+                  
                   <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px">
                     <el-option
                       v-for="sample in filteredSamples"
@@ -305,9 +311,7 @@
                     ></el-option>
                   </el-select>
                 </el-form-item>
-                <!-- <el-form-item>
-                        <el-button type="primary" :icon="Search" @click="handleSearch">一键查询</el-button>
-                </el-form-item>-->
+                
               </el-form>
             </div>
             <div class="search-content">
@@ -320,6 +324,242 @@
                 </div>
               </el-card>
             </div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="jumpAssessment"
+              >确认</el-button>
+            </div>
+          </div>-->
+
+          <div v-if="step == 4">
+            <div
+              v-for="(item, index) in Specimen"
+              :key="index"
+              style="margin-top: 15px;;text-indent: 2em;font-size: 20px"
+            >{{ index + 1 }}、{{ item }}</div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+
+          <!-- 采样人员基本要求 -->
+          <div v-if="step == 5">
+            <!-- <span>采样人员基本要求</span> -->
+            <div style="margin-top: 15px; font-size: 20px; text-indent: 2em">{{ text1 }}</div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+          <!-- 样本采样基本要求 -->
+          <div v-if="step == 6">
+            <!-- <span>样本采样基本要求 </span> -->
+            <div
+              style="font-size: 20px;text-indent: 2em"
+            >针对确诊病例、可疑病例、密切接触者病例的采集，以及物品和环境监测的样本采集，都需要严格遵循特定的基本要求，以确保采集的样本安全、准确。以下是一般情况下的基本要求：</div>
+            <div
+              v-for="(text, index) in text2"
+              :key="index"
+              style="margin-top: 1px;text-indent: 2em;font-size: 20px"
+            >{{ index + 1 }}、{{ text }}</div>
+
+            <div
+              style="font-size: 20px; text-indent: 2em"
+            >以上是一般情况下在生物危险现场采集各类样本时需要遵循的基本要求。针对具体病原体或疾病，可能会有一些特殊的要求，需要根据具体情况进行调整和遵循。</div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+          <!-- 采集样本种类 -->
+          <div v-if="step == 7">
+            <!-- <span style="font-size: 20px">采集样本种类 </span> -->
+            <div
+              v-for="(text, index) in text3"
+              :key="index"
+              style="margin-top: 15px;font-size: 20px"
+            >
+              {{ index + 1
+              }}、{{ text }}
+            </div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+          <!-- 样本采集和处理 -->
+          <div v-if="step == 8" style="display: block">
+            <div class="search-card">
+              <el-form :model="form" :inline="true">
+                <el-form-item label="样本种类：" style="width: 500px">
+                  <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
+                  <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px;">
+                    <el-option
+                      v-for="sample in samples"
+                      :key="sample.type"
+                      :label="sample.type"
+                      :value="sample.type"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+                <!-- <el-form-item>
+                        <el-button type="primary" :icon="Search" @click="handleSearch">一键查询</el-button>
+                </el-form-item>-->
+              </el-form>
+            </div>
+            <div class="search-content">
+              <el-card style="width: 80vw; height: 50vh">
+                <div v-if="selectedSample">
+                  <h3>采集方法：</h3>
+                  <p>
+                    {{
+                    getSampleByType(selectedSample)?.collectionMethod
+                    }}
+                  </p>
+                  <h3>处理方法：</h3>
+                  <p>
+                    {{
+                    getSampleByType(selectedSample)?.collectionMethod
+                    }}
+                  </p>
+                </div>
+              </el-card>
+            </div>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+
+          <!-- 样本包装和保存 -->
+          <div v-if="step == 9" class="center-container">
+            <el-card
+              style="
+                      width: 45%;
+                      height: 55vh;
+                      margin-left: 40px;
+                      display: flex;
+                      justify-content: center;
+                    "
+            >
+              <!-- <label>显示图片</label> -->
+              <img
+                src="../identify/image/yp.jpg"
+                style="object-fit: cover; width: 100%; height: 100%;"
+                alt="实验室生物安全"
+              />
+            </el-card>
+            <el-card style="width: 45%; height: 55vh; margin-right: 40px">
+              <div style="width: 100%;height: 50vh;">
+                <embed
+                  :src="SamplePackagingAndStorage"
+                  type="application/pdf"
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            </el-card>
+            <div class="next-button">
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-right: 20px"
+                @click="step = step - 1"
+              >上一步</el-button>
+              <el-button
+                size="large"
+                type="primary"
+                style="width: 120px; margin-left: 10px"
+                @click="step = step + 1"
+              >确认</el-button>
+            </div>
+          </div>
+
+          <!-- 标本送检 -->
+          <div v-if="step == 10" class="center-container">
+            <el-card
+              style="
+                      width: 45%;
+                      height: 55vh;
+                      margin-left: 40px;
+                      display: flex;
+                      justify-content: center;
+                    "
+            >
+              <!-- <label>显示图片</label> -->
+              <img
+                src="../identify/image/bbsj.webp"
+                style="object-fit: cover; width: 100%; height: 100%;"
+                alt="实验室生物安全"
+              />
+            </el-card>
+            <el-card style="width: 45%; height: 55vh; margin-right: 40px">
+              <!-- <label>标本送检</label>
+              <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
+              <div style="width: 100%;height: 50vh;">
+                <embed :src="SampleSubmission" type="application/pdf" width="100%" height="100%" />
+              </div>
+            </el-card>
             <div class="next-button">
               <el-button
                 size="large"
@@ -357,6 +597,8 @@ import { Search, Plus } from "@element-plus/icons-vue";
 import a from "./detect_plan/infrared.pdf";
 import b from "./detect_plan/lamandetect.pdf";
 import c from "./detect_plan/biodetect.pdf";
+import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage..pdf";
+import SampleSubmission from "../identify/PDF/SampleSubmission.pdf";
 
 const filteredSamples = computed(() => {
   console.log(samples.value);
@@ -805,5 +1047,10 @@ const jumpAssessment = () => {
 .smalllabel {
   font-size: 14px;
   color: rgb(96, 98, 102);
+}
+
+.center-container {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
