@@ -2,57 +2,55 @@
   <div class="app">
     <!--    <sidebar></sidebar>-->
     <div class="content">
-      <router-view></router-view>
+<!--      <router-view></router-view>-->
       <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray;text-align: center">
         <label style="font: 20px Extra large; display: inline-block;">评价与反馈</label>
       </div>
+      <el-card class="card_box">
+        <div style="margin-top: 30px;text-align: center">
+          <div style="font-size: 20px;font-weight: bold;">生物安全处置评分</div>
+          <div>
+            <el-rate
+                style="margin-left:0"
+                v-model="Starvalue"
+            />
+            <span style="margin-left: 10px;">{{ texts[Starvalue - 1] }}</span>
+          </div>
+        </div>
+        <div style="margin: 30px 50px 0 50px">
+          <el-input
+              type="textarea"
+              :autosize="{ minRows: 8, maxRows: 15}"
+              placeholder="请输入您对本模块的反馈意见"
+              v-model="textarea">
+          </el-input>
+        </div>
+        <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
+        <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="generateReport">生成简易报告</el-button></div>
 
-      <div v-if="active === 3" class="center-container">
-        <el-card class="card_box">
-          <div style="margin-top: 30px;text-align: center">
-            <div style="font-size: 20px;font-weight: bold;">生物安全处置评分</div>
-            <div>
-              <el-rate
-                  style="margin-left:0"
-                  v-model="Starvalue"
+        <div style="margin: 70px 50px 0 50px">
+          <el-table :data="tableData" height="400" style="width: 100%">
+            <el-table-column prop="feedback" label="反馈内容"></el-table-column>
+
+            <!-- 评分列使用 el-rate -->
+            <el-table-column label="评分" width="300">
+              <template v-slot="scope">
+                <el-rate
+                    v-model="scope.row.rate"
+                    disabled
+                    style="margin-left: 0;"
                 />
-                <span style="margin-left: 10px;">{{ texts[Starvalue - 1] }}</span>
-            </div>
-          </div>
-          <div style="margin: 30px 50px 0 50px">
-            <el-input
-                type="textarea"
-                :autosize="{ minRows: 8, maxRows: 15}"
-                placeholder="请输入您对本模块的反馈意见"
-                v-model="textarea">
-            </el-input>
-          </div>
-          <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
-          <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="generateReport">生成简易报告</el-button></div>
+              </template>
+            </el-table-column>
 
-          <div style="margin: 70px 50px 0 50px">
-            <el-table :data="tableData" height="300" style="width: 100%">
-              <el-table-column prop="date" label="日期" width="150" />
+            <el-table-column prop="time" label="日期" width="200" />
 
-              <!-- 评分列使用 el-rate -->
-              <el-table-column label="评分" width="200">
-                <template v-slot="scope">
-                  <el-rate
-                      v-model="scope.row.rate"
-                      disabled
-                      style="margin-left: 0;"
-                  />
-                </template>
-              </el-table-column>
-
-              <el-table-column prop="feedback" label="反馈内容"/>
-            </el-table>
-          </div>
-        </el-card>
-      </div>
+          </el-table>
+        </div>
+      </el-card>
 
       <el-alert
-          v-if="alertVisible && active === 3"
+          v-if="alertVisible"
           title="提交成功"
           type="success"
           description="感谢您的反馈意见，我们将根据反馈进行进一步优化！"
@@ -73,6 +71,7 @@
         </el-button>
       </router-link>
     </div>
+
     <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
       <!--                <span>Hi there!</span>-->
 
@@ -88,7 +87,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { get } from "@/net";
+import {get, post} from "@/net";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
@@ -96,56 +95,34 @@ import jsPDF from 'jspdf';
 import uploadImage from './image/sj.jpg'
 import ttf from './simhei.ttf'
 import report from "@/views/handle/PDF/report.pdf";
+import router from "@/router";
+import axios from "axios";
+import { onMounted } from 'vue';
 
 
 
 // 当前步骤
 const drawer = ref(false)
-const active = ref(4);
 const Starvalue = ref(0);
+const textarea = ref("")
+const time = ref('')
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
-const textarea = ref('')
+
 const alertVisible = ref(false)
 
 
-const tableData = ref([
-  {
-    date: '2024/5/3',
-    rate: '5',
-    feedback: '用起来比较流畅。',
-  },
-  {
-    date: '2024/5/2',
-    rate: '4',
-    feedback: '细节方面还需要再完善。',
-  },
-  {
-    date: '2024/5/4',
-    rate: '3',
-    feedback: '还不错，但可以更好。',
-  },
-  {
-    date: '2024/5/1',
-    rate: '5',
-    feedback: '流程明确，具有较高参考价值',
-  },
-  {
-    date: '2024/5/8',
-    rate: '4',
-    feedback: '提供了比较好的服务',
-  },
-  {
-    date: '2024/5/6',
-    rate: '2',
-    feedback: '不是太懂如何使用。',
-  },
-  {
-    date: '2024/5/7',
-    rate: '4',
-    feedback: '很好的产品！',
-  },
-]);
+const tableData = ref([]);
 
+const fetchFeedbacks = async () => {
+  try {
+    const response = await axios.get('/api/feedback/showAll');  // 调用后端接口
+    // console.log(response.data);
+    tableData.value = response.data.sort((a, b) => b.id - a.id);  // 将数据赋值给表格
+
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+  }
+};
 
 const loadFont = async () => {
   const response = await fetch(ttf);  // 替换为字体文件的实际路径
@@ -158,22 +135,22 @@ const loadFont = async () => {
 };
 const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
-    alertVisible.value = true;
-    const newEntry = {
-      date: new Date().toLocaleDateString(),
-      rate: Starvalue.value,
-      feedback: textarea.value
-    };
 
-    // tableData.value.push(newEntry);
-
-    // 使用 unshift 方法将新数据添加到数组的开头
-    tableData.value.unshift(newEntry);
-
-    console.log(newEntry);
-
+    axios.post('/api/feedback/addFeedback', {
+      feedback: textarea.value,
+      rate: Starvalue.value
+    })
+    .then(response => {
+      console.log('反馈提交成功:', response.data);
+      ElMessage.success("反馈提交成功")
+    })
+    .catch(error => {
+      console.error('提交反馈失败:', error);
+    });
+    window.location.reload();
     Starvalue.value = 0;
     textarea.value = '';
+
   } else {
     alert('请填写评分和反馈内容。');
   }
@@ -227,8 +204,6 @@ const  generateReport =async () => {
     // // 保存 PDF 文件
     // doc.save('report.pdf');
 
-
-
     drawer.value = true
 }
 //
@@ -236,6 +211,9 @@ const closeAlert= () => {
   alertVisible.value = false;
 }
 
+onMounted(() => {
+  fetchFeedbacks();  // 组件挂载时调用数据获取方法
+});
 </script>
 
 <style scoped>
@@ -273,7 +251,7 @@ const closeAlert= () => {
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
-  margin:0 60px 0 40px;
+  margin:40px 60px 0 40px;
 }
 
 .scrollbar-wrapper {
