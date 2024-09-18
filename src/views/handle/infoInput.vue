@@ -29,21 +29,20 @@
 
                 <el-divider></el-divider>
                 <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                    <label style="font:14px Extra Small">请上传环境图片</label>
+                  <div v-show="showLabel" style="margin-left: 45%; margin-top: 10%; color: darkgray;width: 70%">
+                    <label style="font:14px Extra SMALL">请上传环境图片</label>
                   </div>
-
-                  <img v-show="showImg" id="image-display1" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display1" src="" style="height: 100%; width: 70%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(1)" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(1)" style="margin-left: 37%;width:26%;margin-top: 5%;">
                   上传现场图片
                   <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   图片上传示例
                   <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
                 </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary" @click="drawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   查看现场勘察处置规程
                 </el-button>
               </el-tab-pane>
@@ -57,20 +56,20 @@
                 </div>
                 <el-divider></el-divider>
                 <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                    <label style="font:14px Extra Small">请上传人员图片</label>
+                  <div v-show="showLabel" style="margin-left: 45%; margin-top: 10%; color: darkgray;width: 70%">
+                    <label style="font:14px Extra SMALL">请上传人员图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display2" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display2" src="" style="height: 100%; width: 70%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(2)" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(2)" style="margin-left: 37%;width:26%;margin-top: 5%;">
                   上传现场图片
                   <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   图片上传示例
                   <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
                 </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary" @click="drawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   查看现场勘察处置规程
                 </el-button>
               </el-tab-pane>
@@ -85,45 +84,25 @@
 
                 <el-divider></el-divider>
                 <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
+                  <div v-show="showLabel" style="margin-left: 45%; margin-top: 10%; color: darkgray;width: 70%">
                     <label style="font:14px Extra Small">请上传物证图片</label>
                   </div>
-                  <img v-show="showImg" id="image-display3" src="" style="height: 100%; width: 100%;">
+                  <img v-show="showImg" id="image-display3" src="" style="height: 100%; width: 70%;">
                 </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(3)" style="margin-left: 27%;width:52%;margin-top: 15%;">
+                <el-button type="primary"  id="upload-button" @click="handleUpload(3)" style="margin-left: 37%;width:26%;margin-top: 5%;">
                   上传现场图片
                   <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   图片上传示例
                   <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
                 </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
+                <el-button type="primary" @click="drawer = true" style="margin-left: 37%;width:26%;margin-top: 3%;">
                   查看现场勘察处置规程
                 </el-button>
               </el-tab-pane>
             </el-tabs>
-            <el-card class="text" style="margin:20px 30px 20px 30px;">
-              <label class="label" style="margin-left: 40%; ">基本信息录入</label>
-              <el-divider></el-divider>
-              <div style="margin: 30px;">
-                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%;padding-top: 10px; " v-model="form.name"></el-input>
-              </div>
-              <el-divider></el-divider>
-              <div style="margin:30px 30px 20px 30px;">
-                <!--                  生物危险因子性质：-->
-                生物危险因子性质：<el-form-item  v-model="form.type">
-                  <el-radio v-model="radio" label="传染性" name="type" ></el-radio><br>
-                  <el-radio v-model="radio" label="非传染性" name="type" ></el-radio><br>
-                  <el-radio v-model="radio" label="未知" name="type" ></el-radio>
-                </el-form-item>
-              </div>
-              <el-divider></el-divider>
-              <div style="margin:0 30px;">
-                状况描述：
-                <el-input placeholder="请输入案发现场描述" type="textarea" style="display: block; margin:10px 0;" v-model="form.description" :autosize="{ minRows: 6, maxRows: 6}"></el-input>
-              </div>
-            </el-card>
+
           </div>
         </el-card>
       </div>
@@ -214,15 +193,15 @@ onMounted(() => {
 // }
 
 const next_page = () =>{
-  if (isFormValid()) {
+  // if (isFormValid()) {
     router.push({path: "/dangerInfo", query: {id: id}});
-  }
-  else{
-    ElMessage({
-      message: '请输入完整的信息',
-      type: 'error'
-    });
-  }
+  // }
+  // else{
+  //   ElMessage({
+  //     message: '请输入完整的信息',
+  //     type: 'error'
+  //   });
+  // }
 
 }
 function getLocation() {
@@ -332,13 +311,15 @@ const isFormValid = () =>{
 }
 .description{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 10px;
-  margin:0
+  margin:10px 30px 20px 30px
 }
 
 .img {
-  height: 200px;
+  height:200px;
+  margin-left: 15%;
+  width: 70%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   border-radius: 4px;
   border: 1.2px solid;

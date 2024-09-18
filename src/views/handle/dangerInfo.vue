@@ -14,131 +14,92 @@
         </el-steps>
       </div>
       <div  class="center-container">
-        <!--        <el-card class="card_box" style="margin:0px 100px 0px 40px;">-->
+
         <el-card class="card_box">
-          <div class="description">
-            <el-tabs v-model="activeName" type="border-card"  style="margin:20px 30px 20px 30px;">
-              <el-tab-pane label="环境照片" name="first"  style="margin:20px 20px 20px 50px">
-                <label class="label" style="margin-left: 45%">环境图片</label>
-                <div>
-                  <el-text type="primary" >
-                    <el-icon><Location /></el-icon>
-                    {{Position}}
-                  </el-text>
-                </div>
-
-                <el-divider></el-divider>
-                <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                    <label style="font:14px Extra Small">请上传环境图片</label>
-                  </div>
-
-                  <img v-show="showImg" id="image-display1" src="" style="height: 100%; width: 100%;">
-                </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(1)" style="margin-left: 27%;width:52%;margin-top: 15%;">
-                  上传现场图片
-                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
-                </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  图片上传示例
-                  <input type="file" title="上传图片" id="upload-input1" style="display:none"/>
-                </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  查看现场勘察处置规程
-                </el-button>
-              </el-tab-pane>
-              <el-tab-pane label="人员照片" name="second"  style="margin:20px 20px 20px 50px">
-                <label class="label" style="margin-left: 45%">人员图片</label>
-                <div>
-                  <el-text type="primary" @click="getPosition">
-                    <el-icon><Location /></el-icon>
-                    {{Position}}
-                  </el-text>
-                </div>
-                <el-divider></el-divider>
-                <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                    <label style="font:14px Extra Small">请上传人员图片</label>
-                  </div>
-                  <img v-show="showImg" id="image-display2" src="" style="height: 100%; width: 100%;">
-                </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(2)" style="margin-left: 27%;width:52%;margin-top: 15%;">
-                  上传现场图片
-                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
-                </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  图片上传示例
-                  <input type="file" title="上传图片" id="upload-input2" style="display:none"/>
-                </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  查看现场勘察处置规程
-                </el-button>
-              </el-tab-pane>
-              <el-tab-pane label="物证照片" name="third"  style="margin:20px 20px 20px 50px">
-                <label class="label" style="margin-left: 45%">物证图片</label>
-                <div>
-                  <el-text type="primary" @click="getPosition">
-                    <el-icon><Location /></el-icon>
-                    {{Position}}
-                  </el-text>
-                </div>
-
-                <el-divider></el-divider>
-                <div class="img">
-                  <div v-show="showLabel" style="margin-left: 40%; margin-top: 25%; color: darkgray;">
-                    <label style="font:14px Extra Small">请上传物证图片</label>
-                  </div>
-                  <img v-show="showImg" id="image-display3" src="" style="height: 100%; width: 100%;">
-                </div>
-                <el-button type="primary"  id="upload-button" @click="handleUpload(3)" style="margin-left: 27%;width:52%;margin-top: 15%;">
-                  上传现场图片
-                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
-                </el-button>
-                <el-button type="primary"  id="upload-button" @click="exampleDrawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  图片上传示例
-                  <input type="file" title="上传图片" id="upload-input3" style="display:none"/>
-                </el-button>
-                <el-button type="primary" @click="drawer = true" style="margin-left: 27%;width:52%;margin-top: 5%;">
-                  查看现场勘察处置规程
-                </el-button>
-              </el-tab-pane>
-            </el-tabs>
-            <el-card class="text" style="margin:20px 30px 20px 30px;">
-              <label class="label" style="margin-left: 40%; ">基本信息录入</label>
-              <el-divider></el-divider>
-              <div style="margin: 30px;">
-                生物危险因子名称：<el-input placeholder="请输入生物危险因子名称" style="display: inline-block; width: 75%;padding-top: 10px; " v-model="form.name"></el-input>
+          <el-form-item label="生物危险因子">
+            <el-col :span="16">
+              <div>
+                <el-scrollbar wrap-class="scrollbar-wrapper">
+                  <el-cascader
+                      placeholder="添加/搜索生物危险因子信息"
+                      :options="options"
+                      v-model="selectedItems"
+                      :props="{ multiple: true }"
+                      filterable
+                      style="width: 100%;"></el-cascader>
+                </el-scrollbar>
               </div>
-              <el-divider></el-divider>
-              <div style="margin:30px 30px 20px 30px;">
-                <!--                  生物危险因子性质：-->
-                生物危险因子性质：<el-form-item  v-model="form.type">
-                <el-radio v-model="radio" label="传染性" name="type" ></el-radio><br>
-                <el-radio v-model="radio" label="非传染性" name="type" ></el-radio><br>
-                <el-radio v-model="radio" label="未知" name="type" ></el-radio>
-              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div>
+                <el-popconfirm
+                    width="250"
+                    confirm-button-text="确定"
+                    cancel-button-text="取消"
+                    :icon="InfoFilled"
+                    icon-color="#626AEF"
+                    title="确定清空所有生物危险因子吗？"
+                    @confirm="removeChoosenButton">
+                  <template #reference>
+                    <el-button>清空</el-button>
+                  </template>
+                </el-popconfirm>
               </div>
-              <el-divider></el-divider>
-              <div style="margin:0 30px;">
-                状况描述：
-                <el-input placeholder="请输入案发现场描述" type="textarea" style="display: block; margin:10px 0;" v-model="form.description" :autosize="{ minRows: 6, maxRows: 6}"></el-input>
+            </el-col>
+            <el-col :span="3">
+              <!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先
+              放着-->
+              <!--                  <div>-->
+              <!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
+              <!--                  </div>-->
+              <div>
+                <el-button type="primary" plain @click="drawer2= true">现场处置规程</el-button>
               </div>
+            </el-col>
+            <el-col :span="3">
+              <div>
+                <el-button type="primary" plain @click="openSub1">样本的采集与运输</el-button>
+              </div>
+            </el-col>
+          </el-form-item>
+          <div class="twice">
+            <el-card type="border-card">
+              <img src="https://th.bing.com/th/id/OIP.HAiAGXrT4GRoAeoNfS5e6QHaEL?rs=1&pid=ImgDetMain" alt="Image Description" style="width: 100%; height: auto;">
             </el-card>
-          </div>
+            <el-card>
+              <p style="font-size: 20px; font-weight: bold; color: #333; line-height: 1.6;">炭疽杆菌（Bacillus anthracis）:
+              </p>
+              <p> 是一种革兰氏阳性、形成孢子的杆状细菌，是炭疽病的病原体。它能够在自然环境中形成休眠孢子，具备高度的环境耐受性。炭疽杆菌主要通过接触受污染的动物产品、吸入孢子或食用被感染的动物而感染人体，感染形式包括皮肤炭疽、肺炭疽和肠炭疽，均可能引发严重甚至致命的症状。该菌还因其潜在的生物武器用途而备受关注
+              </p>
         </el-card>
+
+          </div>
+          <el-card style="margin-left: 2%;margin-right: 2%;margin-bottom: 5%">
+            <p style="font-size: 16px;  line-height: 1.6;">
+              炭疽杆菌 (Bacillus anthracis) 的基因组是一条环状双链 DNA，大小约为5.23百万碱基对（Mb），其染色体包含多个重要基因，决定了它的致病性和生存能力。该菌的基因组具有两个质粒，分别为 pXO1 和 pXO2，这两个质粒携带了关键的毒力基因。
+
+              pXO1 质粒（约181 kb）携带编码炭疽毒素（包括保护性抗原、致死因子和水肿因子）的基因，这些毒素是导致炭疽病致命性的关键。
+              pXO2 质粒（约96 kb）包含编码荚膜合成的基因，使细菌能够抵抗宿主的免疫反应。
+              炭疽杆菌的核酸序列具有高度保守性，因此在基因检测中通常通过 PCR 技术靶向其毒素基因和荚膜基因进行鉴定。
+            </p>
+          </el-card>
+        </el-card>
+
+
+
+        <el-drawer v-model="drawer2" title="I am the title" :with-header="false" size="50%">
+          <!--                <span>Hi there!</span>-->
+
+          <div style="width: 100%;height: 100%;">
+            <embed :src="recordingAndProtection" type="application/pdf"
+                   width="100%" height="100%">
+          </div>
+
+        </el-drawer>
+
+
       </div>
-      <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
-        <div style="width: 100%;height: 100%;">
-          <embed :src="InvestigationAndInquest" type="application/pdf"
-                 width="100%" height="100%">
-        </div>
-      </el-drawer>
-      <el-drawer v-model="exampleDrawer" title="I am the title" :with-header="false" size="50%">
-        <div style="width: 100%;height: 100%;">
-          <embed :src="example" type="application/pdf"
-                 width="100%" height="100%">
-        </div>
-      </el-drawer>
+
 
       <!-- 切换页面-->
       <router-link :to="{path: '/infoInput', query: { id: id }}">
@@ -146,7 +107,6 @@
           上一步
         </el-button>
       </router-link>
-
 
       <!-- 切换页面-->
       <router-link :to="{path: '/invest',query: { id: id }}">
@@ -160,7 +120,7 @@
 </template>
 
 <script setup >
-// type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
+
 
 import { onMounted } from "vue";
 import { ref } from 'vue';
@@ -169,8 +129,8 @@ import { ElMessage } from "element-plus";
 import {useRoute, useRouter} from "vue-router";
 import InvestigationAndInquest from './PDF/InvestigationAndInquest.pdf';
 import example from './PDF/example.pdf';
-// import Sidebar from '../components/sideBar/SideBar.vue';
-import {Location} from "@element-plus/icons-vue";
+
+import {InfoFilled, Location} from "@element-plus/icons-vue";
 import MapLoader from "@/util/util";
 
 const route = useRoute();
@@ -178,114 +138,196 @@ const id = route.query.id;
 import axios from "axios";
 import myBMap from "/src/util/myBMap";
 import router from "@/router";
+import recordingAndProtection from "@/views/handle/PDF/recordingAndProtection.pdf";
+const drawer2 = ref(false);
 
-const showImg = ref(false);
-const exampleDrawer = ref(false);
-const drawer = ref(false);
 const imageUrl = ref("");
-const showLabel = ref(true);
+
 const text = ref("");
-let Position = ref("获取定位中");
+
 // 当前步骤
 const active = ref(1);
-const radio = ref(1);
+
 const form = ref({
   name : ' ',
   type : ' ',
   description : '',
 })
-const selectedItems = ref([]);
-const activeName = ref('first')
+const selectedItems = ref([
+  'Infectiousness',  // 选择了传染性
+  'high',            // 选择了高
+  'Airborne' ,      // 选择了空气气溶胶传播
+  'global','pathogenic', 'Very High Mortality',
+]);
+
+// const selectedItems = ref([]);
 const value = ref('');
 
+const options = ref([{
+  value: 'chuanbo',
+  label: '传播信息',
+  children: [{
+    value: 'Infectiousness',
+    label: '传染性',
+    children: [{
+      value: 'high',
+      label: '高'
+    }, {
+      value: 'medium',
+      label: '中'
+    }, {
+      value: 'low',
+      label: '低'
+    }, {
+      value: 'null',
+      label: '无'
+    }]
+  }, {
+    value: 'pathway',
+    label: '传播途径',
+    children: [{
+      value: 'Airborne',
+      label: '空气气溶胶传播'
+    }, {
+      value: 'Waterborne',
+      label: '水源传播'
+    },{
+      value: 'Droplet',
+      label: '飞沫传播'
+    },{
+      value: 'Contact',
+      label: '接触传播'
+    },{
+      value: 'Foodborne',
+      label: '食物源传播'
+    },]
+  },{
+    value: 'scope',
+    label: '传播范围',
+    children: [{
+      value: 'global',
+      label: '全球传播'
+    }, {
+      value: 'area',
+      label: '地区传播'
+    }, {
+      value: 'street',
+      label: '街区传播'
+    }, {
+      value: 'home',
+      label: '家庭传播'
+    }]
+  }]
+}, {
+  value: 'tezheng',
+  label: '特征信息',
+  children: [{
+    value: 'Pathogenicity',
+    label: '病原性',
+    children: [{
+      value: 'pathogenic',
+      label: '致病性'
+    }, {
+      value: 'Non-pathogenic',
+      label: '非致病性'
+    }]
+  }, {
+    value: 'Toxicity',
+    label: '毒性',
+    children: [{
+      value: 'high',
+      label: '高'
+    }, {
+      value: 'medium',
+      label: '中'
+    }, {
+      value: 'low',
+      label: '低'
+    }, {
+      value: 'null',
+      label: '无毒'
+    }]
+  }, {
+    value: 'Invasiveness',
+    label: '侵袭性',
+    children: [{
+      value: 'high',
+      label: '高'
+    }, {
+      value: 'medium',
+      label: '中'
+    }, {
+      value: 'low',
+      label: '低'
+    }]
+  }, {
+    value: 'Death Rate',
+    label: '致死率',
+    children: [{
+      value: 'Very Low Mortality',
+      label: '小于1%'
+    }, {
+      value: 'Low Mortality',
+      label: '1%-5%'
+    }, {
+      value: 'Moderate Mortality',
+      label: '5%-10%'
+    }, {
+      value: 'High Mortality',
+      label: '10%-20%'
+    }, {
+      value: 'Very High Mortality',
+      label: '大于20%'
+    }]
+  }, {
+    value: 'Incidence Rate',
+    label: '发病率',
+    children: [{
+      value: 'Very Low Mortality',
+      label: '小于1%'
+    }, {
+      value: 'Low Mortality',
+      label: '1%-5%'
+    }, {
+      value: 'Moderate Mortality',
+      label: '5%-10%'
+    }, {
+      value: 'High Mortality',
+      label: '10%-20%'
+    }, {
+      value: 'Very High Mortality',
+      label: '大于20%'
+    }]
+  }, {
+    value: 'virulence',
+    label: '活性',
+    children: [{
+      value: 'high',
+      label: '高'
+    }, {
+      value: 'medium',
+      label: '中'
+    }, {
+      value: 'low',
+      label: '低'
+    }]
+  }]
+}, ]) ;
 
 onMounted(() => {
   console.log("mounted...")
-  getLocation();
 })
-// function createInfo() {
-//   post(
-//       "/api/infoInput/createInfo",
-//       {
-//         id: id,
-//         name : form.value.name,
-//         quality : form.value.type,
-//         discription : form.value.description,
-//         env_img :,
-//         good_img :,
-//         per_img :
-//       },
-//       (data)s => {
-//         console.log(id);
-//       }
-//   );
-// }
 
-const next_page = () =>{
-  if (isFormValid()) {
-    router.push({path: "/invest", query: {id: id}});
-  }
-  else{
-    ElMessage({
-      message: '请输入完整的信息',
-      type: 'error'
-    });
-  }
+const openSub1 = () =>{
+  //跳转至现场信息记录与现场保护PDF子页面
+  // router.push('/other-page');
+  window.open('/identify0', '_blank');
+}
+const removeChoosenButton = () => {
+  // 清空下拉框内容
+  selectedItems.value = [];
+}
 
-}
-function getLocation() {
-  //Toast("如长时间未获取办理区域请手动选择");
-  myBMap.init().then(() => {
-    let that = this;
-    let geolocation = new BMap.Geolocation();
-    // 创建百度地理位置实例，代替 navigator.geolocation
-    geolocation.getCurrentPosition(function (e) {
-      if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-        // 百度 geolocation 的经纬度属性不同，此处是 point.lat 而不是 coords.latitude
-        let point = new BMap.Point(e.point.lng, e.point.lat);
-        let gc = new BMap.Geocoder();
-        gc.getLocation(point, function (rs) {
-          Position.value = rs.address
-          console.log(rs.address);
-          //<<<<<<<<<<<<<<<<需要的位置信息在这获取
-        });
-      } else {
-        Toast("定位失败，请手动选择区域或重新定位");
-        this.showloading = false;
-      }
-    });
-  });
-}
-function getPosition(){
-  MapLoader().then((formattedAddress) => {
-    Position.value=formattedAddress;
-    console.log('定位成功，地址为：', Position);
-  }).catch((error) => {
-    console.error('定位失败：', error);
-  });
-}
-function handleUpload(index) {
-  let elementId = "image-display"+index;
-  let imageDisplay = document.getElementById(elementId);
-  let uploadElementId = "upload-input"+index;
-  let uploadInput = document.getElementById(uploadElementId);
-
-  uploadInput.addEventListener("change", function(event) {
-    let files = event.target.files; // 获取选择的文件列表
-    if (files.length > 0) {
-      let file = files[0]; // 获取第一个文件
-      let fileReader = new FileReader();
-      showImg.value = true;
-      showLabel.value = false;
-      fileReader.onload = function(e) {
-        imageUrl.value = e.target.result;
-        imageDisplay.src = imageUrl.value;
-      };
-      fileReader.readAsDataURL(file);
-    }
-  });
-  uploadInput.click();
-}
 const isFormValid = () =>{
   // 确保所有选项不为空
   if(selectedItems.value !== []&&
@@ -325,36 +367,34 @@ const isFormValid = () =>{
   width: 89%;
   height: 100%;
 }
-.text{
-  height: 93%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  border-radius: 4px;
-  border: 1.2px ;
-//border-color: darkgray;
-}
 .card_box{
   height:85%;
   overflow-y:auto;
   overflow-x:hidden;
   margin:0 60px 0 40px;
 }
-.description{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
-  margin:0
-}
 .previous-button{
   position: fixed;
   bottom: 7%;
   left: 83%;
 }
-.img {
-  height: 200px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  border-radius: 4px;
-  border: 1.2px solid;
-  border-color: darkgray;
-}
 
+.card_box{
+  height:80%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  margin:0 60px 0 40px;
+  padding: 20px;
+
+}
+.twice{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  min-height: 350px;
+  margin:5% 30px 20px 30px
+}
+.twice el-card {
+  min-height: 200px; /* 设置卡片的最小高度 */
+}
 </style>

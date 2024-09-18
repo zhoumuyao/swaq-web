@@ -204,6 +204,8 @@ const  generateReport =async () => {
     // // 保存 PDF 文件
     // doc.save('report.pdf');
 
+
+
     drawer.value = true
 }
 //
@@ -211,9 +213,6 @@ const closeAlert= () => {
   alertVisible.value = false;
 }
 
-onMounted(() => {
-  fetchFeedbacks();  // 组件挂载时调用数据获取方法
-});
 </script>
 
 <style scoped>
