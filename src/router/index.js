@@ -109,7 +109,12 @@ const router = createRouter({
     },{
       path:'/feedback',
       name:'feedback',
-      component:()=>import('@/views/handle/feedback.vue')
+      component:()=>import('@/views/feedback/feedback.vue')
+    },
+    {
+      path:'/reportsList',
+      name:'reportsList',
+      component:()=>import('@/views/feedback/reportsList.vue')
     }
     // ,{
     //   path:'/handle_sub1',

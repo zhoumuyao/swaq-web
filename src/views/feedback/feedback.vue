@@ -28,25 +28,7 @@
         <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="submit">提交</el-button></div>
         <div style="float: right;margin-top: 20px;margin-right: 50px"><el-button type="primary" @click="generateReport">生成简易报告</el-button></div>
 
-        <div style="margin: 70px 50px 0 50px">
-          <el-table :data="tableData" height="400" style="width: 100%">
-            <el-table-column prop="feedback" label="反馈内容"></el-table-column>
 
-            <!-- 评分列使用 el-rate -->
-            <el-table-column label="评分" width="300">
-              <template v-slot="scope">
-                <el-rate
-                    v-model="scope.row.rate"
-                    disabled
-                    style="margin-left: 0;"
-                />
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="time" label="日期" width="200" />
-
-          </el-table>
-        </div>
       </el-card>
 
       <el-alert
@@ -65,9 +47,9 @@
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/index'}">
+      <router-link :to="{path: '/reportsList'}">
         <el-button class="next-button" type="primary" size="large">
-          结束
+          查看报告
         </el-button>
       </router-link>
     </div>
@@ -92,8 +74,8 @@ import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
-import uploadImage from './image/sj.jpg'
-import ttf from './simhei.ttf'
+import uploadImage from '../handle/image/sj.jpg'
+import ttf from '../handle/simhei.ttf'
 import report from "@/views/handle/PDF/report.pdf";
 import router from "@/router";
 import axios from "axios";
@@ -109,20 +91,6 @@ const time = ref('')
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
 
 const alertVisible = ref(false)
-
-
-const tableData = ref([]);
-
-const fetchFeedbacks = async () => {
-  try {
-    const response = await axios.get('/api/feedback/showAll');  // 调用后端接口
-    // console.log(response.data);
-    tableData.value = response.data.sort((a, b) => b.id - a.id);  // 将数据赋值给表格
-
-  } catch (error) {
-    console.error('Error fetching feedbacks:', error);
-  }
-};
 
 const loadFont = async () => {
   const response = await fetch(ttf);  // 替换为字体文件的实际路径
@@ -140,14 +108,15 @@ const submit = () => {
       feedback: textarea.value,
       rate: Starvalue.value
     })
-    .then(response => {
-      console.log('反馈提交成功:', response.data);
-      ElMessage.success("反馈提交成功")
-    })
-    .catch(error => {
-      console.error('提交反馈失败:', error);
-    });
-    window.location.reload();
+        .then(response => {
+          console.log('反馈提交成功:', response.data);
+          ElMessage.success("反馈提交成功")
+        })
+        .catch(error => {
+          console.error('提交反馈失败:', error);
+          ElMessage.error(error)
+        });
+    // window.location.reload();
     Starvalue.value = 0;
     textarea.value = '';
 
@@ -211,9 +180,6 @@ const closeAlert= () => {
   alertVisible.value = false;
 }
 
-onMounted(() => {
-  fetchFeedbacks();  // 组件挂载时调用数据获取方法
-});
 </script>
 
 <style scoped>
