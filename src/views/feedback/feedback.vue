@@ -41,13 +41,13 @@
       </el-alert>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/doHandle'}">
+      <router-link :to="{path: '/doHandle', query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/reportsList'}">
+      <router-link :to="{path: '/reportsList', query: { id: id }}">
         <el-button class="next-button" type="primary" size="large">
           查看报告
         </el-button>
@@ -68,18 +68,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import {get, post} from "@/net";
+import {onMounted, ref} from 'vue';
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
 import uploadImage from '../handle/image/sj.jpg'
 import ttf from '../handle/simhei.ttf'
 import report from "@/views/handle/PDF/report.pdf";
-import router from "@/router";
 import axios from "axios";
-import { onMounted } from 'vue';
+
 
 
 
@@ -87,10 +85,11 @@ import { onMounted } from 'vue';
 const drawer = ref(false)
 const Starvalue = ref(0);
 const textarea = ref("")
-const time = ref('')
 const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价值','较好参考价值','非常具有参考价值']);
 
 const alertVisible = ref(false)
+const route = useRoute();
+const id = route.query.id;
 
 const loadFont = async () => {
   const response = await fetch(ttf);  // 替换为字体文件的实际路径
@@ -105,6 +104,7 @@ const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
 
     axios.post('/api/feedback/addFeedback', {
+      id: 13,
       feedback: textarea.value,
       rate: Starvalue.value
     })
@@ -181,6 +181,10 @@ const  generateReport =async () => {
 const closeAlert= () => {
   alertVisible.value = false;
 }
+
+// onMounted(() => {
+//   console.log(route.query.id);
+// });
 
 </script>
 

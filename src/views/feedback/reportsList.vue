@@ -36,13 +36,13 @@
         </div>
 
         <!-- 切换页面-->
-        <router-link :to="{path: '/feedback'}">
+        <router-link :to="{path: '/feedback', query: { id: id }}">
           <el-button class="previous-button" type="primary" size="large">
             上一步
           </el-button>
         </router-link>
 
-        <router-link :to="{path: '/index'}">
+        <router-link :to="{path: '/index', query: { id: id }}">
           <el-button class="next-button" type="primary" size="large">
             结束
           </el-button>
@@ -58,8 +58,11 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import {useRoute} from "vue-router";
 
 const tableData = ref([]);
+const route = useRoute();
+const id = route.query.id;
 
 const fetchFeedbacks = async () => {
   try {
