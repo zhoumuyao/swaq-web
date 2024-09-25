@@ -590,7 +590,7 @@ export default {
           }
           if (params.data.name === "现场处置") {
             that.$router.push({
-              path: `/handle1`
+              path: `/infoInput`
             })
           }
           if (params.data.name === "检验鉴定") {

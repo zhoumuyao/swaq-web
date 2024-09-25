@@ -173,6 +173,8 @@ const  generateReport =async () => {
     // // 保存 PDF 文件
     // doc.save('report.pdf');
 
+
+
     drawer.value = true
 }
 //
