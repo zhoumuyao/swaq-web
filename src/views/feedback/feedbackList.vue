@@ -28,7 +28,7 @@
 
             <el-table-column prop="more" label="详情" width="200">
               <template v-slot="scope">
-                <el-link type="primary">查看报告</el-link>
+                <el-link type="primary" @click="viewDetails(scope.row.id)">查看详情</el-link>
               </template>
             </el-table-column>
 
@@ -50,7 +50,22 @@
       </el-card>
 
     </div>
-
+    <el-dialog v-model="dialogTableVisible" title="反馈详情" width="800">
+      <div>
+        <span>评分：</span>
+        <el-rate
+            v-model="feedback.rate"
+            disabled
+            style="margin-left: 0;"
+        />
+      </div>
+      <div style="margin-top: 20px;font-weight: bold;">
+        {{ feedback.feedback }}
+      </div>
+      <div style="margin-top: 20px;">
+        发布日期：{{ feedback.time }}
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -59,8 +74,11 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
+import {ElMessage} from "element-plus";
 
 const tableData = ref([]);
+const feedback = ref({});
+const dialogTableVisible = ref(false);
 const route = useRoute();
 const id = route.query.id;
 
@@ -74,6 +92,20 @@ const fetchFeedbacks = async () => {
     console.error('Error fetching feedbacks:', error);
   }
 };
+
+const viewDetails = (id) => {
+  //feedbackById
+  axios.post('/api/feedback/feedbackById', {
+    id: id,
+  })
+  .then(response => {
+    feedback.value = response.data;
+    dialogTableVisible.value = true;
+  })
+  .catch(error => {
+    ElMessage.error(error)
+  });
+}
 
 onMounted(() => {
   fetchFeedbacks();  // 组件挂载时调用数据获取方法
