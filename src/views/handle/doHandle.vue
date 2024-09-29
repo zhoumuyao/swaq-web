@@ -127,7 +127,7 @@
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/feedback',query: { id: id }}">
+      <router-link :to="{path: '/identify0',query: { id: id }}">
         <el-button class="next-button" type="primary" size="large">
           完成
         </el-button>
@@ -144,7 +144,6 @@ import DecisionMakingResults from './PDF/DecisionMakingResults.pdf'
 import DisposalRecommendations from './PDF/DisposalRecommendations.pdf'
 import adviceNotSave from './PDF/advice_notSave.pdf'
 import adviceSave from './PDF/advice_save.pdf'
-import {useRoute, useRouter} from "vue-router";
 import Sidebar from '@/components/sideBar/SideBar.vue';
 import jsPDF from 'jspdf';
 // 当前步骤
@@ -152,6 +151,7 @@ const active = ref(3);
 const value = ref('');
 const activeName = ref('first')
 
+import {useRoute} from "vue-router";
 const route = useRoute();
 const id = route.query.id;
 

@@ -105,7 +105,7 @@ const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
 
     axios.post('/api/feedback/addFeedback', {
-      id: 13,
+      id: 15,
       feedback: textarea.value,
       rate: Starvalue.value
     })
@@ -144,7 +144,7 @@ const  generateReport = () => {
     // window.location.reload();
 
   } else {
-    const reportId = 14; // 这里是你要传入的id
+    const reportId = 15; // 这里是你要传入的id
     axios.post('/api/report/outReport', {
         id: reportId,
     })

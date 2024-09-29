@@ -6,8 +6,9 @@
       <div>
         <!-- 检验鉴定模块-->
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
-          <el-menu-item index="/identify0">生物危险因子采集和检测技术</el-menu-item>
+          <el-menu-item index="/identify0">生物危险因子检测</el-menu-item>
           <el-menu-item index="/identify1">染病个体解剖查验</el-menu-item>
+          <el-menu-item index="/identify2">检验鉴定报告</el-menu-item>
         </el-menu>
         <!-- <div style="display: flex;">
           <router-link to="/identify0" :class="{ 'active-link': $route.path === '/identify0' }">
@@ -22,16 +23,35 @@
             <!-- 具备条件步骤条 -->
             <div>
               <el-steps :active="active1" finish-status="success" align-center style="margin-top: 20px">
-                <el-step title="实验室"></el-step>
                 <el-step title="解剖员"></el-step>
+                <el-step title="实验室"></el-step>
                 <el-step title="规章制度和规范操作规程"></el-step>
                 <el-step title="应急预案"></el-step>
               </el-steps>
             </div>
             <div style="  display: flex;justify-content: center;align-items: flex-start; margin-top: 2vh;">
               <el-card class="card_container">
+
+
+                <!-- 解剖员基本要求 -->
+                <div v-if="active1 === 0">
+<!--                   <span>解剖员文字规程</span>-->
+<!--                  <div v-for="(text, index) in text2" :key="index" style="margin: 15px 0 15px 0;color: lightskyblue;">{{ index +-->
+<!--                  1 }}、{{ text }}-->
+<!--                  </div>-->
+                  <div style="margin-bottom: 10px;">
+                    <label>解剖员：</label>
+                    <el-button type="primary" :icon="Plus" circle @click="dialogPerson = true"></el-button>
+                  </div>
+                  <el-card>
+                    <el-table :data="form.person" style="width: 100%; height: 45vh">
+                      <el-table-column prop="id" label="警务号" />
+                      <el-table-column prop="name" label="姓名" />
+                    </el-table>
+                  </el-card>
+                </div>
                 <!-- 实验室 -->
-                <div v-if="active1 === 0" class="center-container">
+                <div v-if="active1 === 1" class="center-container">
                   <el-card style="width: 45%;height: 55vh;margin-left: 40px;display: flex;justify-content: center;">
                     <!-- <label>显示图片</label> -->
                     <img src="./image/lab2.webp" style="object-fit: cover; width: 100%; height: 100%;" alt="实验室生物安全">
@@ -44,13 +64,6 @@
                       <embed :src="LabRequirements" type="application/pdf" width="100%" height="100%;">
                     </div>
                   </el-card>
-                </div>
-                <!-- 解剖员基本要求 -->
-                <div v-if="active1 === 1">
-                  <!-- <span>解剖员文字规程</span> -->
-                  <div v-for="(text, index) in text2" :key="index" style="margin-top: 15px;font-size: 20px;">{{ index +
-                    1 }}、{{ text }}
-                  </div>
                 </div>
                 <!-- 规章制度和规范操作规程 -->
                 <div v-if="active1 === 2" style="overflow: auto;">
@@ -215,59 +228,45 @@
           </el-tab-pane>
           <el-tab-pane label="尸检指标及采用的技术" name="fourth">
             <!-- 尸检操作步骤条 -->
-            <div>
-              <el-steps :active="active4" finish-status="success" align-center style="margin-top: 20px">
-                <el-step title="标本形态学、病理学特征和分析技术"></el-step>
-                <el-step title="数据的保存、分析和报告"></el-step>
-              </el-steps>
-            </div>
-            <div style="  display: flex;justify-content: center;align-items: flex-start; margin-top: 2vh;">
+            <div style="display: flex;justify-content: center;align-items: flex-start; margin-top: 8vh;">
               <el-card class="card_container">
                 <!--标本形态学、病理学特征和分析技术 -->
-
-                <div v-if="active4 === 0">
-                  <div style="margin-left: 0;">
-                    <el-button plain @click="PMSTDialogVisible = true">
-                      查看说明
-                    </el-button>
-                  </div>
-                  <div class="description">
-                    <el-card class="text" style="margin:20px 20px 20px 50px;">
-                      <label class="label" style="margin-left: 42%">待检测图片</label>
-                      <el-divider></el-divider>
-                      <div class="img">
-                        <div v-show="showLabel" style="margin-left: 40%; margin-top:30%; color: darkgray;">
-                          <label style="font:14px Extra Small">请上传需检测图片</label>
-                        </div>
-                        <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;">
-                      </div>
-                      <el-button type="primary" id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
-                        上传检测图片
-                        <input type="file" title="上传图片" id="upload-input" style="display:none" />
-                      </el-button>
-                    </el-card>
-                    <el-card class="text" style="margin:20px 30px 20px 30px;">
-                      <label class="label" style="margin-left: 42%; ">检测信息录入</label>
-                      <el-divider></el-divider>
-                      <div style="margin:0 30px;">
-                        病理学特征描述：
-                        <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
-                      </div>
-                      <div style="margin:10px 30px 0 30px;">
-                        分析识别方法：
-                        <div style="margin-top: 10px;">
-                          <el-select v-model="method" placeholder="请选择分析技术">
-                            <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
-                          </el-select>
-                        </div>
-                      </div>
-                    </el-card>
-                  </div>
+                <div style="margin-left: 0;">
+                  <el-button plain @click="PMSTDialogVisible = true">
+                    查看说明
+                  </el-button>
                 </div>
-
-                <!-- 数据的保存、分析和报告 -->
-                <div v-if="active4 === 1">
-                  <label>显示报告</label>
+                <div class="description">
+                  <el-card class="text" style="margin:20px 20px 20px 50px;">
+                    <label class="label" style="margin-left: 42%">待检测图片</label>
+                    <el-divider></el-divider>
+                    <div class="img">
+                      <div v-show="showLabel" style="margin-left: 40%; margin-top:30%; color: darkgray;">
+                        <label style="font:14px Extra Small">请上传需检测图片</label>
+                      </div>
+                      <img v-show="showImg" id="image-display" src="" style="height: 100%; width: 100%;" alt="/">
+                    </div>
+                    <el-button type="primary" id="upload-button" @click="handleUpload" style="margin-left: 38%;margin-top: 3%">
+                      上传检测图片
+                      <input type="file" title="上传图片" id="upload-input" style="display:none" />
+                    </el-button>
+                  </el-card>
+                  <el-card class="text" style="margin:20px 30px 20px 30px;">
+                    <label class="label" style="margin-left: 42%; ">检测信息录入</label>
+                    <el-divider></el-divider>
+                    <div style="margin:0 30px;">
+                      病理学特征描述：
+                      <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
+                    </div>
+                    <div style="margin:10px 30px 0 30px;">
+                      分析识别方法：
+                      <div style="margin-top: 10px;">
+                        <el-select v-model="method" placeholder="请选择分析技术">
+                          <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
+                        </el-select>
+                      </div>
+                    </div>
+                  </el-card>
                 </div>
 
                 <el-dialog v-model="PMSTDialogVisible" title="说明" width="800px" destroy-on-close draggable>
@@ -276,10 +275,10 @@
                   </div>
                 </el-dialog>
 
-                <el-button v-if="active4 > -1" class="back-button" size="large" @click="back4" type="primary">
+                <el-button class="back-button" size="large" @click="back4" type="primary">
                   上一步
                 </el-button>
-                <el-button v-if="active4 < 2" class="next-button" size="large" @click="next4" type="primary">
+                <el-button  class="next-button" size="large" @click="next4" type="primary">
                   下一步
                 </el-button>
                 <!-- <el-button v-if="active2 === 3" class="exit-button" size="large" @click="back">
@@ -290,38 +289,127 @@
           </el-tab-pane>
         </el-tabs>
 
+        <el-dialog v-model="dialogPerson" title="选择解剖员" width="600px" draggable>
+          <div style="display: flex; align-items: center;">
+            <el-input
+                style="display: inline-block; width: 30%; margin:0 10px 0 60%;"
+                v-model="personID"
+                placeholder="请输入警务号"
+            ></el-input>
+            <el-button
+                type="primary"
+                :icon="Search"
+                @click="handleSearch"
+                style="display: inline-block;"
+                circle
+            ></el-button>
+            <el-button
+                type="primary"
+                :icon="Plus"
+                circle
+                @click="dialogLabsPerson = true;"
+                style="display: inline-block;"
+            ></el-button>
+          </div>
+
+          <div>
+            <el-table :data="persons" style="width: 100%" type="selection">
+              <el-table-column prop="id" label="警务号" width="180" fixed="left"></el-table-column>
+              <el-table-column prop="name" label="姓名" width="180" fixed="left"></el-table-column>
+              <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
+                <template #default="{ row }">
+                  <el-checkbox v-model="row.checked"></el-checkbox>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="dialogPerson = false">取消</el-button>
+                  <el-button type="primary" @click="addPerson">确认</el-button>
+                </span>
+          </template>
+        </el-dialog>
+        <el-dialog v-model="dialogLabsPerson" title="新增实验室检测人员" width="600px" draggable>
+          <el-form :model="newLabspeople" style="display: flex; flex-direction: column;">
+            <el-form-item label="警务号">
+              <el-input v-model="newLabspeople.newid" style="width:10rem; margin-left: 5px;"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="newLabspeople.newname" style="width:10rem; margin-left: 20px"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="dialogLabsPerson = false">取消</el-button>
+                  <el-button type="primary" @click="addLabsPeople">确认</el-button>
+                </span>
+          </template>
+        </el-dialog>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-import { get } from "@/net";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { useRouter } from "vue-router";
-import Sidebar from '../../components/sideBar/SideBar.vue';
-import { Delete, RefreshRight, Search, Plus, Filter } from "@element-plus/icons-vue"
-import { ElConfigProvider } from "element-plus";
-import zhCn from 'element-plus/es/locale/lang/zh-cn';
+import {ref, reactive, onBeforeMount} from 'vue';
+import {Plus, Search} from "@element-plus/icons-vue";
+import {post} from "@/net";
+import {ElMessage} from "element-plus";
+
+//-----------start--用到的PDF
 import ADP from './PDF/ADP.pdf';
 import EAP from './PDF/EAP.pdf';
 import LabRequirements from './PDF/LabRequirements.pdf';
-import LSBR from './PDF/LSBR.pdf';
-import LTA from './PDF/LTA.pdf';
 import MWMP from './PDF/MWMP.pdf';
 import OrganExamination from './PDF/OrganExamination.pdf';
 import PM from './PDF/PM.pdf';
-import ADPMSTP from './PDF/PMST.pdf';
 import PMWTP from './PDF/PMWTP.pdf';
 import PreservationGuidelines from './PDF/PreservationGuidelines.pdf';
 import RAR from './PDF/RAR.pdf';
-import readMe from './PDF/readMe.pdf';
-import SamplePackagingAndStorage from './PDF/SamplePackagingAndStorage..pdf';
 import SampleSubmission from './PDF/SampleSubmission.pdf';
 import SPP from './PDF/SPP.pdf';
+//-----------end--用到的PDF
+
+//案件相关id
+import router from "@/router";
+import {useRoute} from "vue-router";
+const route = useRoute();
+const id = route.query.id;
+const back = route.query.back;
+
+//存放已选择的人员与仪器
+const personIdList = ref([]);
+const EquipmentIdList = ref([]);
+
+//存放数据库内所有的人员与仪器
+const persons = ref([]);
+const equipments = ref([]);
+
+//新增实验室人员
+const newLabspeople = reactive({
+  newid: "",
+  newname: "",
+});
+const personID = ref();
+
+//实验室人员信息-弹窗
+const dialogPerson = ref(false);
+const dialogLabsPerson = ref(false);
+
+const form = reactive({
+  province: "",
+  city: "",
+  cellname: "",
+  range: "",
+  type: [],
+  method: "",
+  person: [{}],
+  equipment: [{}],
+});
 
 
+const infectedBodies = ref(true)
 const selectedOption = ref(null)
 const options = ref([
   {
@@ -367,7 +455,6 @@ const active0 = ref(0)
 const active1 = ref(0)
 const active2 = ref(0)
 const active3 = ref(0)
-const active4 = ref(0)
 const description = ref('')
 const activeIndex = ref('/identify1')
 const showLabel = ref(true);
@@ -517,6 +604,98 @@ const dataAnalysis = ref([
   },
 ]);
 
+onBeforeMount(() => {
+  post("/api/risk/select_person", {}, (data) => {
+    persons.value = data;
+    persons.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  post("/api/risk/select_equipment", {}, (data) => {
+    equipments.value = data;
+    equipments.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  if (id && back) {
+    post(
+        "/api/risk/select_RiskPerson",
+        {
+          id: id,
+        },
+        (data) => {
+          personIdList.value = data;
+          form.person = persons.value.filter((person) =>
+              personIdList.value.includes(person.id)
+          );
+          persons.value.forEach((item) => {
+            if (personIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+    );
+
+    post(
+        "/api/risk/select_RiskEquipment",
+        {
+          id: id,
+        },
+        (data) => {
+          EquipmentIdList.value = data;
+          form.equipment = equipments.value.filter((equipment) =>
+              EquipmentIdList.value.includes(equipment.id)
+          );
+          form.equipment.forEach((item) => {
+            item.showButton = true;
+          });
+          equipments.value.forEach((item) => {
+            if (EquipmentIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+    );
+  }
+});
+
+const addPerson = () => {
+  dialogPerson.value = false;
+  personIdList.value = [];
+  persons.value.forEach((person) => {
+    if (person.checked) {
+      personIdList.value.push(person.id);
+    }
+  });
+  form.person = persons.value.filter((person) =>
+      personIdList.value.includes(person.id)
+  );
+};
+
+const addLabsPeople = () => {
+  dialogLabsPerson.value = false;
+  console.log(newLabspeople.newid);
+  console.log(newLabspeople.newname);
+  post(
+      "/api/risk/add_newriskPerson",
+      {
+        id: newLabspeople.newid,
+        name: newLabspeople.newname,
+      },
+      (data) => {
+        ElMessage.warning(data);
+        post("/api/risk/select_person", {}, (data) => {
+          persons.value = data;
+          persons.value.forEach(function (item) {
+            item.checked = false;
+          });
+        });
+      }
+  );
+};
+
 // 报告生成
 const reportGeneration = ref([
   {
@@ -529,12 +708,8 @@ const reportGeneration = ref([
 ]);
 
 const handleSelect = (index) => {
-  const router = useRouter();
-  if (index === '1') {
-    router.push('/identify0');
-  } else if (index === '2') {
-    router.push('/identify1');
-  }
+  // 跳转到对应的路由并带上参数
+  router.push({ path: index, query: { id: route.query.id, back: route.query.back } });
 }
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
@@ -584,14 +759,10 @@ const back3 = () => {
   }
 }
 const next4 = () => {
-  if (active4.value++ > 3) active4.value = 'fourth'
+  router.push({ path: "/identify2", query: { id: route.query.id, back: route.query.back } });
 }
 const back4 = () => {
-  if (active4.value-- < 1) {
-    active4.value = 0
     activeName.value = 'third'
-    console.log(activeName.value)
-  }
 }
 </script>
 
