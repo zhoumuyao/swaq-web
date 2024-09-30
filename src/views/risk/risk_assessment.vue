@@ -232,25 +232,25 @@ const radio = ref("二级");
 const tableData1 = ref([
   {
     id: 1,
-    virue: "无明确生物风险",
+    virue: "一级生物风险",
   },
   {
     id: 2,
-    virue: "三级生物风险",
-  },
-  {
-    id: 3,
     virue: "二级生物风险",
   },
   {
+    id: 3,
+    virue: "三级生物风险",
+  },
+  {
     id: 4,
-    virue: "一级生物风险",
+    virue: "无明确生物风险",
   },
 ]);
 const tableData2 = ref([
   {
     id: 1,
-    place: "低",
+    place: "高",
     checked: true,
   },
   {
@@ -260,7 +260,7 @@ const tableData2 = ref([
   },
   {
     id: 3,
-    place: "高",
+    place: "低",
     checked: false,
   },
 ]);

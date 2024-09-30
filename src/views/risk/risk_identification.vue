@@ -32,7 +32,7 @@
         >
           <div class="stepStyle" style="width: 100%">
             <el-steps
-              style="width: 100%; height: 30px; margin-bottom: 100px;font-size: 10px;"
+              style="width: 100%; height: 30px; margin-bottom: 50px;font-size: 10px;"
               :active="step"
               align-center
               finish-status="success"
@@ -131,8 +131,8 @@
 
           <!-- 填写相关信息 -->
           <div v-if="step == 3" style="height: 90%; margin: 10px; overflow: auto">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; height: 95%">
-              <div
+            <div style="display: flex;justify-content: center;">
+              <!-- <div
                 style="
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
                     0 0 6px rgba(0, 0, 0, 0.04);
@@ -149,7 +149,7 @@
                     style="margin-top: 15px; text-indent: 2em; font-size: 18px"
                   >{{ index + 1 }}、{{ item }}</div>
                 </div>
-              </div>
+              </div>-->
               <div
                 style="
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
@@ -174,13 +174,57 @@
                         <el-button type="primary" size="small" @click="viewGuide(row.testMethod)">查看</el-button>
                       </template>
                     </el-table-column>
+                    <!-- 新增的图片列 -->
+                    <el-table-column prop="testMethod" label="图片" width="100">
+                      <template #default="{ row }">
+                        <img
+                          v-if="row.testMethod === '红外光谱快速检测'"
+                          src="./image/redDetectPic.jpg"
+                          alt="红外光谱快速检测"
+                          style="width: 50px; height: auto;"
+                        />
+                        <img
+                          v-else-if="row.testMethod === '生物信息快速检验'"
+                          src="./image/bioDetectPic.png"
+                          alt="生物信息快速检测"
+                          style="width: 50px; height: auto;"
+                        />
+                        <img
+                          v-else-if="row.testMethod === '拉曼光谱快速检测'"
+                          src="./image/lamanDetectPic.jpg"
+                          alt="拉曼光谱快速检测"
+                          style="width: 50px; height: auto;"
+                        />
+                        <span v-else>无图片</span>
+                        <!-- 如果没有匹配的值，可以添加一个提示 -->
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="result" label="快检结果"></el-table-column>
+                    <el-table-column prop="probability" label="检测概率"></el-table-column>
+                    <el-table-column prop="testMethod" label="操作" width="150">
+                      <template #default="{ row }">
+                        <el-button
+                          type="success"
+                          size="small"
+                          @click="playVideo(row.testMethod)"
+                        >播放视频</el-button>
+                      </template>
+                    </el-table-column>
 
                     <!-- <el-table-column prop="sampleRequirement" label="采样要求"></el-table-column> -->
                   </el-table>
                 </el-card>
               </div>
             </div>
+
+            <el-dialog v-model="videoPlayVisible" title="视频播放">
+              <video controls :src="currentVideoUrl" style="width: 100%"></video>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="videoPlayVisible = false">关闭</el-button>
+                </span>
+              </template>
+            </el-dialog>
 
             <div class="next-button">
               <div>
@@ -210,7 +254,7 @@
                   <el-radio-group v-model="objectClass">
                     <el-radio :label="1">人</el-radio>
                     <el-radio :label="2">物证</el-radio>
-                    <el-radio :label="3">疫源</el-radio>
+                    <el-radio :label="3">环境</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item>
@@ -271,6 +315,10 @@
                 <el-form-item>
                   <label style="font-size: 16px; display: inline-block; width: 200px">快检结果：</label>
                   <el-input v-model="form.result" style="width: 800px" placeholder="请输入快检结果" />
+                </el-form-item>
+                <el-form-item>
+                  <label style="font-size: 16px; display: inline-block; width: 200px">检测概率：</label>
+                  <el-input v-model="form.probability" style="width: 800px" placeholder="请输入检测概率" />
                 </el-form-item>
                 <el-form-item>
                   <label style="font-size: 16px; display: inline-block; width: 100%">采样要求：</label>
@@ -599,6 +647,9 @@ import b from "./detect_plan/lamandetect.pdf";
 import c from "./detect_plan/biodetect.pdf";
 import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage..pdf";
 import SampleSubmission from "../identify/PDF/SampleSubmission.pdf";
+import bioInfoDetect from "./video/bioInfoDetect.mp4";
+import redDefect from "./video/redDefect.mp4";
+import lamanDetect from "./video/lamanDetect.mp4";
 
 const filteredSamples = computed(() => {
   console.log(samples.value);
@@ -649,6 +700,8 @@ const back1 = route.query.back;
 const selectedSample = ref(null);
 const PDFsrc = ref("");
 const isViewPdf20 = ref(false);
+const videoPlayVisible = ref(false);
+const currentVideoUrl = ref("");
 
 const viewGuide = (testMethod) => {
   console.log(testMethod);
@@ -660,6 +713,17 @@ const viewGuide = (testMethod) => {
     PDFsrc.value = c;
   }
   isViewPdf20.value = true;
+};
+
+const playVideo = (testMethod) => {
+  if (testMethod == "红外光谱快速检测") {
+    currentVideoUrl.value = redDefect;
+  } else if (testMethod == "生物信息快速检测") {
+    currentVideoUrl.value = bioInfoDetect;
+  } else {
+    currentVideoUrl.value = lamanDetect;
+  }
+  videoPlayVisible.value = true;
 };
 
 const handleClose = () => {
@@ -784,10 +848,6 @@ const adddisposal = ref(false);
 
 const peopleOptions = [
   {
-    value: "可疑感染人员和需要检测的人员",
-    label: "可疑感染人员和需要检测的人员",
-  },
-  {
     value: "组织",
     label: "组织",
   },
@@ -818,32 +878,16 @@ const itemOptions = [
 
 const epidemicOptions = [
   {
-    value: "植物",
-    label: "植物",
-  },
-  {
-    value: "动物",
-    label: "动物",
-  },
-  {
     value: "人",
     label: "人",
-  },
-  {
-    value: "动物尸体",
-    label: "动物尸体",
   },
   {
     value: "人尸体",
     label: "人尸体",
   },
   {
-    value: "水",
-    label: "水",
-  },
-  {
-    value: "土壤",
-    label: "土壤",
+    value: "液体",
+    label: "液体",
   },
 ];
 
@@ -875,6 +919,7 @@ const form = reactive({
   name: "",
   method: "",
   result: "",
+  probability: "",
   require: "",
 });
 const backStep = () => {
@@ -929,6 +974,7 @@ const addDisposal = () => {
       sampleContent: form.name,
       testMethod: form.method,
       result: form.result,
+      probability: form.probability,
       sampleRequirement: form.require,
     },
     (data) => {
@@ -944,6 +990,7 @@ const addDisposal = () => {
           // data.forEach((item) => {
           //   disposal_obj.objectClass
           // })
+          console.log(data);
           disposal_obj.value = data;
         }
       );

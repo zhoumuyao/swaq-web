@@ -91,6 +91,26 @@
                     ></el-input>
                   </el-form-item>
                 </div>
+
+                <el-form-item label="上传照片：">
+                  <el-button @click="uploadPic = true">上传</el-button>
+
+                  <!-- 上传照片 -->
+                  <!-- <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList"
+                    :auto-upload="false"
+                  >
+                    <div style="display: flex;flex-direction: column;">
+                      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </div>
+                  </el-upload>-->
+                </el-form-item>
                 <div class="person_equiment">
                   <div>
                     <div style="margin-bottom: 10px;">
@@ -117,15 +137,65 @@
                     </div>
                     <el-card class="card">
                       <el-table :data="form.equipment" style="width: 100%; height: 45vh">
-                        <el-table-column prop="id" label="设备号" width />
-                        <el-table-column prop="name" label="设备名" width />
+                        <el-table-column prop="id" label="设备号" width="100" />
+                        <el-table-column prop="name" label="设备名" width="120" />
                         <el-table-column prop="guide" label="使用说明" width="120">
                           <template #default="{ row }">
                             <el-button type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
                           </template>
                         </el-table-column>
+                        <!-- 新增的图片列 -->
+                        <el-table-column prop="name" label="图片" width="100">
+                          <template #default="{ row }">
+                            <img
+                              v-if="row.name === '正压防护服'"
+                              src="./image/clothDetect.jpg"
+                              alt="红外光谱快速检测"
+                              style="width: 50px;  height: 50px;"
+                            />
+                            <img
+                              v-else-if="row.name === '医用乳胶手套'"
+                              src="./image/gloveDetect.jpg"
+                              alt="生物信息快速检测"
+                              style="width: 50px;  height: 50px;"
+                            />
+                            <img
+                              v-else-if="row.name === '透明防护面具'"
+                              src="./image/faceDetect.jpg"
+                              alt="拉曼光谱快速检测"
+                              style="width: 50px; height: 50px;"
+                            />
+                            <img
+                              v-else-if="row.name === '密封式防护镜'"
+                              src="./image/eyeDetect.png"
+                              alt="拉曼光谱快速检测"
+                              style="width: 50px;  height: 50px;"
+                            />
+                            <img
+                              v-else
+                              src="./image/eyeDetect.jfif"
+                              alt="拉曼光谱快速检测"
+                              style="width: 50px;  height: 50px;"
+                            />
+                            <!-- 如果没有匹配的值，可以添加一个提示 -->
+                          </template>
+                        </el-table-column>
+
+                        <el-table-column prop="name" label="操作" width="150">
+                          <template #default="{ row }">
+                            <el-button type="success" size="small" @click="playVideo(row.name)">播放视频</el-button>
+                          </template>
+                        </el-table-column>
                       </el-table>
                     </el-card>
+                    <el-dialog v-model="videoPlayVisible" title="视频播放">
+                      <video controls :src="currentVideoUrl" style="width: 100%"></video>
+                      <template #footer>
+                        <span class="dialog-footer">
+                          <el-button @click="videoPlayVisible = false">关闭</el-button>
+                        </span>
+                      </template>
+                    </el-dialog>
                   </div>
                 </div>
               </el-form>
@@ -140,6 +210,70 @@
                 size="large"
               >进行风险分析</el-button>
             </div>
+            <el-dialog title="智能对比" v-model="uploadPic" width="80%" :before-close="handleClosePic">
+              <!-- el-upload 组件 -->
+              <el-upload
+                action="http://localhost:8080/api/risk/uploads"
+                :on-success="handle_success"
+              >
+                <!-- <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                <!-- 上传图标：仅在 fileList 为空时显示 -->
+                <div
+                  v-if="fileList.length === 0"
+                  style="display: flex; flex-direction: column; align-items: center;"
+                >
+                  <el-icon>
+                    <plus />
+                  </el-icon>
+                  <p>上传图片</p>
+                </div>
+              </el-upload>
+
+              <!-- 显示上传后的图片：fileList 非空时渲染 -->
+              <div
+                v-if="fileList.length > 0"
+                style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-left: 5px;"
+              >
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <img
+                    :src="dialogImageUrl"
+                    alt="Uploaded Image"
+                    style="width: 100%; height: 200px; object-fit: cover;"
+                    @click="previewImage(dialogImageUrl)"
+                  />
+                  <div
+                    v-if="compareImages"
+                    style="display: flex; align-items: center; justify-content: center;margin-top: 5%;"
+                  >
+                    <label style="font-size: 16px; margin-right: 10px;width: 100px;">部位：</label>
+                    <el-input v-model="bodyPart" style="margin-top: 0;width: 200px;"></el-input>
+                  </div>
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; align-items: center; margin-left: 10px;"
+                >
+                  <img
+                    v-if="compareImages"
+                    :src="comparisonImageUrl"
+                    alt="Comparison Image"
+                    style="width: 100%; height: 200px; object-fit: cover;"
+                  />
+                  <span v-if="compareImages" style="margin-top: 5%;">输出结果：80 %，与炭疽杆菌致损图片相似</span>
+                </div>
+              </div>
+              <!-- 图片预览弹窗 -->
+              <!-- <el-dialog v-model="myComputerPic">
+                <img width="100%" :src="dialogImageUrl" alt="预览图片" />
+              </el-dialog>-->
+              <template #footer>
+                <span>
+                  <el-button @click="compareImages = true">对 比</el-button>
+                  <el-button @click="uploadPic = false">取 消</el-button>
+                  <el-button type="primary" @click="uploadPic = false">确 定</el-button>
+                </span>
+              </template>
+            </el-dialog>
             <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
               <div style="display: flex; align-items: center;">
                 <el-input
@@ -207,10 +341,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-                <div
-                  style="display: flex; text-align: center;width: 100%;"
-                  v-if="equipment != '选项1'"
-                >
+                <div style="display: flex; text-align: center;width: 100%;">
                   <el-input
                     style="width: 30%; margin:0px 20px 0 30%;"
                     v-model="personID"
@@ -219,7 +350,7 @@
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
                   <el-button type="primary" :icon="Plus" circle @click="addRiskEquipment = true;"></el-button>
                 </div>
-                <div style="display: flex;" v-if="equipment == '选项1'">
+                <!-- <div style="display: flex;" v-if="equipment == '选项1'">
                   <el-select
                     v-model="grade"
                     placeholder="请选择设备种类"
@@ -239,11 +370,11 @@
                   ></el-input>
                   <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
                   <el-button type="primary" :icon="Plus" circle @click="addRiskEquipment = true;"></el-button>
-                </div>
+                </div>-->
               </div>
               <div>
                 <el-table
-                  v-if="equipment == '选项1' || equipment == '选项2' || equipment == '选项3' || equipment == '选项4' || equipment == ''"
+                  v-if="equipment == '选项1' || equipment == '选项2' || equipment == '选项3' || equipment == '选项4' || equipment == '选项5' || equipment == ''"
                   :data="getRiskEquipmentData()"
                   style="width: 100%; margin-top: 10px; "
                   type="selection"
@@ -356,6 +487,13 @@ import w from "./device_guide/23.pdf";
 import x from "./device_guide/24.pdf";
 import y from "./device_guide/25.pdf";
 import z from "./device_guide/26.pdf";
+import samplingPumps from "./device_guide/27.pdf";
+import comparisonImageUrl from "./image/tanchi.jfif";
+import clothVideo from "./video/clothVideo.mp4";
+import eyeVideo from "./video/eyeVideo.mp4";
+import gloveVideo from "./video/gloveVideo.mp4";
+import faceVideo from "./video/faceVideo.mp4";
+// import { el } from "element-plus/es/locale";
 
 onBeforeMount(() => {
   post("/api/risk/select_person", {}, (data) => {
@@ -494,6 +632,10 @@ const options = ref([
     value: "选项4",
     label: "记录装备",
   },
+  {
+    value: "选项5",
+    label: "快检装备",
+  },
 ]);
 
 const equipment = ref("");
@@ -503,8 +645,17 @@ const addperson = ref(false);
 const addequiment = ref(false);
 const addRiskperson = ref(false);
 const addRiskEquipment = ref(false);
+const uploadPic = ref(false);
+const myComputerPic = ref(false);
+const isUploaded = ref(false);
+const fileList = ref([]);
+const dialogImageUrl = ref(""); // 预览图片的 URL
+const compareImages = ref(false);
 const personID = ref();
 let multitype = ref("");
+const currentVideoUrl = ref("");
+const videoPlayVisible = ref(false);
+const bodyPart = ref("");
 const newequimentkind = ref([]);
 const type1 = ref(0);
 const type2 = ref(0);
@@ -512,6 +663,7 @@ const type3 = ref(0);
 const type4 = ref(0);
 const type5 = ref(0);
 const type6 = ref(0);
+const type7 = ref(0);
 const equipmentform = reactive({
   equipment: "",
   grade: "",
@@ -557,6 +709,9 @@ const newEquiment = () => {
   if (equipmentform.equipment == "选项4") {
     type6.value = 1;
   }
+  if (equipmentform.equipment == "选项5") {
+    type7.value = 1;
+  }
   console.log(typeof type1.value);
   console.log(newequimentkind);
   post(
@@ -570,6 +725,7 @@ const newEquiment = () => {
       type4: type4.value,
       type5: type5.value,
       type6: type6.value,
+      type7: type7.value,
     },
     (data) => {
       ElMessage.warning(data);
@@ -606,28 +762,54 @@ const addRiskPeople = () => {
 };
 
 const getRiskEquipmentData = () => {
+  let data;
   switch (equipment.value) {
     case "选项1":
-      switch (grade.value) {
-        case "选项1":
-          return equipments.value.filter((equipment) => equipment.type1 === 1);
-        case "选项2":
-          return equipments.value.filter((equipment) => equipment.type2 === 1);
-        case "选项3":
-          return equipments.value.filter((equipment) => equipment.type3 === 1);
-        default:
-          return [];
-      }
+      data = equipments.value.filter((e) => e.type1 === 1);
+      break;
+    // switch (grade.value) {
+    //   case "选项1":
+    //     data = equipments.value.filter((e) => e.type1 === 1);
+    //     break;
+    //   case "选项2":
+    //     data = equipments.value.filter((e) => e.type2 === 1);
+    //     break;
+    //   case "选项3":
+    //     data = equipments.value.filter((e) => e.type3 === 1);
+    //     break;
+    //   default:
+    //     data = [];
+    //     break;
+    // }
+    // break;
     case "选项2":
-      return equipments.value.filter((equipment) => equipment.type4 === 1);
+      data = equipments.value.filter((e) => e.type4 === 1);
+      break;
     case "选项3":
-      return equipments.value.filter((equipment) => equipment.type5 === 1);
+      data = equipments.value.filter((e) => e.type5 === 1);
+      break;
     case "选项4":
-      return equipments.value.filter((equipment) => equipment.type6 === 1);
+      data = equipments.value.filter((e) => e.type6 === 1);
+      break;
+    case "选项5":
+      data = equipments.value.filter((e) => e.type7 === 1);
+      break;
     default:
-      return [];
+      data = [];
+      break;
   }
+
+  // 如果 fileList.length > 0 并且设备选项为选项1，则全部选中
+  if (fileList.value.length > 0 && equipment.value === "选项1") {
+    data.forEach((item) => {
+      item.checked = true; // 全部选中
+    });
+  }
+  console.log(data);
+  return data;
 };
+
+const toggleSelectAll = () => {};
 
 const createRiskPEList = () => {
   post(
@@ -823,10 +1005,26 @@ const viewGuide = (guide) => {
     case "26":
       PDFsrc.value = z;
       break;
+    case "27":
+      PDFsrc.value = samplingPumps;
+      break;
     default:
       PDFsrc.value = z;
   }
   isViewPdf20.value = true;
+};
+
+const playVideo = (name) => {
+  if (name == "正压防护服") {
+    currentVideoUrl.value = clothVideo;
+  } else if (name == "医用乳胶手套") {
+    currentVideoUrl.value = gloveVideo;
+  } else if (name == "透明防护面具") {
+    currentVideoUrl.value = faceVideo;
+  } else if (name == "密封式防护镜") {
+    currentVideoUrl.value = eyeVideo;
+  }
+  videoPlayVisible.value = true;
 };
 
 const addPerson = () => {
@@ -859,8 +1057,62 @@ const addEquiment = () => {
   });
 };
 
-const onSubmit = () => {
-  console.log("submit!");
+// 处理图片预览
+const handlePictureCardPreview = (file) => {
+  dialogImageUrl.value = file.url || file.base64;
+  myComputerPic.value = true;
+};
+
+// 处理图片移除
+const handleRemove = (file) => {
+  // 清空 fileList 恢复上传按钮
+  fileList.value = [];
+};
+
+// 上传前处理：将文件转换为 Base64 格式，并插入到 fileList 中
+const handleBeforeUpload = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      // 将文件转为 base64 格式并更新到 fileList
+      fileList.value = [{ name: file.name, url: "", base64: reader.result }];
+      resolve(); // 返回成功状态
+    };
+    reader.onerror = () => {
+      reject(); // 返回失败状态
+    };
+  });
+};
+
+// 模拟关闭对话框的操作
+const handleClosePic = () => {
+  uploadPic.value = false;
+};
+
+const handle_success = (res) => {
+  //上传图像名称
+  console.log(res.message);
+  ElMessage.success("图片上传成功");
+
+  dialogImageUrl.value = `/image/${res.message}`;
+  // 更新 fileList
+  fileList.value = [
+    {
+      name: res.message,
+      // 用于预览，可以直接从后端返回的 URL 更新
+      url: `/image/${res.message}`, // 或者直接使用 res.data.url, 具体视后端返回数据结构而定
+    },
+  ];
+  console.log(fileList.value[0].url);
+  console.log(fileList.value);
+  console.log(dialogImageUrl.value);
+};
+
+// 图片预览处理函数
+const previewImage = (src) => {
+  dialogImageUrl.value = src; // 设置预览图片的 src
+  myComputerPic.value = true; // 显示预览框
 };
 </script>
 
