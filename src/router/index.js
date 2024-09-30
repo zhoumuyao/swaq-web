@@ -87,9 +87,17 @@ const router = createRouter({
       name:'identify0',
       component:()=>import('@/views/identify/identify0.vue')
     },{
+      path:'/judge',
+      name:'judge',
+      component:()=>import('@/views/identify/judgements.vue')
+    },{
       path:'/identify1',
       name:'identify1',
       component:()=>import('@/views/identify/identify1.vue')
+    },{
+      path:'/identify2',
+      name:'identify2',
+      component:()=>import('@/views/identify/identify2.vue')
     },{
       path:'/infoInput',
       name:'infoInput',
@@ -109,7 +117,12 @@ const router = createRouter({
     },{
       path:'/feedback',
       name:'feedback',
-      component:()=>import('@/views/handle/feedback.vue')
+      component:()=>import('@/views/feedback/feedback.vue')
+    },
+    {
+      path:'/feedbackList',
+      name:'feedbackList',
+      component:()=>import('@/views/feedback/feedbackList.vue')
     }
     // ,{
     //   path:'/handle_sub1',

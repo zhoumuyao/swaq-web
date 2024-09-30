@@ -17,52 +17,6 @@
       <div class="center-container">
         <el-card class="card_box">
           <el-form :model="form" label-width="100px">
-            <el-form-item label="生物危险因子">
-              <el-col :span="16">
-                <div>
-                  <el-scrollbar wrap-class="scrollbar-wrapper">
-                    <el-cascader
-                        placeholder="添加/搜索生物危险因子信息"
-                        :options="options"
-                        v-model="selectedItems"
-                        :props="{ multiple: true }"
-                        filterable
-                        style="width: 100%;"></el-cascader>
-                  </el-scrollbar>
-                </div>
-              </el-col>
-              <el-col :span="2">
-                <div>
-                  <el-popconfirm
-                      width="250"
-                      confirm-button-text="确定"
-                      cancel-button-text="取消"
-                      :icon="InfoFilled"
-                      icon-color="#626AEF"
-                      title="确定清空所有生物危险因子吗？"
-                      @confirm="removeChoosenButton">
-                    <template #reference>
-                      <el-button>清空</el-button>
-                    </template>
-                  </el-popconfirm>
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <!--                  这个按钮是新建一个单独的PDF页面，对应handle_sub1，暂时先
-                放着-->
-                <!--                  <div>-->
-                <!--                    <el-button type="primary" plain @click="openSub1">查看操作规程</el-button>-->
-                <!--                  </div>-->
-                <div>
-                  <el-button type="primary" plain @click="drawer= true">现场处置规程</el-button>
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <div>
-                  <el-button type="primary" plain @click="openSub1">样本的采集与运输</el-button>
-                </div>
-              </el-col>
-            </el-form-item>
 
             <el-form-item label="案件时间">
               <el-row>
@@ -241,15 +195,6 @@
         </el-card>
       </div>
 
-      <el-drawer v-model="drawer" title="I am the title" :with-header="false" size="50%">
-        <!--                <span>Hi there!</span>-->
-
-        <div style="width: 100%;height: 100%;">
-          <embed :src="recordingAndProtection" type="application/pdf"
-                 width="100%" height="100%">
-        </div>
-
-      </el-drawer>
 
       <router-link :to="{path: '/dangerInfo', query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
@@ -312,156 +257,7 @@ const form = ref({
 })
 const selectedItems = ref([]);
 
-const options = ref([{
-  value: 'chuanbo',
-  label: '传播信息',
-  children: [{
-    value: 'Infectiousness',
-    label: '传染性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }, {
-      value: 'null',
-      label: '无'
-    }]
-  }, {
-    value: 'pathway',
-    label: '传播途径',
-    children: [{
-      value: 'Airborne',
-      label: '空气气溶胶传播'
-    }, {
-      value: 'Waterborne',
-      label: '水源传播'
-    },{
-      value: 'Droplet',
-      label: '飞沫传播'
-    },{
-      value: 'Contact',
-      label: '接触传播'
-    },{
-      value: 'Foodborne',
-      label: '食物源传播'
-    },]
-  },{
-    value: 'scope',
-    label: '传播范围',
-    children: [{
-      value: 'global',
-      label: '全球传播'
-    }, {
-      value: 'area',
-      label: '地区传播'
-    }, {
-      value: 'street',
-      label: '街区传播'
-    }, {
-      value: 'home',
-      label: '家庭传播'
-    }]
-  }]
-}, {
-  value: 'tezheng',
-  label: '特征信息',
-  children: [{
-    value: 'Pathogenicity',
-    label: '病原性',
-    children: [{
-      value: 'pathogenic',
-      label: '致病性'
-    }, {
-      value: 'Non-pathogenic',
-      label: '非致病性'
-    }]
-  }, {
-    value: 'Toxicity',
-    label: '毒性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }, {
-      value: 'null',
-      label: '无毒'
-    }]
-  }, {
-    value: 'Invasiveness',
-    label: '侵袭性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }]
-  }, {
-    value: 'Death Rate',
-    label: '致死率',
-    children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'Incidence Rate',
-    label: '发病率',
-    children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'virulence',
-    label: '活性',
-    children: [{
-      value: 'high',
-      label: '高'
-    }, {
-      value: 'medium',
-      label: '中'
-    }, {
-      value: 'low',
-      label: '低'
-    }]
-  }]
-}, ]) ;
+
 
 const airQuality = ref([{
   value: '<50',
@@ -526,55 +322,36 @@ const population = ref([{
   label: '人员密度',
   children: [{
     value: '11',
-    label: '较低'
+    label: '<50人/km²'
     }, {
       value: '12',
-      label: '一般'
+      label: '50-150人/km²'
     }, {
       value: '13',
-      label: '较高'
+      label: '150-1000人/km²'
     },
     {
       value: '14',
-      label: '密集'
+      label: '>1000人/km²'
     }]
-}, {
-  value: '2',
-  label: '分布情况',
-  children: [{
-      value: '21',
-      label: '稀疏'
-    }, {
-      value: '22',
-      label: '分散'
-    }, {
-      value: '23',
-      label: '较密集'
-    }, {
-      value: '24',
-      label: '密集'
-    }, {
-      value: '25',
-      label: '聚集'
-  }]
-}]);
+}, ]);
 
 const activity = ref([{
   value: '1',
-  label: '聚集活动',
+  label: '聚集区密度',
   children: [{
     value: '11',
-    label: '无聚集活动'
+    label: '≤0.5人/㎡'
   }, {
     value: '12',
-    label: '小范围聚集'
+    label: '0.5-1人/㎡'
   }, {
       value: '13',
-      label: '中规模聚集'
+      label: '1-2人/㎡'
   },
   {
     value: '14',
-    label: '大规模聚集'
+    label: '>2人/㎡'
   }]
 }, {
   value: '2',
@@ -668,11 +445,7 @@ const removeChoosenButton = () => {
   selectedItems.value = [];
 }
 
-const openSub1 = () =>{
-  //跳转至现场信息记录与现场保护PDF子页面
-  // router.push('/other-page');
-  window.open('/identify0', '_blank');
-}
+
 
 const getWeatherData = async () => {
   // 调用高德API获取adcode编码
