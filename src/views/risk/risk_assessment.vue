@@ -95,8 +95,9 @@
                   />
                   <embed v-else :src="protective" type="application/pdf" width="100%" height="100%" />
                 </div>-->
-                <input type="file" @change="onFileChange" />
-                <button @click="generateReport" :disabled="!templateFile">生成并下载报告</button>
+                <div style="float: right;margin-top: 20px;margin-right: 50px">
+                  <el-button type="primary" @click="generateReport">生成简易报告</el-button>
+                </div>
               </el-card>
             </div>
           </div>
@@ -214,6 +215,7 @@ import { generateWord } from "@/generateWord.js";
 import site from "./evaluation_plan/site_disposal_plan.pdf";
 import lab from "./evaluation_plan/lab_disposal_plan.pdf";
 import protective from "./evaluation_plan/protective_disposal_plan.pdf";
+import axios from "axios";
 
 const route = useRoute();
 const id = route.query.id;
@@ -308,6 +310,7 @@ const formData = ref({
   time: "2024-10-01",
   place: "动态生成的报告",
 });
+const report = ref("");
 
 // 处理文件上传
 const onFileChange = (e) => {
@@ -321,10 +324,38 @@ const onFileChange = (e) => {
 
 // 生成并下载报告
 const generateReport = () => {
-  if (templateFile.value) {
-    generateWord(templateFile.value, formData.value);
+  console.log(route.query.id);
+  if (route.query.id !== undefined) {
+    axios
+      .post("/api/riskReport/outRiskReport", {
+        id: route.query.id,
+      })
+      .then((response) => {
+        console.log("报告地址为:", response.data);
+        report.value = response.data;
+        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+      })
+      .catch((error) => {
+        console.error("报告生成失败:", error);
+        ElMessage.error(error);
+      });
+
+    // window.location.reload();
   } else {
-    console.error("Template file is not loaded correctly.");
+    const reportId = 15; // 这里是你要传入的id
+    axios
+      .post("/api/riskReport/outRiskReport", {
+        id: reportId,
+      })
+      .then((response) => {
+        console.log("报告地址为:", response.data);
+        report.value = response.data;
+        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+      })
+      .catch((error) => {
+        console.error("报告生成失败:", error);
+        ElMessage.error(error);
+      });
   }
 };
 

@@ -1094,7 +1094,7 @@ const handle_success = (res) => {
   //上传图像名称
   console.log(res.message);
   ElMessage.success("图片上传成功");
-
+  // dialogImageUrl.value = res.message;
   dialogImageUrl.value = `/image/${res.message}`;
   // 更新 fileList
   fileList.value = [
