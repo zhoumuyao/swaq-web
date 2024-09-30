@@ -352,10 +352,12 @@
 </template>
 
 <script setup>
-import {ref, reactive, onBeforeMount} from 'vue';
+import {ref, reactive, onBeforeMount, onMounted} from 'vue';
 import {Plus, Search} from "@element-plus/icons-vue";
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
+import { useCounterStore } from '@/stores/counter';
+const counterStore = useCounterStore()
 
 //-----------start--用到的PDF
 import ADP from './PDF/ADP.pdf';
@@ -672,6 +674,7 @@ const addPerson = () => {
   form.person = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
+  counterStore.addDissectPeople(form.person);
 };
 
 const addLabsPeople = () => {
@@ -764,6 +767,10 @@ const next4 = () => {
 const back4 = () => {
     activeName.value = 'third'
 }
+
+onMounted(() => {
+  counterStore.infectedIndividual = true;
+})
 </script>
 
 

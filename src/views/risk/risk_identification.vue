@@ -597,7 +597,7 @@ import { Search, Plus } from "@element-plus/icons-vue";
 import a from "./detect_plan/infrared.pdf";
 import b from "./detect_plan/lamandetect.pdf";
 import c from "./detect_plan/biodetect.pdf";
-import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage..pdf";
+import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage.pdf";
 import SampleSubmission from "../identify/PDF/SampleSubmission.pdf";
 
 const filteredSamples = computed(() => {
