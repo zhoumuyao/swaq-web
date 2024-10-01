@@ -78,7 +78,7 @@
               <el-card>
                 <!-- <label>实验室活动生物安全要求 </label>
                 <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
-                <div style="width: 100%;height: 30vh;">
+                <!-- <div style="width: 100%;height: 30vh;">
                   <embed
                     v-if="radio=='一级'"
                     :src="site"
@@ -94,6 +94,9 @@
                     height="100%"
                   />
                   <embed v-else :src="protective" type="application/pdf" width="100%" height="100%" />
+                </div>-->
+                <div style="float: right;margin-top: 20px;margin-right: 50px">
+                  <el-button type="primary" @click="generateReport">生成简易报告</el-button>
                 </div>
               </el-card>
             </div>
@@ -208,9 +211,11 @@ import { useRoute } from "vue-router";
 import Sidebar from "../../components/sideBar/SideBar.vue";
 import { ref, onMounted } from "vue";
 import router from "@/router";
+import { generateWord } from "@/generateWord.js";
 import site from "./evaluation_plan/site_disposal_plan.pdf";
 import lab from "./evaluation_plan/lab_disposal_plan.pdf";
 import protective from "./evaluation_plan/protective_disposal_plan.pdf";
+import axios from "axios";
 
 const route = useRoute();
 const id = route.query.id;
@@ -232,25 +237,25 @@ const radio = ref("二级");
 const tableData1 = ref([
   {
     id: 1,
-    virue: "无明确生物风险",
+    virue: "一级生物风险",
   },
   {
     id: 2,
-    virue: "三级生物风险",
-  },
-  {
-    id: 3,
     virue: "二级生物风险",
   },
   {
+    id: 3,
+    virue: "三级生物风险",
+  },
+  {
     id: 4,
-    virue: "一级生物风险",
+    virue: "无明确生物风险",
   },
 ]);
 const tableData2 = ref([
   {
     id: 1,
-    place: "低",
+    place: "高",
     checked: true,
   },
   {
@@ -260,7 +265,7 @@ const tableData2 = ref([
   },
   {
     id: 3,
-    place: "高",
+    place: "低",
     checked: false,
   },
 ]);
@@ -300,6 +305,59 @@ const tableData = ref([
     text: "传染性非典型肺炎，也被称为SARS（严重急性呼吸系统综合征），是一种由SARS冠状病毒引起的严重呼吸系统感染病。它在2002年至2003年期间爆发，导致全球范围内的疫情。传染性非典型肺炎的症状通常包括高热、咳嗽、呼吸急促、乏力和肌肉酸痛。一些患者还可能出现呼吸困难、胸痛、头痛和腹泻等症状。这种疾病的传播主要通过空气飞沫，当一个感染者咳嗽或打喷嚏时，其他人吸入含有病毒的飞沫就可能感染。为了控制传染性非典型肺炎的传播，以下措施被广泛采取：避免前往疫情爆发地区或与疑似感染者密切接触。勤洗手，特别是在接触到可能被病毒污染的表面后。使用口罩等个人防护装备，尤其是在人群密集的公共场所。保持良好的个人卫生习惯，包括避免触摸眼睛、鼻子和口腔。支持和遵循卫生部门的防控措施和指南。如果你怀疑自己患上了传染性非典型肺炎，应尽快就医并告知医生你的症状和可能的暴露史。医生会进行相关检查和诊断，并提供适当的治疗和建议。同时，避免与他人密切接触，以减少病毒的传播。值得注意的是，传染性非典型肺炎目前已经得到有效控制，并且全球卫生组织和各国卫生部门都采取了措施来预防和控制类似疫情的再次发生",
   },
 ]);
+const templateFile = ref(null);
+const formData = ref({
+  time: "2024-10-01",
+  place: "动态生成的报告",
+});
+const report = ref("");
+
+// 处理文件上传
+const onFileChange = (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    templateFile.value = event.target.result;
+  };
+  reader.readAsArrayBuffer(file);
+};
+
+// 生成并下载报告
+const generateReport = () => {
+  console.log(route.query.id);
+  if (route.query.id !== undefined) {
+    axios
+      .post("/api/riskReport/outRiskReport", {
+        id: route.query.id,
+      })
+      .then((response) => {
+        console.log("报告地址为:", response.data);
+        report.value = response.data;
+        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+      })
+      .catch((error) => {
+        console.error("报告生成失败:", error);
+        ElMessage.error(error);
+      });
+
+    // window.location.reload();
+  } else {
+    const reportId = 15; // 这里是你要传入的id
+    axios
+      .post("/api/riskReport/outRiskReport", {
+        id: reportId,
+      })
+      .then((response) => {
+        console.log("报告地址为:", response.data);
+        report.value = response.data;
+        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+      })
+      .catch((error) => {
+        console.error("报告生成失败:", error);
+        ElMessage.error(error);
+      });
+  }
+};
 
 const watchResult = (text0) => {
   textarea.value = text0;

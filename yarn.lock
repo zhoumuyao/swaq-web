@@ -341,6 +341,13 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/pizzip@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.npmmirror.com/@types/pizzip/-/pizzip-3.0.5.tgz"
+  integrity sha512-XnXA0VgZZy/caVTkENhNCGeE6U/TH7MWe2SnqPi137BTcxWlN/s/ijohQm1KngR2XL5TfzWcY3QfJlhgsyBZfg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/raf@^3.4.0":
   version "3.4.3"
   resolved "https://registry.npmmirror.com/@types/raf/-/raf-3.4.3.tgz"

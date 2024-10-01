@@ -568,6 +568,8 @@ import SampleSubmission from "./PDF/SampleSubmission.pdf";
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
 import router from "@/router";
+import { useCounterStore } from '@/stores/counter';
+const counterStore = useCounterStore()
 
 //案件相关id
 import {useRoute} from "vue-router";
@@ -680,7 +682,7 @@ const virus_list = [
   { value: "influenza-virus", label: "流感病毒" },
   { value: "adenovirus", label: "腺病毒" },
 ];
-const toxinselectedOption = ref("");
+const toxinselectedOption = ref("ricin");
 const bacteriaselectedOption = ref("");
 const virusselectedOption = ref("");
 const centerDialogVisible = ref(false);
@@ -847,6 +849,7 @@ const addPerson = () => {
   form.person = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
+  counterStore.addLabsPeople(form.person);
 };
 
 const addLabsPeople = () => {

@@ -25,7 +25,7 @@
                 </router-link>
               </el-col>
               <el-col :span="12">
-                <router-link :to="{path: '/feedback', query: { id: id, back: back }}">
+                <router-link :to="{path: '/identify2', query: { id: id, back: back }}">
                   <el-button type="primary" size="large">
                     否，本次检测不包含染病尸体
                   </el-button>
@@ -45,6 +45,8 @@
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {ref} from "vue";
+import { useCounterStore } from '@/stores/counter';
+const counterStore = useCounterStore()
 
 const activeIndex = ref('/judge')
 const route = useRoute();

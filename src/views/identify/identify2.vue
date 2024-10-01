@@ -14,22 +14,58 @@
         <el-row>
           <el-col :span="12">
             <el-card class="card_container">
-              <span>
+              <span style="font-weight: bolder;font-size: 20px">
                 生物危险因子检测
               </span>
+              <div style="width: 100%;margin-top: 50px;">
+                <span>实验室检验人员</span>
+                <el-table :data="Labspeople" height="150" style="width: 100%;margin-top: 20px;">
+                  <el-table-column prop="id" label="警务号" />
+                  <el-table-column prop="name" label="姓名" />
+                </el-table>
+              </div>
+              <div style="width: 100%;margin-top: 50px;">
+                <span>检验内容</span>
+                <el-table :data="LabsData">
+                  <el-table-column prop="objectClass" label="处置对象" width="80"/>
+                  <el-table-column prop="sampleType" label="采样种类" width="80"/>
+                  <el-table-column prop="sampleContent" label="采样内容" />
+                  <el-table-column prop="testMethod" label="快检方法" />
+                  <el-table-column prop="result" label="快检结果" />
+                </el-table>
+              </div>
               <div>
-
               </div>
             </el-card>
           </el-col>
 
           <el-col :span="12">
             <el-card class="card_container">
-              <span>
+              <span style="font-weight: bolder;font-size: 20px">
                 染病个体解剖查验
               </span>
-              <div>
+              <div v-if="judge === true">
+                <div style="width: 100%;margin-top: 50px;">
+                  <span>实验室检验人员</span>
+                  <el-table :data="Dissectpeople" height="150" style="width: 100%;margin-top: 20px;">
+                    <el-table-column prop="id" label="警务号" />
+                    <el-table-column prop="name" label="姓名" />
+                  </el-table>
+                </div>
 
+                <div style="width: 100%;margin-top: 50px;">
+                  <span>检验内容</span>
+                  <el-table :data="DissectData">
+                    <el-table-column prop="date" label="鉴定日期" width="110"/>
+                    <el-table-column prop="method" label="分析识别方法" width="110" />
+                    <el-table-column prop="body" label="尸表检验" />
+                    <el-table-column prop="physiology" label="病理检验" />
+                    <el-table-column prop="Appraisal" label="鉴定意见" />
+                  </el-table>
+                </div>
+              </div>
+              <div v-else style="align-items: center;">
+                <el-empty description="本次检测不包含染病实体" />
               </div>
             </el-card>
           </el-col>
@@ -54,14 +90,35 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 import router from "@/router";
 import {useRoute} from "vue-router";
+import {post} from "@/net";
+import { useCounterStore } from '@/stores/counter';
+const counterStore = useCounterStore()
 
 const activeIndex =ref("/identify2")
 const route = useRoute();
 const id = route.query.id;
 const back = route.query.back;
+const judge = counterStore.infectedIndividual;
+
+const Labspeople = ref([
+]);
+
+const Dissectpeople = ref([
+]);
+
+const LabsData = ref([]);
+const DissectData = ref([
+  {
+    date: '2024-10-08',
+    method: 'HE染色',
+    body: '体表无明显破损',
+    physiology: '肺动脉血栓栓塞发生猝死',
+    Appraisal: '无'
+  },
+]);
 
 const handleSelect = (index) => {
   // 跳转到对应的路由并带上参数
@@ -75,6 +132,23 @@ const pre = () =>{
 const next = () =>{
   router.push({ path: "/feedback", query: { id: route.query.id, back: route.query.back } });
 }
+
+onMounted(() => {
+  post(
+      "/api/disposal/search_disposal",
+      {
+        id: route.query.id,
+      },
+      (data) => {
+        LabsData.value = data;
+        console.log(LabsData.value);
+        console.log(counterStore.selected_LabsPeople);
+        Labspeople.value = counterStore.selected_LabsPeople;
+        Dissectpeople.value = counterStore.selected_DissectPeople;
+      }
+  );
+});
+
 </script>
 
 <style scoped>
