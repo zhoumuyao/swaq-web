@@ -17,7 +17,7 @@ import router from "@/router";
 import HomePage from "@/components/homePage/homePage.vue";
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
-const numberOnline = ref(1);
+const numberOnline = ref(0);
 const componentKey = ref(0);
 
 const logout = () => {
@@ -33,10 +33,14 @@ const handleWindowResize = () => {
 
 onMounted(() => {
   window.addEventListener('resize', handleWindowResize); // 监听窗口大小变化
+  get('/api/index/online_number', (data) => {
+    numberOnline.value = data;
+  });
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleWindowResize); // 组件销毁时移除事件监听器
+
 });
 
 watch(() => window.innerWidth, handleWindowResize); // 监听窗口宽度变化

@@ -7,13 +7,13 @@
       </div>
       <div class="container">
         <el-card class="card" :body-style="{ height: '95%', padding: '0px' }">
-          <div style="margin: 40px;">
+          <div style="margin: 2rem;">
             <label class="font" style="font-size:21px">进行案件的建立</label>
           </div>
           <div class="case_form">
             <el-form :model="form" label-width="auto" size="large">
               <el-form-item>
-                <label class="font" style="font-size:19px; color: #606266;">案件建立时间:</label>
+                <label class="font" style="font-size:18px; color: #606266;">案件建立时间:</label>
                 <el-date-picker
                   v-model="form.date"
                   type="date"
@@ -31,17 +31,17 @@
                   value-format="HH:mm:ss"
                 />
               </el-form-item>
-              <el-form-item style="margin-top: 30px;">
+              <el-form-item style="margin:1rem 0 0 0;">
                 <div>
-                  <label class="font" style="font-size:19px; color: #606266;">案件建立地点:</label>
+                  <label class="font" style="font-size:18px; color: #606266;">案件建立地点:</label>
                 </div>
-                <el-button type="primary" style="margin-left: 20%" @click="getPosition">
+                <el-button type="primary" style="margin-left: 20%; width: 6rem;" @click="getPosition" size="default">
                   <el-icon>
                     <Location />
                   </el-icon>
                   {{Position}}
                 </el-button>
-                <div style="margin-top: 20px; width: 100%; padding: 10px; ">
+                <div style="margin-top: 1rem; width: 100%; padding:0 10px; ">
                   <label class="font" style="font-size:16px; color: #606266;">经度:</label>
                   <el-input class="position" placeholder="请输入经度" v-model="form.position.longitude"></el-input>
                   <label class="font" style="font-size:16px; color: #606266;">纬度:</label>
@@ -53,17 +53,31 @@
                   <label class="font" style="font-size:16px; color: #606266;">市区:</label>
                   <el-input class="position" placeholder="请输入市区" v-model="form.position.urban"></el-input>
                 </div>
-                <div style="margin-top: 20px; width: 100%;padding: 10px; ">
+                <div style="width: 100%;padding: 10px; ">
                   <div>
                     <label class="font" style="font-size:16px; color: #606266;">具体位置描述:</label>
                   </div>
                   <el-input
-                    style="width: 90%; margin-top: 10px;"
+                    style="width: 90%; "
                     type="textarea"
-                    :autosize="{ minRows: 8, maxRows: 8 }"
+                    :autosize="{ minRows: 4, maxRows: 4 }"
                     placeholder="请输入具体地点描述"
                     v-model="form.position.description"
                   ></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item style="margin-top: 1rem;">
+                <div >
+                  <label class="font" style="font-size:18px; color: #606266;">案件现场基本信息:</label>
+                </div>
+                <div style="margin-top: 1rem; width: 100%; padding:0 10px; ">
+                  <label class="font" style="font-size:16px; color: #606266;">伤亡人数:</label>
+                  <el-input class="message" placeholder="请输入伤亡人数" v-model="form.casualties"></el-input>
+                  <label class="font" style="font-size:16px; color: #606266;">症状信息:</label>
+                  <el-input class="message" placeholder="请输入症状信息" v-model="form.symptomMessage"></el-input>
+                  <label class="font" style="font-size:16px; color: #606266;">影响范围:</label>
+                  <el-input class="message" placeholder="请输入影响范围" style="margin-right:10px;" v-model="form.influenceScope"></el-input>
+                  <label class="font" style="font-size:16px; color: #606266;">km</label>
                 </div>
               </el-form-item>
             </el-form>
@@ -107,6 +121,9 @@ const form = reactive({
     urban: "",
     description: "",
   },
+  casualties: "",
+  symptomMessage: "",
+  influenceScope: "",
 });
 
 const getCurrentTime = () => {
@@ -196,6 +213,9 @@ const createCase = () => {
       province: form.position.province,
       urban: form.position.urban,
       description: form.position.description,
+      casualties: form.casualties,
+      influenceScope: form.influenceScope,
+      symptomMessage: form.symptomMessage,
     },
     (message) => {
       ElMessage.success("新建成功");
@@ -262,8 +282,8 @@ const createCase = () => {
 
 .case_form {
   height: 80%;
-  margin: 0 40px;
-  margin-top: 30px;
+  margin: 0 2rem;
+  margin-top: 1rem;
 }
 
 .footer {
@@ -281,5 +301,11 @@ const createCase = () => {
   margin-left: 10px;
   margin-right: 20px;
   width: 12%;
+}
+
+.message{
+  margin-left: 10px;
+  margin-right: 3rem;
+  width: 20%;
 }
 </style>
