@@ -205,7 +205,7 @@
 
               <el-button
                 type="primary"
-                style="margin-left: 10%; width:"
+                style="margin-left: 10%;"
                 @click="jumpAnalysis"
                 size="large"
               >进行风险分析</el-button>
@@ -501,6 +501,7 @@ onBeforeMount(() => {
     persons.value.forEach(function (item) {
       item.checked = false;
     });
+
   });
 
   post("/api/risk/select_equipment", {}, (data) => {

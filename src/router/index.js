@@ -99,6 +99,10 @@ const router = createRouter({
       name:'identify2',
       component:()=>import('@/views/identify/identify2.vue')
     },{
+      path:'/infoInput0',
+      name:'infoInput0',
+      component:()=>import('@/views/handle/infoInput0.vue')
+    }, {
       path:'/infoInput',
       name:'infoInput',
       component:()=>import('@/views/handle/infoInput.vue')
@@ -110,6 +114,10 @@ const router = createRouter({
       path:'/invest',
       name:'invest',
       component:()=>import('@/views/handle/invest.vue')
+    },{
+      path:'/invest2',
+      name:'invest2',
+      component:()=>import('@/views/handle/invest2.vue')
     },{
       path:'/doHandle',
       name:'doHandle',

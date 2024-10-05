@@ -6,7 +6,7 @@
       <div>
         <!--        现场信息智能录入模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场信息智能录入" ></el-step>
+          <el-step title="现场信息记录" ></el-step>
           <el-step title="生物危险因子信息" ></el-step>
           <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
@@ -64,7 +64,7 @@
           </el-form-item>
           <div class="twice">
             <el-card type="border-card">
-              <img src="https://th.bing.com/th/id/OIP.HAiAGXrT4GRoAeoNfS5e6QHaEL?rs=1&pid=ImgDetMain" alt="Image Description" style="width: 100%; height: auto;">
+              <img src="https://th.bing.com/th/id/OIP.JW97mTjfkAe3wO9R9IiBZQHaFE?rs=1&pid=ImgDetMain"  style="width: 100%; height: auto;">
             </el-card>
             <el-card>
               <p style="font-size: 20px; font-weight: bold; color: #333; line-height: 1.6;">炭疽杆菌（Bacillus anthracis）:
@@ -100,8 +100,6 @@
 
       </div>
 
-
-      <!-- 切换页面-->
       <router-link :to="{path: '/infoInput', query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
@@ -110,7 +108,7 @@
 
       <!-- 切换页面-->
       <router-link :to="{path: '/invest',query: { id: id }}">
-        <el-button class="next-button" type="primary" size="large" @click="createInfo">
+        <el-button class="next-button" type="primary" size="large" @click="">
           下一步
         </el-button>
       </router-link>
@@ -154,13 +152,8 @@ const form = ref({
   description : '',
 })
 const selectedItems = ref([
-  'Infectiousness',  // 选择了传染性
-  'high',            // 选择了高
-  'Airborne' ,      // 选择了空气气溶胶传播
-  'global','pathogenic', 'Very High Mortality',
 ]);
 
-// const selectedItems = ref([]);
 const value = ref('');
 
 const options = ref([{
@@ -316,8 +309,43 @@ const options = ref([{
 
 onMounted(() => {
   console.log("mounted...")
+  queryDanger()
 })
+const queryDanger = async () => {
+  console.log("执行查询并显示danger");
 
+  try {
+    // 发送 GET 请求获取数据
+    const response = await fetch(axios.defaults.baseURL + "/api/dangerInfo/queryDanger?id=" + id, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    // 检查响应是否成功
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    // 解析响应数据
+    const data = await response.json();
+    // 打印数据并赋值给表单
+    console.log("Response data:", data.message);
+
+    // 将后端返回的数据赋值给前端的表单值
+// 解析 JSON 字符串
+    const parsedFeatures = JSON.parse(data.message.features);
+// 提取每个选中的值
+    parsedFeatures.forEach(item => {
+      if (Array.isArray(item)) {
+        selectedItems.value.push(...item);
+      }
+    });
+  } catch (error) {
+    // 捕捉错误并打印
+    console.error("Error:", error);
+  }
+};
 const openSub1 = () =>{
   //跳转至现场信息记录与现场保护PDF子页面
   // router.push('/other-page');

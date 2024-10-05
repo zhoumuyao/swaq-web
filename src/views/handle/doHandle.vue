@@ -6,7 +6,7 @@
       <div>
         <!--        现场处置模块-->
         <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场信息智能录入" ></el-step>
+          <el-step title="现场信息记录" ></el-step>
           <el-step title="生物危险因子信息" ></el-step>
           <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
@@ -121,7 +121,7 @@
       </div>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/invest',query: { id: id }}">
+      <router-link :to="{path: '/invest2',query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>

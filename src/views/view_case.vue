@@ -275,21 +275,27 @@ const module = [
   },
   {
     id: 4,
-    name: "现场详细勘察",
+    name: "现场信息记录",
     father: "现场处置",
-    url: "/handle1",
+    url: "/infoInput",
   },
   {
     id: 5,
-    name: "现场信息录入",
+    name: "生物危险因子信息",
     father: "现场处置",
-    url: "/handle2",
+    url: "/dangerInfo",
   },
   {
     id: 6,
     name: "现场详细勘察",
     father: "现场处置",
-    url: "/handle3",
+    url: "/invest",
+  },
+  {
+    id: 8,
+    name: "现场无害化处理",
+    father: "现场处置",
+    url: "/doHandle",
   },
   {
     id: 7,
