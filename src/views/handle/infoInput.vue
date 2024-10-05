@@ -198,7 +198,7 @@
       </div>
 
 
-      <router-link :to="{path: '/dangerInfo', query: { id: id }}">
+      <router-link :to="{path: '/infoInput0', query: { id: id }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
