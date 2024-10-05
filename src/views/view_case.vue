@@ -277,7 +277,7 @@ const module = [
     id: 4,
     name: "现场信息记录",
     father: "现场处置",
-    url: "/infoInput",
+    url: "/infoInput0",
   },
   {
     id: 5,
