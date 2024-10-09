@@ -126,13 +126,15 @@
                   <el-row>
                     <el-col :span="12">
                       <el-form-item label="人口密度">
-<!--                          <el-input v-model="form.population"></el-input>-->
-                        <el-cascader
-                            v-model="selectedPopulation"
-                            :options="population"
-                            placeholder="请选择"
-                            :props= "{multiple: true}"
-                        ></el-cascader>
+                        <el-select v-model="form.selectedPopulation" placeholder="请选择">
+                          <el-option
+                              v-for="item in selectedPopulation"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            <span style="float: left">{{ item.label }}</span>
+                          </el-option>
+                        </el-select>
                       </el-form-item>
 
 
@@ -192,7 +194,9 @@
             </div>
 
             <div class="baidumap" id="allmap"></div>
-
+            <p style="text-align: center; margin-top: 10px; font-size: 20px; color: #666;">
+              一般选取中心现场区域直径的1.5~3倍范围作为防控保护区域。
+            </p>
           </el-form>
         </el-card>
       </div>
@@ -233,13 +237,13 @@ import {useRoute} from "vue-router";
 
 
 // 当前步骤
-const active = ref(2);
+const active = ref(0);
 const checkboxValue = ref(0)
 const drawer = ref(false);
 const route = useRoute();
 const id = route.query.id;
 const selectedGather = ref([]);
-const selectedPopulation = ref([]);
+// const selectedPopulation = ref([]);
 const form = ref({
   name : '',
   type : ['记录环境参数', '现场勘察', '生物危险因子检材'],
@@ -253,6 +257,7 @@ const form = ref({
   airQuality : '',
   waterQuality: '',
   soilQuality: '',
+  selectedPopulation:'',
   population:'',
   activity:'',
   date1: '',
@@ -308,7 +313,19 @@ const waterQuality= ref([{
   value: '5',
   label: 'V类'
 }]);
-
+const selectedPopulation = ref([{
+  value: '1',
+  label: '<50人/km²'
+},{
+  value: '2',
+  label: '50-150人/km²'
+},{
+  value: '3',
+  label: '150-1000人/km²'
+},{
+  value: '14',
+  label: '>1000人/km²'
+}])
 const soilQuality= ref([{
   value: '1',
   label: '一级'
@@ -320,24 +337,24 @@ const soilQuality= ref([{
   label: '三级'
 }]);
 
-const population = ref([{
-  value: '1',
-  label: '人员密度',
-  children: [{
-    value: '11',
-    label: '<50人/km²'
-    }, {
-      value: '12',
-      label: '50-150人/km²'
-    }, {
-      value: '13',
-      label: '150-1000人/km²'
-    },
-    {
-      value: '14',
-      label: '>1000人/km²'
-    }]
-}, ]);
+// const population = ref([{
+//   value: '1',
+//   label: '人员密度',
+//   children: [{
+//     value: '11',
+//     label: '<50人/km²'
+//     }, {
+//       value: '12',
+//       label: '50-150人/km²'
+//     }, {
+//       value: '13',
+//       label: '150-1000人/km²'
+//     },
+//     {
+//       value: '14',
+//       label: '>1000人/km²'
+//     }]
+// }, ]);
 
 const activity = ref([{
   value: '1',
@@ -399,7 +416,7 @@ function createInvest() {
     water:form.value.waterQuality,
     soil:form.value.soilQuality,
 
-    personelDensity:selectedPopulation.value,
+    personelDensity:form.value.selectedPopulation,
     gather:selectedGather.value,
 
     temperature:form.value.temperature,
@@ -458,6 +475,8 @@ const queryInvest = async () => {
     form.value.windpower = data.message.windSpeed;
     form.value.winddirection = data.message.windDirection;
     form.value.humidity = data.message.humi;
+
+    form.value.selectedPopulation = data.message.personelDensity;
 // 解析 JSON 字符串
     const parsedGather = JSON.parse(data.message.gather);
 // 提取每个选中的值
@@ -468,13 +487,13 @@ const queryInvest = async () => {
     });
 
     // 解析 JSON 字符串
-    const parsedPopulation = JSON.parse(data.message.personelDensity);
-// 提取每个选中的值
-    parsedPopulation.forEach(item => {
-      if (Array.isArray(item)) {
-        selectedPopulation.value.push(...item);
-      }
-    });
+//     const parsedPopulation = JSON.parse(data.message.personelDensity);
+// // 提取每个选中的值
+//     parsedPopulation.forEach(item => {
+//       if (Array.isArray(item)) {
+//         selectedPopulation.value.push(...item);
+//       }
+//     });
 
   } catch (error) {
     // 捕捉错误并打印

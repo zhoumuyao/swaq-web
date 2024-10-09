@@ -250,7 +250,7 @@
 
       <!-- 切换页面-->
       <router-link :to="{path: '/infoInput',query: { id: id }}">
-        <el-button class="next-button" type="primary" size="large" @click="createInvest">
+        <el-button class="next-button" type="primary" size="large" @click="createHandlePEList">
           下一步
         </el-button>
       </router-link>
@@ -296,15 +296,14 @@ onBeforeMount(async() => {
         id: id,
       },
       (data) => {
-        // personIdList.value = data;
-        list.value = data;
+        console.log("6666666")
+        console.log(data)
+        personIdList.value = data;
         form.person = persons.value.filter((person) =>
-            // personIdList.value.includes(person.id)
-            list.value.includes(person.id)
-        );
+            personIdList.value.includes(person.id)
+            );
         persons.value.forEach((item) => {
-          // if (personIdList.value.includes(item.id)) {
-          if (list.value.includes(item.id)) {
+          if (personIdList.value.includes(item.id)) {
             item.checked = true;
           }
         });
@@ -332,9 +331,10 @@ onBeforeMount(async() => {
         });
       }
   );
+  console.log("该案件的数据")
 });
 const personIdList = ref([]);
-const list = ref([]);
+
 const EquipmentIdList = ref([]);
 
 const persons = ref([]);
@@ -512,17 +512,14 @@ const newEquiment = () => {
 
 const addPerson = () => {
   addperson.value = false;
-  // personIdList.value = [];
-  list.value = [];
+  personIdList.value = [];
   persons.value.forEach((person) => {
     if (person.checked) {
-      // personIdList.value.push(person.id);
-      list.value.push(person.id);
+      personIdList.value.push(person.id);
     }
   });
   form.person = persons.value.filter((person) =>
-      // personIdList.value.includes(person.id)
-      list.value.includes(person.id)
+      personIdList.value.includes(person.id)
   );
 
 
@@ -590,56 +587,47 @@ const getRiskEquipmentData = () => {
   }
 };
 
-// const createHandlePEList = () => {
-//   post(
-//       "/api/risk/delete_riskPerson",
-//       {
-//         id: id,
-//       },
-//       (data) => {
-//         post(
-//             "/api/risk/add_riskPerson",
-//             {
-//               id: id,
-//               persons: personIdList.value,
-//             },
-//             (data) => {
-//               router.push({ path: "/risk_identification", query: { id: id } });
-//             },
-//             (data) => {
-//               ElMessage.warning(data);
-//             }
-//         );
-//       },
-//       (data) => {
-//         ElMessage.warning(data);
-//       }
-//   );
-//   post(
-//       "/api/risk/delete_riskEquipment",
-//       {
-//         id: id,
-//       },
-//       (data) => {
-//         post(
-//             "/api/risk/add_riskEquipment",
-//             {
-//               id: id,
-//               equipments: EquipmentIdList.value,
-//             },
-//             (data) => {
-//               router.push({ path: "/risk_identification", query: { id: id } });
-//             },
-//             (data) => {
-//               ElMessage.warning(data);
-//             }
-//         );
-//       },
-//       (data) => {
-//         ElMessage.warning(data);
-//       }
-//   );
-// };
+const createHandlePEList = () => {
+  console.log(666)
+  post(
+      "/api/invest/delete_HandlePerson",
+      {
+        id: id,
+      },
+      (data) => {
+        post(
+            "/api/invest/add_HandlePerson",
+            {
+              id: id,
+              persons: personIdList.value,
+            }
+        );
+      },
+      (data) => {
+        ElMessage.warning(data);
+      }
+  )
+
+
+      post(
+      "/api/invest/delete_HandleEquipment",
+      {
+        id: id,
+      },
+      (data) => {
+        post(
+            "/api/invest/add_HandleEquipment",
+            {
+              id: id,
+              equipments: EquipmentIdList.value,
+            }
+        );
+      },
+      (data) => {
+        ElMessage.warning(data);
+      }
+  );
+};
 </script>
 
 <style scoped>
