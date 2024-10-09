@@ -262,6 +262,7 @@
                   <div style="width: 800px">
                     <el-select
                       v-model="form.type"
+                      @change="sampleInfo"
                       placeholder="请选择采样种类"
                       size="large"
                       style="width: 100%"
@@ -343,50 +344,6 @@
               <iframe :src="PDFsrc" frameborder="0" style="width: 75vw; height: 70vh"></iframe>
             </el-dialog>
           </div>
-
-          <!-- 样本采集和处理 -->
-          <!-- <div v-if="step == 4" style="display: block">
-            <div class="search-card">
-              <el-form :model="formSampleget" :inline="true">
-                <el-form-item label="样本种类：" style="width: 500px">
-                  
-                  <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px">
-                    <el-option
-                      v-for="sample in filteredSamples"
-                      :key="sample.type"
-                      :label="sample.type"
-                      :value="sample.type"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-                
-              </el-form>
-            </div>
-            <div class="search-content">
-              <el-card style="width: 100%; height: 50vh">
-                <div v-if="selectedSample">
-                  <h3>采集方法：</h3>
-                  <p>{{ getSampleByType(selectedSample)?.collectionMethod }}</p>
-                  <h3>处理方法：</h3>
-                  <p>{{ getSampleByType(selectedSample)?.processingMethod }}</p>
-                </div>
-              </el-card>
-            </div>
-            <div class="next-button">
-              <el-button
-                size="large"
-                type="primary"
-                style="width: 120px; margin-right: 20px"
-                @click="step = step - 1"
-              >上一步</el-button>
-              <el-button
-                size="large"
-                type="primary"
-                style="width: 120px; margin-left: 10px"
-                @click="jumpAssessment"
-              >确认</el-button>
-            </div>
-          </div>-->
 
           <div v-if="step == 4">
             <div
@@ -922,6 +879,50 @@ const form = reactive({
   probability: "",
   require: "",
 });
+const sampleInfo = () => {
+  console.log(form.type);
+  switch (form.type) {
+    case "人":
+      form.require =
+        "进行采样时应佩戴个人防护装备，确保工具和容器无菌，并准确记录采样信息。选择合适的采样部位和方法，遵循法律法规和伦理原则";
+      break;
+    case "人尸体":
+      form.require =
+        "使用合适的技术进行采样，确保操作的规范性和科学性。对于液体采样，可使用注射器；对于组织采样，可使用刀具进行切割。";
+      break;
+    case "液体":
+      form.require =
+        "在采样液体时，应使用无菌的注射器或采样器，确保所有设备在采样前经过严格消毒。采样后，立即将液体样本放入标记清晰的容器中，并记录相关信息以确保追溯性。";
+      break;
+    case "现场物品":
+      form.require =
+        "在采样现场物品时，应使用无菌工具和容器，以避免交叉污染，同时确保所需物品表面清洁。采样后，详细记录采样位置、时间和物品信息，以维护样本的完整性和可追溯性。";
+      break;
+    case "组织":
+      form.require =
+        "在采样组织时，应使用无菌手术器械和适当的技术，以减少对周围组织的损伤并确保样本的完整性。采样后，立即将组织样本放入合适的储存容器中，并详细记录相关信息，包括采样部位和时间。";
+      break;
+    case "排泄物":
+      form.require =
+        "在采样排泄物时，应使用干净或无菌的容器，确保样本不受外部污染。采样后，及时封闭容器并标记清晰，同时记录采样日期、时间和相关信息，以便后续分析和追溯。";
+      break;
+    case "呕吐物":
+      form.require =
+        "在采样呕吐物时，应使用无菌容器并佩戴适当的个人防护装备，以防止与生物安全材料接触。采样后，尽快封闭容器并标记清晰，同时记录采样时间、地点和相关信息，以确保样本的有效性和可追溯性。";
+      break;
+    case "分泌物":
+      form.require =
+        "在采样分泌物时，应使用无菌的棉签或采样管，确保操作过程中不发生交叉污染。采样后，立即将分泌物放入合适的标记容器中，并详细记录采样时间、部位和相关信息，以便后续分析和追溯。";
+      break;
+    case "涂抹物":
+      form.require =
+        "在采样涂抹物时，应使用无菌的棉签或刷子，确保在取样过程中避免交叉污染。采样后，立即将涂抹物放入适当的标记容器中，并详细记录采样时间、地点和相关信息，以确保样本的有效性和可追溯性。";
+      break;
+    default:
+      form.require = ""; // 如果没有匹配的类型，清空 require
+      break;
+  }
+};
 const backStep = () => {
   step.value = 0;
   isPerson.value = false;

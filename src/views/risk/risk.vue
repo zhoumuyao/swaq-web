@@ -223,10 +223,8 @@
                 class="upload-demo"
                 ref="uploadInput12"
                 action="https://jsonplaceholder.typicode.com/posts/"
-                :on-success="uploadRiskPic"
                 :on-remove="handleRemove"
                 :auto-upload="false"
-                :file-list="fl"
                 :on-change="uploadRiskPic"
               >
                 <el-button slot="trigger" size="small" type="primary">图片上传</el-button>
@@ -857,7 +855,7 @@ const getRiskEquipmentData = () => {
   }
 
   // 如果 fileList.length > 0 并且设备选项为选项1，则全部选中
-  if (fileList.value.length > 0 && equipment.value === "选项1") {
+  if (isShow && equipment.value === "选项1") {
     data.forEach((item) => {
       item.checked = true; // 全部选中
     });
@@ -1152,7 +1150,6 @@ const isShow = ref(false);
 const uploadRiskPic = async (fileList) => {
   fl.value = fileList;
   isShow.value = true;
-  console.log(fl.value);
 
   // 创建一个 FormData 对象
   const formData = new FormData();
@@ -1179,7 +1176,6 @@ const uploadRiskPic = async (fileList) => {
       id: id,
     },
     (data) => {
-      console.log(data);
       dialogImageUrl.value = axios.defaults.baseURL + data;
       console.log(dialogImageUrl.value);
     }
