@@ -443,61 +443,9 @@
             </div>
           </div>
           <!-- 样本采集和处理 -->
-          <div v-if="step == 8" style="display: block">
-            <div class="search-card">
-              <el-form :model="form" :inline="true">
-                <el-form-item label="样本种类：" style="width: 500px">
-                  <!-- <el-input v-model="description" :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" style="width: 500px;" placeholder="" /> -->
-                  <el-select v-model="selectedSample" placeholder="请选择样本类型" style="width: 500px;">
-                    <el-option
-                      v-for="sample in samples"
-                      :key="sample.type"
-                      :label="sample.type"
-                      :value="sample.type"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-                <!-- <el-form-item>
-                        <el-button type="primary" :icon="Search" @click="handleSearch">一键查询</el-button>
-                </el-form-item>-->
-              </el-form>
-            </div>
-            <div class="search-content">
-              <el-card style="width: 80vw; height: 50vh">
-                <div v-if="selectedSample">
-                  <h3>采集方法：</h3>
-                  <p>
-                    {{
-                    getSampleByType(selectedSample)?.collectionMethod
-                    }}
-                  </p>
-                  <h3>处理方法：</h3>
-                  <p>
-                    {{
-                    getSampleByType(selectedSample)?.collectionMethod
-                    }}
-                  </p>
-                </div>
-              </el-card>
-            </div>
-            <div class="next-button">
-              <el-button
-                size="large"
-                type="primary"
-                style="width: 120px; margin-right: 20px"
-                @click="step = step - 1"
-              >上一步</el-button>
-              <el-button
-                size="large"
-                type="primary"
-                style="width: 120px; margin-left: 10px"
-                @click="step = step + 1"
-              >确认</el-button>
-            </div>
-          </div>
 
           <!-- 样本包装和保存 -->
-          <div v-if="step == 9" class="center-container">
+          <div v-if="step == 8" class="center-container">
             <el-card
               style="
                       width: 45%;
@@ -541,7 +489,7 @@
           </div>
 
           <!-- 标本送检 -->
-          <div v-if="step == 10" class="center-container">
+          <div v-if="step == 9" class="center-container">
             <el-card
               style="
                       width: 45%;
