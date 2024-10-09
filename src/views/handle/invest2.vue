@@ -137,7 +137,7 @@
 
 <script setup >
 // type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=5c913b8a517b8b143534b263a4b3b066"
-import axios from "axios";
+
 import {onBeforeMount, onMounted,reactive} from "vue";
 import { ref } from 'vue';
 import {get, post} from "@/net";
@@ -148,10 +148,9 @@ import example from './PDF/example.pdf';
 // import Sidebar from '../components/sideBar/SideBar.vue';
 import {Location} from "@element-plus/icons-vue";
 import MapLoader from "@/util/util";
-
-onBeforeMount(async() => {
+onBeforeMount(() => {
   console.log(111)
-  await post("/api/infoInput/queryInfo?",
+  post("/api/infoInput/queryInfo?",
       {
         id: id
       },
@@ -162,7 +161,7 @@ onBeforeMount(async() => {
         // 遍历数据并赋值给 images 对象
         for (let i = 1; i <= 19; i++) {
           // 使用 `[` 来动态访问属性
-          images[`image${i}`] = axios.defaults.baseURL + data[i.toString()] || ''; // 如果 data[i] 为 undefined，赋值为空字符串
+          images[`image${i}`] = 'http://localhost:8080' + data[i.toString()] || ''; // 如果 data[i] 为 undefined，赋值为空字符串
         }
         console.log(images.image3)
       });
@@ -170,6 +169,7 @@ onBeforeMount(async() => {
 });
 const route = useRoute();
 const id = route.query.id;
+import axios from "axios";
 import myBMap from "/src/util/myBMap";
 import router from "@/router";
 

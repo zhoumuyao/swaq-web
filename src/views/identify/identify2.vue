@@ -133,8 +133,8 @@ const next = () =>{
   router.push({ path: "/feedback", query: { id: route.query.id, back: route.query.back } });
 }
 
-onMounted(async() => {
-  await post(
+onMounted(() => {
+  post(
       "/api/disposal/search_disposal",
       {
         id: route.query.id,

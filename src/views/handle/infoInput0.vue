@@ -275,22 +275,22 @@ import { ElNotification } from 'element-plus'
 import {useRoute} from "vue-router";
 
 
-onBeforeMount(async() => {
-  await post("/api/risk/select_person", {}, (data) => {
+onBeforeMount(() => {
+  post("/api/risk/select_person", {}, (data) => {
     persons.value = data;
     persons.value.forEach(function (item) {
       item.checked = false;
     });
   });
 
-  await post("/api/risk/select_equipment", {}, (data) => {
+  post("/api/risk/select_equipment", {}, (data) => {
     equipments.value = data;
     equipments.value.forEach(function (item) {
       item.checked = false;
     });
   });
 
-  await post(
+  post(
       "/api/risk/select_RiskPerson",
       {
         id: id,
@@ -312,7 +312,7 @@ onBeforeMount(async() => {
 
   );
 
-  await post(
+  post(
       "/api/risk/select_RiskEquipment",
       {
         id: id,

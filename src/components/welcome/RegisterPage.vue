@@ -21,7 +21,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="police_station">
-          <el-input v-model="form.police_station" type="text" placeholder="所属部门">
+          <el-input v-model="form.police_station" type="text" placeholder="所属警局">
             <template #prefix>
               <el-icon><user/></el-icon>
             </template>
@@ -38,13 +38,6 @@
           <el-input v-model="form.password_repeat" type="password" placeholder="重复密码">
             <template #prefix>
               <el-icon><lock/></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="phone">
-          <el-input v-model="form.phone" type="phone" placeholder="手机号">
-            <template #prefix>
-              <el-icon><Iphone/></el-icon>
             </template>
           </el-input>
         </el-form-item>
@@ -85,7 +78,7 @@
 
 <script setup>
 
-import {EditPen, Lock, Message, User, Iphone} from "@element-plus/icons-vue";
+import {EditPen, Lock, Message, User} from "@element-plus/icons-vue";
 import router from "@/router";
 import {reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
@@ -97,7 +90,6 @@ const form =reactive({
   police_station:'',
   password:'',
   password_repeat:'',
-  phone: '',
   email:'',
   code:''
 })

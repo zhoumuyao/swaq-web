@@ -317,7 +317,7 @@
                   <el-input v-model="form.result" style="width: 800px" placeholder="请输入快检结果" />
                 </el-form-item>
                 <el-form-item>
-                  <label style="font-size: 16px; display: inline-block; width: 200px">检测概率：（百分比）</label>
+                  <label style="font-size: 16px; display: inline-block; width: 200px">检测概率：</label>
                   <el-input v-model="form.probability" style="width: 800px" placeholder="请输入检测概率" />
                 </el-form-item>
                 <el-form-item>

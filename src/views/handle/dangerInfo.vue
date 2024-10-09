@@ -64,7 +64,7 @@
           </el-form-item>
           <div class="twice">
             <el-card type="border-card">
-              <img src="/public/bacteria/anthracis.png"  style="width: 100%; height: auto;">
+              <img src="https://th.bing.com/th/id/OIP.JW97mTjfkAe3wO9R9IiBZQHaFE?rs=1&pid=ImgDetMain"  style="width: 100%; height: auto;">
             </el-card>
             <el-card>
               <p style="font-size: 20px; font-weight: bold; color: #333; line-height: 1.6;">炭疽杆菌（Bacillus anthracis）:
