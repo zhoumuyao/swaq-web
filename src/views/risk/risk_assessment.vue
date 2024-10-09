@@ -419,7 +419,7 @@ const back = () => {
 };
 
 const jumpHandle = () => {
-  router.push({ path: "/infoInput", query: { id: id } });
+  router.push({ path: "/infoInput0", query: { id: id } });
 };
 </script>
 

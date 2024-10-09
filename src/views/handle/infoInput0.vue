@@ -275,25 +275,23 @@ import { ElNotification } from 'element-plus'
 import {useRoute} from "vue-router";
 
 
-onBeforeMount(() => {
-
-  console.log("...........onBeforeMount")
-  post("/api/risk/select_person", {}, (data) => {
+onBeforeMount(async() => {
+  await post("/api/risk/select_person", {}, (data) => {
     persons.value = data;
     persons.value.forEach(function (item) {
       item.checked = false;
     });
   });
 
-  post("/api/risk/select_equipment", {}, (data) => {
+  await post("/api/risk/select_equipment", {}, (data) => {
     equipments.value = data;
     equipments.value.forEach(function (item) {
       item.checked = false;
     });
   });
-  console.log("元数据初始化")
-  post(
-      "/api/invest/select_HandlePerson",
+
+  await post(
+      "/api/risk/select_RiskPerson",
       {
         id: id,
       },
@@ -313,8 +311,8 @@ onBeforeMount(() => {
 
   );
 
-  post(
-      "/api/invest/select_HandleEquipment",
+  await post(
+      "/api/risk/select_RiskEquipment",
       {
         id: id,
       },
