@@ -66,8 +66,8 @@
                   <el-tab-pane label="足迹图片" name="image9">
                     <img :src="images.image9" alt="足迹图片" style="width: 100%; height: auto;">
                   </el-tab-pane>
-                  <el-tab-pane label="生物图片" name="image10">
-                    <img :src="images.image10" alt="生物图片" style="width: 100%; height: auto;">
+                  <el-tab-pane label="手印图片" name="image10">
+                    <img :src="images.image10" alt="手印图片" style="width: 100%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="血液图片" name="image11">
                     <img :src="images.image11" alt="血液图片" style="width: 100%; height: auto;">
