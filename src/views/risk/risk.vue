@@ -3,17 +3,11 @@
     <!--    <sidebar></sidebar>-->
     <div class="content">
       <router-view></router-view>
-      <div
-        style="padding: 20px; border-bottom: solid 2px; border-color: darkgray"
-      >
+      <div style="padding: 20px; border-bottom: solid 2px; border-color: darkgray">
         <label style="font: 20px Extra large">风险评估模块</label>
       </div>
       <div class="steps">
-        <el-steps
-          :active="0"
-          finish-status="success"
-          style="width: 50%; margin-left: 25%"
-        >
+        <el-steps :active="0" finish-status="success" style="width: 50%; margin-left: 25%">
           <el-step title="计划和准备"></el-step>
           <el-step title="风险识别"></el-step>
           <el-step title="风险评价"></el-step>
@@ -44,62 +38,34 @@
                 <div style="width: 100%">
                   <el-form-item label="风险评估地点：">
                     <div style="width: 90%">
-                      <label
-                        class="font"
-                        style="font-size: 14px; color: #606266"
-                        >经度:</label
-                      >
+                      <label class="font" style="font-size: 14px; color: #606266">经度:</label>
                       <el-input
                         class="position"
                         placeholder="请输入经度"
                         v-model="form.position.longitude"
                       ></el-input>
-                      <label
-                        class="font"
-                        style="font-size: 14px; color: #606266"
-                        >纬度:</label
-                      >
+                      <label class="font" style="font-size: 14px; color: #606266">纬度:</label>
                       <el-input
                         class="position"
                         placeholder="请输入经度"
                         v-model="form.position.latitude"
                       ></el-input>
-                      <label
-                        class="font"
-                        style="font-size: 14px; color: #606266"
-                        >国家:</label
-                      >
+                      <label class="font" style="font-size: 14px; color: #606266">国家:</label>
                       <el-input
                         class="position"
                         placeholder="请输入国家"
                         v-model="form.position.country"
                       ></el-input>
-                      <label
-                        class="font"
-                        style="font-size: 14px; color: #606266"
-                        >省份:</label
-                      >
+                      <label class="font" style="font-size: 14px; color: #606266">省份:</label>
                       <el-input
                         class="position"
                         placeholder="请输入省份"
                         v-model="form.position.province"
                       ></el-input>
-                      <label
-                        class="font"
-                        style="font-size: 14px; color: #606266"
-                        >市区:</label
-                      >
-                      <el-input
-                        class="position"
-                        placeholder="请输入市区"
-                        v-model="form.position.urban"
-                      ></el-input>
+                      <label class="font" style="font-size: 14px; color: #606266">市区:</label>
+                      <el-input class="position" placeholder="请输入市区" v-model="form.position.urban"></el-input>
                       <div style="display: block; margin-top: 0.5em">
-                        <label
-                          class="font"
-                          style="font-size: 14px; color: #606266"
-                          >具体描述:</label
-                        >
+                        <label class="font" style="font-size: 14px; color: #606266">具体描述:</label>
                         <el-input
                           class="position"
                           placeholder="具体描述"
@@ -155,18 +121,10 @@
                   <div>
                     <div style="margin-bottom: 10px">
                       <label class="smalllabel">风险评估人员：</label>
-                      <el-button
-                        type="primary"
-                        :icon="Plus"
-                        circle
-                        @click="addperson = true"
-                      ></el-button>
+                      <el-button type="primary" :icon="Plus" circle @click="addperson = true"></el-button>
                     </div>
                     <el-card class="card">
-                      <el-table
-                        :data="form.person"
-                        style="width: 100%; height: 45vh"
-                      >
+                      <el-table :data="form.person" style="width: 100%; height: 45vh">
                         <el-table-column prop="id" label="警务号" width />
                         <el-table-column prop="name" label="姓名" width />
                       </el-table>
@@ -184,28 +142,12 @@
                       ></el-button>
                     </div>
                     <el-card class="card">
-                      <el-table
-                        :data="form.equipment"
-                        style="width: 100%; height: 45vh"
-                      >
+                      <el-table :data="form.equipment" style="width: 100%; height: 45vh">
                         <el-table-column prop="id" label="设备号" width="100" />
-                        <el-table-column
-                          prop="name"
-                          label="设备名"
-                          width="120"
-                        />
-                        <el-table-column
-                          prop="guide"
-                          label="使用说明"
-                          width="120"
-                        >
+                        <el-table-column prop="name" label="设备名" width="120" />
+                        <el-table-column prop="guide" label="使用说明" width="120">
                           <template #default="{ row }">
-                            <el-button
-                              type="primary"
-                              size="small"
-                              @click="viewGuide(row.guide)"
-                              >查看</el-button
-                            >
+                            <el-button type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
                           </template>
                         </el-table-column>
                         <!-- 新增的图片列 -->
@@ -247,27 +189,16 @@
 
                         <el-table-column prop="name" label="操作" width="150">
                           <template #default="{ row }">
-                            <el-button
-                              type="success"
-                              size="small"
-                              @click="playVideo(row.name)"
-                              >播放视频</el-button
-                            >
+                            <el-button type="success" size="small" @click="playVideo(row.name)">播放视频</el-button>
                           </template>
                         </el-table-column>
                       </el-table>
                     </el-card>
                     <el-dialog v-model="videoPlayVisible" title="视频播放">
-                      <video
-                        controls
-                        :src="currentVideoUrl"
-                        style="width: 100%"
-                      ></video>
+                      <video controls :src="currentVideoUrl" style="width: 100%"></video>
                       <template #footer>
                         <span class="dialog-footer">
-                          <el-button @click="videoPlayVisible = false"
-                            >关闭</el-button
-                          >
+                          <el-button @click="videoPlayVisible = false">关闭</el-button>
                         </span>
                       </template>
                     </el-dialog>
@@ -283,40 +214,26 @@
                 style="margin-left: 10%"
                 @click="jumpAnalysis"
                 size="large"
-                >进行风险分析</el-button
-              >
+              >进行风险分析</el-button>
             </div>
-            <el-dialog
-              title="智能对比"
-              v-model="uploadPic"
-              width="80%"
-              :before-close="handleClosePic"
-            >
+            <el-dialog title="智能对比" v-model="uploadPic" width="80%" :before-close="handleClosePic">
               <!-- el-upload 组件 -->
               <el-upload
-                action="http://localhost:8080/api/risk/uploads"
-                :on-success="handle_success"
+                style="margin-left: 5%"
+                class="upload-demo"
+                ref="uploadInput12"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-success="uploadRiskPic"
+                :on-remove="handleRemove"
+                :auto-upload="false"
+                :file-list="fl"
+                :on-change="uploadRiskPic"
               >
-                <!-- <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-                <!-- 上传图标：仅在 fileList 为空时显示 -->
-                <div
-                  v-if="fileList.length === 0"
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                  "
-                >
-                  <el-icon>
-                    <plus />
-                  </el-icon>
-                  <p>上传图片</p>
-                </div>
+                <el-button slot="trigger" size="small" type="primary">图片上传</el-button>
               </el-upload>
               <!-- 显示上传后的图片：fileList 非空时渲染 -->
               <div
-                v-if="fileList.length > 0"
+                v-if="isShow"
                 style="
                   display: grid;
                   grid-template-columns: repeat(2, 1fr);
@@ -346,14 +263,8 @@
                       margin-top: 5%;
                     "
                   >
-                    <label
-                      style="font-size: 16px; margin-right: 10px; width: 100px"
-                      >部位：</label
-                    >
-                    <el-input
-                      v-model="bodyPart"
-                      style="margin-top: 0; width: 200px"
-                    ></el-input>
+                    <label style="font-size: 16px; margin-right: 10px; width: 100px">部位：</label>
+                    <el-input v-model="bodyPart" style="margin-top: 0; width: 200px"></el-input>
                   </div>
                 </div>
                 <div
@@ -370,9 +281,7 @@
                     alt="Comparison Image"
                     style="width: 100%; height: 200px; object-fit: cover"
                   />
-                  <span v-if="compareImages" style="margin-top: 5%"
-                    >输出结果：80 %，与炭疽杆菌致损图片相似</span
-                  >
+                  <span v-if="compareImages" style="margin-top: 5%">输出结果：80 %，与炭疽杆菌致损图片相似</span>
                 </div>
               </div>
               <!-- 图片预览弹窗 -->
@@ -383,18 +292,11 @@
                 <span>
                   <el-button @click="compareImages = true">对 比</el-button>
                   <el-button @click="uploadPic = false">取 消</el-button>
-                  <el-button type="primary" @click="uploadPic = false"
-                    >确 定</el-button
-                  >
+                  <el-button type="primary" @click="uploadPic = false">确 定</el-button>
                 </span>
               </template>
             </el-dialog>
-            <el-dialog
-              v-model="addperson"
-              title="选择风险评估人员"
-              width="600px"
-              draggable
-            >
+            <el-dialog v-model="addperson" title="选择风险评估人员" width="600px" draggable>
               <div style="display: flex; align-items: center">
                 <el-input
                   style="
@@ -423,24 +325,9 @@
 
               <div>
                 <el-table :data="persons" style="width: 100%" type="selection">
-                  <el-table-column
-                    prop="id"
-                    label="警务号"
-                    width="180"
-                    fixed="left"
-                  ></el-table-column>
-                  <el-table-column
-                    prop="name"
-                    label="姓名"
-                    width="180"
-                    fixed="left"
-                  ></el-table-column>
-                  <el-table-column
-                    label="是否选中"
-                    width="180"
-                    fixed="right"
-                    prop="checked"
-                  >
+                  <el-table-column prop="id" label="警务号" width="180" fixed="left"></el-table-column>
+                  <el-table-column prop="name" label="姓名" width="180" fixed="left"></el-table-column>
+                  <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
                     <template #default="{ row }">
                       <el-checkbox v-model="row.checked"></el-checkbox>
                     </template>
@@ -454,50 +341,25 @@
                 </span>
               </template>
             </el-dialog>
-            <el-dialog
-              v-model="addRiskperson"
-              title="新增风险评估人员"
-              width="600px"
-              draggable
-            >
-              <el-form
-                :model="newRiskpeople"
-                style="display: flex; flex-direction: column"
-              >
+            <el-dialog v-model="addRiskperson" title="新增风险评估人员" width="600px" draggable>
+              <el-form :model="newRiskpeople" style="display: flex; flex-direction: column">
                 <el-form-item label="警务号">
-                  <el-input
-                    v-model="newRiskpeople.newid"
-                    style="width: 10rem; margin-left: 5px"
-                  ></el-input>
+                  <el-input v-model="newRiskpeople.newid" style="width: 10rem; margin-left: 5px"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
-                  <el-input
-                    v-model="newRiskpeople.newname"
-                    style="width: 10rem; margin-left: 20px"
-                  ></el-input>
+                  <el-input v-model="newRiskpeople.newname" style="width: 10rem; margin-left: 20px"></el-input>
                 </el-form-item>
               </el-form>
               <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="addRiskperson = false">取消</el-button>
-                  <el-button type="primary" @click="addRiskPeople"
-                    >确认</el-button
-                  >
+                  <el-button type="primary" @click="addRiskPeople">确认</el-button>
                 </span>
               </template>
             </el-dialog>
-            <el-dialog
-              v-model="addequiment"
-              title="选择风险评估设备"
-              width="600px"
-              draggable
-            >
+            <el-dialog v-model="addequiment" title="选择风险评估设备" width="600px" draggable>
               <div style="display: flex; align-items: center">
-                <el-select
-                  v-model="equipment"
-                  placeholder="请选择设备种类"
-                  style="width: 30%"
-                >
+                <el-select v-model="equipment" placeholder="请选择设备种类" style="width: 30%">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -511,18 +373,8 @@
                     v-model="personID"
                     placeholder="请输入设备号"
                   ></el-input>
-                  <el-button
-                    type="primary"
-                    :icon="Search"
-                    @click="handleSearch"
-                    circle
-                  ></el-button>
-                  <el-button
-                    type="primary"
-                    :icon="Plus"
-                    circle
-                    @click="addRiskEquipment = true"
-                  ></el-button>
+                  <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
+                  <el-button type="primary" :icon="Plus" circle @click="addRiskEquipment = true"></el-button>
                 </div>
                 <!-- <div style="display: flex;" v-if="equipment == '选项1'">
                   <el-select
@@ -561,24 +413,9 @@
                   type="selection"
                   height="40vh"
                 >
-                  <el-table-column
-                    prop="id"
-                    label="设备号"
-                    width="180"
-                    fixed="left"
-                  ></el-table-column>
-                  <el-table-column
-                    prop="name"
-                    label="设备名"
-                    width="180"
-                    fixed="left"
-                  ></el-table-column>
-                  <el-table-column
-                    label="是否选中"
-                    width="180"
-                    fixed="right"
-                    prop="checked"
-                  >
+                  <el-table-column prop="id" label="设备号" width="180" fixed="left"></el-table-column>
+                  <el-table-column prop="name" label="设备名" width="180" fixed="left"></el-table-column>
+                  <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
                     <template #default="{ row }">
                       <el-checkbox v-model="row.checked"></el-checkbox>
                     </template>
@@ -588,18 +425,11 @@
               <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="addequiment = false">取消</el-button>
-                  <el-button type="primary" @click="addEquiment"
-                    >确认</el-button
-                  >
+                  <el-button type="primary" @click="addEquiment">确认</el-button>
                 </span>
               </template>
             </el-dialog>
-            <el-dialog
-              v-model="addRiskEquipment"
-              title="新增风险评估设备"
-              width="600px"
-              draggable
-            >
+            <el-dialog v-model="addRiskEquipment" title="新增风险评估设备" width="600px" draggable>
               <el-form :model="equipmentform" label-width="80px">
                 <el-form-item label="设备种类">
                   <div style="display: flex; align-items: center; width: 100%">
@@ -615,10 +445,7 @@
                         :value="item.value"
                       ></el-option>
                     </el-select>
-                    <div
-                      style="display: flex"
-                      v-if="equipmentform.equipment == '选项1'"
-                    >
+                    <div style="display: flex" v-if="equipmentform.equipment == '选项1'">
                       <el-select
                         v-model="equipmentform.grade"
                         placeholder="请选择设备种类"
@@ -644,23 +471,12 @@
               <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="addRiskEquipment = false">取消</el-button>
-                  <el-button type="primary" @click="newEquiment"
-                    >确认</el-button
-                  >
+                  <el-button type="primary" @click="newEquiment">确认</el-button>
                 </span>
               </template>
             </el-dialog>
-            <el-dialog
-              title="预览文件"
-              v-model="isViewPdf20"
-              :before-close="handleClose"
-              width="80vw"
-            >
-              <iframe
-                :src="PDFsrc"
-                frameborder="0"
-                style="width: 75vw; height: 70vh"
-              ></iframe>
+            <el-dialog title="预览文件" v-model="isViewPdf20" :before-close="handleClose" width="80vw">
+              <iframe :src="PDFsrc" frameborder="0" style="width: 75vw; height: 70vh"></iframe>
             </el-dialog>
           </div>
         </el-card>
@@ -676,6 +492,7 @@ import { useRoute } from "vue-router";
 import Sidebar from "../../components/sideBar/SideBar.vue";
 import router from "@/router";
 import { ref, reactive, onBeforeMount } from "vue";
+import axios from "axios";
 import {
   Search,
   Plus,
@@ -887,6 +704,7 @@ const addRiskEquipment = ref(false);
 const uploadPic = ref(false);
 const myComputerPic = ref(false);
 const isUploaded = ref(false);
+const fl = ref([]);
 const fileList = ref([]);
 const dialogImageUrl = ref(""); // 预览图片的 URL
 const compareImages = ref(false);
@@ -1327,6 +1145,45 @@ const handleBeforeUpload = (file) => {
 // 模拟关闭对话框的操作
 const handleClosePic = () => {
   uploadPic.value = false;
+};
+
+const isShow = ref(false);
+
+const uploadRiskPic = async (fileList) => {
+  fl.value = fileList;
+  isShow.value = true;
+  console.log(fl.value);
+
+  // 创建一个 FormData 对象
+  const formData = new FormData();
+  // 添加 IS
+  formData.append("id", id);
+  if (fl.value) formData.append("file", fl.value.raw);
+  // 使用 fetch 发送 POST 请求
+  await axios
+    .post(axios.defaults.baseURL + "/api/risk/uploads", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      console.log("上传成功", response.data);
+    })
+    .catch((error) => {
+      console.error("上传失败", error);
+    });
+
+  await post(
+    "/api/risk/viewPic",
+    {
+      id: id,
+    },
+    (data) => {
+      console.log(data);
+      dialogImageUrl.value = axios.defaults.baseURL + data;
+      console.log(dialogImageUrl.value);
+    }
+  );
 };
 
 const handle_success = (res) => {
