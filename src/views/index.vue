@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { get } from "@/net";
+import { get, post } from "@/net";
 import { ElMessage } from "element-plus";
 import router from "@/router";
 import HomePage from "@/components/homePage/homePage.vue";
@@ -33,7 +33,7 @@ const handleWindowResize = () => {
 
 onMounted(() => {
   window.addEventListener('resize', handleWindowResize); // 监听窗口大小变化
-  get('/api/index/online_number', (data) => {
+  post('/api/index/online_number', {}, (data) => {
     numberOnline.value = data;
   });
 });
