@@ -343,7 +343,7 @@
                     :auto-upload="false"
                   >
                     <el-button slot="trigger" size="small" type="primary"
-                      >生物上传</el-button
+                      >手印上传</el-button
                     >
                   </el-upload>
                 </div>
