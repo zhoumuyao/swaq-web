@@ -503,6 +503,11 @@
   dependencies:
     vue-demi "*"
 
+"@xmldom/xmldom@^0.7.5":
+  version "0.7.13"
+  resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.7.13.tgz"
+  integrity sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==
+
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
   resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz"
@@ -858,6 +863,13 @@ dir-compare@^3.0.0:
     buffer-equal "^1.0.0"
     minimatch "^3.0.4"
 
+docxtemplater@^3.26.4:
+  version "3.26.4"
+  resolved "https://registry.npmmirror.com/docxtemplater/-/docxtemplater-3.26.4.tgz"
+  integrity sha512-ZyRn2n15t3l6sTc/YVLDWNpc5QMXDXRF9y4rof91R5V6y7zhQI+CyzHC/08iMmBQQ6zIr5L7wh/ZuOuoPIV4lQ==
+  dependencies:
+    "@xmldom/xmldom" "^0.7.5"
+
 dompurify@^2.2.0:
   version "2.5.4"
   resolved "https://registry.npmmirror.com/dompurify/-/dompurify-2.5.4.tgz"
@@ -1067,6 +1079,11 @@ fflate@^0.4.8:
   version "0.4.8"
   resolved "https://registry.npmmirror.com/fflate/-/fflate-0.4.8.tgz"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
+
+file-saver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npmmirror.com/file-saver/-/file-saver-2.0.5.tgz"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
 
 filename-reserved-regex@^2.0.0:
   version "2.0.0"
@@ -1470,6 +1487,11 @@ jspdf@^2.5.1:
     dompurify "^2.2.0"
     html2canvas "^1.0.0-rc.5"
 
+jszip-utils@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmmirror.com/jszip-utils/-/jszip-utils-0.1.0.tgz"
+  integrity sha512-tBNe0o3HAf8vo0BrOYnLPnXNo5A3KsRMnkBFYjh20Y3GPYGfgyoclEMgvVchx0nnL+mherPi74yLPIusHUQpZg==
+
 junk@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmmirror.com/junk/-/junk-3.1.0.tgz"
@@ -1723,6 +1745,11 @@ p-try@^1.0.0:
   resolved "https://registry.npmmirror.com/p-try/-/p-try-1.0.0.tgz"
   integrity sha512-U1etNYuMJoIz3ZXSrrySFjsXQTWOx2/jdi86L+2pRvph/qMKL6sbcCYdH23fqsbm8TH2Gn0OybpT4eSFlCVHww==
 
+pako@~1.0.2:
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/pako/-/pako-1.0.11.tgz"
+  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
+
 parse-author@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/parse-author/-/parse-author-2.0.0.tgz"
@@ -1801,6 +1828,13 @@ pinia@^2.1.7:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
     vue-demi ">=0.14.5"
+
+pizzip@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.npmmirror.com/pizzip/-/pizzip-3.0.6.tgz"
+  integrity sha512-CYmQJQ6ShNhScp2zrpGetRfamQ2CtUdsfcXaauqsQ0h/HVdQTTlHNUaNzMO0i+l8XTNctHJ6PrmFP+YZoF4iZw==
+  dependencies:
+    pako "~1.0.2"
 
 pkg-types@^1.0.3, pkg-types@^1.1.1:
   version "1.1.1"

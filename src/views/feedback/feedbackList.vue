@@ -6,8 +6,8 @@
       </div>
       <el-card class="card_box">
         <div style="margin: 70px 50px 0 50px">
-          <el-table :data="tableData" height="400" style="width: 100%">
-            <el-table-column label="评分">
+          <el-table :data="tableData" height="550" style="width: 100%">
+            <el-table-column label="评价反馈内容">
               <template #default="{ row }">
                 <div class="feedback-text">{{ row.feedback }}</div>
               </template>
@@ -62,8 +62,8 @@
       <div style="margin-top: 20px;font-weight: bold;">
         {{ feedback.feedback }}
       </div>
-      <div style="margin-top: 20px;">
-        发布日期：{{ feedback.time }}
+      <div style="float: right;color: dodgerblue">
+        编辑日期：{{ feedback.time }}
       </div>
     </el-dialog>
 

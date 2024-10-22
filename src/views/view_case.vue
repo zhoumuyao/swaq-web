@@ -299,7 +299,7 @@ const module = [
   },
   {
     id: 7,
-    name: "生物危险因子样本采集与运输",
+    name: "生物危险因子检测",
     father: "检验鉴定",
     url: "/identify0",
   },
@@ -307,7 +307,13 @@ const module = [
     id: 9,
     name: "染病个体解剖查验",
     father: "检验鉴定",
-    url: "/identify1",
+    url: "/judge",
+  },
+  {
+    id: 10,
+    name: "检验鉴定报告",
+    father: "检验鉴定",
+    url: "/identify2",
   },
 ];
 
