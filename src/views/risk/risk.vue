@@ -1156,6 +1156,7 @@ const uploadRiskPic = async (fileList) => {
   // 添加 IS
   formData.append("id", id);
   if (fl.value) formData.append("file", fl.value.raw);
+  console.log(fl.value.raw);
   // 使用 fetch 发送 POST 请求
   await axios
     .post(axios.defaults.baseURL + "/api/risk/uploads", formData, {
