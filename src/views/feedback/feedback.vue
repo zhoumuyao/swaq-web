@@ -52,6 +52,10 @@
         </el-button>
       </router-link>
     </div>
+    <el-drawer v-model="drawer" :with-header="false">
+      <iframe v-if="pdfUrl" :src="pdfUrl" width="100%" height="100%"></iframe>
+      <p v-else>正在加载 PDF，请稍候...</p>
+    </el-drawer>
   </div>
 </template>
 
@@ -65,10 +69,7 @@ import uploadImage from '../handle/image/sj.jpg'
 import ttf from '../handle/simhei.ttf'
 // import report from "@/views/handle/PDF/report.pdf";
 import axios from "axios";
-
-
-
-
+import security from "@/views/identify/PDF/病原微生物实验室生物安全管理条例-2018修订版.pdf";
 
 // 当前步骤
 const drawer = ref(false)
@@ -80,6 +81,7 @@ const alertVisible = ref(false)
 const route = useRoute();
 const id = route.query.id;
 const report = ref("");
+const pdfUrl = ref(null);
 const folderPath = ref("");
 
 // const handleFolderSelect = (event) => {
@@ -103,61 +105,71 @@ const folderPath = ref("");
 
 const submit = () => {
   if(textarea.value !== '' && Starvalue.value > 0){
-
-    axios.post('/api/feedback/addFeedback', {
-      id: 15,
-      feedback: textarea.value,
-      rate: Starvalue.value
-    })
-        .then(response => {
-          console.log('反馈提交成功:', response.data);
-          ElMessage.success("反馈提交成功")
-        })
-        .catch(error => {
-          console.error('提交反馈失败:', error);
-          ElMessage.error(error)
-        });
-    // window.location.reload();
-    Starvalue.value = 0;
-    textarea.value = '';
-
+    if(route.query.id === undefined){
+      ElMessage.error("未获取到案件编号")
+    }
+    else{
+      axios.post('/api/feedback/addFeedback', {
+        id: route.query.id,
+        feedback: textarea.value,
+        rate: Starvalue.value
+      })
+          .then(response => {
+            console.log('反馈提交成功:', response.data);
+            ElMessage.success("反馈提交成功")
+          })
+          .catch(error => {
+            console.error('提交反馈失败:', error);
+            ElMessage.error(error)
+          });
+      // window.location.reload();
+      Starvalue.value = 0;
+      textarea.value = '';
+    }
   } else {
     alert('请填写评分和反馈内容。');
   }
 }
-const  generateReport = () => {
+const generateReport = async () => {
   console.log(route.query.id)
   if(route.query.id !== undefined){
-    axios.post('/api/report/outReport',{
-      id: route.query.id,
-    })
-    .then(response => {
-      console.log('报告地址为:', response.data);
-      report.value =  response.data;
-      ElMessage.success("报告已保存至桌面【tempPDF】文件夹")
-    })
-    .catch(error => {
-      console.error('报告生成失败:', error);
-      ElMessage.error(error)
-    });
-    drawer.value = true
-    // window.location.reload();
+    // axios.post('/api/report/outReport',{
+    //   id: route.query.id,
+    // })
+    // .then(response => {
+    //   console.log('报告地址为:', response.data);
+    //   report.value =  response.data;
+    //   ElMessage.success("报告已保存至桌面【tempPDF】文件夹")
+    // })
+    // .catch(error => {
+    //   console.error('报告生成失败:', error);
+    //   ElMessage.error(error)
+    // });
+    try {
+      const response = await axios.post('/api/report/outReport', {
+        id: route.query.id,
+      }, {
+        responseType: 'blob' // 设置响应类型为blob
+      });
 
+      // 创建一个 URL 对象来预览 PDF
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      pdfUrl.value = URL.createObjectURL(blob); // 创建一个 URL 对象
+      drawer.value = true;
+
+      // 可选: 如果希望直接下载 PDF
+      // const link = document.createElement('a');
+      // link.href = this.pdfUrl;
+      // link.setAttribute('download', 'document.pdf'); // 设定文件名
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
+
+    } catch (error) {
+      console.error('下载报告失败:', error);
+    }
   } else {
-    const reportId = 15; // 这里是你要传入的id
-    axios.post('/api/report/outReport', {
-        id: reportId,
-    })
-    .then(response => {
-      console.log('报告地址为:', response.data);
-      report.value =  response.data;
-      ElMessage.success("报告已保存至桌面【tempPDF】文件夹")
-    })
-    .catch(error => {
-      console.error('报告生成失败:', error);
-      ElMessage.error(error)
-    });
-    drawer.value = true
+    ElMessage.error("未获取到案件编号");
   }
 }
 
