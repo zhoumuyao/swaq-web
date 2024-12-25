@@ -21,11 +21,22 @@
             <el-form-item label="案件时间">
               <el-row>
                 <el-col :span="11">
-                  <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+                  <el-date-picker
+                      type="date"
+                      placeholder="选择日期"
+                      format="YYYY/MM/DD"
+                      value-format="YYYY-MM-DD"
+                      v-model="form.date1"
+                      style="width: 100%;"></el-date-picker>
                 </el-col>
                 <el-col :span="2" > </el-col>
                 <el-col :span="11">
-                  <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+                  <el-time-picker
+                      placeholder="选择时间"
+                      format="HH:mm:ss"
+                      value-format="HH:mm:ss"
+                      v-model="form.date2"
+                      style="width: 100%;"></el-time-picker>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -337,24 +348,6 @@ const soilQuality= ref([{
   label: '三级'
 }]);
 
-// const population = ref([{
-//   value: '1',
-//   label: '人员密度',
-//   children: [{
-//     value: '11',
-//     label: '<50人/km²'
-//     }, {
-//       value: '12',
-//       label: '50-150人/km²'
-//     }, {
-//       value: '13',
-//       label: '150-1000人/km²'
-//     },
-//     {
-//       value: '14',
-//       label: '>1000人/km²'
-//     }]
-// }, ]);
 
 const activity = ref([{
   value: '1',
@@ -401,8 +394,8 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  queryInvest()
   console.log("mounted...")
+  queryInvest()
 
 })
 
@@ -410,8 +403,8 @@ function createInvest() {
   console.log("执行添加invest")
   const requestBody = {
     id:id,
-    // date:form.value.date1,
-    // time:form.value.date2,
+    date:form.value.date1,
+    time:form.value.date2,
     airQuality:form.value.airQuality,
     water:form.value.waterQuality,
     soil:form.value.soilQuality,
@@ -425,6 +418,7 @@ function createInvest() {
     windDirection:form.value.winddirection,
     humi:form.value.humidity
   };
+  console.log(requestBody)
   fetch(axios.defaults.baseURL + "/api/invest/createInvest", {
     method: "POST",
     headers: {
@@ -465,6 +459,8 @@ const queryInvest = async () => {
 
     // 将后端返回的数据赋值给前端的表单值
     form.value.airQuality = data.message.airQuality;
+    form.value.date1 = data.message.date;
+    form.value.date2 = data.message.time;
     form.value.waterQuality = data.message.water;
     form.value.soilQuality = data.message.soil;
     form.value.population = data.message.personelDensity;
@@ -486,14 +482,6 @@ const queryInvest = async () => {
       }
     });
 
-    // 解析 JSON 字符串
-//     const parsedPopulation = JSON.parse(data.message.personelDensity);
-// // 提取每个选中的值
-//     parsedPopulation.forEach(item => {
-//       if (Array.isArray(item)) {
-//         selectedPopulation.value.push(...item);
-//       }
-//     });
 
   } catch (error) {
     // 捕捉错误并打印

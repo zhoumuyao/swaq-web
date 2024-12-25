@@ -588,46 +588,67 @@ const getRiskEquipmentData = () => {
 };
 
 const createHandlePEList = () => {
-  console.log(666)
+  console.log(666);
+
+  // 删除处理人员
   post(
       "/api/invest/delete_HandlePerson",
-      {
-        id: id,
-      },
-      (data) => {
+      { id: id },
+      (deletePersonData) => { // 删除成功的回调
+        console.log(888);
+
+        // 添加处理人员
         post(
             "/api/invest/add_HandlePerson",
             {
               id: id,
               persons: personIdList.value,
+            },
+            (addPersonData) => { // 添加成功的回调
+              console.log("打他"); // 成功时输出 "打他"
+            },
+            (addPersonError) => { // 添加失败的回调
+              console.error("添加处理人员失败:", addPersonError);
+              ElMessage.warning(addPersonError);
             }
         );
       },
-      (data) => {
-        ElMessage.warning(data);
+      (deletePersonError) => { // 删除失败的回调
+        console.error("删除处理人员失败:", deletePersonError);
+        ElMessage.warning(deletePersonError);
       }
-  )
+  );
 
-
-      post(
+  // 删除处理设备
+  post(
       "/api/invest/delete_HandleEquipment",
-      {
-        id: id,
-      },
-      (data) => {
+      { id: id },
+      (deleteEquipmentData) => { // 删除成功的回调
+        console.log(888);
+
+        // 添加处理设备
         post(
             "/api/invest/add_HandleEquipment",
             {
               id: id,
               equipments: EquipmentIdList.value,
+            },
+            (addEquipmentData) => { // 添加成功的回调
+              console.log("打他"); // 成功时输出 "打他"
+            },
+            (addEquipmentError) => { // 添加失败的回调
+              console.error("添加处理设备失败:", addEquipmentError);
+              ElMessage.warning(addEquipmentError);
             }
         );
       },
-      (data) => {
-        ElMessage.warning(data);
+      (deleteEquipmentError) => { // 删除失败的回调
+        console.error("删除处理设备失败:", deleteEquipmentError);
+        ElMessage.warning(deleteEquipmentError);
       }
   );
 };
+
 </script>
 
 <style scoped>
