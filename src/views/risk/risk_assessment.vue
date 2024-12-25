@@ -115,6 +115,10 @@
               @click="jumpHandle"
             >完成</el-button>
           </div>
+          <el-drawer v-model="drawer" :with-header="false">
+            <iframe v-if="pdfUrl" :src="pdfUrl" width="100%" height="100%"></iframe>
+            <p v-else>正在加载 PDF，请稍候...</p>
+          </el-drawer>
         </el-card>
       </div>
 
@@ -323,39 +327,63 @@ const onFileChange = (e) => {
 };
 
 // 生成并下载报告
-const generateReport = () => {
+const pdfUrl = ref(null);
+const drawer = ref(false);
+const generateReport = async () => {
   console.log(route.query.id);
-  if (route.query.id !== undefined) {
-    axios
-      .post("/api/riskReport/outRiskReport", {
-        id: route.query.id,
-      })
-      .then((response) => {
-        console.log("报告地址为:", response.data);
-        report.value = response.data;
-        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
-      })
-      .catch((error) => {
-        console.error("报告生成失败:", error);
-        ElMessage.error(error);
-      });
+  // if (route.query.id !== undefined) {
+  //   axios
+  //     .post("/api/riskReport/outRiskReport", {
+  //       id: route.query.id,
+  //     })
+  //     .then((response) => {
+  //       console.log("报告地址为:", response.data);
+  //       report.value = response.data;
+  //       ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+  //     })
+  //     .catch((error) => {
+  //       console.error("报告生成失败:", error);
+  //       ElMessage.error(error);
+  //     });
 
-    // window.location.reload();
+  //   // window.location.reload();
+  // } else {
+  //   const reportId = 15; // 这里是你要传入的id
+  //   axios
+  //     .post("/api/riskReport/outRiskReport", {
+  //       id: reportId,
+  //     })
+  //     .then((response) => {
+  //       console.log("报告地址为:", response.data);
+  //       report.value = response.data;
+  //       ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
+  //     })
+  //     .catch((error) => {
+  //       console.error("报告生成失败:", error);
+  //       ElMessage.error(error);
+  //     });
+  // }
+  if (route.query.id !== undefined) {
+    try {
+      const response = await axios.post(
+        "/api/riskReport/report",
+        {
+          id: route.query.id,
+        },
+        {
+          responseType: "blob", // 设置响应类型为blob
+        }
+      );
+
+      // 创建一个 URL 对象来预览 PDF
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      pdfUrl.value = URL.createObjectURL(blob); // 创建一个 URL 对象
+      drawer.value = true;
+    } catch (error) {
+      console.error("下载报告失败:", error);
+    }
   } else {
-    const reportId = 15; // 这里是你要传入的id
-    axios
-      .post("/api/riskReport/outRiskReport", {
-        id: reportId,
-      })
-      .then((response) => {
-        console.log("报告地址为:", response.data);
-        report.value = response.data;
-        ElMessage.success("报告已保存至桌面【tempPDF】文件夹");
-      })
-      .catch((error) => {
-        console.error("报告生成失败:", error);
-        ElMessage.error(error);
-      });
+    ElMessage.error("未获取到案件编号");
   }
 };
 
