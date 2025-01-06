@@ -165,6 +165,7 @@
                 </div>
                 <el-card style="margin: 5px">
                   <el-table :data="disposal_obj" stripe style="width: 100%">
+                    <el-table-column prop="disposalId" label="序号"></el-table-column>
                     <el-table-column prop="objectClass" label="处置对象"></el-table-column>
                     <el-table-column prop="sampleType" label="采样种类"></el-table-column>
                     <el-table-column prop="sampleContent" label="采样内容"></el-table-column>
@@ -208,6 +209,15 @@
                           size="small"
                           @click="playVideo(row.testMethod)"
                         >播放视频</el-button>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="删除" width="120">
+                      <template #default="{ row }">
+                        <el-button
+                          type="primary"
+                          size="small"
+                          @click="deleteObject(row.disposalId)"
+                        >删除</el-button>
                       </template>
                     </el-table-column>
 
@@ -783,16 +793,20 @@ const itemOptions = [
 
 const epidemicOptions = [
   {
-    value: "人",
-    label: "人",
+    value: "土壤",
+    label: "土壤",
   },
   {
-    value: "人尸体",
-    label: "人尸体",
+    value: "植被",
+    label: "植被",
   },
   {
-    value: "液体",
-    label: "液体",
+    value: "湿度",
+    label: "湿度",
+  },
+  {
+    value: "温度",
+    label: "温度",
   },
 ];
 
@@ -905,6 +919,42 @@ const back = () => {
   router.push({ path: "/risk", query: { id: id, back: 1 } });
 };
 
+const deleteObject = (disposalId) => {
+  ElMessageBox.confirm("是否删除该处置方案", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    console.log(disposalId);
+    var deleteId = parseInt(disposalId);
+    console.log(typeof deleteId);
+    post(
+      "/api/disposal/delete_disposal",
+      {
+        disposalId: disposalId,
+      },
+      (data) => {
+        console.log(data);
+        post(
+          "/api/disposal/search_disposal",
+          {
+            id: id,
+          },
+          (data) => {
+            console.log(id);
+            console.log(data);
+            // data.forEach((item) => {
+            //   disposal_obj.objectClass
+            // })
+            console.log(data);
+            disposal_obj.value = data;
+          }
+        );
+      }
+    );
+  });
+};
+
 const addDisposal = () => {
   adddisposal.value = false;
   if (objectClass.value == 1) {
@@ -914,6 +964,8 @@ const addDisposal = () => {
   } else if (objectClass.value == 3) {
     objectClassStr.value = "疫源";
   }
+  console.log(typeof id);
+
   post(
     "/api/disposal/add_disposal",
     {

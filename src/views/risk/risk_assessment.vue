@@ -67,34 +67,30 @@
             <div class="last_row">
               <el-card class="jugehappen">
                 <div slot="header" class="jugehappentop">
-                  <span>评估方案</span>
+                  <span>其他信息</span>
                 </div>
-                <el-radio-group v-model="radio">
+                <!-- <el-radio-group v-model="radio">
                   <el-radio label="一级">现场处置</el-radio>
                   <el-radio label="二级">实验室处置</el-radio>
                   <el-radio label="三级">防护处置</el-radio>
-                </el-radio-group>
+                </el-radio-group>-->
+                <div style="margin-top: 10px;">
+                  <label style="display: inline-block; vertical-align: middle;">病原性</label>
+
+                  <el-input
+                    v-model="pathogenicity"
+                    style="display: inline-block; margin-left: 10px;width: 50%;"
+                  ></el-input>
+                </div>
+                <div style="margin-top: 10px;">
+                  <label style="display: inline-block; vertical-align: middle;">致死率</label>
+                  <el-input
+                    v-model="fatalityRate"
+                    style="display: inline-block; margin-left: 10px;width: 50%;"
+                  ></el-input>
+                </div>
               </el-card>
               <el-card>
-                <!-- <label>实验室活动生物安全要求 </label>
-                <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
-                <!-- <div style="width: 100%;height: 30vh;">
-                  <embed
-                    v-if="radio=='一级'"
-                    :src="site"
-                    type="application/pdf"
-                    width="100%"
-                    height="100%"
-                  />
-                  <embed
-                    v-if="radio=='二级'"
-                    :src="lab"
-                    type="application/pdf"
-                    width="100%"
-                    height="100%"
-                  />
-                  <embed v-else :src="protective" type="application/pdf" width="100%" height="100%" />
-                </div>-->
                 <div style="float: right;margin-top: 20px;margin-right: 50px">
                   <el-button type="primary" @click="generateReport">生成简易报告</el-button>
                 </div>
@@ -121,95 +117,12 @@
           </el-drawer>
         </el-card>
       </div>
-
-      <!-- <div v-show="isWarning">
-                <el-alert title="" type="error" center :closable="false" style="height: 50px; padding-bottom: 15px;">
-                    <label style="font-size: 18px;">生物危险高风险事件</label>
-                </el-alert>
-                <div class="description">
-                    <div style="margin:0 40px 0 40px">
-                        <label class="label">生物危险因子：</label>
-                        <div class="text">
-                            <el-table
-                                :data="tableData"
-                                style="width: 100%">
-                                <el-table-column
-                                    prop="virue"
-                                    label="病毒"
-                                    width="360">
-                                </el-table-column>
-                                <el-table-column
-                                    label="操作" 
-                                    width="180">
-                                    <template #default="{ row }">
-                                        <el-button type="text" @click="() => watchResult(row.text)">查看</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="label">生物危险因子检测结果：</label>
-                        <div class="text">
-                            <label class="label">{{ textarea }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-left: 35%;">
-                    <el-button type="primary" style="margin-top: 80px; width: 120px;height: 40px;" @click="dialogVisible = true">查看类似案件</el-button>
-                    <router-link :to="{ path: '/risk' }">
-                        <el-button type="primary" style="margin-top: 80px; width: 120px;height: 40px; margin-left: 10%;"
-                            @click="next">完成</el-button>
-                    </router-link>
-                </div>
-                <el-dialog title="类似生物案件" v-model="dialogVisible" width="60%">
-                    <div class="description">
-                        <div style="margin:0 10px;">
-                            <label style="font-size: 15px; margin-bottom: 20px; display: block;">类似生物案件现场图：</label>
-                            <el-carousel height="300px">
-                                <el-carousel-item v-for="item in sceneImg" :key="item.id">
-                                    <el-image :src="item.url" alt="" style="width: 100%; height:100%;"></el-image>
-                                </el-carousel-item>
-                            </el-carousel>
-                        </div>
-                        <div>
-                            <label style="font-size: 15px; margin-bottom: 20px; display: block; margin-left: 10px;">类似生物案件信息：</label>
-                            <div class="text" style="margin:0 10px; height:300px">
-                                <label class="label" style="font-size: 12px;">{{ text0 }}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <template #footer>
-                        <span class="dialog-footer">
-                            <el-button @click="dialogVisible = false" type="primary">关闭</el-button>
-                        </span>
-                    </template>
-                </el-dialog>
-            </div>
-            <div v-show="isWarning == false">
-                <el-alert title="" type="success" center :closable="false" style="height: 50px; padding-bottom: 15px;">
-                    <label style="font-size: 18px;">常规案件</label>
-                </el-alert>
-                <label class="label" style="margin-left: 32%;">现场图片:</label>
-                <div class="img1">
-                    <img :src="$route.query.img" style="height: 100%; width: 100%;">
-                </div>
-                <div style="margin-left: 46%;">
-                    <router-link :to="{ path: '/risk' }">
-                        <el-button type="primary" style="margin-top: 30px; width: 120px;height: 40px;"
-                            @click="next">完成</el-button>
-                    </router-link>
-                </div>
-            </div>
-            <div>
-
-      </div>-->
     </div>
   </div>
 </template>
 
 <script setup>
-import { get } from "@/net";
+import { get, post } from "@/net";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import Sidebar from "../../components/sideBar/SideBar.vue";
@@ -309,6 +222,52 @@ const tableData = ref([
     text: "传染性非典型肺炎，也被称为SARS（严重急性呼吸系统综合征），是一种由SARS冠状病毒引起的严重呼吸系统感染病。它在2002年至2003年期间爆发，导致全球范围内的疫情。传染性非典型肺炎的症状通常包括高热、咳嗽、呼吸急促、乏力和肌肉酸痛。一些患者还可能出现呼吸困难、胸痛、头痛和腹泻等症状。这种疾病的传播主要通过空气飞沫，当一个感染者咳嗽或打喷嚏时，其他人吸入含有病毒的飞沫就可能感染。为了控制传染性非典型肺炎的传播，以下措施被广泛采取：避免前往疫情爆发地区或与疑似感染者密切接触。勤洗手，特别是在接触到可能被病毒污染的表面后。使用口罩等个人防护装备，尤其是在人群密集的公共场所。保持良好的个人卫生习惯，包括避免触摸眼睛、鼻子和口腔。支持和遵循卫生部门的防控措施和指南。如果你怀疑自己患上了传染性非典型肺炎，应尽快就医并告知医生你的症状和可能的暴露史。医生会进行相关检查和诊断，并提供适当的治疗和建议。同时，避免与他人密切接触，以减少病毒的传播。值得注意的是，传染性非典型肺炎目前已经得到有效控制，并且全球卫生组织和各国卫生部门都采取了措施来预防和控制类似疫情的再次发生",
   },
 ]);
+var dangerName = ref("");
+var diseasesClass = ref("");
+var infectious = ref("");
+var pathogenicity = ref("");
+var fatalityRate = ref("");
+
+onMounted(async () => {
+  post(
+    "/api/biologyInfo/find_dangername",
+    {
+      id: id,
+    },
+    (res) => {
+      console.log(res);
+      dangerName.value = res;
+      post(
+        "/api/biologyInfo/searchInfo",
+        {
+          dangerName: dangerName.value,
+        },
+        (data) => {
+          console.log(data);
+          diseasesClass.value = data.diseasesClass;
+          infectious.value = data.infectious;
+          pathogenicity.value = data.pathogenicity;
+          fatalityRate.value = data.fatalityRate;
+          if (diseasesClass.value == "甲类") {
+            riskGradeRadio.value = "1";
+          } else if (diseasesClass.value == "乙类") {
+            riskGradeRadio.value = "2";
+          } else if (diseasesClass.value == "丙类") {
+            riskGradeRadio.value = "3";
+          }
+          if (infectious.value == "一级") {
+            emergencyResponse.value = "1";
+          } else if (infectious.value == "二级") {
+            emergencyResponse.value = "2";
+          } else if (infectious.value == "三级") {
+            emergencyResponse.value = "3";
+          }
+        }
+      );
+    }
+  );
+});
+
 const templateFile = ref(null);
 const formData = ref({
   time: "2024-10-01",
