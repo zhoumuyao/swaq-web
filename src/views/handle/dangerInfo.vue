@@ -66,23 +66,54 @@
             <el-card type="border-card">
               <img src="/public/bacteria/anthracis.png"  style="width: 100%; height: auto;">
             </el-card>
+
             <el-card>
-              <p style="font-size: 20px; font-weight: bold; color: #333; line-height: 1.6;">炭疽杆菌（Bacillus anthracis）:
+              <p style="font-size: 20px; font-weight: bold; color: #333; line-height: 1.6;">
+                生物危险因子名称：{{ dangerName }}
               </p>
-              <p> 是一种革兰氏阳性、形成孢子的杆状细菌，是炭疽病的病原体。它能够在自然环境中形成休眠孢子，具备高度的环境耐受性。炭疽杆菌主要通过接触受污染的动物产品、吸入孢子或食用被感染的动物而感染人体，感染形式包括皮肤炭疽、肺炭疽和肠炭疽，均可能引发严重甚至致命的症状。该菌还因其潜在的生物武器用途而备受关注
-              </p>
-        </el-card>
+
+              <!-- 传播途径输入框 -->
+              <el-form-item label="传播途径">
+                <el-input
+                    v-model="transmissionRoute"
+                    placeholder="请输入传播途径"
+                    type="textarea"
+                    :autosize="{ minRows: 1, maxRows: 3 }"
+                    style="width: 400px;">
+                </el-input>
+              </el-form-item>
+              <!-- 传播范围输入框 -->
+              <el-form-item label="传播范围">
+                <el-input
+                    v-model="transmissionRange"
+                    placeholder="请输入传播范围"
+                    type="textarea"
+                    :autosize="{ minRows: 1, maxRows: 3 }"
+                    style="width: 400px;">
+                </el-input>
+              </el-form-item>
+
+              <el-form-item label="活性">
+                <el-input
+                    v-model="activity"
+                    placeholder="请输入活性"
+                    type="textarea"
+                    :autosize="{ minRows: 1, maxRows: 3 }"
+                    style="width: 400px;margin-left: 30px">
+                </el-input>
+              </el-form-item>
+            </el-card>
 
           </div>
-          <el-card style="margin-left: 2%;margin-right: 2%;margin-bottom: 5%">
-            <p style="font-size: 16px;  line-height: 1.6;">
-              炭疽杆菌 (Bacillus anthracis) 的基因组是一条环状双链 DNA，大小约为5.23百万碱基对（Mb），其染色体包含多个重要基因，决定了它的致病性和生存能力。该菌的基因组具有两个质粒，分别为 pXO1 和 pXO2，这两个质粒携带了关键的毒力基因。
+<!--          <el-card style="margin-left: 2%;margin-right: 2%;margin-bottom: 5%">-->
+<!--            <p style="font-size: 16px;  line-height: 1.6;">-->
+<!--              炭疽杆菌 (Bacillus anthracis) 的基因组是一条环状双链 DNA，大小约为5.23百万碱基对（Mb），其染色体包含多个重要基因，决定了它的致病性和生存能力。该菌的基因组具有两个质粒，分别为 pXO1 和 pXO2，这两个质粒携带了关键的毒力基因。-->
 
-              pXO1 质粒（约181 kb）携带编码炭疽毒素（包括保护性抗原、致死因子和水肿因子）的基因，这些毒素是导致炭疽病致命性的关键。
-              pXO2 质粒（约96 kb）包含编码荚膜合成的基因，使细菌能够抵抗宿主的免疫反应。
-              炭疽杆菌的核酸序列具有高度保守性，因此在基因检测中通常通过 PCR 技术靶向其毒素基因和荚膜基因进行鉴定。
-            </p>
-          </el-card>
+<!--              pXO1 质粒（约181 kb）携带编码炭疽毒素（包括保护性抗原、致死因子和水肿因子）的基因，这些毒素是导致炭疽病致命性的关键。-->
+<!--              pXO2 质粒（约96 kb）包含编码荚膜合成的基因，使细菌能够抵抗宿主的免疫反应。-->
+<!--              炭疽杆菌的核酸序列具有高度保守性，因此在基因检测中通常通过 PCR 技术靶向其毒素基因和荚膜基因进行鉴定。-->
+<!--            </p>-->
+<!--          </el-card>-->
         </el-card>
 
 
@@ -108,7 +139,7 @@
 
       <!-- 切换页面-->
       <router-link :to="{path: '/invest',query: { id: id }}">
-        <el-button class="next-button" type="primary" size="large" @click="">
+        <el-button class="next-button" type="primary" size="large" @click="updateDangerInfo()">
           下一步
         </el-button>
       </router-link>
@@ -143,6 +174,15 @@ const imageUrl = ref("");
 
 const text = ref("");
 
+const dangerName = ref(""); // 存储名称
+const transmissionRange = ref(""); // 存储传播范围
+const transmissionRoute = ref(""); // 存储传播途径
+const activity = ref(""); // 存储活性
+
+// 是否显示默认的以上三点 ，0为是，1为否
+const flag = ref(0)
+
+
 // 当前步骤
 const active = ref(1);
 
@@ -160,159 +200,193 @@ const options = ref([{
   value: 'chuanbo',
   label: '传播信息',
   children: [{
-    value: 'Infectiousness',
+    value: 'infectious',
     label: '传染性',
     children: [{
-      value: 'high',
-      label: '高'
+      value: '一级',
+      label: '一级'
     }, {
-      value: 'medium',
-      label: '中'
+      value: '二级',
+      label: '二级'
     }, {
-      value: 'low',
-      label: '低'
-    }, {
-      value: 'null',
-      label: '无'
-    }]
-  }, {
-    value: 'pathway',
-    label: '传播途径',
-    children: [{
-      value: 'Airborne',
-      label: '空气气溶胶传播'
-    }, {
-      value: 'Waterborne',
-      label: '水源传播'
-    },{
-      value: 'Droplet',
-      label: '飞沫传播'
-    },{
-      value: 'Contact',
-      label: '接触传播'
-    },{
-      value: 'Foodborne',
-      label: '食物源传播'
-    },]
-  },{
-    value: 'scope',
-    label: '传播范围',
-    children: [{
-      value: 'global',
-      label: '全球传播'
-    }, {
-      value: 'area',
-      label: '地区传播'
-    }, {
-      value: 'street',
-      label: '街区传播'
-    }, {
-      value: 'home',
-      label: '家庭传播'
+      value: '三级',
+      label: '三级'
     }]
   }]
 }, {
   value: 'tezheng',
   label: '特征信息',
   children: [{
-    value: 'Pathogenicity',
-    label: '病原性',
+    value: 'pathogenicity',
+    label: '致病性',
     children: [{
-      value: 'pathogenic',
-      label: '致病性'
+      value: '致病',
+      label: '致病'
     }, {
-      value: 'Non-pathogenic',
-      label: '非致病性'
+      value: '非致病',
+      label: '非致病'
     }]
   }, {
-    value: 'Toxicity',
+    value: 'toxicity',
     label: '毒性',
     children: [{
-      value: 'high',
+      value: '高',
       label: '高'
     }, {
-      value: 'medium',
+      value: '中',
       label: '中'
     }, {
-      value: 'low',
+      value: '低',
       label: '低'
     }, {
-      value: 'null',
-      label: '无毒'
+      value: '较强',
+      label: '较强'
+    }, {
+      value: '强',
+      label: '强'
     }]
   }, {
-    value: 'Invasiveness',
+    value: 'invasiveness',
     label: '侵袭性',
     children: [{
-      value: 'high',
+      value: '高',
       label: '高'
     }, {
-      value: 'medium',
+      value: '中',
       label: '中'
     }, {
-      value: 'low',
+      value: '低',
       label: '低'
+    }, {
+      value: '较强',
+      label: '较强'
+    }, {
+      value: '强',
+      label: '强'
     }]
   }, {
-    value: 'Death Rate',
+    value: 'fatalityRate',
     label: '致死率',
     children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'Incidence Rate',
-    label: '发病率',
-    children: [{
-      value: 'Very Low Mortality',
-      label: '小于1%'
-    }, {
-      value: 'Low Mortality',
-      label: '1%-5%'
-    }, {
-      value: 'Moderate Mortality',
-      label: '5%-10%'
-    }, {
-      value: 'High Mortality',
-      label: '10%-20%'
-    }, {
-      value: 'Very High Mortality',
-      label: '大于20%'
-    }]
-  }, {
-    value: 'virulence',
-    label: '活性',
-    children: [{
-      value: 'high',
+      value: '高',
       label: '高'
     }, {
-      value: 'medium',
+      value: '中',
       label: '中'
     }, {
-      value: 'low',
+      value: '低',
       label: '低'
+    }, {
+      value: '较高',
+      label: '较高'
+    }, {
+      value: '较低',
+      label: '较低'
+    }]
+  }, {
+    value: 'incidenceRate',
+    label: '发病率',
+    children: [{
+      value: '高',
+      label: '高'
+    }, {
+      value: '中',
+      label: '中'
+    }, {
+      value: '低',
+      label: '低'
+    }, {
+      value: '较高',
+      label: '较高'
+    }, {
+      value: '较低',
+      label: '较低'
     }]
   }]
-}, ]) ;
+}]);
+
 
 onMounted(() => {
   console.log("mounted...")
   queryDanger()
+  queryBiologyInfo()
+
 })
-const queryDanger = async () => {
+
+const queryBiologyInfo = async () => {
   console.log("执行查询并显示danger");
+
+// 发送第一个请求
+  fetch(axios.defaults.baseURL + "/api/biologyInfo/find_dangername?id=" + id, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+      .then(response => {
+        // 检查响应是否成功
+        if (!response.ok) {
+          return Promise.reject("First request network response was not ok");
+        }
+
+        // 解析第一个请求的响应数据
+        return response.json();
+      })
+      .then(firstData => {
+        // 打印第一个请求返回的数据
+
+        // 假设你需要从第一个请求的数据中提取字段（如 `firstData.message`），然后用它来作为第二个请求的参数
+        // this.dangerName = firstData.message;
+        console.log("First response data:", firstData.message);
+        dangerName.value = firstData.message;
+
+        // 发送第二个请求
+        return fetch(axios.defaults.baseURL + "/api/biologyInfo/searchInfo?dangerName=" + firstData.message, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+      })
+      .then(secondResponse => {
+        // 检查第二个请求的响应是否成功
+        if (!secondResponse.ok) {
+          return Promise.reject("Second request network response was not ok");
+        }
+
+        // 解析第二个请求的响应数据
+        return secondResponse.json();
+      })
+      .then(secondData => {
+        console.log("flag=" + flag.value)
+        console.log("执行显示默认值")
+        if(flag.value === 0) transmissionRange.value = secondData.message.transmissionRange;
+        if(flag.value === 0)activity.value = secondData.message.activity;
+        if(flag.value === 0)transmissionRoute.value = secondData.message.transmissionRoute
+        // 打印第二个请求返回的数据
+        console.log("Second response data:", secondData.message);
+
+
+        // 提取 secondData.message 中的指标值
+        const { infectious, pathogenicity, toxicity, invasiveness, fatalityRate, incidenceRate } = secondData.message;
+        console.log(toxicity)
+
+        // 设置 selectedItems，自动选择匹配的项
+        selectedItems.value = [
+          'infectious', infectious,       // 'infectious' => '二级'
+          'pathogenicity', pathogenicity, // 'pathogenicity' => '致病'
+          'toxicity', toxicity,           // 'toxicity' => '中'
+          'invasiveness', invasiveness,   // 'invasiveness' => '高'
+          'fatalityRate', fatalityRate,         // 'deathRate' => '较低'
+          'incidenceRate', incidenceRate  // 'incidenceRate' => '低'
+        ];
+
+
+      });
+
+};
+const queryDanger = async () => {
+  console.log("执行查询是否已经存了，如存 flag == 1");
 
   try {
     // 发送 GET 请求获取数据
@@ -322,30 +396,61 @@ const queryDanger = async () => {
         'Content-Type': 'application/json'
       },
     });
-
-    // 检查响应是否成功
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    // 解析响应数据
     const data = await response.json();
+    console.log(data.success)
+    // 检查响应是否成功
+    if (!data.success) {
+      return;
+    }
+    console.log("执行显示修改值")
+    flag.value =1
+    // 解析响应数据
     // 打印数据并赋值给表单
     console.log("Response data:", data.message);
 
+    transmissionRange.value = data.message.transmissionRange;
+    activity.value = data.message.activity;
+    transmissionRoute.value = data.message.transmissionRoute
+
     // 将后端返回的数据赋值给前端的表单值
-// 解析 JSON 字符串
-    const parsedFeatures = JSON.parse(data.message.features);
-// 提取每个选中的值
-    parsedFeatures.forEach(item => {
-      if (Array.isArray(item)) {
-        selectedItems.value.push(...item);
-      }
-    });
+
   } catch (error) {
     // 捕捉错误并打印
     console.error("Error:", error);
   }
 };
+
+const updateDangerInfo = async () => {
+  console.log("更新dangerinfo，根据id");
+  const dangerVO = {
+    caseId: id,  // 假设你已经从组件中获取了 id
+    transmissionRoute: transmissionRoute.value,  // 使用你的 Vue ref 或 data 属性
+    transmissionRange: transmissionRange.value,  // 同上
+    activity: activity.value,  // 同上
+  };
+  try {
+    // 发送 GET 请求获取数据
+    const response = await fetch(axios.defaults.baseURL + "/api/dangerInfo/updateDanger", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dangerVO),  // 将对象转化为 JSON 字符串
+    });
+    // 检查响应状态
+    if (response.ok) {
+      const data = await response.json();
+      console.log("更新成功:", data);
+    } else {
+      console.error("更新失败，状态码:", response.status);
+    }
+
+  } catch (error) {
+    // 捕捉错误并打印
+    console.error("Error:", error);
+  }
+};
+
 const openSub1 = () =>{
   //跳转至现场信息记录与现场保护PDF子页面
   // router.push('/other-page');
