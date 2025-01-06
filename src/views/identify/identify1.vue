@@ -226,7 +226,7 @@
               </el-card>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="尸检指标及采用的技术" name="fourth">
+          <el-tab-pane label="尸检制样及采用的技术" name="fourth">
             <!-- 尸检操作步骤条 -->
             <div style="display: flex;justify-content: center;align-items: flex-start; margin-top: 8vh;">
               <el-card class="card_container">
@@ -237,8 +237,8 @@
                   </el-button>
                 </div>
                 <div class="description">
-                  <el-card class="text" style="margin:20px 20px 20px 50px;">
-                    <label class="label" style="margin-left: 42%">待检测图片</label>
+                  <el-card class="text" style="margin:20px 20px 10px 20px;">
+                    <label style="margin-left: 42%">待检测图片</label>
                     <el-divider></el-divider>
                     <div class="img">
                       <div v-show="showLabel" style="margin-left: 40%; margin-top:30%; color: darkgray;">
@@ -259,11 +259,13 @@
                       <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
                     </div>
                     <div style="margin:10px 30px 0 30px;">
-                      分析识别方法：
-                      <div style="margin-top: 10px;">
-                        <el-select v-model="method" placeholder="请选择分析技术">
-                          <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
-                        </el-select>
+                      <span>分析识别方法：</span>
+                      <el-select v-model="method" placeholder="请选择分析技术">
+                        <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
+                      </el-select>
+                      <div v-if="method === '碱基序列分析'">
+                        <span>碱基序列：</span>
+                        <el-input v-model="baseSequence" style="width: 220px;margin: 15px 15px 15px 30px" placeholder="请输入碱基序列" />
                       </div>
                     </div>
                   </el-card>
@@ -271,7 +273,7 @@
 
                 <el-dialog v-model="PMSTDialogVisible" title="说明" width="800px" destroy-on-close draggable>
                   <div style=" width: 100%;height: 50vh;">
-                    <embed src="PMST" type="application/pdf" width="100%" height="100%;">
+                    <embed :src="PMST" type="application/pdf" width="100%" height="100%;">
                   </div>
                 </el-dialog>
 
@@ -366,6 +368,7 @@ import LabRequirements from './PDF/LabRequirements.pdf';
 import MWMP from './PDF/MWMP.pdf';
 import OrganExamination from './PDF/OrganExamination.pdf';
 import PM from './PDF/PM.pdf';
+import PMST from './PDF/PMST.pdf';
 import PMWTP from './PDF/PMWTP.pdf';
 import PreservationGuidelines from './PDF/PreservationGuidelines.pdf';
 import RAR from './PDF/RAR.pdf';
@@ -462,9 +465,10 @@ const activeIndex = ref('/identify1')
 const showLabel = ref(true);
 const showImg = ref(false);
 const imageUrl = ref("");
-const method = ref([])
+const method = ref("")
 const pathologicalFeatures = ref('')
 const PMSTDialogVisible = ref(false)
+const baseSequence = ref("")
 
 const device = ref('尸检台、切片机、脱水机、吸引器、显微镜、照相设备、计量设备、消毒隔离设备、个人防护设备、病理组织取材工作台、储存和运送标本设备、尸体保存设施、污水和污物处理设施等。');
 
@@ -578,11 +582,10 @@ const autopsyWasteAndWastewaterPrinciples = ref([
 ]);
 const techniques = ref([
   "HE染色",
+  "CT检查",
   "免疫组化染色",
   "电镜染色",
-  "蛋白质分析",
-  "DNA分析",
-  "RNA分析"
+  "碱基序列分析",
 ]);
 // 数据的保存
 const dataManagement = ref([
@@ -762,8 +765,15 @@ const back3 = () => {
   }
 }
 const next4 = () => {
-  router.push({ path: "/identify2", query: { id: route.query.id, back: route.query.back } });
+  if(method.value !== "" ){
+    if((method.value === "碱基序列分析" && baseSequence.value !== "") || (method.value !== "碱基序列分析")){
+      router.push({ path: "/identify2", query: { id: route.query.id, back: route.query.back } });
+    }
+    else{ElMessage.warning("请填写碱基序列")}
+  }
+  else{ElMessage.warning("请选择分析识别方法")}
 }
+
 const back4 = () => {
     activeName.value = 'third'
 }
@@ -885,14 +895,6 @@ onMounted(() => {
 }
 
 
-
-.text {
-  height: 500px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  border-radius: 4px;
-  border: 1.2px;
-}
-
 .label1 {
   font: 18px large;
   font-family: "PingFang SC";
@@ -924,7 +926,7 @@ onMounted(() => {
 }
 
 .text {
-  height: 520px;
+  height: 500px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   border-radius: 4px;
   border: 1.2px solid;
