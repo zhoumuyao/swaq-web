@@ -58,8 +58,7 @@
                   <el-table :data="DissectData">
                     <el-table-column prop="date" label="鉴定日期" width="110"/>
                     <el-table-column prop="method" label="分析识别方法" width="110" />
-                    <el-table-column prop="body" label="尸表检验" />
-                    <el-table-column prop="physiology" label="病理检验" />
+                    <el-table-column prop="physiology" label="检验结果" />
                     <el-table-column prop="Appraisal" label="鉴定意见" />
                   </el-table>
                 </div>
@@ -106,15 +105,13 @@ const judge = counterStore.infectedIndividual;
 const Labspeople = ref([
 ]);
 
-const Dissectpeople = ref([
-]);
+const Dissectpeople = ref([]);
 
 const LabsData = ref([]);
 const DissectData = ref([
   {
     date: '2024-10-08',
     method: 'HE染色',
-    body: '体表无明显破损',
     physiology: '肺动脉血栓栓塞发生猝死',
     Appraisal: '无'
   },
