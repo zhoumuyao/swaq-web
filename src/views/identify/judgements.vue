@@ -11,21 +11,19 @@
           <el-menu-item index="/identify2">检验鉴定报告</el-menu-item>
         </el-menu>
 
-        <el-card class="card_container">
+        <el-card class="card_container" v-if="back === undefined">
           <div style="font-size: large;font-weight: bolder;margin: 30px;">
             您即将跳转至 【染病个体解剖检查板块】 请选择
           </div>
           <div>
             <el-row :gutter="20">
               <el-col :span="12">
-                <router-link :to="{path: '/identify1', query: { id: id, back: back }}">
-                  <el-button type="primary" size="large">
-                    是，本次检测包含染病尸体
-                  </el-button>
-                </router-link>
+                <el-button type="primary" size="large" @click="handleClick">
+                  是，本次检测包含染病尸体
+                </el-button>
               </el-col>
               <el-col :span="12">
-                <router-link :to="{path: '/identify2', query: { id: id, back: back }}">
+                <router-link :to="{path: '/identify2', query: { id: id }}">
                   <el-button type="primary" size="large">
                     否，本次检测不包含染病尸体
                   </el-button>
@@ -35,6 +33,13 @@
           </div>
         </el-card>
 
+        <el-card class="card_container" v-else>
+          <div>
+            <div v-if="form.judge">本次检测包含染病尸体</div>
+            <div v-else>本次检测不包含染病尸体</div>
+            <div style="color: #409EFF;font-size: small;margin-top: 50px">页面将在3秒后自动跳转...</div>
+          </div>
+        </el-card>
       </div>
     </div>
   </div>
@@ -44,18 +49,78 @@
 <script setup>
 import router from "@/router";
 import {useRoute} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref, reactive} from "vue";
 import { useCounterStore } from '@/stores/counter';
+import {post} from "@/net";
+import {ElMessage} from "element-plus";
 const counterStore = useCounterStore()
 
 const activeIndex = ref('/judge')
 const route = useRoute();
 const id = route.query.id;
 const back = route.query.back;
+const today = new Date();
+const form = reactive({
+  id: id,
+  date: today.toISOString().split('T')[0],
+  method: "",
+  result: "",
+  description: "",
+  judge: false,
+});
+
+onMounted(async() => {
+  if(id){
+    if(back !== undefined){
+      await post("/api/identify/select_Identify", {
+        id: id,
+      }, (data) => {
+        console.log(data)
+        form.judge = data.judge;
+        if(data.judge){
+          setTimeout(() => {
+            router.push({path: '/identify1', query: {id: id, back: back}});
+          }, 3000) // 3000 毫秒即 3 秒
+        }
+        else {
+          setTimeout(() => {
+            router.push({path: '/identify2', query: {id: id, back: back}});
+          }, 3000) // 3000 毫秒即 3 秒
+        }
+      });
+
+    }
+  }
+
+})
+
 const handleSelect = (index) => {
   // 跳转到对应的路由并带上参数
   router.push({ path: index, query: { id: route.query.id, back: route.query.back } });
 }
+
+const handleClick = () => {
+  form.judge = 1;
+  // 在这里你可以执行其他的逻辑
+  post(
+      "/api/identify/create_idetify",
+      {
+        id: id,
+        date: form.date,
+        method: form.method,
+        result: form.result,
+        description: form.description,
+        judge: form.judge,
+        isUpdate: false,
+      },
+      (data) => {
+        router.push({ path: "/identify1", query: { id: id, back: back } });
+      },
+      (data) => {
+        ElMessage.warning(data);
+      }
+  );
+};
 </script>
 
 <style scoped>

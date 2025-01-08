@@ -19,7 +19,7 @@
               </span>
               <div style="width: 100%;margin-top: 50px;">
                 <span>实验室检验人员</span>
-                <el-table :data="Labspeople" height="150" style="width: 100%;margin-top: 20px;">
+                <el-table v-if="Labspeople.length > 0" :data="Labspeople" height="150" style="width: 100%;margin-top: 20px;">
                   <el-table-column prop="id" label="警务号" />
                   <el-table-column prop="name" label="姓名" />
                 </el-table>
@@ -44,10 +44,10 @@
               <span style="font-weight: bolder;font-size: 20px">
                 染病个体解剖查验
               </span>
-              <div v-if="judge === true">
+              <div v-if="judge">
                 <div style="width: 100%;margin-top: 50px;">
-                  <span>实验室检验人员</span>
-                  <el-table :data="Dissectpeople" height="150" style="width: 100%;margin-top: 20px;">
+                  <span>解剖人员</span>
+                  <el-table v-if="prosectors.length > 0" :data="prosectors" height="150" style="width: 100%;margin-top: 20px;">
                     <el-table-column prop="id" label="警务号" />
                     <el-table-column prop="name" label="姓名" />
                   </el-table>
@@ -58,8 +58,8 @@
                   <el-table :data="DissectData">
                     <el-table-column prop="date" label="鉴定日期" width="110"/>
                     <el-table-column prop="method" label="分析识别方法" width="110" />
-                    <el-table-column prop="physiology" label="检验结果" />
-                    <el-table-column prop="Appraisal" label="鉴定意见" />
+                    <el-table-column prop="result" label="检验结果" />
+                    <el-table-column prop="description" label="鉴定意见" />
                   </el-table>
                 </div>
               </div>
@@ -100,22 +100,20 @@ const activeIndex =ref("/identify2")
 const route = useRoute();
 const id = route.query.id;
 const back = route.query.back;
-const judge = counterStore.infectedIndividual;
+const judge = ref(false);
 
-const Labspeople = ref([
-]);
+const Labspeople = ref([]);
 
-const Dissectpeople = ref([]);
+const prosectors = ref([]);
 
 const LabsData = ref([]);
-const DissectData = ref([
-  {
-    date: '2024-10-08',
-    method: 'HE染色',
-    physiology: '肺动脉血栓栓塞发生猝死',
-    Appraisal: '无'
-  },
-]);
+const DissectData = ref([]);
+
+//存放已选择的人员
+const riskPersonIdList = ref([]);
+const identifyPersonIdList = ref([]);
+//存放数据库内所有的人员与仪器
+const persons = ref([]);
 
 const handleSelect = (index) => {
   // 跳转到对应的路由并带上参数
@@ -123,27 +121,77 @@ const handleSelect = (index) => {
 }
 
 const pre = () =>{
-  router.push({ path: "/identify1", query: { id: route.query.id, back: route.query.back } });
+  if(judge.value){
+    router.push({ path: "/identify1", query: { id: route.query.id, back: route.query.back } });
+  }
+  else{
+    router.push({ path: "/identify0", query: { id: route.query.id, back: route.query.back } });
+  }
 }
+
 
 const next = () =>{
   router.push({ path: "/feedback", query: { id: route.query.id, back: route.query.back } });
 }
 
-onMounted(async() => {
-  await post(
-      "/api/disposal/search_disposal",
-      {
-        id: route.query.id,
-      },
-      (data) => {
-        LabsData.value = data;
-        console.log(LabsData.value);
-        console.log(counterStore.selected_LabsPeople);
-        Labspeople.value = counterStore.selected_LabsPeople;
-        Dissectpeople.value = counterStore.selected_DissectPeople;
-      }
-  );
+onMounted(() => {
+  if(id){
+    post(
+        "/api/disposal/search_disposal",
+        {
+          id: id,
+        },
+        (data) => {
+          LabsData.value = data;
+          console.log("11111")
+          console.log(data);
+          // console.log(counterStore.selected_LabsPeople);
+          // Labspeople.value = counterStore.selected_LabsPeople;
+          // prosectors.value = counterStore.selected_DissectPeople;
+        }
+    );
+
+    post("/api/identify/select_Identify",  {
+      id: id,
+    }, (data) => {
+      console.log(data)
+      judge.value = data.judge;
+      DissectData.value = [data];
+    });
+
+    post("/api/identify/select_person", {}, (data) => {
+      persons.value = data;
+      post(
+          "/api/risk/select_RiskPerson",
+          {
+            id: id,
+          },
+          (data) => {
+            riskPersonIdList.value = data;
+            console.log("2222")
+            console.log(data);
+            Labspeople.value = persons.value.filter((person) =>
+                riskPersonIdList.value.includes(person.id)
+            );
+          }
+      );
+      post(
+          "/api/identify/select_identifyPerson",
+          {
+            id: id,
+          },
+          (data) => {
+            identifyPersonIdList.value = data;
+            console.log("3333")
+            console.log(data);
+            prosectors.value = persons.value.filter((person) =>
+                identifyPersonIdList.value.includes(person.id)
+            );
+          }
+      );
+    });
+  }
+
 });
 
 </script>
