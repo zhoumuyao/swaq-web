@@ -44,7 +44,7 @@
                     <el-button type="primary" :icon="Plus" circle @click="dialogPerson = true"></el-button>
                   </div>
                   <el-card>
-                    <el-table :data="form.person" style="width: 100%; height: 45vh">
+                    <el-table :data="prosectors" style="width: 100%; height: 45vh">
                       <el-table-column prop="id" label="警务号" />
                       <el-table-column prop="name" label="姓名" />
                     </el-table>
@@ -256,14 +256,14 @@
                     <el-divider></el-divider>
                     <div style="margin:0 30px;">
                       病理学特征描述：
-                      <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="pathologicalFeatures" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
+                      <el-input placeholder="请输入病理学特征描述" type="textarea" style="display: block; margin:10px 0;" v-model="form.description" :autosize="{ minRows: 6, maxRows: 6 }"></el-input>
                     </div>
                     <div style="margin:10px 30px 0 30px;">
                       <span>分析识别方法：</span>
-                      <el-select v-model="method" placeholder="请选择分析技术">
+                      <el-select v-model="form.method" placeholder="请选择分析技术">
                         <el-option v-for="(technique, index) in techniques" :key="index" :label="technique" :value="technique"></el-option>
                       </el-select>
-                      <div v-if="method === '碱基序列分析'">
+                      <div v-if="form.method === '碱基序列分析'">
                         <span>碱基序列：</span>
                         <el-input v-model="baseSequence" style="width: 220px;margin: 15px 15px 15px 30px" placeholder="请输入碱基序列" />
                       </div>
@@ -402,17 +402,19 @@ const personID = ref();
 const dialogPerson = ref(false);
 const dialogLabsPerson = ref(false);
 
+// 获取当前日期
+const today = new Date();
+
 const form = reactive({
-  province: "",
-  city: "",
-  cellname: "",
-  range: "",
-  type: [],
+  id: id,
+  date: today.toISOString().split('T')[0],
   method: "",
-  person: [{}],
-  equipment: [{}],
+  result: "",
+  description: "",
+  judge: true,
 });
 
+const prosectors =  ref([])
 
 const infectedBodies = ref(true)
 const selectedOption = ref(null)
@@ -465,7 +467,6 @@ const activeIndex = ref('/identify1')
 const showLabel = ref(true);
 const showImg = ref(false);
 const imageUrl = ref("");
-const method = ref("")
 const pathologicalFeatures = ref('')
 const PMSTDialogVisible = ref(false)
 const baseSequence = ref("")
@@ -610,12 +611,7 @@ const dataAnalysis = ref([
 ]);
 
 onBeforeMount(() => {
-  post("/api/risk/select_person", {}, (data) => {
-    persons.value = data;
-    persons.value.forEach(function (item) {
-      item.checked = false;
-    });
-  });
+
 
   post("/api/risk/select_equipment", {}, (data) => {
     equipments.value = data;
@@ -624,45 +620,43 @@ onBeforeMount(() => {
     });
   });
 
-  if (id && back) {
-    post(
-        "/api/risk/select_RiskPerson",
-        {
-          id: id,
-        },
-        (data) => {
-          personIdList.value = data;
-          form.person = persons.value.filter((person) =>
-              personIdList.value.includes(person.id)
-          );
-          persons.value.forEach((item) => {
-            if (personIdList.value.includes(item.id)) {
-              item.checked = true;
+  if (id) {
+    post("/api/identify/select_Identify",  {
+      id: id,
+    }, (data) => {
+      form.method = data.method;
+      form.description = data.description;
+      form.result = data.result;
+    });
+    if(back !== undefined){
+      post("/api/identify/select_person", {}, (data) => {
+        persons.value = data;
+        persons.value.forEach(function (item) {
+          item.checked = false;
+        });
+        post(
+            "/api/identify/select_identifyPerson",
+            {
+              id: id,
+            },
+            (data) => {
+              personIdList.value = data;
+              prosectors.value = persons.value.filter((person) =>
+                  personIdList.value.includes(person.id)
+              );
+              persons.value.forEach((item) => {
+                if (personIdList.value.includes(item.id)) {
+                  item.checked = true;
+                }
+              });
             }
-          });
-        }
-    );
+        );
+      });
 
-    post(
-        "/api/risk/select_RiskEquipment",
-        {
-          id: id,
-        },
-        (data) => {
-          EquipmentIdList.value = data;
-          form.equipment = equipments.value.filter((equipment) =>
-              EquipmentIdList.value.includes(equipment.id)
-          );
-          form.equipment.forEach((item) => {
-            item.showButton = true;
-          });
-          equipments.value.forEach((item) => {
-            if (EquipmentIdList.value.includes(item.id)) {
-              item.checked = true;
-            }
-          });
-        }
-    );
+    }
+    else{
+
+    }
   }
 });
 
@@ -674,10 +668,10 @@ const addPerson = () => {
       personIdList.value.push(person.id);
     }
   });
-  form.person = persons.value.filter((person) =>
+  prosectors.value = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
-  counterStore.addDissectPeople(form.person);
+  counterStore.addDissectPeople(prosectors);
 };
 
 const addLabsPeople = () => {
@@ -685,14 +679,14 @@ const addLabsPeople = () => {
   console.log(newLabspeople.newid);
   console.log(newLabspeople.newname);
   post(
-      "/api/risk/add_newriskPerson",
+      "/api/identify/add_newIdentifyPerson",
       {
         id: newLabspeople.newid,
         name: newLabspeople.newname,
       },
       (data) => {
         ElMessage.warning(data);
-        post("/api/risk/select_person", {}, (data) => {
+        post("/api/identify/select_person", {}, (data) => {
           persons.value = data;
           persons.value.forEach(function (item) {
             item.checked = false;
@@ -717,6 +711,10 @@ const handleSelect = (index) => {
   // 跳转到对应的路由并带上参数
   router.push({ path: index, query: { id: route.query.id, back: route.query.back } });
 }
+
+const handleClick = (index) => {
+}
+
 function handleUpload() {
   let imageDisplay = document.getElementById("image-display");
   let uploadInput = document.getElementById("upload-input");
@@ -765,9 +763,27 @@ const back3 = () => {
   }
 }
 const next4 = () => {
-  if(method.value !== "" ){
-    if((method.value === "碱基序列分析" && baseSequence.value !== "") || (method.value !== "碱基序列分析")){
-      router.push({ path: "/identify2", query: { id: route.query.id, back: route.query.back } });
+  if(form.method !== "" ){
+    if((form.method === "碱基序列分析" && baseSequence.value !== "") || (form.method !== "碱基序列分析")){
+      post(
+          "/api/identify/create_idetify",
+          {
+            id: id,
+            date: form.date,
+            method: form.method,
+            result: form.result,
+            description: form.description,
+            judge: form.judge,
+            isUpdate: true,
+          },
+          (data) => {
+            router.push({ path: "/identify2", query: { id: route.query.id, back: route.query.back } });
+          },
+          (data) => {
+            ElMessage.warning(data);
+          }
+      );
+
     }
     else{ElMessage.warning("请填写碱基序列")}
   }

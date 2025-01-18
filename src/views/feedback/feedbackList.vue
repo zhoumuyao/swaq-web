@@ -36,13 +36,13 @@
         </div>
 
         <!-- 切换页面-->
-        <router-link :to="{path: '/feedback', query: { id: id }}">
+        <router-link :to="{path: '/feedback', query: { id: id, back:back }}">
           <el-button class="previous-button" type="primary" size="large">
             上一步
           </el-button>
         </router-link>
 
-        <router-link :to="{path: '/index', query: { id: id }}">
+        <router-link :to="{path: '/index', query: { id: id, back:back }}">
           <el-button class="next-button" type="primary" size="large">
             结束
           </el-button>
@@ -81,6 +81,7 @@ const feedback = ref({});
 const dialogTableVisible = ref(false);
 const route = useRoute();
 const id = route.query.id;
+const back = route.query.back;
 
 const fetchFeedbacks = async () => {
   try {

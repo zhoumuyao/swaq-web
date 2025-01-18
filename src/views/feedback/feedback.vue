@@ -40,13 +40,13 @@
       </el-alert>
 
       <!-- 切换页面-->
-      <router-link :to="{path: '/doHandle', query: { id: id }}">
+      <router-link :to="{path: '/identify2', query: { id: id , back: back }}">
         <el-button class="previous-button" type="primary" size="large">
           上一步
         </el-button>
       </router-link>
 
-      <router-link :to="{path: '/feedbackList', query: { id: id }}">
+      <router-link :to="{path: '/feedbackList', query: { id: id, back: back }}">
         <el-button class="next-button" type="primary" size="large">
           查看反馈
         </el-button>
@@ -80,6 +80,7 @@ const texts = ref(['完全没有帮助','几乎没有帮助','有一点参考价
 const alertVisible = ref(false)
 const route = useRoute();
 const id = route.query.id;
+const back = route.query.back;
 const report = ref("");
 const pdfUrl = ref(null);
 const folderPath = ref("");
