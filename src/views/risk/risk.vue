@@ -520,7 +520,7 @@ import gloveVideo from "./video/gloveVideo.mp4";
 import faceVideo from "./video/faceVideo.mp4";
 // import { el } from "element-plus/es/locale";
 
-const modelURL = "https://a571-219-230-73-65.ngrok-free.app";
+const modelURL = "http://localhost:5000";
 
 const dialogImageUrl2 = ref("");
 const dialogVisible = ref(false);
@@ -1355,7 +1355,7 @@ const previewImage = (src) => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
-  width: 82%;
+  width: 100%;
 }
 
 .smalllabel {

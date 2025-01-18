@@ -12,7 +12,7 @@ const app = createApp(App)
  axios.defaults.baseURL = 'http://localhost:8080'
 
 // 给甲方用的公网镜像
-// axios.defaults.baseURL = 'https://9429-219-230-73-65.ngrok-free.app'
+ // axios.defaults.baseURL = 'https://8879-219-230-72-5.ngrok-free.app'
 
 app.use(createPinia())
 app.use(router)
