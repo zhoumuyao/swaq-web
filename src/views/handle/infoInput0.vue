@@ -60,12 +60,12 @@
             <el-row>
               <el-col :span="5" style="margin-left: 10%">
                 <el-form-item label="风险等级">
-                  <el-input v-model="form.riskLevel" placeholder="一级/二级/三级/无明确风险等级"></el-input>
+                  <el-input v-model="riskLevel" placeholder="一级/二级/三级/无明确风险等级"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5" style="margin-left: 30%">
                 <el-form-item label="防护级别">
-                  <el-input v-model="form.defendLevel"  placeholder="高/中/低"></el-input>
+                  <el-input v-model="defendLevel"  placeholder="高/中/低"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -275,64 +275,6 @@ import { ElNotification } from 'element-plus'
 import {useRoute} from "vue-router";
 
 
-onBeforeMount(async() => {
-  await post("/api/risk/select_person", {}, (data) => {
-    persons.value = data;
-    persons.value.forEach(function (item) {
-      item.checked = false;
-    });
-  });
-
-  await post("/api/risk/select_equipment", {}, (data) => {
-    equipments.value = data;
-    equipments.value.forEach(function (item) {
-      item.checked = false;
-    });
-  });
-
-  await post(
-      "/api/risk/select_RiskPerson",
-      {
-        id: id,
-      },
-      (data) => {
-        console.log("6666666")
-        console.log(data)
-        personIdList.value = data;
-        form.person = persons.value.filter((person) =>
-            personIdList.value.includes(person.id)
-            );
-        persons.value.forEach((item) => {
-          if (personIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-
-  );
-
-  await post(
-      "/api/risk/select_RiskEquipment",
-      {
-        id: id,
-      },
-      (data) => {
-        EquipmentIdList.value = data;
-        form.equipment = equipments.value.filter((equipment) =>
-            EquipmentIdList.value.includes(equipment.id)
-        );
-        form.equipment.forEach((item) => {
-          item.showButton = true;
-        });
-        equipments.value.forEach((item) => {
-          if (EquipmentIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-  );
-  console.log("该案件的数据")
-});
 const personIdList = ref([]);
 
 const EquipmentIdList = ref([]);
@@ -350,10 +292,9 @@ const route = useRoute();
 const id = route.query.id;
 const selectedGather = ref([]);
 const selectedPopulation = ref([]);
-
+const riskLevel = ref('');
+const defendLevel = ref('');
 const form = reactive({
-  riskLevel:"一级",
-  defendLevel:"高",
   date: "",
   time: "",
   position: {
@@ -374,7 +315,7 @@ const newHandlePeople = reactive({
   newid: "",
   newname: "",
 });
-
+var dangerName = ref("");
 const equipment = ref("");
 const type1 = ref(0);
 const type2 = ref(0);
@@ -426,43 +367,97 @@ const options = ref([
   },
 ]);
 
-const tableData1 = ref([
-  {
-    id: 1,
-    virue: "无明确生物风险",
-  },
-  {
-    id: 2,
-    virue: "三级生物风险",
-  },
-  {
-    id: 3,
-    virue: "二级生物风险",
-  },
-  {
-    id: 4,
-    virue: "一级生物风险",
-  },
-]);
-const tableData2 = ref([
-  {
-    id: 1,
-    place: "低",
-    checked: true,
-  },
-  {
-    id: 2,
-    place: "中",
-    checked: false,
-  },
-  {
-    id: 3,
-    place: "高",
-    checked: false,
-  },
-]);
 
+onBeforeMount(async() => {
 
+  await post("/api/risk/select_person", {}, (data) => {
+    persons.value = data;
+    persons.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post("/api/risk/select_equipment", {}, (data) => {
+    equipments.value = data;
+    equipments.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post(
+      "/api/risk/select_RiskPerson",
+      {
+        id: id,
+      },
+      (data) => {
+        personIdList.value = data;
+        form.person = persons.value.filter((person) =>
+            personIdList.value.includes(person.id)
+        );
+        persons.value.forEach((item) => {
+          if (personIdList.value.includes(item.id)) {
+            item.checked = true;
+          }
+        });
+      }
+
+  );
+
+  await post(
+      "/api/risk/select_RiskEquipment",
+      {
+        id: id,
+      },
+      (data) => {
+        EquipmentIdList.value = data;
+        form.equipment = equipments.value.filter((equipment) =>
+            EquipmentIdList.value.includes(equipment.id)
+        );
+        form.equipment.forEach((item) => {
+          item.showButton = true;
+        });
+        equipments.value.forEach((item) => {
+          if (EquipmentIdList.value.includes(item.id)) {
+            item.checked = true;
+          }
+        });
+      }
+  );
+  console.log("该案件的数据")
+});
+
+onMounted(async() =>{
+  console.log("执行onmounted")
+  await post(
+      "/api/biologyInfo/find_dangername",
+      {
+        id: id,
+      },
+      (res) => {
+        console.log("返回的因子名称："+res)
+        dangerName.value = res;
+        post(
+            "/api/biologyInfo/searchInfo",
+            {
+              dangerName: dangerName.value
+            },
+            (data) => {
+              console.log("返回的风险等级：")
+              console.log(data)
+              console.log(data.infectious)
+              riskLevel.value = data.infectious;
+              console.log(111)
+              console.log(riskLevel.value)
+              if (riskLevel.value == "一级"){
+                defendLevel.value = "高";
+              }else if(riskLevel.value == "二级"){
+                defendLevel.value = "中";
+              }else {
+                defendLevel.value = "低";
+              }
+            });
+      });
+})
 const newEquiment = () => {
   addHandleEquipment.value = false;
   console.log(equipmentform);
