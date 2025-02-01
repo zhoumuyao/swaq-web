@@ -359,6 +359,7 @@ import {Plus, Search} from "@element-plus/icons-vue";
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
 import { useCounterStore } from '@/stores/counter';
+import axios from 'axios';
 const counterStore = useCounterStore()
 
 //-----------start--用到的PDF
@@ -382,6 +383,12 @@ import {useRoute} from "vue-router";
 const route = useRoute();
 const id = route.query.id;
 const back = route.query.back;
+
+const resultClass = ref("")
+// const modelURL = "http://localhost:5000"
+ const modelURL = "https://4d63-125-43-86-79.ngrok-free.app";
+// 存放图片
+const imageFile = ref()
 
 //存放已选择的人员与仪器
 const personIdList = ref([]);
@@ -722,6 +729,7 @@ function handleUpload() {
     let files = event.target.files; // 获取选择的文件列表
     if (files.length > 0) {
       let file = files[0]; // 获取第一个文件
+      imageFile.value = file
       let fileReader = new FileReader();
       showImg.value = true;
       showLabel.value = false;
@@ -762,10 +770,42 @@ const back3 = () => {
     console.log(activeName.value)
   }
 }
-const next4 = () => {
+const next4 = async () => {
   if(form.method !== "" ){
+    const formData = new FormData();
+    formData.append("image", imageFile.value);
+    console.log(formData)
+    if(form.method === "CT检查"){
+      await axios
+      .post(modelURL + "/classification/convid", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        form.result = response.data.message.class
+      })
+      .catch((error) => {
+        console.error("比对失败", error);
+      });
+    }
+    if(form.method === "HE染色"){
+      await axios
+      .post(modelURL + "/classification/he", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        form.result = response.data.message.class
+      })
+      .catch((error) => {
+        console.error("比对失败", error);
+      });
+    }
     if((form.method === "碱基序列分析" && baseSequence.value !== "") || (form.method !== "碱基序列分析")){
-      post(
+      console.log(form.result)
+      await post(
           "/api/identify/create_idetify",
           {
             id: id,
