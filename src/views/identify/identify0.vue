@@ -602,13 +602,14 @@ const addequiment = ref(false);
 
 const PDFsrc = ref("");
 const isViewPdf20 = ref(false);
+const today = new Date();
 const form = reactive({
-  province: "",
-  city: "",
-  cellname: "",
-  range: "",
-  type: [],
+  id: id,
+  date: today.toISOString().split('T')[0],
   method: "",
+  result: "",
+  description: "",
+  judge: false,
   person: [{}],
   equipment: [{}],
 });
@@ -787,13 +788,38 @@ const addEquiment = () => {
 onMounted(() => {
 
   if (id) {
-    post("/api/risk/select_person", {}, (data) => {
+    console.log("选择identify对象，id=",id)
+    post("/api/identify/select_Identify", {
+          id: id,
+        }, (data) => {},
+        (data) => {
+          console.log("新建identify对象，id=",id)
+          post(
+              "/api/identify/create_idetify",
+              {
+                id: id,
+                date: form.date,
+                method: form.method,
+                result: form.result,
+                description: form.description,
+                judge: form.judge,
+                isUpdate: false,
+              },
+              (data) => {
+              },
+              (data) => {
+              }
+          );
+        });
+
+
+    post("/api/identify/select_person", {}, (data) => {
       persons.value = data;
       persons.value.forEach(function (item) {
         item.checked = false;
       });
       post(
-          "/api/risk/select_RiskPerson",
+          "/api/identify/select_labsPerson",
           {
             id: id,
           },
@@ -811,13 +837,13 @@ onMounted(() => {
       );
     });
 
-    post("/api/risk/select_equipment", {}, (data) => {
+    post("/api/identify/select_equipment", {}, (data) => {
       equipments.value = data;
       equipments.value.forEach(function (item) {
         item.checked = false;
       });
       post(
-          "/api/risk/select_RiskEquipment",
+          "/api/identify/select_IdentifyEquipment",
           {
             id: id,
           },
@@ -838,8 +864,6 @@ onMounted(() => {
       );
     });
 
-
-
   }
 });
 
@@ -854,7 +878,21 @@ const addPerson = () => {
   form.person = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
-  counterStore.addLabsPeople(form.person);
+  // counterStore.addLabsPeople(form.person);
+  post(
+      "/api/identify/delete_labsPerson",
+      {
+        id: id,
+      },
+      (data) => {
+        post("/api/identify/add_labsPerson", {
+          id: id,
+          persons: personIdList.value
+        }, (data) => {
+          ElMessage.success("检测人员更新成功")
+        });
+      }
+  );
 };
 
 const addLabsPeople = () => {

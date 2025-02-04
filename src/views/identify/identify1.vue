@@ -618,8 +618,6 @@ const dataAnalysis = ref([
 ]);
 
 onBeforeMount(() => {
-
-
   post("/api/risk/select_equipment", {}, (data) => {
     equipments.value = data;
     equipments.value.forEach(function (item) {
@@ -642,7 +640,7 @@ onBeforeMount(() => {
           item.checked = false;
         });
         post(
-            "/api/identify/select_identifyPerson",
+            "/api/identify/select_autopsyPerson",
             {
               id: id,
             },
@@ -678,7 +676,21 @@ const addPerson = () => {
   prosectors.value = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
-  counterStore.addDissectPeople(prosectors);
+  //counterStore.addDissectPeople(prosectors);
+  post(
+      "/api/identify/delete_autopsyPerson",
+      {
+        id: id,
+      },
+      (data) => {
+        post("/api/identify/add_autopsyPerson", {
+          id: id,
+          persons: personIdList.value
+        }, (data) => {
+          ElMessage.success("解剖员更新成功")
+        });
+      }
+  );
 };
 
 const addLabsPeople = () => {

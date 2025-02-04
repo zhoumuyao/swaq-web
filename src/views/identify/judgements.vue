@@ -18,16 +18,14 @@
           <div>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-button type="primary" size="large" @click="handleClick">
+                <el-button type="primary" size="large" @click="handleClick(true)">
                   是，本次检测包含染病尸体
                 </el-button>
               </el-col>
               <el-col :span="12">
-                <router-link :to="{path: '/identify2', query: { id: id }}">
-                  <el-button type="primary" size="large">
-                    否，本次检测不包含染病尸体
-                  </el-button>
-                </router-link>
+                <el-button type="primary" size="large"  @click="handleClick(false)">
+                  否，本次检测不包含染病尸体
+                </el-button>
               </el-col>
             </el-row>
           </div>
@@ -35,9 +33,20 @@
 
         <el-card class="card_container" v-else>
           <div>
-            <div v-if="form.judge">本次检测包含染病尸体</div>
-            <div v-else>本次检测不包含染病尸体</div>
-            <div style="color: #409EFF;font-size: small;margin-top: 50px">页面将在3秒后自动跳转...</div>
+            <div v-if="form.judge">
+              <span>本次检测包含染病尸体</span>
+              <div style="color: #409EFF;font-size: small;margin: 50px 0 50px 0">如需修改，请在3秒内点击下方按钮，页面将自动跳转...</div>
+              <el-button type="primary" size="large" @click="handleUpdate(false)">
+                否，本次检测不包含染病尸体
+              </el-button>
+            </div>
+            <div v-else>
+              <span>本次检测不包含染病尸体</span>
+              <div style="color: #409EFF;font-size: small;margin: 50px 0 50px 0">如需修改，请在3秒内点击下方按钮，页面将自动跳转...</div>
+              <el-button type="primary" size="large" @click="handleUpdate(true)">
+                是，本次检测包含染病尸体
+              </el-button>
+            </div>
           </div>
         </el-card>
       </div>
@@ -77,16 +86,14 @@ onMounted(async() => {
       }, (data) => {
         console.log(data)
         form.judge = data.judge;
-        if(data.judge){
-          setTimeout(() => {
+        setTimeout(() => {
+          if(form.judge){
             router.push({path: '/identify1', query: {id: id, back: back}});
-          }, 3000) // 3000 毫秒即 3 秒
-        }
-        else {
-          setTimeout(() => {
+          }
+          else{
             router.push({path: '/identify2', query: {id: id, back: back}});
-          }, 3000) // 3000 毫秒即 3 秒
-        }
+          }
+        }, 3000) //3s
       });
 
     }
@@ -99,8 +106,12 @@ const handleSelect = (index) => {
   router.push({ path: index, query: { id: route.query.id, back: route.query.back } });
 }
 
-const handleClick = () => {
-  form.judge = 1;
+const handleUpdate = (value) => {
+  handleClick(value);
+}
+
+const handleClick = (value) => {
+  form.judge = value;
   // 在这里你可以执行其他的逻辑
   post(
       "/api/identify/create_idetify",
@@ -111,10 +122,15 @@ const handleClick = () => {
         result: form.result,
         description: form.description,
         judge: form.judge,
-        isUpdate: false,
+        isUpdate: true,
       },
       (data) => {
-        router.push({ path: "/identify1", query: { id: id, back: back } });
+        // if(value){
+        //   router.push({ path: "/identify1", query: { id: id, back: back } });
+        // }
+        // else{
+        //   router.push({ path: "/identify2", query: { id: id, back: back } });
+        // }
       },
       (data) => {
         ElMessage.warning(data);

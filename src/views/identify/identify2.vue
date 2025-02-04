@@ -110,8 +110,8 @@ const LabsData = ref([]);
 const DissectData = ref([]);
 
 //存放已选择的人员
-const riskPersonIdList = ref([]);
-const identifyPersonIdList = ref([]);
+const labsPersonIdList = ref([]);
+const autopsyPersonIdList = ref([]);
 //存放数据库内所有的人员与仪器
 const persons = ref([]);
 
@@ -162,30 +162,26 @@ onMounted(() => {
     post("/api/identify/select_person", {}, (data) => {
       persons.value = data;
       post(
-          "/api/risk/select_RiskPerson",
+          "/api/identify/select_labsPerson",
           {
             id: id,
           },
           (data) => {
-            riskPersonIdList.value = data;
-            console.log("2222")
-            console.log(data);
+            labsPersonIdList.value = data;
             Labspeople.value = persons.value.filter((person) =>
-                riskPersonIdList.value.includes(person.id)
+                labsPersonIdList.value.includes(person.id)
             );
           }
       );
       post(
-          "/api/identify/select_identifyPerson",
+          "/api/identify/select_autopsyPerson",
           {
             id: id,
           },
           (data) => {
-            identifyPersonIdList.value = data;
-            console.log("3333")
-            console.log(data);
+            autopsyPersonIdList.value = data;
             prosectors.value = persons.value.filter((person) =>
-                identifyPersonIdList.value.includes(person.id)
+                autopsyPersonIdList.value.includes(person.id)
             );
           }
       );
