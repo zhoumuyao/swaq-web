@@ -75,6 +75,7 @@ const form = reactive({
   method: "",
   result: "",
   description: "",
+  baseSequence: "",
   judge: false,
 });
 
@@ -122,6 +123,7 @@ const handleClick = (value) => {
         result: form.result,
         description: form.description,
         judge: form.judge,
+        baseSequence: form.baseSequence,
         isUpdate: true,
       },
       (data) => {

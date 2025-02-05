@@ -376,7 +376,7 @@
                 <div v-if="active2 === 4">
                   <div>
                     <div style="margin-bottom: 10px">
-                      <label class="smalllabel">检测装备设备：</label>
+                      <label class="smalllabel">检测设备：</label>
                       <el-button
                           el-button
                           type="primary"
@@ -428,7 +428,7 @@
                     </div>
                     <div>
                       <el-table
-                          :data="LabEquiment"
+                          :data="equipments"
                           style="width: 100%; margin-top: 10px"
                           type="selection"
                           height="40vh"
@@ -609,56 +609,14 @@ const form = reactive({
   method: "",
   result: "",
   description: "",
+  baseSequence: "",
   judge: false,
   person: [{}],
   equipment: [{}],
 });
 
 //实验室器材
-const LabEquiment = ref([
-  {
-    id: 1,
-    name: "PCR分析仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/PCR_condition_detectiver.pdf",
-  },
-  {
-    id: 2,
-    name: "荧光显微镜光谱仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/micro_condition_detectiver.pdf",
-  },
-  {
-    id: 3,
-    name: "质谱仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/mass_spectra_condition_detectiver.pdf",
-  },
-  {
-    id: 4,
-    name: "酶标仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/ELIASA_condition_detectiver.pdf",
-  },
-  {
-    id: 5,
-    name: "离心机",
-    checked: false,
-    guide: "src/views/risk/device_guide/centrifugal_condition_detectiver.pdf",
-  },
-  {
-    id: 6,
-    name: "PCR仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/PCR__detectiver.pdf",
-  },
-  {
-    id: 7,
-    name: "ELISA分析仪",
-    checked: false,
-    guide: "src/views/risk/device_guide/ELISA__detectiver.pdf",
-  },
-]);
+const LabEquimentPath = ref("src/views/identify/PDF/device_guide/")
 
 const toxin_list = [
   { value: "botulinum", label: "肉毒毒素" },
@@ -758,12 +716,15 @@ const handleClick = (index) => {
 
 const viewGuide = (guide) => {
   isViewPdf20.value = true;
-  PDFsrc.value = guide;
+  PDFsrc.value = LabEquimentPath.value + guide;
 };
 const addEquiment = () => {
   addequiment.value = false;
-  LabEquiment.value.forEach((equipment) => {
+  EquipmentIdList.value = [];
+  form.equipment = [];
+  equipments.value.forEach((equipment) => {
     if (equipment.checked) {
+      EquipmentIdList.value.push(equipment.id);
       if (equipment.guide != null) {
         form.equipment.push({
           id: equipment.id,
@@ -771,16 +732,32 @@ const addEquiment = () => {
           guide: equipment.guide,
           showButton: true,
         });
-      } else
+      } else{
         form.equipment.push({
           id: equipment.id,
           name: equipment.name,
           guide: equipment.guide,
           showButton: false,
         });
-      equipment.checked = false;
+      }
+      //equipment.checked = false;
     }
   });
+  console.log(EquipmentIdList.value)
+  post(
+      "/api/identify/delete_identifyEquipment",
+      {
+        id: id,
+      },
+      (data) => {
+        post("/api/identify/add_identifyEquipment", {
+          id: id,
+          equipments: EquipmentIdList.value
+        }, (data) => {
+        });
+        ElMessage.success("检验设备更新成功")
+      }
+  );
 };
 
 // const wupin = ref(["手套", "防护服", "实验室器皿", "实验室样本管"]);
@@ -802,6 +779,7 @@ onMounted(() => {
                 method: form.method,
                 result: form.result,
                 description: form.description,
+                baseSequence: form.baseSequence,
                 judge: form.judge,
                 isUpdate: false,
               },
@@ -843,7 +821,7 @@ onMounted(() => {
         item.checked = false;
       });
       post(
-          "/api/identify/select_IdentifyEquipment",
+          "/api/identify/select_identifyEquipment",
           {
             id: id,
           },
@@ -853,7 +831,9 @@ onMounted(() => {
                 EquipmentIdList.value.includes(equipment.id)
             );
             form.equipment.forEach((item) => {
-              item.showButton = true;
+              if (item.guide != null) {
+                item.showButton = true;
+              }
             });
             equipments.value.forEach((item) => {
               if (EquipmentIdList.value.includes(item.id)) {

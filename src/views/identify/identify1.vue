@@ -265,7 +265,7 @@
                       </el-select>
                       <div v-if="form.method === '碱基序列分析'">
                         <span>碱基序列：</span>
-                        <el-input v-model="baseSequence" style="width: 220px;margin: 15px 15px 15px 30px" placeholder="请输入碱基序列" />
+                        <el-input v-model="form.baseSequence" style="width: 220px;margin: 15px 15px 15px 30px" placeholder="请输入碱基序列" />
                       </div>
                     </div>
                   </el-card>
@@ -418,6 +418,7 @@ const form = reactive({
   method: "",
   result: "",
   description: "",
+  baseSequence: "",
   judge: true,
 });
 
@@ -476,7 +477,6 @@ const showImg = ref(false);
 const imageUrl = ref("");
 const pathologicalFeatures = ref('')
 const PMSTDialogVisible = ref(false)
-const baseSequence = ref("")
 
 const device = ref('尸检台、切片机、脱水机、吸引器、显微镜、照相设备、计量设备、消毒隔离设备、个人防护设备、病理组织取材工作台、储存和运送标本设备、尸体保存设施、污水和污物处理设施等。');
 
@@ -631,6 +631,7 @@ onBeforeMount(() => {
     }, (data) => {
       form.method = data.method;
       form.description = data.description;
+      form.baseSequence = data.baseSequence;
       form.result = data.result;
     });
     if(back !== undefined){
@@ -815,7 +816,7 @@ const next4 = async () => {
         console.error("比对失败", error);
       });
     }
-    if((form.method === "碱基序列分析" && baseSequence.value !== "") || (form.method !== "碱基序列分析")){
+    if((form.method === "碱基序列分析" && form.baseSequence !== "") || (form.method !== "碱基序列分析")){
       console.log(form.result)
       await post(
           "/api/identify/create_idetify",
@@ -825,6 +826,7 @@ const next4 = async () => {
             method: form.method,
             result: form.result,
             description: form.description,
+            baseSequence: form.baseSequence,
             judge: form.judge,
             isUpdate: true,
           },
