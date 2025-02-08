@@ -17,6 +17,7 @@
 export default {
   data() {
     return {
+      isJump : false,
       menuItems: [
         { id: 1, name: "主页", isActive: false, route: "index" },
         { id: 2, name: "新建案件", isActive: false, route: "create_case" },
@@ -31,7 +32,6 @@ export default {
   },
   methods: {
     navigateTo(route) {
-
       this.$router.push({ name: route });
     },
   },

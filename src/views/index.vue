@@ -21,7 +21,8 @@ const numberOnline = ref(0);
 const componentKey = ref(0);
 
 const logout = () => {
-  get('/api/auth/logout', (message) => {
+  localStorage.removeItem('user'); 
+  post('/api/auth/logout', (message) => {
     ElMessage.success(message);
     router.push('/');
   });

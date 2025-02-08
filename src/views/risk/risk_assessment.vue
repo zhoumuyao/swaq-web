@@ -235,7 +235,7 @@ onMounted(async () => {
       id: id,
     },
     (res) => {
-      console.log(res);
+      console.log(res)
       dangerName.value = res;
       post(
         "/api/biologyInfo/searchInfo",

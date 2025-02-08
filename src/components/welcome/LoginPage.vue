@@ -146,7 +146,9 @@ const login = () => {
         remember: form.remember,
       },
       (message) => {
-        ElMessage.success(message), router.push("/index");
+        ElMessage.success(message);
+        localStorage.setItem("user", form.username)
+        router.push("/index");
       }
     );
     // router.push('/index')

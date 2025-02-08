@@ -5,9 +5,14 @@
       <router-view></router-view>
       <div>
         <!--        现场详细勘察模块-->
-        <el-steps :active="active" finish-status="success" align-center style="margin-top: 20px">
-          <el-step title="现场信息记录" ></el-step>
-          <el-step title="生物危险因子信息" ></el-step>
+        <el-steps
+          :active="active"
+          finish-status="success"
+          align-center
+          style="margin-top: 20px"
+        >
+          <el-step title="现场信息记录"></el-step>
+          <el-step title="生物危险因子信息"></el-step>
           <el-step title="现场详细勘察"></el-step>
           <el-step title="现场无害化处理"></el-step>
           <!--          <el-step title="评价与反馈"></el-step>-->
@@ -19,35 +24,53 @@
           <el-form :model="form" label-width="100px">
             <div class="person_equiment">
               <div>
-                <div style="margin-bottom: 10px;">
+                <div style="margin-bottom: 10px">
                   <label class="smalllabel">现场处置人员：</label>
-                  <el-button type="primary" :icon="Plus" circle @click="addperson = true;"></el-button>
+                  <el-button
+                    type="primary"
+                    :icon="Plus"
+                    circle
+                    @click="addperson = true"
+                  ></el-button>
                 </div>
                 <el-card class="card">
-                  <el-table :data="form.person" style="width: 100%; height: 45vh">
+                  <el-table
+                    :data="form.person"
+                    :key="form.person"
+                    style="width: 100%; height: 45vh"
+                  >
                     <el-table-column prop="id" label="警务号" width />
                     <el-table-column prop="name" label="姓名" width />
                   </el-table>
                 </el-card>
               </div>
               <div>
-                <div style="margin-bottom: 10px;">
+                <div style="margin-bottom: 10px">
                   <label class="smalllabel">处置装备设备：</label>
                   <el-button
-                      el-button
-                      type="primary"
-                      :icon="Plus"
-                      circle
-                      @click="addequiment = true"
+                    el-button
+                    type="primary"
+                    :icon="Plus"
+                    circle
+                    @click="addequiment = true"
                   ></el-button>
                 </div>
                 <el-card class="card">
-                  <el-table :data="form.equipment" style="width: 100%; height: 45vh">
+                  <el-table
+                    :data="form.equipment"
+                    :key="form.equipment"
+                    style="width: 100%; height: 45vh"
+                  >
                     <el-table-column prop="id" label="设备号" width />
                     <el-table-column prop="name" label="设备名" width />
                     <el-table-column prop="guide" label="使用说明" width="120">
                       <template #default="{ row }">
-                        <el-button type="primary" size="small" @click="viewGuide(row.guide)">查看</el-button>
+                        <el-button
+                          type="primary"
+                          size="small"
+                          @click="viewGuide(row.guide)"
+                          >查看</el-button
+                        >
                       </template>
                     </el-table-column>
                   </el-table>
@@ -60,45 +83,71 @@
             <el-row>
               <el-col :span="5" style="margin-left: 10%">
                 <el-form-item label="风险等级">
-                  <el-input v-model="riskLevel" placeholder="一级/二级/三级/无明确风险等级"></el-input>
+                  <el-input
+                    v-model="riskLevel"
+                    placeholder="一级/二级/三级/无明确风险等级"
+                  ></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5" style="margin-left: 30%">
                 <el-form-item label="防护级别">
-                  <el-input v-model="defendLevel"  placeholder="高/中/低"></el-input>
+                  <el-input
+                    v-model="defendLevel"
+                    placeholder="高/中/低"
+                  ></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </div>
 
-          <el-dialog v-model="addperson" title="选择现场处置人员" width="600px" draggable>
-            <div style="display: flex; align-items: center;">
+          <el-dialog
+            v-model="addperson"
+            title="选择现场处置人员"
+            width="600px"
+            draggable
+          >
+            <div style="display: flex; align-items: center">
               <el-input
-                  style="display: inline-block; width: 30%; margin:0 10px 0 60%;"
-                  v-model="personID"
-                  placeholder="请输入警务号"
+                style="display: inline-block; width: 30%; margin: 0 10px 0 60%"
+                v-model="personID"
+                placeholder="请输入警务号"
               ></el-input>
               <el-button
-                  type="primary"
-                  :icon="Search"
-                  @click="handleSearch"
-                  style="display: inline-block;"
-                  circle
+                type="primary"
+                :icon="Search"
+                @click="handleSearch"
+                style="display: inline-block"
+                circle
               ></el-button>
               <el-button
-                  type="primary"
-                  :icon="Plus"
-                  circle
-                  @click="addHandlePerson = true;"
-                  style="display: inline-block;"
+                type="primary"
+                :icon="Plus"
+                circle
+                @click="addHandlePerson = true"
+                style="display: inline-block"
               ></el-button>
             </div>
 
             <div>
               <el-table :data="persons" style="width: 100%" type="selection">
-                <el-table-column prop="id" label="警务号" width="180" fixed="left"></el-table-column>
-                <el-table-column prop="name" label="姓名" width="180" fixed="left"></el-table-column>
-                <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
+                <el-table-column
+                  prop="id"
+                  label="警务号"
+                  width="180"
+                  fixed="left"
+                ></el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="姓名"
+                  width="180"
+                  fixed="left"
+                ></el-table-column>
+                <el-table-column
+                  label="是否选中"
+                  width="180"
+                  fixed="right"
+                  prop="checked"
+                >
                   <template #default="{ row }">
                     <el-checkbox v-model="row.checked"></el-checkbox>
                   </template>
@@ -106,83 +155,149 @@
               </el-table>
             </div>
             <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="addperson = false">取消</el-button>
-                  <el-button type="primary" @click="addPerson">确认</el-button>
-                </span>
+              <span class="dialog-footer">
+                <el-button @click="addperson = false">取消</el-button>
+                <el-button type="primary" @click="addPerson">确认</el-button>
+              </span>
             </template>
           </el-dialog>
-          <el-dialog v-model="addHandlePerson" title="新增现场处置人员" width="600px" draggable>
-            <el-form :model="newHandlePeople" style="display: flex; flex-direction: column;">
+          <el-dialog
+            v-model="addHandlePerson"
+            title="新增现场处置人员"
+            width="600px"
+            draggable
+          >
+            <el-form
+              :model="newHandlePeople"
+              style="display: flex; flex-direction: column"
+            >
               <el-form-item label="警务号">
-                <el-input v-model="newHandlePeople.newid" style="width:10rem; margin-left: 5px;"></el-input>
+                <el-input
+                  v-model="newHandlePeople.newid"
+                  style="width: 10rem; margin-left: 5px"
+                ></el-input>
               </el-form-item>
               <el-form-item label="姓名">
-                <el-input v-model="newHandlePeople.newname" style="width:10rem; margin-left: 20px"></el-input>
+                <el-input
+                  v-model="newHandlePeople.newname"
+                  style="width: 10rem; margin-left: 20px"
+                ></el-input>
               </el-form-item>
             </el-form>
             <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="addHandlePerson = false">取消</el-button>
-                  <el-button type="primary" @click="addHandlePeople">确认</el-button>
-                </span>
+              <span class="dialog-footer">
+                <el-button @click="addHandlePerson = false">取消</el-button>
+                <el-button type="primary" @click="addHandlePeople"
+                  >确认</el-button
+                >
+              </span>
             </template>
           </el-dialog>
-          <el-dialog v-model="addequiment" title="选择现场处置设备" width="600px" draggable>
-            <div style="display: flex; align-items: center;">
-              <el-select v-model="equipment" placeholder="请选择设备种类" style="width: 30%;">
+          <el-dialog
+            v-model="addequiment"
+            title="选择现场处置设备"
+            width="600px"
+            draggable
+          >
+            <div style="display: flex; align-items: center">
+              <el-select
+                v-model="equipment"
+                placeholder="请选择设备种类"
+                style="width: 30%"
+              >
                 <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 ></el-option>
               </el-select>
               <div
-                  style="display: flex; text-align: center;width: 100%;"
-                  v-if="equipment != '选项1'"
+                style="display: flex; text-align: center; width: 100%"
+                v-if="equipment != '选项1'"
               >
                 <el-input
-                    style="width: 30%; margin:0px 20px 0 30%;"
-                    v-model="personID"
-                    placeholder="请输入设备号"
+                  style="width: 30%; margin: 0px 20px 0 30%"
+                  v-model="personID"
+                  placeholder="请输入设备号"
                 ></el-input>
-                <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
-                <el-button type="primary" :icon="Plus" circle @click="addHandleEquipment = true;"></el-button>
+                <el-button
+                  type="primary"
+                  :icon="Search"
+                  @click="handleSearch"
+                  circle
+                ></el-button>
+                <el-button
+                  type="primary"
+                  :icon="Plus"
+                  circle
+                  @click="addHandleEquipment = true"
+                ></el-button>
               </div>
-              <div style="display: flex;" v-if="equipment == '选项1'">
+              <div style="display: flex" v-if="equipment == '选项1'">
                 <el-select
-                    v-model="grade"
-                    placeholder="请选择设备种类"
-                    style="width: 35%; margin-left: 5%"
+                  v-model="grade"
+                  placeholder="请选择设备种类"
+                  style="width: 35%; margin-left: 5%"
                 >
                   <el-option
-                      v-for="item in gradeOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
+                    v-for="item in gradeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
                 <el-input
-                    style="display: flex; width: 25%; margin:0px 20px 0 5%"
-                    v-model="personID"
-                    placeholder="请输入设备号"
+                  style="display: flex; width: 25%; margin: 0px 20px 0 5%"
+                  v-model="personID"
+                  placeholder="请输入设备号"
                 ></el-input>
-                <el-button type="primary" :icon="Search" @click="handleSearch" circle></el-button>
-                <el-button type="primary" :icon="Plus" circle @click="addHandleEquipment = true;"></el-button>
+                <el-button
+                  type="primary"
+                  :icon="Search"
+                  @click="handleSearch"
+                  circle
+                ></el-button>
+                <el-button
+                  type="primary"
+                  :icon="Plus"
+                  circle
+                  @click="addHandleEquipment = true"
+                ></el-button>
               </div>
             </div>
             <div>
               <el-table
-                  v-if="equipment == '选项1' || equipment == '选项2' || equipment == '选项3' || equipment == '选项4' || equipment == ''"
-                  :data="getRiskEquipmentData()"
-                  style="width: 100%; margin-top: 10px; "
-                  type="selection"
-                  height="40vh"
+                v-if="
+                  equipment == '选项1' ||
+                  equipment == '选项2' ||
+                  equipment == '选项3' ||
+                  equipment == '选项4' ||
+                  equipment == ''
+                "
+                :data="getRiskEquipmentData()"
+                style="width: 100%; margin-top: 10px"
+                type="selection"
+                height="40vh"
               >
-                <el-table-column prop="id" label="设备号" width="180" fixed="left"></el-table-column>
-                <el-table-column prop="name" label="设备名" width="180" fixed="left"></el-table-column>
-                <el-table-column label="是否选中" width="180" fixed="right" prop="checked">
+                <el-table-column
+                  prop="id"
+                  label="设备号"
+                  width="180"
+                  fixed="left"
+                ></el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="设备名"
+                  width="180"
+                  fixed="left"
+                ></el-table-column>
+                <el-table-column
+                  label="是否选中"
+                  width="180"
+                  fixed="right"
+                  prop="checked"
+                >
                   <template #default="{ row }">
                     <el-checkbox v-model="row.checked"></el-checkbox>
                   </template>
@@ -190,39 +305,47 @@
               </el-table>
             </div>
             <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="addequiment = false">取消</el-button>
-                  <el-button type="primary" @click="addEquiment">确认</el-button>
-                </span>
+              <span class="dialog-footer">
+                <el-button @click="addequiment = false">取消</el-button>
+                <el-button type="primary" @click="addEquiment">确认</el-button>
+              </span>
             </template>
           </el-dialog>
-          <el-dialog v-model="addHandleEquipment" title="新增现场处置设备" width="600px" draggable>
+          <el-dialog
+            v-model="addHandleEquipment"
+            title="新增现场处置设备"
+            width="600px"
+            draggable
+          >
             <el-form :model="equipmentform" label-width="80px">
               <el-form-item label="设备种类">
-                <div style="display: flex; align-items: center;width: 100%;">
+                <div style="display: flex; align-items: center; width: 100%">
                   <el-select
-                      v-model="equipmentform.equipment"
-                      placeholder="请选择设备种类"
-                      style="width: 50%;"
+                    v-model="equipmentform.equipment"
+                    placeholder="请选择设备种类"
+                    style="width: 50%"
                   >
                     <el-option
-                        v-for="item in options"
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                  <div
+                    style="display: flex"
+                    v-if="equipmentform.equipment == '选项1'"
+                  >
+                    <el-select
+                      v-model="equipmentform.grade"
+                      placeholder="请选择设备种类"
+                      style="width: 100%; margin-left: 10px"
+                    >
+                      <el-option
+                        v-for="item in gradeOptions"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
-                    ></el-option>
-                  </el-select>
-                  <div style="display: flex;" v-if="equipmentform.equipment == '选项1'">
-                    <el-select
-                        v-model="equipmentform.grade"
-                        placeholder="请选择设备种类"
-                        style="width: 100%; margin-left: 10px"
-                    >
-                      <el-option
-                          v-for="item in gradeOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
                       ></el-option>
                     </el-select>
                   </div>
@@ -236,44 +359,54 @@
               </el-form-item>
             </el-form>
             <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="addHandleEquipment = false">取消</el-button>
-                  <el-button type="primary" @click="newEquiment">确认</el-button>
-                </span>
+              <span class="dialog-footer">
+                <el-button @click="addHandleEquipment = false">取消</el-button>
+                <el-button type="primary" @click="newEquiment">确认</el-button>
+              </span>
             </template>
           </el-dialog>
         </el-card>
       </div>
 
-
-
-
       <!-- 切换页面-->
-      <router-link :to="{path: '/infoInput',query: { id: id }}">
-        <el-button class="next-button" type="primary" size="large" @click="createHandlePEList">
+      <router-link :to="{ path: '/infoInput', query: { id: id } }">
+        <el-button
+          class="next-button"
+          type="primary"
+          size="large"
+          @click="createHandlePEList"
+        >
           下一步
         </el-button>
       </router-link>
     </div>
   </div>
+  <el-dialog
+    title="输入案件id"
+    v-model="isJump"
+    :before-close="handleClose"
+    width="300"
+  >
+    <el-input v-model="inputId" placeholder="输入案件id" />
+    <div style="margin-top: 20px; text-align: center">
+      <el-button type="primary" @click="getId">确认</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup>
-import {onMounted, onBeforeMount, ref, reactive} from 'vue';
-import {get, post} from "@/net";
+import { onMounted, onBeforeMount, ref, reactive } from "vue";
+import { get, post } from "@/net";
 import { ElMessage } from "element-plus";
-import router from '@/router';
-import Sidebar from '@/components/sideBar/SideBar.vue';
-import {
-  Delete, Plus, Search,
-} from '@element-plus/icons-vue'
-import { InfoFilled } from '@element-plus/icons-vue'
-import recordingAndProtection from './PDF/recordingAndProtection.pdf';
+import router from "@/router";
+import Sidebar from "@/components/sideBar/SideBar.vue";
+import { Delete, Plus, Search } from "@element-plus/icons-vue";
+import { InfoFilled } from "@element-plus/icons-vue";
+import recordingAndProtection from "./PDF/recordingAndProtection.pdf";
 import axios from "axios";
 import myBMap from "@/util/myBMap";
-import { ElNotification } from 'element-plus'
-import {useRoute} from "vue-router";
-
+import { ElNotification } from "element-plus";
+import { useRoute } from "vue-router";
 
 const personIdList = ref([]);
 
@@ -289,11 +422,11 @@ const addHandleEquipment = ref(false);
 const active = ref(0);
 
 const route = useRoute();
-const id = route.query.id;
+var id = route.query.id;
 const selectedGather = ref([]);
 const selectedPopulation = ref([]);
-const riskLevel = ref('');
-const defendLevel = ref('');
+const riskLevel = ref("");
+const defendLevel = ref("");
 const form = reactive({
   date: "",
   time: "",
@@ -316,6 +449,8 @@ const newHandlePeople = reactive({
   newname: "",
 });
 var dangerName = ref("");
+const isJump = ref(false)
+const inputId = ref()
 const equipment = ref("");
 const type1 = ref(0);
 const type2 = ref(0);
@@ -329,8 +464,8 @@ const equipmentform = reactive({
   id: "",
   name: "",
 });
-let lat = ref('');
-let lon = ref('');
+let lat = ref("");
+let lon = ref("");
 const gradeOptions = ref([
   {
     value: "选项1",
@@ -367,24 +502,25 @@ const options = ref([
   },
 ]);
 
-
-onBeforeMount(async() => {
-
-  await post("/api/risk/select_person", {}, (data) => {
-    persons.value = data;
-    persons.value.forEach(function (item) {
-      item.checked = false;
+onBeforeMount(async () => {
+  if (id == undefined) {
+    isJump.value = true;
+  } else {
+    await post("/api/risk/select_person", {}, (data) => {
+      persons.value = data;
+      persons.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  await post("/api/risk/select_equipment", {}, (data) => {
-    equipments.value = data;
-    equipments.value.forEach(function (item) {
-      item.checked = false;
+    await post("/api/risk/select_equipment", {}, (data) => {
+      equipments.value = data;
+      equipments.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  await post(
+    await post(
       "/api/risk/select_RiskPerson",
       {
         id: id,
@@ -392,7 +528,7 @@ onBeforeMount(async() => {
       (data) => {
         personIdList.value = data;
         form.person = persons.value.filter((person) =>
-            personIdList.value.includes(person.id)
+          personIdList.value.includes(person.id)
         );
         persons.value.forEach((item) => {
           if (personIdList.value.includes(item.id)) {
@@ -400,10 +536,9 @@ onBeforeMount(async() => {
           }
         });
       }
+    );
 
-  );
-
-  await post(
+    await post(
       "/api/risk/select_RiskEquipment",
       {
         id: id,
@@ -411,7 +546,7 @@ onBeforeMount(async() => {
       (data) => {
         EquipmentIdList.value = data;
         form.equipment = equipments.value.filter((equipment) =>
-            EquipmentIdList.value.includes(equipment.id)
+          EquipmentIdList.value.includes(equipment.id)
         );
         form.equipment.forEach((item) => {
           item.showButton = true;
@@ -422,42 +557,49 @@ onBeforeMount(async() => {
           }
         });
       }
-  );
-  console.log("该案件的数据")
+    );
+    console.log("该案件的数据");
+  }
 });
 
-onMounted(async() =>{
-  console.log("执行onmounted")
-  await post(
+onMounted(async () => {
+  if (id == undefined) {
+    isJump.value = true;
+  } else {
+    console.log("执行onmounted");
+    await post(
       "/api/biologyInfo/find_dangername",
       {
         id: id,
       },
       (res) => {
-        console.log("返回的因子名称："+res)
+        console.log("返回的因子名称：" + res);
         dangerName.value = res;
         post(
-            "/api/biologyInfo/searchInfo",
-            {
-              dangerName: dangerName.value
-            },
-            (data) => {
-              console.log("返回的风险等级：")
-              console.log(data)
-              console.log(data.infectious)
-              riskLevel.value = data.infectious;
-              console.log(111)
-              console.log(riskLevel.value)
-              if (riskLevel.value == "一级"){
-                defendLevel.value = "高";
-              }else if(riskLevel.value == "二级"){
-                defendLevel.value = "中";
-              }else {
-                defendLevel.value = "低";
-              }
-            });
-      });
-})
+          "/api/biologyInfo/searchInfo",
+          {
+            dangerName: dangerName.value,
+          },
+          (data) => {
+            console.log("返回的风险等级：");
+            console.log(data);
+            console.log(data.infectious);
+            riskLevel.value = data.infectious;
+            console.log(111);
+            console.log(riskLevel.value);
+            if (riskLevel.value == "一级") {
+              defendLevel.value = "高";
+            } else if (riskLevel.value == "二级") {
+              defendLevel.value = "中";
+            } else {
+              defendLevel.value = "低";
+            }
+          }
+        );
+      }
+    );
+  }
+});
 const newEquiment = () => {
   addHandleEquipment.value = false;
   console.log(equipmentform);
@@ -482,26 +624,26 @@ const newEquiment = () => {
   console.log(typeof type1.value);
   console.log(newequimentkind);
   post(
-      "/api/risk/add_newEquipment",
-      {
-        id: equipmentform.id,
-        name: equipmentform.name,
-        type1: type1.value,
-        type2: type2.value,
-        type3: type3.value,
-        type4: type4.value,
-        type5: type5.value,
-        type6: type6.value,
-      },
-      (data) => {
-        ElMessage.warning(data);
-        post("/api/risk/select_equipment", {}, (data) => {
-          equipments.value = data;
-          equipments.value.forEach(function (item) {
-            item.checked = false;
-          });
+    "/api/risk/add_newEquipment",
+    {
+      id: equipmentform.id,
+      name: equipmentform.name,
+      type1: type1.value,
+      type2: type2.value,
+      type3: type3.value,
+      type4: type4.value,
+      type5: type5.value,
+      type6: type6.value,
+    },
+    (data) => {
+      ElMessage.warning(data);
+      post("/api/risk/select_equipment", {}, (data) => {
+        equipments.value = data;
+        equipments.value.forEach(function (item) {
+          item.checked = false;
         });
-      }
+      });
+    }
   );
 };
 
@@ -514,10 +656,8 @@ const addPerson = () => {
     }
   });
   form.person = persons.value.filter((person) =>
-      personIdList.value.includes(person.id)
+    personIdList.value.includes(person.id)
   );
-
-
 };
 
 const addEquiment = () => {
@@ -530,7 +670,7 @@ const addEquiment = () => {
     }
   });
   form.equipment = equipments.value.filter((equipment) =>
-      EquipmentIdList.value.includes(equipment.id)
+    EquipmentIdList.value.includes(equipment.id)
   );
   form.equipment.forEach((item) => {
     item.showButton = true;
@@ -541,20 +681,20 @@ const addHandlePeople = () => {
   console.log(newHandlePeople.newid);
   console.log(newHandlePeople.newname);
   post(
-      "/api/risk/add_newriskPerson",
-      {
-        id: newHandlePeople.newid,
-        name: newHandlePeople.newname,
-      },
-      (data) => {
-        ElMessage.warning(data);
-        post("/api/risk/select_person", {}, (data) => {
-          persons.value = data;
-          persons.value.forEach(function (item) {
-            item.checked = false;
-          });
+    "/api/risk/add_newriskPerson",
+    {
+      id: newHandlePeople.newid,
+      name: newHandlePeople.newname,
+    },
+    (data) => {
+      ElMessage.warning(data);
+      post("/api/risk/select_person", {}, (data) => {
+        persons.value = data;
+        persons.value.forEach(function (item) {
+          item.checked = false;
         });
-      }
+      });
+    }
   );
 };
 
@@ -587,63 +727,159 @@ const createHandlePEList = () => {
 
   // 删除处理人员
   post(
-      "/api/invest/delete_HandlePerson",
-      { id: id },
-      (deletePersonData) => { // 删除成功的回调
-        console.log(888);
+    "/api/invest/delete_HandlePerson",
+    { id: id },
+    (deletePersonData) => {
+      // 删除成功的回调
+      console.log(888);
 
-        // 添加处理人员
-        post(
-            "/api/invest/add_HandlePerson",
-            {
-              id: id,
-              persons: personIdList.value,
-            },
-            (addPersonData) => { // 添加成功的回调
-              console.log("打他"); // 成功时输出 "打他"
-            },
-            (addPersonError) => { // 添加失败的回调
-              console.error("添加处理人员失败:", addPersonError);
-              ElMessage.warning(addPersonError);
-            }
-        );
-      },
-      (deletePersonError) => { // 删除失败的回调
-        console.error("删除处理人员失败:", deletePersonError);
-        ElMessage.warning(deletePersonError);
-      }
+      // 添加处理人员
+      post(
+        "/api/invest/add_HandlePerson",
+        {
+          id: id,
+          persons: personIdList.value,
+        },
+        (addPersonData) => {
+          // 添加成功的回调
+          console.log("打他"); // 成功时输出 "打他"
+        },
+        (addPersonError) => {
+          // 添加失败的回调
+          console.error("添加处理人员失败:", addPersonError);
+          ElMessage.warning(addPersonError);
+        }
+      );
+    },
+    (deletePersonError) => {
+      // 删除失败的回调
+      console.error("删除处理人员失败:", deletePersonError);
+      ElMessage.warning(deletePersonError);
+    }
   );
 
   // 删除处理设备
   post(
-      "/api/invest/delete_HandleEquipment",
-      { id: id },
-      (deleteEquipmentData) => { // 删除成功的回调
-        console.log(888);
+    "/api/invest/delete_HandleEquipment",
+    { id: id },
+    (deleteEquipmentData) => {
+      // 删除成功的回调
+      console.log(888);
 
-        // 添加处理设备
-        post(
-            "/api/invest/add_HandleEquipment",
-            {
-              id: id,
-              equipments: EquipmentIdList.value,
-            },
-            (addEquipmentData) => { // 添加成功的回调
-              console.log("打他"); // 成功时输出 "打他"
-            },
-            (addEquipmentError) => { // 添加失败的回调
-              console.error("添加处理设备失败:", addEquipmentError);
-              ElMessage.warning(addEquipmentError);
-            }
-        );
-      },
-      (deleteEquipmentError) => { // 删除失败的回调
-        console.error("删除处理设备失败:", deleteEquipmentError);
-        ElMessage.warning(deleteEquipmentError);
-      }
+      // 添加处理设备
+      post(
+        "/api/invest/add_HandleEquipment",
+        {
+          id: id,
+          equipments: EquipmentIdList.value,
+        },
+        (addEquipmentData) => {
+          // 添加成功的回调
+          console.log("打他"); // 成功时输出 "打他"
+        },
+        (addEquipmentError) => {
+          // 添加失败的回调
+          console.error("添加处理设备失败:", addEquipmentError);
+          ElMessage.warning(addEquipmentError);
+        }
+      );
+    },
+    (deleteEquipmentError) => {
+      // 删除失败的回调
+      console.error("删除处理设备失败:", deleteEquipmentError);
+      ElMessage.warning(deleteEquipmentError);
+    }
   );
 };
 
+const getId = async () => {
+  id = inputId.value;
+
+  await post("/api/risk/select_person", {}, (data) => {
+    persons.value = data;
+    persons.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post("/api/risk/select_equipment", {}, (data) => {
+    equipments.value = data;
+    equipments.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post(
+    "/api/risk/select_RiskPerson",
+    {
+      id: id,
+    },
+    (data) => {
+      personIdList.value = data;
+      form.person = persons.value.filter((person) =>
+        personIdList.value.includes(person.id)
+      );
+      persons.value.forEach((item) => {
+        if (personIdList.value.includes(item.id)) {
+          item.checked = true;
+        }
+      });
+    }
+  );
+
+  await post(
+    "/api/risk/select_RiskEquipment",
+    {
+      id: id,
+    },
+    (data) => {
+      EquipmentIdList.value = data;
+      form.equipment = equipments.value.filter((equipment) =>
+        EquipmentIdList.value.includes(equipment.id)
+      );
+      form.equipment.forEach((item) => {
+        item.showButton = true;
+      });
+      equipments.value.forEach((item) => {
+        if (EquipmentIdList.value.includes(item.id)) {
+          item.checked = true;
+        }
+      });
+    }
+  );
+  await post(
+    "/api/biologyInfo/find_dangername",
+    {
+      id: id,
+    },
+    (res) => {
+      console.log("返回的因子名称：" + res);
+      dangerName.value = res;
+      post(
+        "/api/biologyInfo/searchInfo",
+        {
+          dangerName: dangerName.value,
+        },
+        (data) => {
+          console.log("返回的风险等级：");
+          console.log(data);
+          console.log(data.infectious);
+          riskLevel.value = data.infectious;
+          console.log(111);
+          console.log(riskLevel.value);
+          if (riskLevel.value == "一级") {
+            defendLevel.value = "高";
+          } else if (riskLevel.value == "二级") {
+            defendLevel.value = "中";
+          } else {
+            defendLevel.value = "低";
+          }
+        }
+      );
+    }
+  );
+  isJump.value = false
+};
 </script>
 
 <style scoped>
@@ -662,20 +898,19 @@ const createHandlePEList = () => {
   bottom: 7%;
   right: 5%;
 }
-.center-container{
+.center-container {
   position: fixed;
   top: 100px;
   width: 89%;
   height: 100%;
 }
 
-.card_box{
-  height:80%;
-  overflow-y:auto;
-  overflow-x:hidden;
-  margin:0 60px 0 40px;
+.card_box {
+  height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 60px 0 40px;
   padding: 20px;
-
 }
 .baidumap > .BMap_cpyCtrl {
   display: none !important;
