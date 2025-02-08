@@ -166,6 +166,7 @@
                   <el-card class="card">
                     <el-table
                       :data="form.person"
+                      :key="form.person"
                       style="width: 100%; max-height: 45vh"
                     >
                       <el-table-column prop="id" label="警务号" width />
@@ -185,7 +186,7 @@
                     ></el-button>
                   </div>
                   <el-card class="card">
-                    <el-table :data="form.equipment" style="width: 100%">
+                    <el-table :data="form.equipment" :key="form.equipment" style="width: 100%">
                       <el-table-column
                         prop="id"
                         label="设备号"
@@ -653,6 +654,17 @@
       </div>
     </div>
   </div>
+  <el-dialog
+    title="输入案件id"
+    v-model="isJump"
+    :before-close="handleClose"
+    width="300"
+  >
+    <el-input v-model="inputId" placeholder="输入案件id" />
+    <div style="margin-top: 20px; text-align: center">
+      <el-button type="primary" @click="getId">确认</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -661,7 +673,7 @@ import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import Sidebar from "../../components/sideBar/SideBar.vue";
 import router from "@/router";
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, onBeforeMount, onMounted } from "vue";
 import axios from "axios";
 import {
   Search,
@@ -706,7 +718,7 @@ import faceVideo from "./video/faceVideo.mp4";
 // import { el } from "element-plus/es/locale";
 
 // const modelURL = "http://localhost:5000";
- const modelURL = "https://4d63-125-43-86-79.ngrok-free.app";
+const modelURL = "https://4d63-125-43-86-79.ngrok-free.app";
 
 const dialogImageUrl2 = ref("");
 const dialogVisible = ref(false);
@@ -725,91 +737,95 @@ const handleDownload2 = (file) => {
 };
 
 onBeforeMount(async () => {
-  post("/api/risk/select_person", {}, (data) => {
-    persons.value = data;
-    persons.value.forEach(function (item) {
-      item.checked = false;
+  if (id == undefined) {
+    isJump.value = true;
+  } else {
+    post("/api/risk/select_person", {}, (data) => {
+      persons.value = data;
+      persons.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  post("/api/risk/select_equipment", {}, (data) => {
-    equipments.value = data;
-    equipments.value.forEach(function (item) {
-      item.checked = false;
+    post("/api/risk/select_equipment", {}, (data) => {
+      equipments.value = data;
+      equipments.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  post("/api/case/search_case", { id: id }, (data) => {
-    form.date = data.date;
-    form.time = data.time;
-    form.position.longitude = String(data.longitude);
-    form.position.latitude = String(data.latitude);
-    form.position.country = data.country;
-    form.position.province = data.province;
-    form.position.urban = data.urban;
-    form.position.description = data.description;
-  });
+    post("/api/case/search_case", { id: id }, (data) => {
+      form.date = data.date;
+      form.time = data.time;
+      form.position.longitude = String(data.longitude);
+      form.position.latitude = String(data.latitude);
+      form.position.country = data.country;
+      form.position.province = data.province;
+      form.position.urban = data.urban;
+      form.position.description = data.description;
+    });
 
-  if (id && back) {
-    await post(
-      "/api/risk/select_riskPlan",
-      {
-        id: id,
-      },
-      (data) => {
-        console.log(data);
-        form.date = data.date;
-        form.time = data.time;
-        form.position.longitude = String(data.longitude);
-        form.position.latitude = String(data.latitude);
-        form.position.country = data.country;
-        form.position.province = data.province;
-        form.position.urban = data.urban;
-        form.position.description = data.description;
-        form.type = data.type.split(",");
-        console.log(form.type);
-        form.objectDescription = data.bjectDescription;
-      }
-    );
+    if (id && back) {
+      await post(
+        "/api/risk/select_riskPlan",
+        {
+          id: id,
+        },
+        (data) => {
+          console.log(data);
+          form.date = data.date;
+          form.time = data.time;
+          form.position.longitude = String(data.longitude);
+          form.position.latitude = String(data.latitude);
+          form.position.country = data.country;
+          form.position.province = data.province;
+          form.position.urban = data.urban;
+          form.position.description = data.description;
+          form.type = data.type.split(",");
+          console.log(form.type);
+          form.objectDescription = data.bjectDescription;
+        }
+      );
 
-    await post(
-      "/api/risk/select_RiskPerson",
-      {
-        id: id,
-      },
-      (data) => {
-        personIdList.value = data;
-        form.person = persons.value.filter((person) =>
-          personIdList.value.includes(person.id)
-        );
-        persons.value.forEach((item) => {
-          if (personIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-    );
+      await post(
+        "/api/risk/select_RiskPerson",
+        {
+          id: id,
+        },
+        (data) => {
+          personIdList.value = data;
+          form.person = persons.value.filter((person) =>
+            personIdList.value.includes(person.id)
+          );
+          persons.value.forEach((item) => {
+            if (personIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
 
-    await post(
-      "/api/risk/select_RiskEquipment",
-      {
-        id: id,
-      },
-      (data) => {
-        EquipmentIdList.value = data;
-        form.equipment = equipments.value.filter((equipment) =>
-          EquipmentIdList.value.includes(equipment.id)
-        );
-        form.equipment.forEach((item) => {
-          item.showButton = true;
-        });
-        equipments.value.forEach((item) => {
-          if (EquipmentIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-    );
+      await post(
+        "/api/risk/select_RiskEquipment",
+        {
+          id: id,
+        },
+        (data) => {
+          EquipmentIdList.value = data;
+          form.equipment = equipments.value.filter((equipment) =>
+            EquipmentIdList.value.includes(equipment.id)
+          );
+          form.equipment.forEach((item) => {
+            item.showButton = true;
+          });
+          equipments.value.forEach((item) => {
+            if (EquipmentIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
+    }
   }
 });
 
@@ -819,9 +835,12 @@ const EquipmentIdList = ref([]);
 const persons = ref([]);
 const equipments = ref([]);
 
+const inputId = ref();
+
 const route = useRoute();
-const id = route.query.id;
-const back = route.query.back;
+var id = route.query.id;
+var back = route.query.back;
+const isJump = ref(false);
 const newRiskpeople = reactive({
   newid: "",
   newname: "",
@@ -924,6 +943,98 @@ const imgSize = reactive({
   width: 0,
 });
 
+const getId = async () => {
+  id = inputId.value;
+  back = 1
+  await post("/api/risk/select_person", {}, (data) => {
+    persons.value = data;
+    persons.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post("/api/risk/select_equipment", {}, (data) => {
+    equipments.value = data;
+    equipments.value.forEach(function (item) {
+      item.checked = false;
+    });
+  });
+
+  await post("/api/case/search_case", { id: id }, (data) => {
+    form.date = data.date;
+    form.time = data.time;
+    form.position.longitude = String(data.longitude);
+    form.position.latitude = String(data.latitude);
+    form.position.country = data.country;
+    form.position.province = data.province;
+    form.position.urban = data.urban;
+    form.position.description = data.description;
+  });
+
+  if (id && back) {
+    await post(
+      "/api/risk/select_riskPlan",
+      {
+        id: id,
+      },
+      (data) => {
+        console.log(data);
+        form.date = data.date;
+        form.time = data.time;
+        form.position.longitude = String(data.longitude);
+        form.position.latitude = String(data.latitude);
+        form.position.country = data.country;
+        form.position.province = data.province;
+        form.position.urban = data.urban;
+        form.position.description = data.description;
+        form.type = data.type.split(",");
+        console.log(form.type);
+        form.objectDescription = data.bjectDescription;
+      }
+    );
+
+    await post(
+      "/api/risk/select_RiskPerson",
+      {
+        id: id,
+      },
+      (data) => {
+        personIdList.value = data;
+        form.person = persons.value.filter((person) =>
+          personIdList.value.includes(person.id)
+        );
+        persons.value.forEach((item) => {
+          if (personIdList.value.includes(item.id)) {
+            item.checked = true;
+          }
+        });
+      }
+    );
+
+    await post(
+      "/api/risk/select_RiskEquipment",
+      {
+        id: id,
+      },
+      (data) => {
+        EquipmentIdList.value = data;
+        form.equipment = equipments.value.filter((equipment) =>
+          EquipmentIdList.value.includes(equipment.id)
+        );
+        form.equipment.forEach((item) => {
+          item.showButton = true;
+        });
+        equipments.value.forEach((item) => {
+          if (EquipmentIdList.value.includes(item.id)) {
+            item.checked = true;
+          }
+        });
+      }
+    );
+  }
+  isJump.value = false;
+};
+
 const compare = () => {
   compareImages.value = true;
   // 创建一个 FormData 对象
@@ -932,7 +1043,7 @@ const compare = () => {
   console.log(fl.value.raw);
   if (fl.value.raw) {
     formData.append("image", fl.value.raw);
-    console.log(formData)
+    console.log(formData);
     axios
       .post(modelURL + "/v1/object-detection/yolov5", formData, {
         headers: {

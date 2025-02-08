@@ -216,9 +216,9 @@ onMounted(() => {
 }
 
 .card_container {
-  //display: flex;
+  /* //display: flex;
   //justify-content: center;
-  //align-items: center;
+  //align-items: center; */
   margin: 30px;
   height: 75vh;
 }

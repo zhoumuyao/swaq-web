@@ -156,7 +156,7 @@
                     <el-button type="primary" :icon="Plus" circle @click="dialogPerson = true;"></el-button>
                   </div>
                   <div>
-                    <el-table :data="form.person" style="width: 100%; height: 45vh">
+                    <el-table :data="form.person" :key="form.person" style="width: 100%; height: 45vh">
                       <el-table-column prop="id" label="警务号" />
                       <el-table-column prop="name" label="姓名" />
                     </el-table>
@@ -386,7 +386,7 @@
                       ></el-button>
                     </div>
                     <el-card>
-                      <el-table :data="form.equipment" style="width: 100%; height: 45vh">
+                      <el-table :data="form.equipment" :key="form.equipment" style="width: 100%; height: 45vh">
                         <el-table-column prop="id" label="设备号" />
                         <el-table-column prop="name" label="设备名" />
                         <el-table-column prop="guide" label="使用说明" width="120">
@@ -547,6 +547,17 @@
       </div>
     </div>
   </div>
+  <el-dialog
+    title="输入案件id"
+    v-model="isJump"
+    :before-close="handleClose"
+    width="300"
+  >
+    <el-input v-model="inputId" placeholder="输入案件id" />
+    <div style="margin-top: 20px; text-align: center">
+      <el-button type="primary" @click="getId">确认</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -574,8 +585,11 @@ const counterStore = useCounterStore()
 //案件相关id
 import {useRoute} from "vue-router";
 const route = useRoute();
-const id = route.query.id;
-const back = route.query.back;
+var id = route.query.id;
+var back = route.query.back;
+
+const isJump = ref(false)
+const inputId = ref()
 
 //存放已选择的人员与仪器
 const personIdList = ref([]);
@@ -785,61 +799,61 @@ const addEquiment = () => {
 // const wupin = ref(["手套", "防护服", "实验室器皿", "实验室样本管"]);
 
 onMounted(() => {
-
-  if (id) {
-    post("/api/risk/select_person", {}, (data) => {
-      persons.value = data;
-      persons.value.forEach(function (item) {
-        item.checked = false;
+  if (id == undefined) {
+    isJump.value = true;
+  } else {
+    if (id) {
+      post("/api/risk/select_person", {}, (data) => {
+        persons.value = data;
+        persons.value.forEach(function (item) {
+          item.checked = false;
+        });
+        post(
+            "/api/risk/select_RiskPerson",
+            {
+              id: id,
+            },
+            (data) => {
+              personIdList.value = data;
+              form.person = persons.value.filter((person) =>
+                  personIdList.value.includes(person.id)
+              );
+              persons.value.forEach((item) => {
+                if (personIdList.value.includes(item.id)) {
+                  item.checked = true;
+                }
+              });
+            }
+        );
       });
-      post(
-          "/api/risk/select_RiskPerson",
-          {
-            id: id,
-          },
-          (data) => {
-            personIdList.value = data;
-            form.person = persons.value.filter((person) =>
-                personIdList.value.includes(person.id)
-            );
-            persons.value.forEach((item) => {
-              if (personIdList.value.includes(item.id)) {
-                item.checked = true;
-              }
-            });
-          }
-      );
-    });
 
-    post("/api/risk/select_equipment", {}, (data) => {
-      equipments.value = data;
-      equipments.value.forEach(function (item) {
-        item.checked = false;
+      post("/api/risk/select_equipment", {}, (data) => {
+        equipments.value = data;
+        equipments.value.forEach(function (item) {
+          item.checked = false;
+        });
+        post(
+            "/api/risk/select_RiskEquipment",
+            {
+              id: id,
+            },
+            (data) => {
+              EquipmentIdList.value = data;
+              form.equipment = equipments.value.filter((equipment) =>
+                  EquipmentIdList.value.includes(equipment.id)
+              );
+              form.equipment.forEach((item) => {
+                item.showButton = true;
+              });
+              equipments.value.forEach((item) => {
+                if (EquipmentIdList.value.includes(item.id)) {
+                  item.checked = true;
+                }
+              });
+            }
+        );
       });
-      post(
-          "/api/risk/select_RiskEquipment",
-          {
-            id: id,
-          },
-          (data) => {
-            EquipmentIdList.value = data;
-            form.equipment = equipments.value.filter((equipment) =>
-                EquipmentIdList.value.includes(equipment.id)
-            );
-            form.equipment.forEach((item) => {
-              item.showButton = true;
-            });
-            equipments.value.forEach((item) => {
-              if (EquipmentIdList.value.includes(item.id)) {
-                item.checked = true;
-              }
-            });
-          }
-      );
-    });
-
-
-
+    }
   }
 });
 
@@ -895,6 +909,62 @@ const back2 = () => {
     activeName.value = "first";
     console.log(activeName.value);
   }
+};
+
+const getId = async () => {
+  id = inputId.value;
+  back = 1
+  post("/api/risk/select_person", {}, (data) => {
+        persons.value = data;
+        persons.value.forEach(function (item) {
+          item.checked = false;
+        });
+        post(
+            "/api/risk/select_RiskPerson",
+            {
+              id: id,
+            },
+            (data) => {
+              personIdList.value = data;
+              form.person = persons.value.filter((person) =>
+                  personIdList.value.includes(person.id)
+              );
+              persons.value.forEach((item) => {
+                if (personIdList.value.includes(item.id)) {
+                  item.checked = true;
+                }
+              });
+            }
+        );
+      });
+
+      post("/api/risk/select_equipment", {}, (data) => {
+        equipments.value = data;
+        equipments.value.forEach(function (item) {
+          item.checked = false;
+        });
+        post(
+            "/api/risk/select_RiskEquipment",
+            {
+              id: id,
+            },
+            (data) => {
+              EquipmentIdList.value = data;
+              form.equipment = equipments.value.filter((equipment) =>
+                  EquipmentIdList.value.includes(equipment.id)
+              );
+              form.equipment.forEach((item) => {
+                item.showButton = true;
+              });
+              equipments.value.forEach((item) => {
+                if (EquipmentIdList.value.includes(item.id)) {
+                  item.checked = true;
+                }
+              });
+            }
+        );
+      });
+    isJump.value = false
 };
 
 </script>
