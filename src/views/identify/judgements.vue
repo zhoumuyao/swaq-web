@@ -113,6 +113,7 @@ const handleUpdate = (value) => {
 
 const handleClick = (value) => {
   form.judge = value;
+
   // 在这里你可以执行其他的逻辑
   post(
       "/api/identify/create_idetify",
@@ -127,12 +128,12 @@ const handleClick = (value) => {
         isUpdate: true,
       },
       (data) => {
-        // if(value){
-        //   router.push({ path: "/identify1", query: { id: id, back: back } });
-        // }
-        // else{
-        //   router.push({ path: "/identify2", query: { id: id, back: back } });
-        // }
+        if(value){
+          router.push({ path: "/identify1", query: { id: id, back: back } });
+        }
+        else{
+          router.push({ path: "/identify2", query: { id: id, back: back } });
+        }
       },
       (data) => {
         ElMessage.warning(data);

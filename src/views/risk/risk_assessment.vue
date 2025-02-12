@@ -228,7 +228,7 @@ var infectious = ref("");
 var pathogenicity = ref("");
 var fatalityRate = ref("");
 
-onMounted(async () => {
+onMounted(() => {
   post(
     "/api/biologyInfo/find_dangername",
     {

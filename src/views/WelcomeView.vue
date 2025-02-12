@@ -2,7 +2,7 @@
   <div style="width: 100vw;height: 100vh;overflow: hidden;display: flex; ">
     <div style="flex: 1;text-align: center; margin-top: 25vh;">
       <el-image style="width: 35vw;height: 40vh" fit="fill"
-                src="public/image.png"></el-image>
+                src="image.png"></el-image>
     </div>
     <div class="welcome-title">
       <div style="font-size: 30px;font-weight: bold" :style="{ width: `${windowWidth - 350}px` }">欢迎来到生物安全项目</div>

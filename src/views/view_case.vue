@@ -260,7 +260,7 @@
                   </div>
                   <div class="caseContent">
                     <div>勘察工作:</div>
-                    <div>{{ handleData.type.join("") }}</div>
+                    <div>{{ handleData.type.join(",      ") }}</div>
                   </div>
                   <div class="caseContent">
                     <div>环境参数：</div>
@@ -311,30 +311,6 @@
                   </div>
                 </div>
                 <div v-if="modulType == '检验鉴定信息'">
-                  <div class="caseContent">
-                    <div>风险评估人员：</div>
-                    <div>
-                      <div
-                        v-for="item in identifyData.persons"
-                        :key="item.id"
-                        style="display: inline-block; margin-right: 20px"
-                      >
-                        {{ item.name }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="caseContent">
-                    <div style="display: inline-block">评估装备设备：</div>
-                    <div>
-                      <div
-                        v-for="item in identifyData.equipments"
-                        :key="item.id"
-                        style="display: inline-block; margin-right: 20px"
-                      >
-                        {{ item.name }}
-                      </div>
-                    </div>
-                  </div>
                   <div class="caseContent">
                     <div>检测方法：</div>
                     <div>{{ identifyData.method }}</div>
@@ -778,30 +754,6 @@ const selectIdentifyMessage = (id) => {
     (data) => {
       identifyData.value.method = data.method;
       identifyData.value.result = data.result;
-      // post(
-      //   "/api/risk/select_RiskPerson",
-      //   {
-      //     id: id,
-      //   },
-      //   (data) => {
-      //     personIdList.value = data;
-      //     identifyData.value.persons = persons.value
-      //       .filter((person) => identifyData.value.includes(person.id))
-      //       .map((item) => ({ id: item.id, name: item.name }));
-      //   }
-      // );
-      // post(
-      //   "/api/risk/select_RiskEquipment",
-      //   {
-      //     id: id,
-      //   },
-      //   (data) => {
-      //     EquipmentIdList.value = data;
-      //     identifyData.value.equipments = equipments.value
-      //       .filter((equipment) => identifyData.value.includes(equipment.id))
-      //       .map((item) => ({ id: item.id, name: item.name }));
-      //   }
-      // );
     }
   );
 };

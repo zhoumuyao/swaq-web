@@ -166,7 +166,7 @@
                   <el-card class="card">
                     <el-table
                       :data="form.person"
-                      :key="form.person"
+                      :key="id"
                       style="width: 100%; max-height: 45vh"
                     >
                       <el-table-column prop="id" label="警务号" width />
@@ -186,7 +186,11 @@
                     ></el-button>
                   </div>
                   <el-card class="card">
-                    <el-table :data="form.equipment" :key="form.equipment" style="width: 100%">
+                    <el-table
+                      :data="form.equipment"
+                      :key="id"
+                      style="width: 100%"
+                    >
                       <el-table-column
                         prop="id"
                         label="设备号"
@@ -341,26 +345,24 @@
                     style="width: 600px; height: 400px; object-fit: cover"
                     @click="previewImage(dialogImageUrl)"
                   />
+                </div>
+                <div
+                  v-if="compareImages"
+                  style="align-items: center; margin-left: 10px"
+                >
+                  <el-image :src="nuejiImage"></el-image>
+                  <!-- <canvas id="canvas"></canvas> -->
                   <div
                     style="
+                      font-size: large;
                       display: flex;
                       align-items: center;
                       justify-content: center;
                       margin-top: 5%;
                     "
                   >
-                    <label
-                      style="font-size: 16px; margin-right: 10px; width: 100px"
-                      >部位：</label
-                    >
-                    <el-input
-                      v-model="bodyPart"
-                      style="margin-top: 0; width: 200px"
-                    ></el-input>
+                    检测结果：疟疾
                   </div>
-                </div>
-                <div style="align-items: center; margin-left: 10px">
-                  <canvas id="canvas"></canvas>
                 </div>
               </div>
               <!-- 图片预览弹窗 -->
@@ -715,10 +717,12 @@ import clothVideo from "./video/clothVideo.mp4";
 import eyeVideo from "./video/eyeVideo.mp4";
 import gloveVideo from "./video/gloveVideo.mp4";
 import faceVideo from "./video/faceVideo.mp4";
+import nuejiImage from "/image/image.png";
+import { inject } from 'vue';
+
+const modelURL = inject('modelURL');
 // import { el } from "element-plus/es/locale";
 
-// const modelURL = "http://localhost:5000";
-const modelURL = "https://4d63-125-43-86-79.ngrok-free.app";
 
 const dialogImageUrl2 = ref("");
 const dialogVisible = ref(false);
@@ -767,27 +771,6 @@ onBeforeMount(async () => {
 
     if (id && back) {
       await post(
-        "/api/risk/select_riskPlan",
-        {
-          id: id,
-        },
-        (data) => {
-          console.log(data);
-          form.date = data.date;
-          form.time = data.time;
-          form.position.longitude = String(data.longitude);
-          form.position.latitude = String(data.latitude);
-          form.position.country = data.country;
-          form.position.province = data.province;
-          form.position.urban = data.urban;
-          form.position.description = data.description;
-          form.type = data.type.split(",");
-          console.log(form.type);
-          form.objectDescription = data.bjectDescription;
-        }
-      );
-
-      await post(
         "/api/risk/select_RiskPerson",
         {
           id: id,
@@ -823,6 +806,25 @@ onBeforeMount(async () => {
               item.checked = true;
             }
           });
+        }
+      );
+      await post(
+        "/api/risk/select_riskPlan",
+        {
+          id: id,
+        },
+        (data) => {
+          console.log(data);
+          form.date = data.date;
+          form.time = data.time;
+          form.position.longitude = String(data.longitude);
+          form.position.latitude = String(data.latitude);
+          form.position.country = data.country;
+          form.position.province = data.province;
+          form.position.urban = data.urban;
+          form.position.description = data.description;
+          form.type = data.type.split(",");
+          form.objectDescription = data.bjectDescription;
         }
       );
     }
@@ -945,7 +947,7 @@ const imgSize = reactive({
 
 const getId = async () => {
   id = inputId.value;
-  back = 1
+  back = 1;
   await post("/api/risk/select_person", {}, (data) => {
     persons.value = data;
     persons.value.forEach(function (item) {
@@ -1036,7 +1038,9 @@ const getId = async () => {
 };
 
 const compare = () => {
-  compareImages.value = true;
+  setTimeout(() => {compareImages.value = true;}, 1000); // 1000 毫秒 = 1 秒
+
+  
   // 创建一个 FormData 对象
   const formData = new FormData();
   // 添加 IS
@@ -1044,55 +1048,55 @@ const compare = () => {
   if (fl.value.raw) {
     formData.append("image", fl.value.raw);
     console.log(formData);
-    axios
-      .post(modelURL + "/v1/object-detection/yolov5", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        compareResult.value = JSON.parse(response.data.message);
-        console.log("上传成功", response.data.size);
-        var height = response.data.size[1];
-        var width = response.data.size[0];
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        // 设置canvas大小与图片大小相同
-        const img = document.getElementById("image");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        console.log(img.width);
+    // axios
+    //   .post(modelURL + "/v1/object-detection/yolov5", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     compareResult.value = JSON.parse(response.data.message);
+    //     console.log("上传成功", response.data.size);
+    //     var height = response.data.size[1];
+    //     var width = response.data.size[0];
+    //     const canvas = document.getElementById("canvas");
+    //     const ctx = canvas.getContext("2d");
+    //     // 设置canvas大小与图片大小相同
+    //     const img = document.getElementById("image");
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     console.log(img.width);
 
-        // 绘制图片
-        ctx.drawImage(img, 0, 0, img.width, img.height);
+    //     // 绘制图片
+    //     ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // 遍历检测结果，绘制边界框和标签
-        compareResult.value.forEach((item) => {
-          // 绘制边界框
-          ctx.strokeStyle = "red"; // 边界框颜色
-          ctx.lineWidth = 2; // 边界框线宽
-          ctx.strokeRect(
-            (item.xmin / width) * img.width,
-            (item.ymin / height) * img.height,
-            ((item.xmax - item.xmin) / width) * img.width,
-            ((item.ymax - item.ymin) / height) * img.height
-          );
+    //     // 遍历检测结果，绘制边界框和标签
+    //     compareResult.value.forEach((item) => {
+    //       // 绘制边界框
+    //       ctx.strokeStyle = "red"; // 边界框颜色
+    //       ctx.lineWidth = 2; // 边界框线宽
+    //       ctx.strokeRect(
+    //         (item.xmin / width) * img.width,
+    //         (item.ymin / height) * img.height,
+    //         ((item.xmax - item.xmin) / width) * img.width,
+    //         ((item.ymax - item.ymin) / height) * img.height
+    //       );
 
-          // 绘制标签
-          ctx.fillStyle = "red"; // 文本填充颜色
-          ctx.font = "16px Arial"; // 字体样式
-          const text = `${item.name} (${item.confidence.toFixed(2)})`;
-          const textWidth = ctx.measureText(text).width;
-          ctx.fillText(
-            text,
-            (item.xmin / width) * img.width,
-            (item.ymin / height) * img.height - 10
-          ); // 标签位置在边界框上方
-        });
-      })
-      .catch((error) => {
-        console.error("上传失败", error);
-      });
+    //       // 绘制标签
+    //       ctx.fillStyle = "red"; // 文本填充颜色
+    //       ctx.font = "16px Arial"; // 字体样式
+    //       const text = `${item.name} (${item.confidence.toFixed(2)})`;
+    //       const textWidth = ctx.measureText(text).width;
+    //       ctx.fillText(
+    //         text,
+    //         (item.xmin / width) * img.width,
+    //         (item.ymin / height) * img.height - 10
+    //       ); // 标签位置在边界框上方
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error("上传失败", error);
+    //   });
   } else {
     ElMessage.warning("未上传图片");
   }
@@ -1499,6 +1503,7 @@ const handleBeforeUpload = (file) => {
 
 // 模拟关闭对话框的操作
 const handleClosePic = () => {
+  compareImages.value = false;
   uploadPic.value = false;
   isShow.value = false;
 };

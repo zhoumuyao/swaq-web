@@ -148,6 +148,9 @@ const login = () => {
       (message) => {
         ElMessage.success(message);
         localStorage.setItem("user", form.username)
+        setTimeout(() => {
+          localStorage.removeItem("user");
+        }, 24 * 60 * 60 * 1000);
         router.push("/index");
       }
     );

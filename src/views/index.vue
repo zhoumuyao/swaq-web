@@ -2,9 +2,11 @@
   <div class="app">
     <div class="content">
       <homePage :key="componentKey" style="margin-top: 1vh"></homePage>
-      <div style="position: relative; bottom: 2rem; left: 1rem;">
-        在线人数：{{numberOnline}}人
-        <el-button @click="logout" type="danger" plain style="margin-left: 80%">退出登录</el-button>
+      <div style="position: relative; bottom: 2rem; left: 1rem">
+        在线人数：{{ numberOnline }}人
+        <el-button @click="logout" type="danger" plain style="margin-left: 80%"
+          >退出登录</el-button
+        >
       </div>
     </div>
   </div>
@@ -19,12 +21,25 @@ import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
 const numberOnline = ref(0);
 const componentKey = ref(0);
-
 const logout = () => {
-  localStorage.removeItem('user'); 
-  post('/api/auth/logout', (message) => {
+  let username = localStorage.getItem("user")
+
+  if(username != ""){
+    console.log(username)
+    post(
+      '/api/index/logout',
+    {
+      username: username,
+    },
+    (data) => {
+      router.push('/');
+    }
+  );
+  }
+  post('/api/auth/logout', {}, (message) => {
+    localStorage.removeItem("user");
     ElMessage.success(message);
-    router.push('/');
+    
   });
 };
 
@@ -32,11 +47,14 @@ const handleWindowResize = () => {
   componentKey.value += 1; // 强制重新渲染组件
 };
 
+
 onMounted(() => {
   window.addEventListener('resize', handleWindowResize); // 监听窗口大小变化
   post('/api/index/online_number', {}, (data) => {
     numberOnline.value = data;
+    console.log(numberOnline.value)
   });
+
 });
 
 onBeforeUnmount(() => {
