@@ -12,7 +12,7 @@ import axios from "axios";
 
 const app = createApp(App)
 
-const modelURL = 'http://192.10.84.130:5007';
+const modelURL = 'http://localhost:5000';
 
 //const modelURL = "https://3e0a-42-228-225-150.ngrok-free.app"
 

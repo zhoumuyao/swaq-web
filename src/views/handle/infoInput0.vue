@@ -36,7 +36,7 @@
                 <el-card class="card">
                   <el-table
                     :data="form.person"
-                    :key="form.person"
+                    :key="tableKey"
                     style="width: 100%; height: 45vh"
                   >
                     <el-table-column prop="id" label="警务号" width />
@@ -58,7 +58,7 @@
                 <el-card class="card">
                   <el-table
                     :data="form.equipment"
-                    :key="form.equipment"
+                    :key="tableKey2"
                     style="width: 100%; height: 45vh"
                   >
                     <el-table-column prop="id" label="设备号" width />
@@ -421,6 +421,9 @@ const addHandleEquipment = ref(false);
 // 当前步骤
 const active = ref(0);
 
+const tableKey = ref(0);
+const tableKey2 = ref(0);
+
 const route = useRoute();
 var id = route.query.id;
 const selectedGather = ref([]);
@@ -535,6 +538,7 @@ onBeforeMount(async () => {
             item.checked = true;
           }
         });
+        tableKey.value ++;
       }
     );
 
@@ -556,6 +560,7 @@ onBeforeMount(async () => {
             item.checked = true;
           }
         });
+        tableKey2.value ++;
       }
     );
     console.log("该案件的数据");
@@ -816,8 +821,12 @@ const getId = async () => {
     },
     (data) => {
       personIdList.value = data;
-      form.person = persons.value.filter((person) =>
-        personIdList.value.includes(person.id)
+      form.person.splice(
+        0,
+        form.person.length,
+        ...persons.value.filter((person) =>
+          personIdList.value.includes(person.id)
+        )
       );
       persons.value.forEach((item) => {
         if (personIdList.value.includes(item.id)) {
@@ -834,8 +843,12 @@ const getId = async () => {
     },
     (data) => {
       EquipmentIdList.value = data;
-      form.equipment = equipments.value.filter((equipment) =>
-        EquipmentIdList.value.includes(equipment.id)
+      form.equipment.splice(
+        0,
+        form.equipment.length,
+        ...equipments.value.filter((equipment) =>
+          EquipmentIdList.value.includes(equipment.id)
+        )
       );
       form.equipment.forEach((item) => {
         item.showButton = true;

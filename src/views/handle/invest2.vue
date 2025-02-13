@@ -21,21 +21,21 @@
               <el-tab-pane label="环境勘察" name="first"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">环境图片</label>
                 <el-divider></el-divider>
-                <el-tabs>
+                <el-tabs style="text-align: center;">
                   <el-tab-pane label="方位图片" name="image3">
-                    <img :src="images.image3" alt="方位图片" style="width: 100%; height: auto;">
+                    <img :src="images.image3" alt="方位图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="概貌图片" name="image4">
-                    <img :src="images.image4" alt="概貌图片" style="width: 100%; height: auto;">
+                    <img :src="images.image4" alt="概貌图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="空气图片" name="image5">
-                    <img :src="images.image5" alt="空气图片" style="width: 100%; height: auto;">
+                    <img :src="images.image5" alt="空气图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="土壤图片" name="image6">
-                    <img :src="images.image6" alt="土壤图片" style="width: 100%; height: auto;">
+                    <img :src="images.image6" alt="土壤图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="水源图片" name="image7">
-                    <img :src="images.image7" alt="水源图片" style="width: 100%; height: auto;">
+                    <img :src="images.image7" alt="水源图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                 </el-tabs>
 
@@ -46,12 +46,12 @@
               <el-tab-pane label="人员勘察" name="second"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">人员图片</label>
                 <el-divider></el-divider>
-                <el-tabs>
+                <el-tabs style="text-align: center;">
                   <el-tab-pane label="尸体图片" name="image1">
-                    <img :src="images.image1" alt="尸体图片" style="width: 100%; height: auto;">
+                    <img :src="images.image1" alt="尸体图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="伤员图片" name="image2">
-                    <img :src="images.image2" alt="伤员图片" style="width: 100%; height: auto;">
+                    <img :src="images.image2" alt="伤员图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                 </el-tabs>
 
@@ -59,12 +59,12 @@
               <el-tab-pane label="物证勘察" name="third"  style="margin:20px 20px 20px 50px">
                 <label class="label" style="margin-left: 45%">物证图片</label>
                 <el-divider></el-divider>
-                <el-tabs>
+                <el-tabs style="text-align: center;">
                   <el-tab-pane label="指纹图片" name="image8">
-                    <img :src="images.image8" alt="指纹图片" style="width: 100%; height: auto;">
+                    <img :src="images.image8" alt="指纹图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="足迹图片" name="image9">
-                    <img :src="images.image9" alt="足迹图片" style="width: 100%; height: auto;">
+                    <img :src="images.image9" alt="足迹图片" style="width: 30%; height: auto;">
                   </el-tab-pane>
                   <el-tab-pane label="手印图片" name="image10">
                     <img :src="images.image10" alt="手印图片" style="width: 100%; height: auto;">

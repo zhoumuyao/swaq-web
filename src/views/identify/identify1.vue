@@ -71,6 +71,7 @@
                   <el-card>
                     <el-table
                       :data="prosectors"
+                      :key = "tableKey"
                       style="width: 100%; height: 45vh"
                     >
                       <el-table-column prop="id" label="警务号" />
@@ -908,6 +909,8 @@ const dataAnalysis = ref([
   },
 ]);
 
+const tableKey = ref(0);
+
 onBeforeMount(() => {
   post("/api/risk/select_equipment", {}, (data) => {
     equipments.value = data;
@@ -941,14 +944,19 @@ onBeforeMount(() => {
         },
         (data) => {
           personIdList.value = data;
-          prosectors.value = persons.value.filter((person) =>
-            personIdList.value.includes(person.id)
+          prosectors.value.splice(
+            0,
+            prosectors.value.length,
+            ...persons.value.filter((person) =>
+              personIdList.value.includes(person.id)
+            )
           );
           persons.value.forEach((item) => {
             if (personIdList.value.includes(item.id)) {
               item.checked = true;
             }
           });
+          tableKey.value++;
         }
       );
     });

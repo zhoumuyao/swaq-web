@@ -166,7 +166,7 @@
                   <el-card class="card">
                     <el-table
                       :data="form.person"
-                      :key="id"
+                      :key="tableKey"
                       style="width: 100%; max-height: 45vh"
                     >
                       <el-table-column prop="id" label="警务号" width />
@@ -188,7 +188,7 @@
                   <el-card class="card">
                     <el-table
                       :data="form.equipment"
-                      :key="id"
+                      :key="tableKey2"
                       style="width: 100%"
                     >
                       <el-table-column
@@ -350,7 +350,10 @@
                   v-if="compareImages"
                   style="align-items: center; margin-left: 10px"
                 >
-                  <el-image :src="nuejiImage"></el-image>
+                  <el-image
+                    :src="nuejiImage"
+                    style="width: 600px; height: 400px; object-fit: cover"
+                  ></el-image>
                   <!-- <canvas id="canvas"></canvas> -->
                   <div
                     style="
@@ -361,7 +364,7 @@
                       margin-top: 5%;
                     "
                   >
-                    检测结果：疟疾
+                    检测概率：82.32% 检测结果：疟疾
                   </div>
                 </div>
               </div>
@@ -718,11 +721,12 @@ import eyeVideo from "./video/eyeVideo.mp4";
 import gloveVideo from "./video/gloveVideo.mp4";
 import faceVideo from "./video/faceVideo.mp4";
 import nuejiImage from "/image/image.png";
-import { inject } from 'vue';
+import { inject } from "vue";
 
-const modelURL = inject('modelURL');
+const modelURL = inject("modelURL");
 // import { el } from "element-plus/es/locale";
-
+const tableKey = ref(0);
+const tableKey2 = ref(0);
 
 const dialogImageUrl2 = ref("");
 const dialogVisible = ref(false);
@@ -744,21 +748,21 @@ onBeforeMount(async () => {
   if (id == undefined) {
     isJump.value = true;
   } else {
-    post("/api/risk/select_person", {}, (data) => {
+    await post("/api/risk/select_person", {}, (data) => {
       persons.value = data;
       persons.value.forEach(function (item) {
         item.checked = false;
       });
     });
 
-    post("/api/risk/select_equipment", {}, (data) => {
+    await post("/api/risk/select_equipment", {}, (data) => {
       equipments.value = data;
       equipments.value.forEach(function (item) {
         item.checked = false;
       });
     });
 
-    post("/api/case/search_case", { id: id }, (data) => {
+    await post("/api/case/search_case", { id: id }, (data) => {
       form.date = data.date;
       form.time = data.time;
       form.position.longitude = String(data.longitude);
@@ -777,14 +781,20 @@ onBeforeMount(async () => {
         },
         (data) => {
           personIdList.value = data;
-          form.person = persons.value.filter((person) =>
-            personIdList.value.includes(person.id)
+
+          form.person.splice(
+            0,
+            form.person.length,
+            ...persons.value.filter((person) =>
+              personIdList.value.includes(person.id)
+            )
           );
           persons.value.forEach((item) => {
             if (personIdList.value.includes(item.id)) {
               item.checked = true;
             }
           });
+          tableKey.value++;
         }
       );
 
@@ -795,8 +805,12 @@ onBeforeMount(async () => {
         },
         (data) => {
           EquipmentIdList.value = data;
-          form.equipment = equipments.value.filter((equipment) =>
-            EquipmentIdList.value.includes(equipment.id)
+          form.equipment.splice(
+            0,
+            form.equipment.length,
+            ...equipments.value.filter((equipment) =>
+              EquipmentIdList.value.includes(equipment.id)
+            )
           );
           form.equipment.forEach((item) => {
             item.showButton = true;
@@ -806,6 +820,8 @@ onBeforeMount(async () => {
               item.checked = true;
             }
           });
+          tableKey2.value++;
+          console.log(tableKey2.value)
         }
       );
       await post(
@@ -1038,9 +1054,10 @@ const getId = async () => {
 };
 
 const compare = () => {
-  setTimeout(() => {compareImages.value = true;}, 1000); // 1000 毫秒 = 1 秒
+  setTimeout(() => {
+    compareImages.value = true;
+  }, 1000); // 1000 毫秒 = 1 秒
 
-  
   // 创建一个 FormData 对象
   const formData = new FormData();
   // 添加 IS

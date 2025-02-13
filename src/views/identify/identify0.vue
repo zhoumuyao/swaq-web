@@ -156,7 +156,7 @@
                     <el-button type="primary" :icon="Plus" circle @click="dialogPerson = true;"></el-button>
                   </div>
                   <div>
-                    <el-table :data="form.person" :key="form.person" style="width: 100%; height: 45vh">
+                    <el-table :data="form.person" :key="tableKey" style="width: 100%; height: 45vh">
                       <el-table-column prop="id" label="警务号" />
                       <el-table-column prop="name" label="姓名" />
                     </el-table>
@@ -386,7 +386,7 @@
                       ></el-button>
                     </div>
                     <el-card>
-                      <el-table :data="form.equipment" :key="form.equipment" style="width: 100%; height: 45vh">
+                      <el-table :data="form.equipment" :key="tableKey2" style="width: 100%; height: 45vh">
                         <el-table-column prop="id" label="设备号" />
                         <el-table-column prop="name" label="设备名" />
                         <el-table-column prop="guide" label="使用说明" width="120">
@@ -590,6 +590,9 @@ var back = route.query.back;
 
 const isJump = ref(false)
 const inputId = ref()
+
+const tableKey = ref(0);
+const tableKey2 = ref(0);
 
 //存放已选择的人员与仪器
 const personIdList = ref([]);
@@ -819,14 +822,19 @@ onMounted(() => {
           },
           (data) => {
             personIdList.value = data;
-            form.person = persons.value.filter((person) =>
+            form.person.splice(
+              0,
+              form.person.length,
+              ...persons.value.filter((person) =>
                 personIdList.value.includes(person.id)
+              )
             );
             persons.value.forEach((item) => {
               if (personIdList.value.includes(item.id)) {
                 item.checked = true;
               }
             });
+            tableKey.value++;
           }
       );
     });
@@ -843,8 +851,12 @@ onMounted(() => {
           },
           (data) => {
             EquipmentIdList.value = data;
-            form.equipment = equipments.value.filter((equipment) =>
+            form.equipment.splice(
+              0,
+              form.equipment.length,
+              ...equipments.value.filter((equipment) =>
                 EquipmentIdList.value.includes(equipment.id)
+              )
             );
             form.equipment.forEach((item) => {
               if (item.guide != null) {
@@ -856,6 +868,7 @@ onMounted(() => {
                 item.checked = true;
               }
             });
+            tableKey2.value++;
           }
       );
     });
