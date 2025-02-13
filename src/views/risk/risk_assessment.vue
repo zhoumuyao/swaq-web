@@ -91,8 +91,11 @@
                 </div>
               </el-card>
               <el-card>
-                <div style="float: right;margin-top: 20px;margin-right: 50px">
-                  <el-button type="primary" @click="generateReport">生成简易报告</el-button>
+                <div slot="header" class="jugehappentop">
+                  <span>处置方法</span>
+                </div>
+                <div style="margin-top: 10px;">
+                  <el-input type="textarea" :rows="6" placeholder="处置方法" v-model="disposalStep"></el-input>
                 </div>
               </el-card>
             </div>
@@ -107,7 +110,13 @@
             <el-button
               size="large"
               type="primary"
-              style="margin-top: 10px; ;margin-left: 30px;width: 120px;"
+              style="margin-top: 10px;  margin-left: 30px;width: 120px;"
+              @click="generateReport"
+            >生成简易报告</el-button>
+            <el-button
+              size="large"
+              type="primary"
+              style="margin-top: 10px; margin-left: 30px;width: 120px;"
               @click="jumpHandle"
             >完成</el-button>
           </div>
@@ -150,6 +159,7 @@ const radio1 = ref("一级");
 const emergencyResponse = ref("1");
 const riskGradeRadio = ref("1");
 const radio = ref("二级");
+const disposalStep = ref("");
 
 const tableData1 = ref([
   {
@@ -235,7 +245,7 @@ onMounted(() => {
       id: id,
     },
     (res) => {
-      console.log(res)
+      console.log(res);
       dangerName.value = res;
       post(
         "/api/biologyInfo/searchInfo",
@@ -248,6 +258,7 @@ onMounted(() => {
           infectious.value = data.infectious;
           pathogenicity.value = data.pathogenicity;
           fatalityRate.value = data.fatalityRate;
+          disposalStep.value = data.disposal;
           if (diseasesClass.value == "甲类") {
             riskGradeRadio.value = "1";
           } else if (diseasesClass.value == "乙类") {
