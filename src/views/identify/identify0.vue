@@ -137,7 +137,7 @@
                 <el-step title="病原微生物实验室生物安全管理"></el-step>
                 <el-step title="检测人员要求"></el-step>
                 <el-step title="检测方法"></el-step>
-                <el-step title="检测仪器"></el-step>
+                <el-step title="检测仪器与结果"></el-step>
               </el-steps>
             </div>
             <div
@@ -375,7 +375,7 @@
                 <!-- 检测仪器 -->
                 <div v-if="active2 === 4">
                   <div>
-                    <div style="margin-bottom: 10px">
+                    <el-card style="margin-bottom: 30px">
                       <label class="smalllabel">检测设备：</label>
                       <el-button
                           el-button
@@ -384,9 +384,7 @@
                           circle
                           @click="addequiment = true"
                       ></el-button>
-                    </div>
-                    <el-card>
-                      <el-table :data="form.equipment" :key="tableKey2" style="width: 100%; height: 45vh">
+                      <el-table :data="form.equipment" :key="tableKey2" style="width: 100%; height: 30vh">
                         <el-table-column prop="id" label="设备号" />
                         <el-table-column prop="name" label="设备名" />
                         <el-table-column prop="guide" label="使用说明" width="120">
@@ -400,6 +398,23 @@
                           </template>
                         </el-table-column>
                       </el-table>
+                    </el-card>
+                    <el-card style="height: 170px;">
+                      <label class="smalllabel">实验室检测结果：</label>
+                      <div>
+                        <el-input
+                            v-model="form.labResult"
+                            style="width: 100%;margin: 20px 0 10px 0"
+                            maxlength="200"
+                            show-word-limit
+                            placeholder="请在此处输入实验室检测结果"
+                            type="textarea"
+                        />
+                        <div style="display: flex; justify-content: flex-end;">
+                          <el-button type="primary" round @click="updateLabResult">提交结果</el-button>
+                        </div>
+                      </div>
+
                     </el-card>
                   </div>
 
@@ -425,6 +440,13 @@
                         "
                           circle
                       ></el-button>
+                      <!--                      <el-button-->
+                      <!--                          type="primary"-->
+                      <!--                          :icon="Plus"-->
+                      <!--                          circle-->
+                      <!--                          @click="dialogLabsEquiment = true;"-->
+                      <!--                          style="display: inline-block;"-->
+                      <!--                      ></el-button>-->
                     </div>
                     <div>
                       <el-table
@@ -544,6 +566,23 @@
             </span>
           </template>
         </el-dialog>
+
+        <!--        <el-dialog v-model="dialogLabsEquiment" title="新增检测仪器" width="600px" draggable>-->
+        <!--          <el-form :model="newLabsEquiment" style="display: flex; flex-direction: column;">-->
+        <!--            <el-form-item label="仪器ID">-->
+        <!--              <el-input v-model="newLabsEquiment.newid" style="width:10rem; margin-left: 5px;"></el-input>-->
+        <!--            </el-form-item>-->
+        <!--            <el-form-item label="仪器名称">-->
+        <!--              <el-input v-model="newLabsEquiment.newname" style="width:10rem; margin-left: 20px"></el-input>-->
+        <!--            </el-form-item>-->
+        <!--          </el-form>-->
+        <!--          <template #footer>-->
+        <!--            <span class="dialog-footer">-->
+        <!--              <el-button @click="dialogLabsEquiment = false">取消</el-button>-->
+        <!--              <el-button type="primary" @click="addLabsEquiment">确认</el-button>-->
+        <!--            </span>-->
+        <!--          </template>-->
+        <!--        </el-dialog>-->
       </div>
     </div>
   </div>
@@ -615,6 +654,13 @@ const dialogLabsPerson = ref(false);
 
 //实验室设备信息-弹窗
 const addequiment = ref(false);
+const dialogLabsEquiment = ref(false);
+
+//新增实验仪器弹窗
+const newLabsEquiment = reactive({
+  newid: "",
+  newname: "",
+});
 
 
 const PDFsrc = ref("");
@@ -625,6 +671,7 @@ const form = reactive({
   date: today.toISOString().split('T')[0],
   method: "",
   result: "",
+  labResult: "",
   description: "",
   baseSequence: "",
   judge: false,
@@ -787,16 +834,24 @@ onMounted(() => {
     console.log("选择identify对象，id=",id)
     post("/api/identify/select_Identify", {
           id: id,
-        }, (data) => {},
+        }, (data) => {
+          form.judge = data.judge;
+          form.method = data.method;
+          form.result = data.result;
+          form.labResult = data.labResult;
+          form.baseSequence = data.baseSequence;
+          form.description = data.description;
+        },
         (data) => {
           console.log("新建identify对象，id=",id)
           post(
-              "/api/identify/create_idetify",
+              "/api/identify/create_identify",
               {
                 id: id,
                 date: form.date,
                 method: form.method,
                 result: form.result,
+                labResult: form.labResult,
                 description: form.description,
                 baseSequence: form.baseSequence,
                 judge: form.judge,
@@ -909,14 +964,14 @@ const addLabsPeople = () => {
   console.log(newLabspeople.newid);
   console.log(newLabspeople.newname);
   post(
-      "/api/risk/add_newriskPerson",
+      "/api/identify/add_newIdentifyPerson",
       {
         id: newLabspeople.newid,
         name: newLabspeople.newname,
       },
       (data) => {
         ElMessage.warning(data);
-        post("/api/risk/select_person", {}, (data) => {
+        post("/api/identify/select_person", {}, (data) => {
           persons.value = data;
           persons.value.forEach(function (item) {
             item.checked = false;
@@ -925,6 +980,28 @@ const addLabsPeople = () => {
       }
   );
 };
+
+// const addLabsEquiment = () => {
+//   dialogLabsEquiment.value = false;
+//   console.log(newLabspeople.newid);
+//   console.log(newLabspeople.newname);
+//   post(
+//       "/api/identify/add_newIdentifyPerson",
+//       {
+//         id: newLabspeople.newid,
+//         name: newLabspeople.newname,
+//       },
+//       (data) => {
+//         ElMessage.warning(data);
+//         post("/api/identify/select_person", {}, (data) => {
+//           persons.value = data;
+//           persons.value.forEach(function (item) {
+//             item.checked = false;
+//           });
+//         });
+//       }
+//   );
+// }
 
 const next1 = () => {
   if (active1.value++ > 0) activeName.value = "second";
@@ -947,13 +1024,13 @@ const back2 = () => {
 const getId = async () => {
   id = inputId.value;
   back = 1
-  post("/api/risk/select_person", {}, (data) => {
+  post("/api/identify/select_person", {}, (data) => {
         persons.value = data;
         persons.value.forEach(function (item) {
           item.checked = false;
         });
         post(
-            "/api/risk/select_RiskPerson",
+            "/api/identify/select_labsPerson",
             {
               id: id,
             },
@@ -971,13 +1048,13 @@ const getId = async () => {
         );
       });
 
-      post("/api/risk/select_equipment", {}, (data) => {
+      post("/api/identify/select_equipment", {}, (data) => {
         equipments.value = data;
         equipments.value.forEach(function (item) {
           item.checked = false;
         });
         post(
-            "/api/risk/select_RiskEquipment",
+            "/api/identify/select_identifyEquipment",
             {
               id: id,
             },
@@ -999,6 +1076,29 @@ const getId = async () => {
       });
     isJump.value = false
 };
+
+const updateLabResult =() => {
+  console.log("更新identify对象的实验室检验结果，id=",id)
+  post(
+      "/api/identify/create_identify",
+      {
+        id: id,
+        date: form.date,
+        method: form.method,
+        result: form.result,
+        labResult: form.labResult,
+        description: form.description,
+        baseSequence: form.baseSequence,
+        judge: form.judge,
+        isUpdate: true,
+      },
+      (data) => {
+        ElMessage.success("成功更新实验室检验结果")
+      },
+      (data) => {
+      }
+  );
+}
 
 </script>
 
@@ -1070,5 +1170,8 @@ const getId = async () => {
   font-size: 16px !important;
   margin-bottom: 20px !important;
   /* 改变这个值来改变字体大小 */
+}
+.smalllabel{
+
 }
 </style>

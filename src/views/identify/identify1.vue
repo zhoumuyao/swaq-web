@@ -695,6 +695,7 @@ const form = reactive({
   date: today.toISOString().split("T")[0],
   method: "",
   result: "",
+  labResult: "",
   description: "",
   baseSequence: "",
   judge: true,
@@ -912,7 +913,7 @@ const dataAnalysis = ref([
 const tableKey = ref(0);
 
 onBeforeMount(() => {
-  post("/api/risk/select_equipment", {}, (data) => {
+  post("/api/identify/select_equipment", {}, (data) => {
     equipments.value = data;
     equipments.value.forEach(function (item) {
       item.checked = false;
@@ -1126,12 +1127,13 @@ const next4 = async () => {
     ) {
       console.log(form.result);
       await post(
-        "/api/identify/create_idetify",
+        "/api/identify/create_identify",
         {
           id: id,
           date: form.date,
           method: form.method,
           result: form.result,
+          labResult: form.labResult,
           description: form.description,
           baseSequence: form.baseSequence,
           judge: form.judge,
@@ -1160,7 +1162,25 @@ const back4 = () => {
 };
 
 onMounted(() => {
-  counterStore.infectedIndividual = true;
+  post("/api/identify/select_Identify", {
+    id: id,
+  }, (data) => {
+
+    form.labResult = data.labResult;
+
+    if(back !== undefined){
+      setTimeout(() => {
+        if(form.judge){
+          router.push({path: '/identify1', query: {id: id, back: back}});
+        }
+        else{
+          router.push({path: '/identify2', query: {id: id, back: back}});
+        }
+      }, 3000) //3s
+    }
+
+  });
+
 });
 </script>
 
