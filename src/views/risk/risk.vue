@@ -716,10 +716,10 @@ import y from "./device_guide/25.pdf";
 import z from "./device_guide/26.pdf";
 import samplingPumps from "./device_guide/27.pdf";
 import comparisonImageUrl from "./image/tanchi.jfif";
-import clothVideo from "./video/clothVideo.mp4";
-import eyeVideo from "./video/eyeVideo.mp4";
-import gloveVideo from "./video/gloveVideo.mp4";
-import faceVideo from "./video/faceVideo.mp4";
+import clothVideo from "/video/clothVideo.mp4";
+import eyeVideo from "/video/eyeVideo.mp4";
+import gloveVideo from "/video/gloveVideo.mp4";
+import faceVideo from "/video/faceVideo.mp4";
 import nuejiImage from "/image/image.png";
 import { inject } from "vue";
 
