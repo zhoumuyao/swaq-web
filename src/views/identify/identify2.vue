@@ -34,7 +34,15 @@
                   <el-table-column prop="result" label="快检结果" />
                 </el-table>
               </div>
-              <div>
+
+              <div style="width: 100%;margin-top: 50px;">
+                <span>实验室检测结果</span>
+                <div v-if="labResult!==null" style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
+                  {{labResult}}
+                </div>
+                <div v-else style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
+                  暂无
+                </div>
               </div>
             </el-card>
           </el-col>
@@ -62,6 +70,7 @@
                     <el-table-column prop="description" label="鉴定意见" />
                   </el-table>
                 </div>
+
               </div>
               <div v-else style="align-items: center;">
                 <el-empty description="本次检测不包含染病实体" />
@@ -115,6 +124,9 @@ const autopsyPersonIdList = ref([]);
 //存放数据库内所有的人员与仪器
 const persons = ref([]);
 
+//实验室检测结果
+const labResult = ref("");
+
 const handleSelect = (index) => {
   // 跳转到对应的路由并带上参数
   router.push({ path: index, query: { id: route.query.id, back: route.query.back } });
@@ -143,7 +155,6 @@ onMounted(() => {
         },
         (data) => {
           LabsData.value = data;
-          console.log("11111")
           console.log(data);
           // console.log(counterStore.selected_LabsPeople);
           // Labspeople.value = counterStore.selected_LabsPeople;
@@ -157,6 +168,7 @@ onMounted(() => {
       console.log(data)
       judge.value = data.judge;
       DissectData.value = [data];
+      labResult.value = data.labResult;
     });
 
     post("/api/identify/select_person", {}, (data) => {

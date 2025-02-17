@@ -52,7 +52,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -74,6 +73,7 @@ const form = reactive({
   date: today.toISOString().split('T')[0],
   method: "",
   result: "",
+  labResult: "",
   description: "",
   baseSequence: "",
   judge: false,
@@ -81,12 +81,17 @@ const form = reactive({
 
 onMounted(async() => {
   if(id){
-    if(back !== undefined){
-      await post("/api/identify/select_Identify", {
-        id: id,
-      }, (data) => {
-        console.log(data)
-        form.judge = data.judge;
+    await post("/api/identify/select_Identify", {
+      id: id,
+    }, (data) => {
+      console.log(data)
+      form.judge = data.judge;
+      form.method = data.method;
+      form.result = data.result;
+      form.labResult = data.labResult;
+      form.baseSequence = data.baseSequence;
+      form.description = data.description;
+      if(back !== undefined){
         setTimeout(() => {
           if(form.judge){
             router.push({path: '/identify1', query: {id: id, back: back}});
@@ -95,9 +100,10 @@ onMounted(async() => {
             router.push({path: '/identify2', query: {id: id, back: back}});
           }
         }, 3000) //3s
-      });
+      }
 
-    }
+    });
+
   }
 
 })
@@ -114,14 +120,30 @@ const handleUpdate = (value) => {
 const handleClick = (value) => {
   form.judge = value;
 
+  if(!form.judge){
+    //如果不包含尸检，删除所有尸检部分内容
+    form.result="";
+    form.method="";
+    form.description="";
+    //删除尸检人员名单
+    post(
+        "/api/identify/delete_autopsyPerson",
+        {id:id},
+        (data) => {
+          console.log("删除案件尸检相关人员");
+        }
+    )
+  }
+
   // 在这里你可以执行其他的逻辑
   post(
-      "/api/identify/create_idetify",
+      "/api/identify/create_identify",
       {
         id: id,
         date: form.date,
         method: form.method,
         result: form.result,
+        labResult: form.labResult,
         description: form.description,
         judge: form.judge,
         baseSequence: form.baseSequence,
@@ -140,6 +162,7 @@ const handleClick = (value) => {
       }
   );
 };
+
 </script>
 
 <style scoped>

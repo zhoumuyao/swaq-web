@@ -152,11 +152,17 @@ const generateReport = async () => {
       }, {
         responseType: 'blob' // 设置响应类型为blob
       });
+      if(response.data.size !== 0){
+        // 创建一个 URL 对象来预览 PDF
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        pdfUrl.value = URL.createObjectURL(blob); // 创建一个 URL 对象
+        drawer.value = true;
+      }
+      else {
+        console.log(response);
+        ElMessage.warning("案件流程不完整，请确认后再生成报告");
+      }
 
-      // 创建一个 URL 对象来预览 PDF
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      pdfUrl.value = URL.createObjectURL(blob); // 创建一个 URL 对象
-      drawer.value = true;
 
       // 可选: 如果希望直接下载 PDF
       // const link = document.createElement('a');
