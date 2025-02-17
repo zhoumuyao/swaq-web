@@ -800,97 +800,103 @@ const createHandlePEList = () => {
 const getId = async () => {
   id = inputId.value;
 
-  await post("/api/risk/select_person", {}, (data) => {
-    persons.value = data;
-    persons.value.forEach(function (item) {
-      item.checked = false;
+  await post("/api/case/search_case", { id: id }, async (data) => {
+    await post("/api/risk/select_person", {}, (data) => {
+      persons.value = data;
+      persons.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  await post("/api/risk/select_equipment", {}, (data) => {
-    equipments.value = data;
-    equipments.value.forEach(function (item) {
-      item.checked = false;
+    await post("/api/risk/select_equipment", {}, (data) => {
+      equipments.value = data;
+      equipments.value.forEach(function (item) {
+        item.checked = false;
+      });
     });
-  });
 
-  await post(
-    "/api/risk/select_RiskPerson",
-    {
-      id: id,
-    },
-    (data) => {
-      personIdList.value = data;
-      form.person.splice(
-        0,
-        form.person.length,
-        ...persons.value.filter((person) =>
-          personIdList.value.includes(person.id)
-        )
-      );
-      persons.value.forEach((item) => {
-        if (personIdList.value.includes(item.id)) {
-          item.checked = true;
-        }
-      });
-    }
-  );
-
-  await post(
-    "/api/risk/select_RiskEquipment",
-    {
-      id: id,
-    },
-    (data) => {
-      EquipmentIdList.value = data;
-      form.equipment.splice(
-        0,
-        form.equipment.length,
-        ...equipments.value.filter((equipment) =>
-          EquipmentIdList.value.includes(equipment.id)
-        )
-      );
-      form.equipment.forEach((item) => {
-        item.showButton = true;
-      });
-      equipments.value.forEach((item) => {
-        if (EquipmentIdList.value.includes(item.id)) {
-          item.checked = true;
-        }
-      });
-    }
-  );
-  await post(
-    "/api/biologyInfo/find_dangername",
-    {
-      id: id,
-    },
-    (res) => {
-      console.log("返回的因子名称：" + res);
-      dangerName.value = res;
-      post(
-        "/api/biologyInfo/searchInfo",
-        {
-          dangerName: dangerName.value,
-        },
-        (data) => {
-          console.log("返回的风险等级：");
-          console.log(data);
-          console.log(data.infectious);
-          riskLevel.value = data.infectious;
-          console.log(111);
-          console.log(riskLevel.value);
-          if (riskLevel.value == "一级") {
-            defendLevel.value = "高";
-          } else if (riskLevel.value == "二级") {
-            defendLevel.value = "中";
-          } else {
-            defendLevel.value = "低";
+    await post(
+      "/api/risk/select_RiskPerson",
+      {
+        id: id,
+      },
+      (data) => {
+        personIdList.value = data;
+        form.person.splice(
+          0,
+          form.person.length,
+          ...persons.value.filter((person) =>
+            personIdList.value.includes(person.id)
+          )
+        );
+        persons.value.forEach((item) => {
+          if (personIdList.value.includes(item.id)) {
+            item.checked = true;
           }
-        }
-      );
-    }
-  );
+        });
+      }
+    );
+
+    await post(
+      "/api/risk/select_RiskEquipment",
+      {
+        id: id,
+      },
+      (data) => {
+        EquipmentIdList.value = data;
+        form.equipment.splice(
+          0,
+          form.equipment.length,
+          ...equipments.value.filter((equipment) =>
+            EquipmentIdList.value.includes(equipment.id)
+          )
+        );
+        form.equipment.forEach((item) => {
+          item.showButton = true;
+        });
+        equipments.value.forEach((item) => {
+          if (EquipmentIdList.value.includes(item.id)) {
+            item.checked = true;
+          }
+        });
+      }
+    );
+    await post(
+      "/api/biologyInfo/find_dangername",
+      {
+        id: id,
+      },
+      (res) => {
+        console.log("返回的因子名称：" + res);
+        dangerName.value = res;
+        post(
+          "/api/biologyInfo/searchInfo",
+          {
+            dangerName: dangerName.value,
+          },
+          (data) => {
+            console.log("返回的风险等级：");
+            console.log(data);
+            console.log(data.infectious);
+            riskLevel.value = data.infectious;
+            console.log(111);
+            console.log(riskLevel.value);
+            if (riskLevel.value == "一级") {
+              defendLevel.value = "高";
+            } else if (riskLevel.value == "二级") {
+              defendLevel.value = "中";
+            } else {
+              defendLevel.value = "低";
+            }
+          }
+        );
+      }
+    );
+  }, (message) => {
+    ElMessage.error("查询不到对应案件")
+  });
+
+
   isJump.value = false
 };
 </script>

@@ -858,6 +858,7 @@ const imgSize = reactive({
 const getId = async () => {
   id = inputId.value;
   back = 1;
+  var isSelect = true;
   await post("/api/risk/select_person", {}, (data) => {
     persons.value = data;
     persons.value.forEach(function (item) {
@@ -872,7 +873,7 @@ const getId = async () => {
     });
   });
 
-  await post("/api/case/search_case", { id: id }, (data) => {
+  await post("/api/case/search_case", { id: id }, async (data) => {
     form.date = data.date;
     form.time = data.time;
     form.position.longitude = String(data.longitude);
@@ -881,72 +882,72 @@ const getId = async () => {
     form.position.province = data.province;
     form.position.urban = data.urban;
     form.position.description = data.description;
+    if (id && back) {
+      await post(
+        "/api/risk/select_riskPlan",
+        {
+          id: id,
+        },
+        (data) => {
+          console.log(data);
+          form.date = data.date;
+          form.time = data.time;
+          form.position.longitude = String(data.longitude);
+          form.position.latitude = String(data.latitude);
+          form.position.country = data.country;
+          form.position.province = data.province;
+          form.position.urban = data.urban;
+          form.position.description = data.description;
+          form.type = data.type.split(",");
+          console.log(form.type);
+          form.objectDescription = data.bjectDescription;
+        }
+      );
+
+      await post(
+        "/api/risk/select_RiskPerson",
+        {
+          id: id,
+        },
+        (data) => {
+          personIdList.value = data;
+          form.person = persons.value.filter((person) =>
+            personIdList.value.includes(person.id)
+          );
+          persons.value.forEach((item) => {
+            if (personIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
+
+      await post(
+        "/api/risk/select_RiskEquipment",
+        {
+          id: id,
+        },
+        (data) => {
+          EquipmentIdList.value = data;
+          form.equipment = equipments.value.filter((equipment) =>
+            EquipmentIdList.value.includes(equipment.id)
+          );
+          form.equipment.forEach((item) => {
+            item.showButton = true;
+          });
+          equipments.value.forEach((item) => {
+            if (EquipmentIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
+    }
   }, (message) => {
-    console.log(123)
-    ElMessage.warning("查询不到对应案件")
+    ElMessage.error("查询不到对应案件")
   });
 
-  if (id && back) {
-    await post(
-      "/api/risk/select_riskPlan",
-      {
-        id: id,
-      },
-      (data) => {
-        console.log(data);
-        form.date = data.date;
-        form.time = data.time;
-        form.position.longitude = String(data.longitude);
-        form.position.latitude = String(data.latitude);
-        form.position.country = data.country;
-        form.position.province = data.province;
-        form.position.urban = data.urban;
-        form.position.description = data.description;
-        form.type = data.type.split(",");
-        console.log(form.type);
-        form.objectDescription = data.bjectDescription;
-      }
-    );
 
-    await post(
-      "/api/risk/select_RiskPerson",
-      {
-        id: id,
-      },
-      (data) => {
-        personIdList.value = data;
-        form.person = persons.value.filter((person) =>
-          personIdList.value.includes(person.id)
-        );
-        persons.value.forEach((item) => {
-          if (personIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-    );
-
-    await post(
-      "/api/risk/select_RiskEquipment",
-      {
-        id: id,
-      },
-      (data) => {
-        EquipmentIdList.value = data;
-        form.equipment = equipments.value.filter((equipment) =>
-          EquipmentIdList.value.includes(equipment.id)
-        );
-        form.equipment.forEach((item) => {
-          item.showButton = true;
-        });
-        equipments.value.forEach((item) => {
-          if (EquipmentIdList.value.includes(item.id)) {
-            item.checked = true;
-          }
-        });
-      }
-    );
-  }
   isJump.value = false;
 };
 

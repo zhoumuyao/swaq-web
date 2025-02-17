@@ -2,7 +2,10 @@
   <div class="app">
     <div class="content">
       <homePage :key="componentKey" style="margin-top: 1vh"></homePage>
-      <div style="position: relative; bottom: 2rem; left: 1rem">
+      <div style="position: relative; bottom: 4rem; left: 1rem;margin-bottom: 10px;">
+        注册人数：{{ numberRegister }}人
+      </div>
+      <div style="position: relative; bottom: 4rem; left: 1rem">
         在线人数：{{ numberOnline }}人
         <el-button @click="logout" type="danger" plain style="margin-left: 80%"
           >退出登录</el-button
@@ -21,6 +24,7 @@ import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
 const numberOnline = ref(0);
 const componentKey = ref(0);
+const numberRegister = ref(0);
 const logout = () => {
   let username = localStorage.getItem("user")
 
@@ -54,7 +58,10 @@ onMounted(() => {
     numberOnline.value = data;
     console.log(numberOnline.value)
   });
-
+  post('/api/user/register_number', {}, (data) => {
+    
+    numberRegister.value = data;
+  });
 });
 
 onBeforeUnmount(() => {
