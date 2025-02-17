@@ -881,6 +881,9 @@ const getId = async () => {
     form.position.province = data.province;
     form.position.urban = data.urban;
     form.position.description = data.description;
+  }, (message) => {
+    console.log(123)
+    ElMessage.warning("查询不到对应案件")
   });
 
   if (id && back) {

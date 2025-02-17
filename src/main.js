@@ -18,7 +18,7 @@ const modelURL = 'http://122.51.86.39:5007';
 app.provide('modelURL', modelURL); //便于在js部分可直接用
 
 // 开发环境用localhost
-axios.defaults.baseURL = 'http://122.51.86.39:8087'
+axios.defaults.baseURL = 'http://localhost:8080'
 
 // 给甲方用的公网镜像
  //axios.defaults.baseURL = 'https://f073-42-228-225-150.ngrok-free.app'

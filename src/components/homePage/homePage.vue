@@ -185,43 +185,10 @@ export default {
                 }
               },
               {
-                name: "风险分析",
+                name: "风险评价",
                 x: 180,
                 y: 510,
                 id: 6,
-                symbolSize: 100,
-                itemStyle: {
-                  color: {
-                    type: "linear",
-                    x: 0,
-                    y: 0,
-                    x2: 1,
-                    y2: 1,
-                    colorStops: [
-                      {
-                        offset: 0,
-                        color: "#02b0a0" // 0% 处的颜色
-                      },
-                      {
-                        offset: 1,
-                        color: "#079bb7" // 100% 处的颜色
-                      }
-                    ],
-                    global: false // 缺省为 false
-                  }
-                },
-                label: {
-                  textBorderColor: "#555",
-                  textBorderWidth: 1,
-                  color: "white",
-                  fontSize: 16
-                }
-              },
-              {
-                name: "风险评价",
-                x: 250,
-                y: 510,
-                id: 7,
                 symbolSize: 100,
                 itemStyle: {
                   color: {
@@ -585,12 +552,12 @@ export default {
           }
           if (params.data.name === "风险评估") {
             that.$router.push({
-              path: `/risk0`
+              path: `/risk`
             })
           }
           if (params.data.name === "现场处置") {
             that.$router.push({
-              path: `/infoInput`
+              path: `/infoInput0`
             })
           }
           if (params.data.name === "检验鉴定") {
