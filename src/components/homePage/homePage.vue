@@ -185,7 +185,7 @@ export default {
                 }
               },
               {
-                name: "风险分析",
+                name: "风险评价",
                 x: 180,
                 y: 510,
                 id: 6,
@@ -218,42 +218,9 @@ export default {
                 }
               },
               {
-                name: "风险评价",
-                x: 250,
-                y: 510,
-                id: 7,
-                symbolSize: 100,
-                itemStyle: {
-                  color: {
-                    type: "linear",
-                    x: 0,
-                    y: 0,
-                    x2: 1,
-                    y2: 1,
-                    colorStops: [
-                      {
-                        offset: 0,
-                        color: "#02b0a0" // 0% 处的颜色
-                      },
-                      {
-                        offset: 1,
-                        color: "#079bb7" // 100% 处的颜色
-                      }
-                    ],
-                    global: false // 缺省为 false
-                  }
-                },
-                label: {
-                  textBorderColor: "#555",
-                  textBorderWidth: 1,
-                  color: "white",
-                  fontSize: 16
-                }
-              },
-              {
-                name: "详细勘察",
-                x: 380,
-                y: 510,
+                name: "现场信息记录",
+                x: 360,
+                y: 500,
                 id: 8,
                 symbolSize: 100,
                 itemStyle: {
@@ -284,9 +251,9 @@ export default {
                 }
               },
               {
-                name: "现场信息\n\n智能录入",
-                x: 450,
-                y: 540,
+                name: "生物危险因子信息",
+                x: 420,
+                y: 550,
                 id: 9,
                 symbolSize: 100,
                 itemStyle: {
@@ -317,9 +284,9 @@ export default {
                 }
               },
               {
-                name: "无害化处理",
-                x: 530,
-                y: 510,
+                name: "现场详细勘察",
+                x: 490,
+                y: 550,
                 id: 10,
                 symbolSize: 100,
                 itemStyle: {
@@ -350,8 +317,8 @@ export default {
                 }
               },
               {
-                name: "生物危险因子",
-                x: 670,
+                name: "现场无害化处理",
+                x: 550,
                 y: 500,
                 id: 11,
                 symbolSize: 100,
@@ -383,7 +350,7 @@ export default {
                 }
               },
               {
-                name: "染病个体\n\n解剖查验",
+                name: "生物危险因子检测",
                 x: 780,
                 y: 500,
                 id: 12,
@@ -416,11 +383,11 @@ export default {
                 }
               },
               {
-                name: "样本采集",
+                name: "染病个体解剖查验",
                 x: 640,
                 y: 550,
                 id: 13,
-                symbolSize: 80,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -449,11 +416,11 @@ export default {
                 }
               },
               {
-                name: "实验室检测",
-                x: 700,
+                name: "检验鉴定报告",
+                x: 720,
                 y: 560,
                 id: 14,
-                symbolSize: 80,
+                symbolSize: 100,
                 itemStyle: {
                   color: {
                     type: "linear",
@@ -557,16 +524,16 @@ export default {
                 source: "2",
                 target: "10",
               },{
-                source: "3",
+                source: "2",
                 target: "11",
               },{
                 source: "3",
                 target: "12",
               },{
-                source: "11",
+                source: "3",
                 target: "13",
               },{
-                source: "11",
+                source: "3",
                 target: "14",
               },
             ]
@@ -585,12 +552,12 @@ export default {
           }
           if (params.data.name === "风险评估") {
             that.$router.push({
-              path: `/risk0`
+              path: `/risk`
             })
           }
           if (params.data.name === "现场处置") {
             that.$router.push({
-              path: `/infoInput`
+              path: `/infoInput0`
             })
           }
           if (params.data.name === "检验鉴定") {

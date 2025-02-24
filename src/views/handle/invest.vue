@@ -34,7 +34,7 @@
               >
                 <label class="label" style="margin-left: 45%">环境勘察</label>
                 <div>
-                  <el-text type="primary" @click="getPosition">
+                  <el-text type="primary" @click="loadGeolocation">
                     <el-icon><Location /></el-icon>
                     {{ Position }}
                   </el-text>
@@ -198,7 +198,7 @@
               >
                 <label class="label" style="margin-left: 45%">人员勘察</label>
                 <div>
-                  <el-text type="primary" @click="getPosition">
+                  <el-text type="primary" @click="loadGeolocation">
                     <el-icon><Location /></el-icon>
                     {{ Position }}
                   </el-text>
@@ -284,7 +284,7 @@
               >
                 <label class="label" style="margin-left: 45%">物证图片</label>
                 <div>
-                  <el-text type="primary" @click="getPosition">
+                  <el-text type="primary" @click="loadGeolocation">
                     <el-icon><Location /></el-icon>
                     {{ Position }}
                   </el-text>
@@ -869,6 +869,33 @@ function getLocation() {
     });
   });
 }
+
+function initGeolocation() {
+  const geolocation = new qq.maps.Geolocation(
+    "NZ6BZ-3QCL4-P3JUO-FN2AZ-264MQ-ARBYK", // 替换为你的腾讯地图API密钥
+    "myapp"
+  );
+  geolocation.getLocation(
+    (result) => {
+      console.log(result)
+      Position.value = result.nation + result.province + result.city + result.addr;
+    },
+    (err) => {
+      console.error("定位失败：", err);
+    }
+  );
+}
+// 无需注册https的定位方法
+function loadGeolocation() {
+  const script = document.createElement("script");
+  script.src =
+    "https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js";
+  script.onload = () => {
+    initGeolocation();
+  };
+  document.head.appendChild(script);
+}
+
 function getPosition() {
   MapLoader()
     .then((formattedAddress) => {

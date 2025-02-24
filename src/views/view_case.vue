@@ -74,6 +74,12 @@
                     @click="modifyCase(row.id)"
                     >修改</el-button
                   >
+                  <el-button
+                    type="danger"
+                    size="small"
+                    @click="deleteCase(row.id)"
+                    >删除</el-button
+                  >
                 </template>
               </el-table-column>
             </el-table>
@@ -762,6 +768,21 @@ const modifyCase = (id) => {
   caseId.value = id;
   isModifyView.value = true;
 };
+
+const deleteCase = (id) => {
+  post(
+    "/api/case/delete_case", 
+    {
+      id: id
+    },
+    (data) =>{
+      ElMessage.success(data)
+      allCaseData.value = allCaseData.value.filter(item => item.id !== id);
+    },(message) => {
+      ElMessage.error(message)
+    }
+  )
+}
 
 const viewCase = (id) => {
   selectCaseMessage(id);

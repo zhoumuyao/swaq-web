@@ -1,10 +1,9 @@
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import 'element-plus/dist/index.css'
 import { reactive } from 'vue';
 
-
+import 'element-plus/dist/index.css'
 
 import App from './App.vue'
 import router from './router'
@@ -12,7 +11,7 @@ import axios from "axios";
 
 const app = createApp(App)
 
-const modelURL = 'http://localhost:5000';
+const modelURL = 'http://122.51.86.39:5007';
 
 //const modelURL = "https://3e0a-42-228-225-150.ngrok-free.app"
 

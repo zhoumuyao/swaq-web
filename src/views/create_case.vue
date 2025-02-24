@@ -35,7 +35,7 @@
                 <div>
                   <label class="font" style="font-size:18px; color: #606266;">案件建立地点:</label>
                 </div>
-                <el-button type="primary" style="margin-left: 20%; width: 6rem;" @click="getPosition" size="default">
+                <el-button type="primary" style="margin-left: 20%; width: 6rem;" @click="loadGeolocation" size="default">
                   <el-icon>
                     <Location />
                   </el-icon>
@@ -144,12 +144,46 @@ const getCurrentDate = () => {
   console.log(form.date);
 };
 
+function initGeolocation() {
+      const geolocation = new qq.maps.Geolocation(
+        "NZ6BZ-3QCL4-P3JUO-FN2AZ-264MQ-ARBYK", // 替换为你的腾讯地图API密钥
+        "myapp"
+      );
+      geolocation.getLocation(
+        (result) => {
+          console.log(result)
+          form.position.longitude = result.lng;
+          form.position.latitude = result.lat;
+          form.position.country = result.nation;
+          form.position.province = result.province;
+          form.position.urban = result.city;
+          form.position.description = result.addr;
+        },
+        (err) => {
+          console.error("定位失败：", err);
+        }
+      );
+    }
+
+   function loadGeolocation() {
+      const script = document.createElement("script");
+      script.src =
+        "https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js";
+      script.onload = () => {
+        initGeolocation();
+      };
+      document.head.appendChild(script);
+    }
+
 function getPosition() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
+
+        
+
 
         // 使用经纬度获取国家信息
         fetch(

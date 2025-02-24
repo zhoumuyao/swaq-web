@@ -1024,57 +1024,62 @@ const back2 = () => {
 const getId = async () => {
   id = inputId.value;
   back = 1
-  post("/api/identify/select_person", {}, (data) => {
-        persons.value = data;
-        persons.value.forEach(function (item) {
-          item.checked = false;
-        });
-        post(
-            "/api/identify/select_labsPerson",
-            {
-              id: id,
-            },
-            (data) => {
-              personIdList.value = data;
-              form.person = persons.value.filter((person) =>
-                  personIdList.value.includes(person.id)
-              );
-              persons.value.forEach((item) => {
-                if (personIdList.value.includes(item.id)) {
-                  item.checked = true;
-                }
-              });
-            }
-        );
+  await post("/api/case/search_case", { id: id }, (data) => {
+    post("/api/identify/select_person", {}, (data) => {
+      persons.value = data;
+      persons.value.forEach(function (item) {
+        item.checked = false;
       });
+      post(
+        "/api/identify/select_labsPerson",
+        {
+          id: id,
+        },
+        (data) => {
+          personIdList.value = data;
+          form.person = persons.value.filter((person) =>
+            personIdList.value.includes(person.id)
+          );
+          persons.value.forEach((item) => {
+            if (personIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
+    });
 
-      post("/api/identify/select_equipment", {}, (data) => {
-        equipments.value = data;
-        equipments.value.forEach(function (item) {
-          item.checked = false;
-        });
-        post(
-            "/api/identify/select_identifyEquipment",
-            {
-              id: id,
-            },
-            (data) => {
-              EquipmentIdList.value = data;
-              form.equipment = equipments.value.filter((equipment) =>
-                  EquipmentIdList.value.includes(equipment.id)
-              );
-              form.equipment.forEach((item) => {
-                item.showButton = true;
-              });
-              equipments.value.forEach((item) => {
-                if (EquipmentIdList.value.includes(item.id)) {
-                  item.checked = true;
-                }
-              });
-            }
-        );
+    post("/api/identify/select_equipment", {}, (data) => {
+      equipments.value = data;
+      equipments.value.forEach(function (item) {
+        item.checked = false;
       });
-    isJump.value = false
+      post(
+        "/api/identify/select_identifyEquipment",
+        {
+          id: id,
+        },
+        (data) => {
+          EquipmentIdList.value = data;
+          form.equipment = equipments.value.filter((equipment) =>
+            EquipmentIdList.value.includes(equipment.id)
+          );
+          form.equipment.forEach((item) => {
+            item.showButton = true;
+          });
+          equipments.value.forEach((item) => {
+            if (EquipmentIdList.value.includes(item.id)) {
+              item.checked = true;
+            }
+          });
+        }
+      );
+    });
+  }, (message) => {
+    ElMessage.error("查询不到对应案件")
+  });
+
+  isJump.value = false
 };
 
 const updateLabResult =() => {
