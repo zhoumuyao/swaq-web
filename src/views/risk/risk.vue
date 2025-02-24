@@ -127,6 +127,7 @@
                   <el-card class="card">
                     <el-table
                       :data="form.person"
+                      :height="350"
                       :key="tableKey"
                       style="width: 100%; max-height: 45vh"
                     >
@@ -150,7 +151,12 @@
                     ></el-button>
                   </div>
                   <el-card class="card">
-                    <el-table :data="form.equipment" :key="tableKey2" style="width: 100%">
+                    <el-table
+                      :data="form.equipment"
+                      :height="350"
+                      :key="tableKey2"
+                      style="width: 100%"
+                    >
                       <el-table-column prop="id" label="设备号" style="width: 10%" />
                       <el-table-column prop="name" label="设备名" style="width: 20%" />
                       <el-table-column prop="guide" label="使用说明" style="width: 20%">
@@ -1136,64 +1142,77 @@ const getRiskEquipmentData = () => {
 
 const toggleSelectAll = () => {};
 
+// 定义一个函数来封装删除和添加风险人员的逻辑
+const handleRiskPerson = () => {
+  return new Promise((resolve, reject) => {
+    post(
+      "/api/risk/delete_riskPerson",
+      { id: id },
+      (data) => {
+        post(
+          "/api/risk/add_riskPerson",
+          { id: id, persons: personIdList.value },
+          (data) => {
+            resolve(true); // 标记风险人员处理成功
+          },
+          (error) => {
+            ElMessage.warning(error); // 显示错误信息
+            reject(error); // 标记风险人员处理失败
+          }
+        );
+      },
+      (error) => {
+        ElMessage.warning(error); // 显示错误信息
+        reject(error); // 标记风险人员处理失败
+      }
+    );
+  });
+};
+
+// 定义一个函数来封装删除和添加风险设备的逻辑
+const handleRiskEquipment = () => {
+  return new Promise((resolve, reject) => {
+    post(
+      "/api/risk/delete_riskEquipment",
+      { id: id },
+      (data) => {
+        post(
+          "/api/risk/add_riskEquipment",
+          { id: id, equipments: EquipmentIdList.value },
+          (data) => {
+            resolve(true); // 标记风险设备处理成功
+          },
+          (error) => {
+            ElMessage.warning(error); // 显示错误信息
+            reject(error); // 标记风险设备处理失败
+          }
+        );
+      },
+      (error) => {
+        ElMessage.warning(error); // 显示错误信息
+        reject(error); // 标记风险设备处理失败
+      }
+    );
+  });
+};
+
 const createRiskPEList = () => {
-  post(
-    "/api/risk/delete_riskPerson",
-    {
-      id: id,
-    },
-    (data) => {
-      console.log(personIdList.value);
-      console.log(form.person);
-      post(
-        "/api/risk/add_riskPerson",
-        {
-          id: id,
-          persons: personIdList.value,
-        },
-        (data) => {
-          router.push({ path: "/risk_identification", query: { id: id } });
-        },
-        (data) => {
-          ElMessage.warning(data);
-        }
-      );
-    },
-    (data) => {
-      ElMessage.warning(data);
-    }
-  );
-  post(
-    "/api/risk/delete_riskEquipment",
-    {
-      id: id,
-    },
-    (data) => {
-      post(
-        "/api/risk/add_riskEquipment",
-        {
-          id: id,
-          equipments: EquipmentIdList.value,
-        },
-        (data) => {
-          router.push({ path: "/risk_identification", query: { id: id } });
-        },
-        (data) => {
-          ElMessage.warning(data);
-        }
-      );
-    },
-    (data) => {
-      ElMessage.warning(data);
-    }
-  );
+  // 使用 Promise.all 来确保两个请求都成功
+  Promise.all([handleRiskPerson(), handleRiskEquipment()])
+    .then(() => {
+      // 两个请求都成功时，跳转到指定页面
+      router.push({ path: "/risk_identification", query: { id: id } });
+    })
+    .catch((error) => {
+      // 如果有任何一个请求失败，显示错误信息
+      // ElMessage.warning("操作失败，请检查数据后重试");
+    });
 };
 
 const jumpAnalysis = () => {
-  console.log(typeof form.type);
   multitype = form.type.join(",");
-  console.log(typeof multitype);
-  console.log(multitype);
+  console.log(form.objectDescription);
+
   if (back != 1) {
     post(
       "/api/risk/create_plan",

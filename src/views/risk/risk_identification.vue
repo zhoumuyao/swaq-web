@@ -965,6 +965,8 @@ const addDisposal = () => {
     objectClassStr.value = "疫源";
   }
   console.log(typeof id);
+  console.log(objectClassStr.value);
+  console.log(form.type);
 
   post(
     "/api/disposal/add_disposal",
@@ -995,6 +997,9 @@ const addDisposal = () => {
           disposal_obj.value = data;
         }
       );
+    },
+    (error) => {
+      ElMessage.warning(error);
     }
   );
 };
