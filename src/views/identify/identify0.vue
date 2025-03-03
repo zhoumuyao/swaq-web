@@ -376,7 +376,7 @@
                 <div v-if="active2 === 4">
                   <div>
                     <el-card style="margin-bottom: 30px">
-                      <label class="smalllabel">检测设备：</label>
+                      <label>检测设备：</label>
                       <el-button
                           el-button
                           type="primary"
@@ -400,7 +400,7 @@
                       </el-table>
                     </el-card>
                     <el-card style="height: 170px;">
-                      <label class="smalllabel">实验室检测结果：</label>
+                      <label>实验室检测结果：</label>
                       <div>
                         <el-input
                             v-model="form.labResult"
@@ -532,7 +532,7 @@
           </div>
 
           <div>
-            <el-table :data="persons" style="width: 100%" type="selection">
+            <el-table :data="persons" style="width: 100%;" type="selection" height="550">
               <el-table-column label="选中" width="180" fixed="right" prop="checked">
                 <template #default="{ row }">
                   <el-checkbox v-model="row.checked"></el-checkbox>
@@ -618,8 +618,6 @@ import SampleSubmission from "./PDF/SampleSubmission.pdf";
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
 import router from "@/router";
-import { useCounterStore } from '@/stores/counter';
-const counterStore = useCounterStore()
 
 //案件相关id
 import {useRoute} from "vue-router";
@@ -942,7 +940,6 @@ const addPerson = () => {
   form.person = persons.value.filter((person) =>
       personIdList.value.includes(person.id)
   );
-  // counterStore.addLabsPeople(form.person);
   post(
       "/api/identify/delete_labsPerson",
       {
@@ -960,25 +957,31 @@ const addPerson = () => {
 };
 
 const addLabsPeople = () => {
-  dialogLabsPerson.value = false;
-  console.log(newLabspeople.newid);
-  console.log(newLabspeople.newname);
-  post(
-      "/api/identify/add_newIdentifyPerson",
-      {
-        id: newLabspeople.newid,
-        name: newLabspeople.newname,
-      },
-      (data) => {
-        ElMessage.warning(data);
-        post("/api/identify/select_person", {}, (data) => {
-          persons.value = data;
-          persons.value.forEach(function (item) {
-            item.checked = false;
+  if(newLabspeople.newid && newLabspeople.newname){
+    dialogLabsPerson.value = false;
+    console.log(newLabspeople.newid);
+    console.log(newLabspeople.newname);
+    post(
+        "/api/identify/add_newIdentifyPerson",
+        {
+          id: newLabspeople.newid,
+          name: newLabspeople.newname,
+        },
+        (data) => {
+          ElMessage.warning(data);
+          post("/api/identify/select_person", {}, (data) => {
+            persons.value = data;
+            persons.value.forEach(function (item) {
+              item.checked = false;
+            });
           });
-        });
-      }
-  );
+        }
+    );
+  }
+  else{
+    ElMessage.warning("请输入完整的信息")
+  }
+
 };
 
 // const addLabsEquiment = () => {
@@ -1176,7 +1179,8 @@ const updateLabResult =() => {
   margin-bottom: 20px !important;
   /* 改变这个值来改变字体大小 */
 }
-.smalllabel{
-
+.dialog_style{
+  display: flex;
+  align-items: center;
 }
 </style>

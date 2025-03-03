@@ -23,24 +23,31 @@
                   <el-table-column prop="id" label="警务号" />
                   <el-table-column prop="name" label="姓名" />
                 </el-table>
+               <div v-else class="empty_style">
+                 暂无
+               </div>
+
               </div>
               <div style="width: 100%;margin-top: 50px;">
                 <span>检验内容</span>
-                <el-table :data="LabsData">
+                <el-table v-if="LabsData.length > 0" :data="LabsData">
                   <el-table-column prop="objectClass" label="处置对象" width="80"/>
                   <el-table-column prop="sampleType" label="采样种类" width="80"/>
                   <el-table-column prop="sampleContent" label="采样内容" />
                   <el-table-column prop="testMethod" label="快检方法" />
                   <el-table-column prop="result" label="快检结果" />
                 </el-table>
+                <div v-else class="empty_style">
+                  暂无
+                </div>
               </div>
 
               <div style="width: 100%;margin-top: 50px;">
                 <span>实验室检测结果</span>
-                <div v-if="labResult!==null" style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
+                <div v-if="labResult!==null || labResult!==''" style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
                   {{labResult}}
                 </div>
-                <div v-else style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
+                <div v-else class="empty_style">
                   暂无
                 </div>
               </div>
@@ -59,17 +66,24 @@
                     <el-table-column prop="id" label="警务号" />
                     <el-table-column prop="name" label="姓名" />
                   </el-table>
+                  <div v-else class="empty_style">
+                    暂无
+                  </div>
                 </div>
 
                 <div style="width: 100%;margin-top: 50px;">
                   <span>检验内容</span>
-                  <el-table :data="DissectData">
+                  <el-table v-if="DissectData.length > 0" :data="DissectData">
                     <el-table-column prop="date" label="鉴定日期" width="110"/>
                     <el-table-column prop="method" label="分析识别方法" width="110" />
                     <el-table-column prop="result" label="检验结果" />
                     <el-table-column prop="description" label="鉴定意见" />
                   </el-table>
+                  <div v-else class="empty_style">
+                    暂无
+                  </div>
                 </div>
+
 
               </div>
               <div v-else style="align-items: center;">
@@ -102,8 +116,6 @@ import {ref, onMounted} from 'vue';
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {post} from "@/net";
-import { useCounterStore } from '@/stores/counter';
-const counterStore = useCounterStore()
 
 const activeIndex =ref("/identify2")
 const route = useRoute();
@@ -156,9 +168,6 @@ onMounted(() => {
         (data) => {
           LabsData.value = data;
           console.log(data);
-          // console.log(counterStore.selected_LabsPeople);
-          // Labspeople.value = counterStore.selected_LabsPeople;
-          // prosectors.value = counterStore.selected_DissectPeople;
         }
     );
 
@@ -257,4 +266,9 @@ onMounted(() => {
   /* 改变这个值来改变字体大小 */
 }
 
+.empty_style{
+  margin: 20px 0 0 15px;
+  font-weight: bold;
+  color: #666666
+}
 </style>

@@ -128,7 +128,7 @@ const submit = () => {
       textarea.value = '';
     }
   } else {
-    alert('请填写评分和反馈内容。');
+    ElMessage.warning("请填写评分和反馈内容。");
   }
 }
 const generateReport = async () => {

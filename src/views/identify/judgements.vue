@@ -58,10 +58,8 @@
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {onMounted, ref, reactive} from "vue";
-import { useCounterStore } from '@/stores/counter';
 import {post} from "@/net";
 import {ElMessage} from "element-plus";
-const counterStore = useCounterStore()
 
 const activeIndex = ref('/judge')
 const route = useRoute();

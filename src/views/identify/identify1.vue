@@ -557,13 +557,13 @@
               type="primary"
               :icon="Plus"
               circle
-              @click="dialogLabsPerson = true"
+              @click="dialogAutopsyPerson = true"
               style="display: inline-block"
             ></el-button>
           </div>
 
           <div>
-            <el-table :data="persons" style="width: 100%" type="selection">
+            <el-table :data="persons" style="width: 100%;" type="selection" height="550">
               <el-table-column
                 prop="id"
                 label="警务号"
@@ -596,32 +596,32 @@
           </template>
         </el-dialog>
         <el-dialog
-          v-model="dialogLabsPerson"
-          title="新增实验室检测人员"
+          v-model="dialogAutopsyPerson"
+          title="新增解剖员"
           width="600px"
           draggable
         >
           <el-form
-            :model="newLabspeople"
+            :model="newAutopsypeople"
             style="display: flex; flex-direction: column"
           >
             <el-form-item label="警务号">
               <el-input
-                v-model="newLabspeople.newid"
+                v-model="newAutopsypeople.newid"
                 style="width: 10rem; margin-left: 5px"
               ></el-input>
             </el-form-item>
             <el-form-item label="姓名">
               <el-input
-                v-model="newLabspeople.newname"
+                v-model="newAutopsypeople.newname"
                 style="width: 10rem; margin-left: 20px"
               ></el-input>
             </el-form-item>
           </el-form>
           <template #footer>
             <span class="dialog-footer">
-              <el-button @click="dialogLabsPerson = false">取消</el-button>
-              <el-button type="primary" @click="addLabsPeople">确认</el-button>
+              <el-button @click="dialogAutopsyPerson = false">取消</el-button>
+              <el-button type="primary" @click="addAutopsyPeople">确认</el-button>
             </span>
           </template>
         </el-dialog>
@@ -635,9 +635,7 @@ import { ref, reactive, onBeforeMount, onMounted } from "vue";
 import { Plus, Search } from "@element-plus/icons-vue";
 import { post } from "@/net";
 import { ElMessage } from "element-plus";
-import { useCounterStore } from "@/stores/counter";
 import axios from "axios";
-const counterStore = useCounterStore();
 
 //-----------start--用到的PDF
 import ADP from "./PDF/ADP.pdf";
@@ -677,7 +675,7 @@ const persons = ref([]);
 const equipments = ref([]);
 
 //新增实验室人员
-const newLabspeople = reactive({
+const newAutopsypeople = reactive({
   newid: "",
   newname: "",
 });
@@ -685,7 +683,7 @@ const personID = ref();
 
 //实验室人员信息-弹窗
 const dialogPerson = ref(false);
-const dialogLabsPerson = ref(false);
+const dialogAutopsyPerson = ref(false);
 
 // 获取当前日期
 const today = new Date();
@@ -975,7 +973,6 @@ const addPerson = () => {
   prosectors.value = persons.value.filter((person) =>
     personIdList.value.includes(person.id)
   );
-  //counterStore.addDissectPeople(prosectors);
   post(
     "/api/identify/delete_autopsyPerson",
     {
@@ -996,26 +993,33 @@ const addPerson = () => {
   );
 };
 
-const addLabsPeople = () => {
-  dialogLabsPerson.value = false;
-  console.log(newLabspeople.newid);
-  console.log(newLabspeople.newname);
-  post(
-    "/api/identify/add_newIdentifyPerson",
-    {
-      id: newLabspeople.newid,
-      name: newLabspeople.newname,
-    },
-    (data) => {
-      ElMessage.warning(data);
-      post("/api/identify/select_person", {}, (data) => {
-        persons.value = data;
-        persons.value.forEach(function (item) {
-          item.checked = false;
-        });
-      });
-    }
-  );
+const addAutopsyPeople = () => {
+  if(newAutopsypeople.newid && newAutopsypeople.newname){
+    dialogAutopsyPerson.value = false;
+    console.log(newAutopsypeople.newid);
+    console.log(newAutopsypeople.newname);
+    post(
+        "/api/identify/add_newIdentifyPerson",
+        {
+          id: newAutopsypeople.newid,
+          name: newAutopsypeople.newname,
+        },
+        (data) => {
+          ElMessage.warning(data);
+          post("/api/identify/select_person", {}, (data) => {
+            persons.value = data;
+            persons.value.forEach(function (item) {
+              item.checked = false;
+            });
+          });
+        }
+    );
+  }
+  else{
+    ElMessage.warning("请输入完整的信息")
+  }
+
+
 };
 
 // 报告生成
