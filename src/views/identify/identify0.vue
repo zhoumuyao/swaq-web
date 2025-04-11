@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <!--    <sidebar></sidebar>-->
     <div class="content">
       <router-view></router-view>
       <div>
@@ -41,44 +40,38 @@
               "
             >
               <el-card class="card_container">
-                <!-- 实验室检测人员 -->
                 <!-- 样本包装和保存 -->
                 <div v-if="active1 === 0" class="center-container">
                   <el-card
                       style="
-                      width: 45%;
+                      width: 30%;
                       height: 55vh;
                       margin-left: 40px;
                       display: flex;
                       justify-content: center;
                     "
                   >
-                    <!-- <label>显示图片</label> -->
                     <img
                         src="./image/yp.jpg"
                         style="object-fit: cover; width: 100%; height: 100%;"
                         alt="实验室生物安全"
                     />
                   </el-card>
-                  <el-card style="width: 45%; height: 55vh; margin-right: 40px">
-                    <!-- <label>样本包装和保存</label>
-                    <div v-for="(text, index) in text4" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}
-                    </div>-->
-                    <div style="width: 100%;height: 50vh;">
-                      <embed
-                          :src="SamplePackagingAndStorage"
-                          type="application/pdf"
-                          width="100%"
-                          height="100%"
-                      />
-                    </div>
+                  <el-card style="width: 60%; height: 55vh; margin-right: 40px">
+<!--                    <embed-->
+<!--                        :src="SamplePackagingAndStorage"-->
+<!--                        type="application/pdf"-->
+<!--                        width="100%"-->
+<!--                        height="100%"-->
+<!--                    />-->
+                    <TreeWithContent :dataSource="samplePackagingAndStorage" />
                   </el-card>
                 </div>
                 <!-- 标本送检 -->
                 <div v-if="active1 === 1" class="center-container">
                   <el-card
                       style="
-                      width: 45%;
+                      width: 30%;
                       height: 55vh;
                       margin-left: 40px;
                       display: flex;
@@ -91,17 +84,8 @@
                         alt="实验室生物安全"
                     />
                   </el-card>
-                  <el-card style="width: 45%; height: 55vh; margin-right: 40px">
-                    <!-- <label>标本送检</label>
-                    <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
-                    <div style="width: 100%;height: 50vh;">
-                      <embed
-                          :src="SampleSubmission"
-                          type="application/pdf"
-                          width="100%"
-                          height="100%"
-                      />
-                    </div>
+                  <el-card style="width: 60%; height: 55vh; margin-right: 40px">
+                    <TreeWithContent :dataSource="SampleSubmission" />
                   </el-card>
                 </div>
                 <el-button
@@ -118,9 +102,6 @@
                     @click="next1"
                     type="primary"
                 >下一步</el-button>
-                <!-- <el-button v-if="active1 === 8" class="exit-button" size="large" @click="back">
-                    返回
-                </el-button>-->
               </el-card>
             </div>
           </el-tab-pane>
@@ -165,7 +146,7 @@
                 </div>
                 <div v-if="active2 === 1" class="center-container">
                   <el-card
-                      style="width: 45%;height: 55vh;margin-left: 40px;align-items: center;display: flex"
+                      style="width: 40%;height: 55vh;margin-left: 40px;align-items: center;display: flex"
                   >
                     <img
                         src="./image/lab.jpeg"
@@ -173,7 +154,7 @@
                         alt="实验室生物安全"
                     />
                   </el-card>
-                  <el-card style="width: 45%; height: 55vh; margin-right: 40px">
+                  <el-card style="width: 50%; height: 55vh; margin-right: 40px">
                     <!-- <label>实验室活动生物安全要求 </label>
                     <div v-for="(text, index) in text6" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
                     <div style="width: 100%;height: 50vh;">
@@ -500,9 +481,6 @@
                     <el-button class="next-button" size="large" type="primary">跳转</el-button>
                   </router-link>
                 </div>
-                <!-- <el-button v-if="active2 === 3" class="exit-button" size="large" @click="back">
-                  返回
-                </el-button>-->
               </el-card>
             </div>
           </el-tab-pane>
@@ -601,6 +579,8 @@
 
 <script setup>
 import {ref, reactive, onMounted} from "vue";
+import TreeWithContent from '@/components/TreeWithContent.vue'
+
 import {
   Search,
   Plus,
@@ -611,8 +591,8 @@ import {
 import security from "./PDF/病原微生物实验室生物安全管理条例-2018修订版.pdf";
 import LTA from "./PDF/LTA.pdf";
 import readMe from "./PDF/readMe.pdf";
-import SamplePackagingAndStorage from "./PDF/SamplePackagingAndStorage.pdf";
-import SampleSubmission from "./PDF/SampleSubmission.pdf";
+import {samplePackagingAndStorage} from "./PDF/SamplePackagingAndStorage.js";
+import {SampleSubmission} from "./PDF/SampleSubmission.js";
 //-----------end--用到的PDF
 
 import {post} from "@/net";
@@ -652,7 +632,6 @@ const dialogLabsPerson = ref(false);
 
 //实验室设备信息-弹窗
 const addequiment = ref(false);
-const dialogLabsEquiment = ref(false);
 
 //新增实验仪器弹窗
 const newLabsEquiment = reactive({
@@ -825,7 +804,7 @@ const addEquiment = () => {
 // const wupin = ref(["手套", "防护服", "实验室器皿", "实验室样本管"]);
 
 onMounted(() => {
-  if (id == undefined) {
+  if (id === undefined) {
     isJump.value = true;
   } else 
   if (id) {
