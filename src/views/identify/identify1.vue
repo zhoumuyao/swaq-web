@@ -119,9 +119,7 @@
                 style="margin-top: 20px"
               >
                 <el-step title="尸检操作原则"></el-step>
-                <el-step title="解剖查验操作及病变检查程序"></el-step>
-                <el-step title="脏器检查"></el-step>
-                <el-step title="尸检标本的采集与留取规定"></el-step>
+                <el-step title="脏器检查与尸检标本规定"></el-step>
               </el-steps>
             </div>
             <div
@@ -160,23 +158,18 @@
                     </div>
                   </el-card>
                 </div>
-                <!-- 解剖查验操作及病变检查程序 -->
-                <div v-if="active2 === 1">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="SampleSubmission" />
-                  </div>
-                </div>
                 <!-- 脏器检查 -->
-                <div v-if="active2 === 2">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="OrganExamination" />
-                  </div>
-                </div>
-                <!-- 尸检标本的采集与留取规定 -->
-                <div v-if="active2 === 3">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="PreservationGuidelines" />
-                  </div>
+                <div v-if="active2 === 1" class="center-container">
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="OrganExamination" />
+                    </div>
+                  </el-card>
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="PreservationGuidelines" />
+                    </div>
+                  </el-card>
                 </div>
 
                 <el-button
@@ -189,7 +182,7 @@
                   上一步
                 </el-button>
                 <el-button
-                  v-if="active2 < 4"
+                  v-if="active2 < 2"
                   class="next-button"
                   size="large"
                   @click="next2"
@@ -212,10 +205,8 @@
                 align-center
                 style="margin-top: 20px"
               >
-                <el-step title="医疗废物处理原则"></el-step>
-                <el-step title="解剖器械处理原则"></el-step>
-                <el-step title="标本的处理原则"></el-step>
-                <el-step title="尸检废弃物及污水处理原则"></el-step>
+                <el-step title="医疗废物与解剖器械处理原则"></el-step>
+                <el-step title="标本与尸检废弃物、污水的处理原则"></el-step>
               </el-steps>
             </div>
             <div
@@ -228,29 +219,34 @@
             >
               <el-card class="card_container">
                 <!--医疗废物处理原则 -->
-                <div v-if="active3 === 0">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="MWMP" />
-                  </div>
+                <div v-if="active3 === 0" class="center-container">
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="MWMP" />
+                    </div>
+                  </el-card>
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="ADP" />
+                    </div>
+                  </el-card>
                 </div>
-                <!-- 解剖器械处理原则 -->
-                <div v-if="active3 === 1">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="ADP" />
-                  </div>
-                </div>
+
                 <!-- 标本的处理原则 -->
-                <div v-if="active3 === 2">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="SPP" />
-                  </div>
+                <div v-if="active3 === 1" class="center-container">
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="SPP" />
+                    </div>
+                  </el-card>
+                  <el-card style="width: 47%; height: 55vh;margin-right: 40px; overflow: auto;">
+                    <div style="width: 100%; height: 50vh">
+                      <TreeWithContent :dataSource="PMWTP" />
+                    </div>
+                  </el-card>
+
                 </div>
-                <!-- 尸检废弃物及污水处理原则 -->
-                <div v-if="active3 === 3">
-                  <div style="width: 100%; height: 60vh">
-                    <TreeWithContent :dataSource="PMWTP" />
-                  </div>
-                </div>
+
                 <el-button
                   v-if="active3 > -1"
                   class="back-button"
@@ -261,7 +257,7 @@
                   上一步
                 </el-button>
                 <el-button
-                  v-if="active3 < 4"
+                  v-if="active3 < 2"
                   class="next-button"
                   size="large"
                   @click="next3"
@@ -745,7 +741,7 @@ const back1 = () => {
   if (active1.value-- < 0) active1.value = 0;
 };
 const next2 = () => {
-  if (active2.value++ > 1) activeName.value = "third";
+  if (active2.value++ > 0) activeName.value = "third";
 };
 const back2 = () => {
   if (active2.value-- < 1) {
@@ -755,7 +751,7 @@ const back2 = () => {
   }
 };
 const next3 = () => {
-  if (active3.value++ > 2) activeName.value = "fourth";
+  if (active3.value++ > 0) activeName.value = "fourth";
 };
 const back3 = () => {
   if (active3.value-- < 1) {

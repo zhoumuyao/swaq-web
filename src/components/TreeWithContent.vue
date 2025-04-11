@@ -77,7 +77,6 @@ onMounted(() => {
 <style scoped>
 .tree-container {
   width: 80px;
-  padding: 5px;
   border-right: 1px solid #eee;
   /* 设置固定高度 */
   height: 450px;

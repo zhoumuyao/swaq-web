@@ -44,7 +44,7 @@
 
               <div style="width: 100%;margin-top: 50px;">
                 <span>实验室检测结果</span>
-                <div v-if="labResult!==null || labResult!==''" style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
+                <div v-if="labResult!==null && labResult.trim().length > 0" style="margin: 20px 0 0 15px;font-weight: bold;color: #666666">
                   {{labResult}}
                 </div>
                 <div v-else class="empty_style">
@@ -238,6 +238,7 @@ onMounted(() => {
   //align-items: center; */
   margin: 30px;
   height: 75vh;
+  overflow-y: auto;
 }
 
 .back-button {
