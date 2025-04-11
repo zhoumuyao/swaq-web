@@ -85,10 +85,10 @@
                 >
                   <el-form-item label="风险评估目标：" prop="type">
                     <el-checkbox-group v-model="form.type">
-                      <el-checkbox label="1">病毒</el-checkbox>
-                      <el-checkbox label="2">细菌</el-checkbox>
-                      <el-checkbox label="3">毒素</el-checkbox>
-                      <el-checkbox label="4">其他</el-checkbox>
+                      <el-checkbox label="1">细菌</el-checkbox>
+                      <el-checkbox label="2">真菌</el-checkbox>
+                      <el-checkbox label="3">病毒</el-checkbox>
+                      <el-checkbox label="4">不确定</el-checkbox>
                     </el-checkbox-group>
                     <el-input
                       placeholder="请输入细节信息"
@@ -879,80 +879,84 @@ const getId = async () => {
     });
   });
 
-  await post("/api/case/search_case", { id: id }, async (data) => {
-    form.date = data.date;
-    form.time = data.time;
-    form.position.longitude = String(data.longitude);
-    form.position.latitude = String(data.latitude);
-    form.position.country = data.country;
-    form.position.province = data.province;
-    form.position.urban = data.urban;
-    form.position.description = data.description;
-    if (id && back) {
-      await post(
-        "/api/risk/select_riskPlan",
-        {
-          id: id,
-        },
-        (data) => {
-          console.log(data);
-          form.date = data.date;
-          form.time = data.time;
-          form.position.longitude = String(data.longitude);
-          form.position.latitude = String(data.latitude);
-          form.position.country = data.country;
-          form.position.province = data.province;
-          form.position.urban = data.urban;
-          form.position.description = data.description;
-          form.type = data.type.split(",");
-          console.log(form.type);
-          form.objectDescription = data.bjectDescription;
-        }
-      );
+  await post(
+    "/api/case/search_case",
+    { id: id },
+    async (data) => {
+      form.date = data.date;
+      form.time = data.time;
+      form.position.longitude = String(data.longitude);
+      form.position.latitude = String(data.latitude);
+      form.position.country = data.country;
+      form.position.province = data.province;
+      form.position.urban = data.urban;
+      form.position.description = data.description;
+      if (id && back) {
+        await post(
+          "/api/risk/select_riskPlan",
+          {
+            id: id,
+          },
+          (data) => {
+            console.log(data);
+            form.date = data.date;
+            form.time = data.time;
+            form.position.longitude = String(data.longitude);
+            form.position.latitude = String(data.latitude);
+            form.position.country = data.country;
+            form.position.province = data.province;
+            form.position.urban = data.urban;
+            form.position.description = data.description;
+            form.type = data.type.split(",");
+            console.log(form.type);
+            form.objectDescription = data.bjectDescription;
+          }
+        );
 
-      await post(
-        "/api/risk/select_RiskPerson",
-        {
-          id: id,
-        },
-        (data) => {
-          personIdList.value = data;
-          form.person = persons.value.filter((person) =>
-            personIdList.value.includes(person.id)
-          );
-          persons.value.forEach((item) => {
-            if (personIdList.value.includes(item.id)) {
-              item.checked = true;
-            }
-          });
-        }
-      );
+        await post(
+          "/api/risk/select_RiskPerson",
+          {
+            id: id,
+          },
+          (data) => {
+            personIdList.value = data;
+            form.person = persons.value.filter((person) =>
+              personIdList.value.includes(person.id)
+            );
+            persons.value.forEach((item) => {
+              if (personIdList.value.includes(item.id)) {
+                item.checked = true;
+              }
+            });
+          }
+        );
 
-      await post(
-        "/api/risk/select_RiskEquipment",
-        {
-          id: id,
-        },
-        (data) => {
-          EquipmentIdList.value = data;
-          form.equipment = equipments.value.filter((equipment) =>
-            EquipmentIdList.value.includes(equipment.id)
-          );
-          form.equipment.forEach((item) => {
-            item.showButton = true;
-          });
-          equipments.value.forEach((item) => {
-            if (EquipmentIdList.value.includes(item.id)) {
-              item.checked = true;
-            }
-          });
-        }
-      );
+        await post(
+          "/api/risk/select_RiskEquipment",
+          {
+            id: id,
+          },
+          (data) => {
+            EquipmentIdList.value = data;
+            form.equipment = equipments.value.filter((equipment) =>
+              EquipmentIdList.value.includes(equipment.id)
+            );
+            form.equipment.forEach((item) => {
+              item.showButton = true;
+            });
+            equipments.value.forEach((item) => {
+              if (EquipmentIdList.value.includes(item.id)) {
+                item.checked = true;
+              }
+            });
+          }
+        );
+      }
+    },
+    (message) => {
+      ElMessage.error("查询不到对应案件");
     }
-  }, (message) => {
-    ElMessage.error("查询不到对应案件")
-  });
-
+  );
 
   isJump.value = false;
 };

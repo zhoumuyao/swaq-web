@@ -45,7 +45,7 @@
               <el-step title="采样人员基本要求"></el-step>
               <el-step title="样本采样基本要求"></el-step>
               <el-step title="采集样本种类"></el-step>
-              <el-step title="样本采集和处理"></el-step>
+
               <el-step title="样本包装和保存"></el-step>
               <el-step title="标本送检"></el-step>
             </el-steps>
@@ -452,14 +452,13 @@
               >确认</el-button>
             </div>
           </div>
-          <!-- 样本采集和处理 -->
 
           <!-- 样本包装和保存 -->
           <div v-if="step == 8" class="center-container">
             <el-card
               style="
-                      width: 45%;
-                      height: 55vh;
+                      width: 30%;
+                      height: 60vh;
                       margin-left: 40px;
                       display: flex;
                       justify-content: center;
@@ -472,7 +471,7 @@
                 alt="实验室生物安全"
               />
             </el-card>
-            <el-card style="width: 45%; height: 55vh; margin-right: 40px">
+            <!-- <el-card style="width: 45%; height: 55vh; margin-right: 40px">
               <div style="width: 100%;height: 50vh;">
                 <embed
                   :src="SamplePackagingAndStorage"
@@ -481,6 +480,9 @@
                   height="100%"
                 />
               </div>
+            </el-card>-->
+            <el-card style="width: 60%; height: 60vh; margin-right: 40px; font-size: 13px">
+              <TreeWithContent :dataSource="samplePackagingAndStorage" />
             </el-card>
             <div class="next-button">
               <el-button
@@ -502,7 +504,7 @@
           <div v-if="step == 9" class="center-container">
             <el-card
               style="
-                      width: 45%;
+                      width: 30%;
                       height: 55vh;
                       margin-left: 40px;
                       display: flex;
@@ -516,12 +518,13 @@
                 alt="实验室生物安全"
               />
             </el-card>
-            <el-card style="width: 45%; height: 55vh; margin-right: 40px">
-              <!-- <label>标本送检</label>
-              <div v-for="(text, index) in text5" :key="index" style="margin-top: 15px">{{ index + 1 }}、{{ text }}</div>-->
+            <!-- <el-card style="width: 45%; height: 55vh; margin-right: 40px">
               <div style="width: 100%;height: 50vh;">
                 <embed :src="SampleSubmission" type="application/pdf" width="100%" height="100%" />
               </div>
+            </el-card>-->
+            <el-card style="width: 60%; height: 55vh; margin-right: 40px;font-size: 13px;">
+              <TreeWithContent :dataSource="SampleSubmission" />
             </el-card>
             <div class="next-button">
               <el-button
@@ -560,11 +563,13 @@ import { Search, Plus } from "@element-plus/icons-vue";
 import a from "./detect_plan/infrared.pdf";
 import b from "./detect_plan/lamandetect.pdf";
 import c from "./detect_plan/biodetect.pdf";
-import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage.pdf";
-import SampleSubmission from "../identify/PDF/SampleSubmission.pdf";
+// import SamplePackagingAndStorage from "../identify/PDF/SamplePackagingAndStorage.pdf";
+// import SampleSubmission from "../identify/PDF/SampleSubmission.pdf";
 import bioInfoDetect from "/video/bioInfoDetect.mp4";
 import redDefect from "/video/redDefect.mp4";
 import lamanDetect from "/video/lamanDetect.mp4";
+import { samplePackagingAndStorage } from "../identify/PDF/SamplePackagingAndStorage.js";
+import { SampleSubmission } from "../identify/PDF/SampleSubmission.js";
 
 const filteredSamples = computed(() => {
   console.log(samples.value);
