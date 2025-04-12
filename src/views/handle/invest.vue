@@ -460,6 +460,36 @@
                       >纤维上传</el-button
                     >
                   </el-upload>
+                  <el-upload
+                      style="margin-left: 5%"
+                      class="upload-demo"
+                      ref="uploadInput20"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :on-preview="handlePreview"
+                      :on-remove="handleRemove"
+                      :file-list="fileList20"
+                      :on-change="handleChange20"
+                      :auto-upload="false"
+                  >
+                    <el-button slot="trigger" size="small" type="primary"
+                    >玻璃上传</el-button
+                    >
+                  </el-upload>
+                  <el-upload
+                      style="margin-left: 5%"
+                      class="upload-demo"
+                      ref="uploadInput21"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :on-preview="handlePreview"
+                      :on-remove="handleRemove"
+                      :file-list="fileList21"
+                      :on-change="handleChange21"
+                      :auto-upload="false"
+                  >
+                    <el-button slot="trigger" size="small" type="primary"
+                    >毒物毒品上传</el-button
+                    >
+                  </el-upload>
                 </div>
                 <el-divider></el-divider>
                 <div
@@ -644,6 +674,8 @@ const uploadInput16 = ref();
 const uploadInput17 = ref();
 const uploadInput18 = ref();
 const uploadInput19 = ref();
+const uploadInput20 = ref();
+const uploadInput21 = ref();
 
 const fileList1 = ref([]);
 const fileList2 = ref([]);
@@ -666,9 +698,13 @@ const fileList14 = ref([]);
 const fileList15 = ref([]);
 const fileList16 = ref([]);
 
+const fileList20 = ref([]);
+const fileList21 = ref([]);
+
 const fileList17 = ref([]);
 const fileList18 = ref([]);
 const fileList19 = ref([]);
+
 
 onMounted(() => {
   console.log("mounted...");
@@ -723,6 +759,12 @@ const handleChange15 = (file, fileList) => {
 };
 const handleChange16 = (file, fileList) => {
   fileList16.value = fileList; // 更新 fileList1
+};
+const handleChange20 = (file, fileList) => {
+  fileList20.value = fileList; // 更新 fileList1
+};
+const handleChange21 = (file, fileList) => {
+  fileList21.value = fileList; // 更新 fileList1
 };
 const handleChange17 = (file, fileList) => {
   fileList17.value = fileList; // 更新 fileList1

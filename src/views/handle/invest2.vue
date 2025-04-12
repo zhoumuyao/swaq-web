@@ -87,6 +87,12 @@
                     <el-tab-pane label="纤维图片" name="image16">
                       <img :src="images.image16" alt="纤维图片" style="width: 100%; height: auto;">
                     </el-tab-pane>
+                    <el-tab-pane label="玻璃图片" name="image20">
+                      <img :src="images.image20" alt="玻璃图片" style="width: 100%; height: auto;">
+                    </el-tab-pane>
+                    <el-tab-pane label="毒物毒品图片" name="image21">
+                      <img :src="images.image21" alt="毒物毒品图片" style="width: 100%; height: auto;">
+                    </el-tab-pane>
                     <el-tab-pane label="手机图片" name="image17">
                       <img :src="images.image17" alt="手机图片" style="width: 100%; height: auto;">
                     </el-tab-pane>
@@ -212,7 +218,9 @@ const images = reactive({
   image16: '',
   image17: '',
   image18: '',
-  image19: ''
+  image19: '',
+  image20: '',
+  image21: ''
 });
 
 onMounted(() => {

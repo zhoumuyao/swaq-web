@@ -24,12 +24,7 @@
                     <span style="margin:0 42%;">决策结果</span>
                     <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
                     <el-divider></el-divider>
-                    <div style="width: 100%;height: 90%;margin-right: 40px;">
-                      <div style="width: 100%;height: 70vh">
-                        <embed :src="DecisionMakingResults" type="application/pdf"
-                               width="100%" height="80%">
-                      </div>
-                    </div>
+                    <TreeWithContent :dataSource="DecisionMakingResults" />
                   </div>
                 </el-card>
                 <el-card class="left-bottom-container" shadow="hover">
@@ -38,12 +33,10 @@
                     <span style="margin:0 42%;">处置建议</span>
                     <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
                     <el-divider></el-divider>
-                  </div>
-                  <div style="width: 100%;height: 90%;margin-right: 40px;">
-                    <div style="width: 100%;height: 100vh;">
-                      <embed :src="adviceSave" type="application/pdf"
-                             width="100%" height="50%">
+                    <div class="scrollable-tree"> <!-- 添加这个容器 -->
+                      <TreeWithContent :dataSource="AdviceSave" />
                     </div>
+
                   </div>
                   <!-- 循环遍历处置意见-->
                   <!--              <div>-->
@@ -73,12 +66,7 @@
                 <span style="margin:0 42%;">决策结果</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="copy('result')">复制</el-button>
                 <el-divider></el-divider>
-                <div style="width: 100%;height: 90%;margin-right: 40px;">
-                  <div style="width: 100%;height: 70vh">
-                    <embed :src="DecisionMakingResults" type="application/pdf"
-                           width="100%" height="95%">
-                  </div>
-                </div>
+                <TreeWithContent :dataSource="DecisionMakingResults" />
               </div>
             </el-card>
               <el-card class="left-bottom-container" shadow="hover">
@@ -88,18 +76,7 @@
                   <el-button style="float: right; padding: 3px 0" type="text" @click="copy('suggest')">复制</el-button>
                   <el-divider></el-divider>
                 </div>
-                <div style="width: 100%;height: 90%;margin-right: 40px;">
-                  <div style="width: 100%;height: 100vh;">
-                    <embed :src="adviceNotSave" type="application/pdf"
-                           width="100%" height="40%">
-                  </div>
-                </div>
-                <!-- 循环遍历处置意见-->
-                <!--              <div>-->
-                <!--                <div class="suggest" v-for="(suggest,index) in Suggests" :key="index" style="margin-top: 15px">-->
-                <!--                  {{index+1}}、{{suggest}}-->
-                <!--                </div>-->
-                <!--              </div>-->
+                <TreeWithContent :dataSource="AdviceNotSave" />
               </el-card>
               <el-card class="right-container" shadow="hover">
                 <!-- 右侧的内容 -->
@@ -140,7 +117,6 @@
 import { ref } from 'vue';
 import { get } from "@/net";
 import { ElMessage } from "element-plus";
-import DecisionMakingResults from './PDF/DecisionMakingResults.pdf'
 import DisposalRecommendations from './PDF/DisposalRecommendations.pdf'
 import adviceNotSave from './PDF/advice_notSave.pdf'
 import adviceSave from './PDF/advice_save.pdf'
@@ -152,6 +128,9 @@ const value = ref('');
 const activeName = ref('first')
 
 import {useRoute} from "vue-router";
+import {DecisionMakingResults} from "./PDF/DecisionMakingResults.js";
+import {AdviceNotSave} from "./PDF/AdviceNotSave.js";
+import {AdviceSave} from "./PDF/AdviceSave.js";
 const route = useRoute();
 const id = route.query.id;
 
@@ -287,6 +266,10 @@ const copy = (selector) =>{
 
 .card-title{
   font-size: medium;
+}
+.scrollable-tree{
+  max-height: 300px; /* 设置合适的高度 */
+  overflow-y: auto; /* 垂直滚动 */
 }
 
 </style>
