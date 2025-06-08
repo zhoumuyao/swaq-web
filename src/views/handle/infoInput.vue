@@ -546,14 +546,14 @@ function initMap1 (lng, lat) {
 
 
 const getWeatherData = async () => {
-  const ipAddress = await axios.get('http://ip.3322.netn');
-  axios.get(`http://restapi.amap.com/v3/ip?ip=${ipAddress}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
+  // const ipAddress = await axios.get('http://ip.3322.netn');
+  axios.get(`http://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
       .then(function(response) {
         console.log(response.data);
         // 获取现在的城市的adcode编码
         const adcode = response.data.adcode;
         // 125服务器出错备选方案——>调用高德API通过adcode获取天气信息（前端调用API）
-        axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
+        axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=110101&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
           .then(function(weatherResponse) {
             console.log(weatherResponse.data); // 处理天气数据
             form.value.temperature = weatherResponse.data.lives[0].temperature;//温度
