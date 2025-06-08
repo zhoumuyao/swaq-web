@@ -546,43 +546,12 @@ function initMap1 (lng, lat) {
 
 
 const getWeatherData = async () => {
-  // 调用高德API获取adcode编码
-  axios.get('https://restapi.amap.com/v3/ip?key=d0d9f1b6ec05f6ece98d3c2900e73f2e')
+  const ipAddress = await axios.get('http://ip.3322.netn');
+  axios.get(`http://restapi.amap.com/v3/ip?ip=${ipAddress}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
       .then(function(response) {
         console.log(response.data);
         // 获取现在的城市的adcode编码
         const adcode = response.data.adcode;
-        // 调用百度API通过adcode获取天气信息（后端调用API）
-        // axios.get(`http://localhost:8080/api/weather/${adcode}`)
-        //     .then(response => {
-        //       // 请求成功，将后端返回的数据赋值给 weapons 数组
-        //       console.log(response.data);
-        //       // location位置信息 weather天气信息
-        //       const location = response.data.result.location;
-        //       const weather = response.data.result.now;
-        //
-        //       form.value.temperature = weather.temp;//温度
-        //       form.value.humidity = weather.rh;//湿度
-        //       form.value.weather = weather.text;//天气现象
-        //       form.value.winddirection = weather.wind_dir;//风向
-        //       form.value.windpower = weather.wind_class;//风速
-        //
-        //       // 显示当前位置
-        //       form.value.province = location.province;//省份
-        //       form.value.city = location.city;//城市
-        //
-        //       ElMessage({
-        //         message: '成功获取天气状况',
-        //         type: 'success',
-        //       });
-        //     })
-        //     .catch(error => {
-        //       console.error('获取数据失败：', error);
-        //       ElMessage({
-        //         message: '服务器错误，请联系管理员',
-        //         type: 'error',
-        //       });
-        //     });
         // 125服务器出错备选方案——>调用高德API通过adcode获取天气信息（前端调用API）
         axios.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=d0d9f1b6ec05f6ece98d3c2900e73f2e`)
           .then(function(weatherResponse) {
